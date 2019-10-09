@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "415552824898",
+    "firebase_url": "https://hosrem.firebaseio.com",
+    "project_id": "hosrem",
+    "storage_bucket": "hosrem.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:415552824898:android:1a26dcb89b03aaf6c8afdb",
+        "android_client_info": {
+          "package_name": "io.zamo.hosrem.hosrem_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "415552824898-cthhirrbtfgrnftsrubufnvstb0qcp7h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCphlgcWn4M8hzqOFZ_KYdaGiYzRvnl5z4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "415552824898-cthhirrbtfgrnftsrubufnvstb0qcp7h.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "415552824898-po92uu2lig83fl4qnb41tb2779gafag2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "io.zamo.hosrem.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

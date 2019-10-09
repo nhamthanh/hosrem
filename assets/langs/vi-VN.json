@@ -1,0 +1,48 @@
+{
+  "msg": "Hello {} in the {} world ",
+  "login": {
+    "title": "Login",
+    "email": "Email",
+    "email_hint": "Enter your email",
+    "password": "Password",
+    "password_hint": "Enter your password",
+    "login": "LOGIN",
+    "login_with_facebook": "LOGIN WITH FACEBOOK",
+    "or": "OR",
+    "register": "REGISTER",
+    "email_is_required": "Email is required",
+    "password_is_required": "Password is required"
+  },
+  "registration": {
+    "register": "Register",
+    "first_name": "First Name",
+    "first_name_hint": "Enter your first name",
+    "last_name": "Last Name",
+    "last_name_hint": "Enter your last name",
+    "email": "Email",
+    "email_hint": "Enter your email",
+    "password": "Password",
+    "password_hint": "Enter your password",
+    "confirm_password": "Confirm Password",
+    "confirm_password_hint": "Enter your confirm password",
+    "job_title": "Job Title",
+    "job_title_hint": "Enter your job title",
+    "working_place": "Working Place",
+    "working_place_hint": "Enter your working place",
+    "sign_up": "SIGN UP",
+    "first_name_is_required": "First Name is required",
+    "last_name_is_required": "Last Name is required",
+    "email_is_required": "Email is required",
+    "password_is_required": "Password is required",
+    "confirm_password_is_required": "Confirm Password is required",
+    "password_not_match": "Password not match",
+    "job_title_is_required": "Job Title is required",
+    "working_place_is_required": "Working Place is required"
+  },
+  "home": {
+    "home": "Home",
+    "events": "Events",
+    "notifications": "Notifications",
+    "profile": "Profile"
+  }
+}

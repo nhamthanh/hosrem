@@ -1,0 +1,4 @@
+scheme("Runner")
+export_options("./fastlane/ExportOptions.plist")
+clean(true)
+output_directory("./")
