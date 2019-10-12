@@ -19,7 +19,17 @@ platform :ios do
   desc "Distribute iOS app on Firebase"
   lane :firebase do
     increment_build_number
-    gym
+    sh "cd ../.. && flutter clean && flutter build ios --release"
+    enable_automatic_code_signing(
+      team_id: "A64LRCWQWB",
+      use_automatic_signing: true
+    )
+    build_app(
+      scheme: "Runner",
+      workspace: "Runner.xcworkspace",
+      export_method: "development",
+      clean: true
+    )
     firebase_app_distribution(
       app: "1:415552824898:ios:b09cb4ea482990dbc8afdb",
       ipa_path: "Runner.ipa",

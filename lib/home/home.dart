@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosrem_app/conference/conferences.dart';
 import 'package:hosrem_app/profile/profile.dart';
+import 'package:hosrem_app/widget/svg/svg_icon.dart';
 
 import 'bloc/home_bloc.dart';
 import 'bloc/home_event.dart';
@@ -34,29 +35,29 @@ class _HomeState extends State<Home> {
       bloc: _homeBloc,
       builder: (BuildContext context, HomeState state) {
         return Scaffold(
-          appBar: AppBar(
-            title: Text(state.title),
-            centerTitle: true
-          ),
           body: _buildHomeBody(state),
           bottomNavigationBar: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
             currentIndex: state.itemIndex,
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                icon: Icon(Icons.home),
+                icon: const SvgIcon('assets/images/home_normal.svg'),
+                activeIcon: const SvgIcon('assets/images/home_selected.svg'),
                 title: Text(AppLocalizations.of(context).tr('home.home')),
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.event_note),
+                icon: const SvgIcon('assets/images/event_normal.svg'),
+                activeIcon: const SvgIcon('assets/images/event_selected.svg'),
                 title: Text(AppLocalizations.of(context).tr('home.events')),
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.notifications),
+                icon: const SvgIcon('assets/images/notification_normal.svg'),
+                activeIcon: const SvgIcon('assets/images/notification_selected.svg'),
                 title: Text(AppLocalizations.of(context).tr('home.notifications')),
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.person),
+                icon: const SvgIcon('assets/images/profile_normal.svg'),
+                activeIcon: const SvgIcon('assets/images/profile_selected.svg'),
                 title: Text(AppLocalizations.of(context).tr('home.profile')),
               ),
             ],
@@ -94,13 +95,13 @@ class _HomeState extends State<Home> {
   Widget _buildHomeBody(HomeState state) {
     if (state is ShowEvents) {
       return Center(
-        child: Conferences(),
+        child: const Conferences(),
       );
     }
 
     if (state is ShowNotifications) {
       return Center(
-        child: const Text('Notifications'),
+        child: Text(AppLocalizations.of(context).tr('home.under_construction')),
       );
     }
 
@@ -111,7 +112,7 @@ class _HomeState extends State<Home> {
     }
 
     return Center(
-      child: const Text('News'),
+      child: Text(AppLocalizations.of(context).tr('home.under_construction')),
     );
   }
 }

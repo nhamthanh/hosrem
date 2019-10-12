@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hosrem_app/api/conference/conference_resource.dart';
 import 'package:hosrem_app/api/conference/conference_resource_pagination.dart';
+import 'package:hosrem_app/common/error_handler.dart';
 
 import '../conference_service.dart';
 import 'conference_resources_event.dart';
@@ -33,7 +34,7 @@ class ConferenceResourcesBloc extends Bloc<ConferenceResourcesEvent, ConferenceR
         yield RefreshConferenceResourcesCompleted(conferenceResources: conferenceResources);
         yield LoadedConferenceResources(conferenceResources: conferenceResources);
       } catch (error) {
-        yield ConferenceResourcesFailure(error: error.toString());
+        yield ConferenceResourcesFailure(error: ErrorHandler.extractErrorMessage(error));
       }
     }
 
@@ -46,7 +47,7 @@ class ConferenceResourcesBloc extends Bloc<ConferenceResourcesEvent, ConferenceR
         }
         yield LoadedConferenceResources(conferenceResources: conferenceResources);
       } catch (error) {
-        yield ConferenceResourcesFailure(error: error.toString());
+        yield ConferenceResourcesFailure(error: ErrorHandler.extractErrorMessage(error));
       }
     }
   }

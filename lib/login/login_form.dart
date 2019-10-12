@@ -59,7 +59,6 @@ class _LoginFormState extends State<LoginForm> {
           builder: (BuildContext context, LoginState state) {
             return SingleChildScrollView(
               child: Container(
-                height: MediaQuery.of(context).size.height,
                 padding: const EdgeInsets.only(left: 21.0, right: 21.0),
                 decoration: const BoxDecoration(
                   color: Colors.white,
@@ -68,6 +67,7 @@ class _LoginFormState extends State<LoginForm> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
+                    const SizedBox(height: 70.0),
                     Container(
                       decoration: const BoxDecoration(
                         color: Colors.white,
@@ -80,6 +80,7 @@ class _LoginFormState extends State<LoginForm> {
                       children: <Widget>[
                         Expanded(
                           child: EditTextField(
+                            hasLabel: false,
                             title: AppLocalizations.of(context).tr('login.email'),
                             hint: AppLocalizations.of(context).tr('login.email_hint'),
                             onTextChanged: (String value) => print(value),
@@ -93,6 +94,7 @@ class _LoginFormState extends State<LoginForm> {
                       children: <Widget>[
                         Expanded(
                           child: EditTextField(
+                            hasLabel: false,
                             title: AppLocalizations.of(context).tr('login.password'),
                             hint: AppLocalizations.of(context).tr('login.password_hint'),
                             obscureText: true,
@@ -152,6 +154,7 @@ class _LoginFormState extends State<LoginForm> {
                         ),
                       ],
                     ),
+                    const SizedBox(height: 20.0)
                   ],
                 ),
               )

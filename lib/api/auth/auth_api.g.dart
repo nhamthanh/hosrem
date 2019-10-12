@@ -20,8 +20,7 @@ class _AuthApi implements AuthApi {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(body ?? <String, dynamic>{});
-    final Response<Map<String, dynamic>> _result = await _dio.request(
-        'auth/login',
+    final Response<Map<String, dynamic>> _result = await _dio.request('login',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST', headers: <String, dynamic>{}, extra: _extra),
@@ -38,7 +37,7 @@ class _AuthApi implements AuthApi {
     final _data = <String, dynamic>{};
     _data.addAll(user.toJson() ?? <String, dynamic>{});
     final Response<Map<String, dynamic>> _result = await _dio.request(
-        'https://api.hosrem-dev.zamo.io/api/users',
+        'users/register',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST', headers: <String, dynamic>{}, extra: _extra),

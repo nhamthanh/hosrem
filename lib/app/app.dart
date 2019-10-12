@@ -82,8 +82,12 @@ class _AppState extends State<App> {
     );
   }
 
-  void _handleUnauthorized() {
-    _appBloc.appContext.router.navigateTo(context, AppRoutes.loginRoute, transition: TransitionType.fadeIn);
+  void _handleUnauthorized(BuildContext context) {
+    try {
+      _appBloc.appContext.router.navigateTo(context, AppRoutes.loginRoute, transition: TransitionType.fadeIn);
+    } catch(error) {
+      print(error);
+    }
   }
 
   ThemeData _buildThemeData(AppState state) {
@@ -92,7 +96,7 @@ class _AppState extends State<App> {
         brightness: Brightness.light,
         accentColor: AppColors.lightAccentColor,
         primaryColor: AppColors.lightPrimaryColor,
-        primaryTextTheme: TextTheme(
+        primaryTextTheme: const TextTheme(
           title: TextStyle(
             color: Colors.white
           )
@@ -102,7 +106,7 @@ class _AppState extends State<App> {
             color: Colors.white
           )
         ),
-        fontFamily: 'OpenSans',
+        fontFamily: 'Muli'
       );
     }
 
@@ -110,6 +114,7 @@ class _AppState extends State<App> {
       brightness: Brightness.dark,
       accentColor: AppColors.darkAccentColor,
       primaryColor: AppColors.darkPrimaryColor,
+      fontFamily: 'Muli'
     );
   }
 }

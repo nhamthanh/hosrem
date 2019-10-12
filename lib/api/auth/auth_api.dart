@@ -12,12 +12,11 @@ abstract class AuthApi {
   factory AuthApi(Dio dio) = _AuthApi;
 
   /// Login with email and password in [body].
-  @POST('auth/login')
+  @POST('login')
   Future<Token> login(@Body() Map<String, dynamic> body);
 
   /// Register a new account.
-//  @POST('auth/register')
-  @POST('https://api.hosrem-dev.zamo.io/api/users')
+  @POST('users/register')
   Future<User> register(@Body() User user);
 
   /// Get current user profile.

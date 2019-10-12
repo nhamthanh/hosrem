@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Loading indicator with scaffold.
 class LoadingScaffoldIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

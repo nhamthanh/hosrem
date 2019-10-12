@@ -4,18 +4,18 @@ import 'package:json_annotation/json_annotation.dart';
 class Pagination<T> {
   Pagination(this.totalItems, this.page, this.totalPages, this.size, this.items);
 
-  @JsonKey(name: 'total_items')
+  @JsonKey(name: 'totalSize')
   final int totalItems;
 
   @JsonKey(name: 'page')
   final int page;
 
-  @JsonKey(name: 'total_pages')
+  @JsonKey(name: 'totalPage')
   final int totalPages;
 
   @JsonKey(name: 'size')
   final int size;
 
-  @JsonKey(name: 'items')
+  @JsonKey(name: 'result')
   final List<T> items;
 }

@@ -74,7 +74,7 @@ class _UpdateProfileState extends BaseState<UpdateProfile> {
             return Scaffold(
               key: _scaffoldKey,
               appBar: AppBar(
-                title: const Text('My Profile'),
+                title: Text(AppLocalizations.of(context).tr('my_profile.my_profile')),
                 centerTitle: true
               ),
               body: LoadingOverlay(
@@ -88,8 +88,8 @@ class _UpdateProfileState extends BaseState<UpdateProfile> {
                           children: <Widget>[
                             Expanded(
                               child: EditTextField(
-                                title: 'First Name',
-                                hint: 'Your first name',
+                                title: AppLocalizations.of(context).tr('registration.first_name'),
+                                hint: AppLocalizations.of(context).tr('registration.first_name_hint'),
                                 controller: _firstNameController,
                               )
                             ),
@@ -100,8 +100,8 @@ class _UpdateProfileState extends BaseState<UpdateProfile> {
                           children: <Widget>[
                             Expanded(
                               child: EditTextField(
-                                title: 'Last Name',
-                                hint: 'Your last name',
+                                title: AppLocalizations.of(context).tr('registration.last_name'),
+                                hint: AppLocalizations.of(context).tr('registration.last_name_hint'),
                                 controller: _lastNameController,
                               )
                             ),
@@ -112,8 +112,8 @@ class _UpdateProfileState extends BaseState<UpdateProfile> {
                           children: <Widget>[
                             Expanded(
                               child: EditTextField(
-                                title: 'Email',
-                                hint: 'Your email',
+                                title: AppLocalizations.of(context).tr('registration.email'),
+                                hint: AppLocalizations.of(context).tr('registration.email_hint'),
                                 onTextChanged: (String value) => print(value),
                                 controller: _emailController,
                               )
@@ -125,8 +125,8 @@ class _UpdateProfileState extends BaseState<UpdateProfile> {
                           children: <Widget>[
                             Expanded(
                               child: EditTextField(
-                                title: 'Job Title',
-                                hint: 'Your job title',
+                                title: AppLocalizations.of(context).tr('registration.job_title'),
+                                hint: AppLocalizations.of(context).tr('registration.working_place_hint'),
                                 onTextChanged: (String value) => print(value),
                                 controller: _jobTitleController,
                               )
@@ -138,8 +138,8 @@ class _UpdateProfileState extends BaseState<UpdateProfile> {
                           children: <Widget>[
                             Expanded(
                               child: EditTextField(
-                                title: 'Working Place',
-                                hint: 'Your working place',
+                                title: AppLocalizations.of(context).tr('registration.working_place'),
+                                hint: AppLocalizations.of(context).tr('registration.working_place_hint'),
                                 onTextChanged: (String value) => print(value),
                                 controller: _workingPlaceController,
                               )
@@ -151,7 +151,7 @@ class _UpdateProfileState extends BaseState<UpdateProfile> {
                           children: <Widget>[
                             Expanded(
                               child: PrimaryButton(
-                                text: 'SAVE',
+                                text: AppLocalizations.of(context).tr('my_profile.save'),
                                 onPressed: _onSaveButtonPressed,
                               )
                             ),
@@ -172,8 +172,7 @@ class _UpdateProfileState extends BaseState<UpdateProfile> {
   void _showUpdateSuccessDialog() {
     showAlert(
       context: context,
-      title: 'Update Profile',
-      body: 'Your profile has been updated successfully.',
+      body: AppLocalizations.of(context).tr('my_profile.your_profile_updated'),
       actions: <AlertAction>[
         AlertAction(text: 'OK', onPressed: () => Navigator.pop(context))
       ]

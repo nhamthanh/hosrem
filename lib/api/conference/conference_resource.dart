@@ -10,7 +10,7 @@ class ConferenceResource {
   factory ConferenceResource.fromJson(Map<String, dynamic> json) => _$ConferenceResourceFromJson(json);
 
   @JsonKey(name: 'id')
-  final int id;
+  final String id;
 
   @JsonKey(name: 'title')
   final String title;

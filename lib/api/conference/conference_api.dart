@@ -13,11 +13,10 @@ abstract class ConferenceApi {
   factory ConferenceApi(Dio dio) = _ConferenceApi;
 
   /// Get all conferences.
-  @GET('manufactures')
-//  @GET('conferences')
+  @GET('conferences')
   Future<ConferencePagination> getAll(@Queries() Map<String, dynamic> query);
 
-  @GET('manufactures')
+  @GET('users')
 //  @GET('conferences')
   Future<ConferenceResourcePagination> getAllConferenceResources(@Queries() Map<String, dynamic> query);
 }

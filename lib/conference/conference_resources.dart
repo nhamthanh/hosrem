@@ -1,125 +1,134 @@
-import 'dart:io';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hosrem_app/api/conference/conference_resource.dart';
+import 'package:hosrem_app/api/conference/conference.dart';
+import 'package:hosrem_app/api/conference/document.dart';
+import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/base_state.dart';
-import 'package:hosrem_app/loading/loading_indicator.dart';
-import 'package:hosrem_app/widget/pdf/pdf_viewer.dart';
-import 'package:hosrem_app/widget/refresher/refresh_widget.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:hosrem_app/pdf/pdf_page.dart';
+import 'package:sticky_headers/sticky_headers.dart';
 
 import 'bloc/conference_resources_bloc.dart';
-import 'bloc/conference_resources_event.dart';
-import 'bloc/conference_resources_state.dart';
-import 'conference_detail.dart';
 import 'conference_resource_item.dart';
 import 'conference_service.dart';
 
 /// Conference resources page.
 class ConferenceResources extends StatefulWidget {
+  const ConferenceResources(this.conference);
+
+  final Conference conference;
+
   @override
   State<ConferenceResources> createState() => _ConferenceResourcesState();
 }
 
 class _ConferenceResourcesState extends BaseState<ConferenceResources> {
-  RefreshController _refreshController;
   ConferenceResourcesBloc _conferenceResourcesBloc;
-  String pdfPath = '';
+  ConferenceService _conferenceService;
+
+  List<Document> _documents;
+  List<String> _supplementDocs;
 
   @override
   void initState() {
     super.initState();
-    _conferenceResourcesBloc = ConferenceResourcesBloc(conferenceService: ConferenceService(apiProvider));
-    _refreshController = RefreshController();
 
-    _onRefresh();
+    _supplementDocs = widget.conference.files.isEmpty ? <String>[
+      'https://miro.medium.com/max/3400/1*0c3heWwzJO4tTZFvjM4NaA.jpeg',
+      'https://miro.medium.com/max/3400/1*0c3heWwzJO4tTZFvjM4NaA.jpeg',
+      'https://miro.medium.com/max/3400/1*0c3heWwzJO4tTZFvjM4NaA.jpeg',
+      'https://miro.medium.com/max/3400/1*0c3heWwzJO4tTZFvjM4NaA.jpeg',
+      'https://miro.medium.com/max/3400/1*0c3heWwzJO4tTZFvjM4NaA.jpeg'
+    ] : widget.conference.files;
 
-    createFileOfPdfUrl().then((f) {
-      setState(() {
-        pdfPath = f.path;
-        print(pdfPath);
-      });
-    });
+    _documents = widget.conference.documents ?? <Document>[
+      Document('id', 'https://miro.medium.com/max/3400/1*0c3heWwzJO4tTZFvjM4NaA.jpeg', null, null, null, null, 'Hoi nghi thuong nien', docType: 'jpg'),
+      Document('id', 'https://miro.medium.com/max/3400/1*0c3heWwzJO4tTZFvjM4NaA.jpeg', null, null, null, null, 'Hoi nghi thuong nien', docType: 'jpg'),
+      Document('id', 'https://miro.medium.com/max/3400/1*0c3heWwzJO4tTZFvjM4NaA.jpeg', null, null, null, null, 'Hoi nghi thuong nien'),
+      Document('id', 'https://miro.medium.com/max/3400/1*0c3heWwzJO4tTZFvjM4NaA.jpeg', null, null, null, null, 'Hoi nghi thuong nien'),
+      Document('id', 'https://miro.medium.com/max/3400/1*0c3heWwzJO4tTZFvjM4NaA.jpeg', null, null, null, null, 'Hoi nghi thuong nien'),
+      Document('id', 'https://miro.medium.com/max/3400/1*0c3heWwzJO4tTZFvjM4NaA.jpeg', null, null, null, null, 'Hoi nghi thuong nien'),
+      Document('id', 'https://miro.medium.com/max/3400/1*0c3heWwzJO4tTZFvjM4NaA.jpeg', null, null, null, null, 'Hoi nghi thuong nien'),
+      Document('id', 'https://miro.medium.com/max/3400/1*0c3heWwzJO4tTZFvjM4NaA.jpeg', null, null, null, null, 'Hoi nghi thuong nien'),
+      Document('id', 'https://miro.medium.com/max/3400/1*0c3heWwzJO4tTZFvjM4NaA.jpeg', null, null, null, null, 'Hoi nghi thuong nien')
+    ];
+
+    _conferenceService = ConferenceService(apiProvider);
+    _conferenceResourcesBloc = ConferenceResourcesBloc(conferenceService: _conferenceService);
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ConferenceResourcesBloc>(
-      builder: (BuildContext context) => _conferenceResourcesBloc,
-      child: BlocListener<ConferenceResourcesBloc, ConferenceResourcesState>(
-        listener: (BuildContext context, ConferenceResourcesState state) {
-          if (state is ConferenceResourcesFailure) {
-            Scaffold.of(context).showSnackBar(
-              SnackBar(
-                content: Text('${state.error}'),
-                backgroundColor: Colors.red,
-              ),
-            );
-          }
-        },
-        child: BlocBuilder<ConferenceResourcesBloc, ConferenceResourcesState>(
-          bloc: _conferenceResourcesBloc,
-          builder: (BuildContext context, ConferenceResourcesState state) {
-            _refreshController.refreshCompleted();
-            _refreshController.loadComplete();
-
-            if (state is RefreshConferenceResourcesCompleted) {
-              return _buildRefreshWidget(state.conferenceResources);
-            }
-
-            if (state is LoadedConferenceResources) {
-              return _buildRefreshWidget(state.conferenceResources);
-            }
-
-            return LoadingIndicator();
-          }
+    if (_documents.isEmpty && _supplementDocs.isEmpty) {
+      return Center(
+        child: const Text(
+          'No document found',
+          style: TextStyle(
+            color: AppColors.editTextFieldTitleColor,
+            fontSize: 16.0
+          )
         )
-      )
-    );
-  }
-
-  RefreshWidget _buildRefreshWidget(List<ConferenceResource> conferenceResources) {
-    return RefreshWidget(
-      child: ListView.builder(
-        itemCount: conferenceResources.length,
-        itemBuilder: (BuildContext context, int index) {
-          final ConferenceResource conferenceResource = conferenceResources[index];
-          return InkWell(
-            child: ConferenceResourceItem(conferenceResource),
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute<bool>(builder: (BuildContext context) => PdfViewer(pdfPath))
+      );
+    }
+    return ListView(
+      children: <Widget>[
+        _documents.isEmpty ? Container() : StickyHeader(
+          header: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 19.0),
+            color: Colors.white,
+            child: const Text(
+              'Main Document',
+              style: TextStyle(
+                color: AppColors.editTextFieldTitleColor,
+                fontWeight: FontWeight.w600,
+                fontSize: 16.0
+              )
+            ),
+          ),
+          content: Column(
+            children: _documents.map((Document document) => InkWell(
+              child: Column(
+                children: <Widget>[
+                  ConferenceResourceItem(document),
+                  const Divider()
+                ],
+              ),
+              onTap: () => navigateToPdfViewer(document.content)
+            )).toList()
+          )
+        ),
+        _supplementDocs.isEmpty ? Container() : StickyHeader(
+          header: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 19.0),
+            color: Colors.white,
+            child: const Text(
+              'Supplement Document',
+              style: TextStyle(
+                color: AppColors.editTextFieldTitleColor,
+                fontWeight: FontWeight.w600,
+                fontSize: 16.0
+              )
             )
-          );
-        },
-      ),
-      onRefresh: _onRefresh,
-      onLoading: _onLoading,
-      refreshController: _refreshController
+          ),
+          content: Column(
+            children: _supplementDocs.map((String file) => Document('id', 'https://miro.medium.com/max/3400/1*0c3heWwzJO4tTZFvjM4NaA.jpeg', null, null, null, null, 'Hoi nghi thuong nien')).map((Document document) => InkWell(
+              child: Column(
+                children: <Widget>[
+                  ConferenceResourceItem(document),
+                  const Divider()
+                ],
+              ),
+              onTap: () => navigateToPdfViewer(document.content)
+            )).toList()
+          )
+        )
+      ]
     );
   }
 
-  Future<File> createFileOfPdfUrl() async {
-    final String url = 'http://hosrem.org.vn/public/frontend/upload/YHSS_47/02.pdf';
-    final filename = url.substring(url.lastIndexOf('/') + 1);
-    var request = await HttpClient().getUrl(Uri.parse(url));
-    var response = await request.close();
-    var bytes = await consolidateHttpClientResponseBytes(response);
-    final String dir = (await getApplicationDocumentsDirectory()).path;
-    final File file = File('$dir/$filename');
-    await file.writeAsBytes(bytes);
-    return file;
-  }
-
-  void _onLoading() {
-    _conferenceResourcesBloc.dispatch(LoadMoreConferenceResourcesEvent());
-  }
-
-  void _onRefresh() {
-    _conferenceResourcesBloc.dispatch(RefreshConferenceResourcesEvent());
+  void navigateToPdfViewer(String pdfUrl) {
+    Navigator.push(
+      context,
+      MaterialPageRoute<bool>(builder: (BuildContext context) => const PdfPage(url: 'http://hosrem.org.vn/public/frontend/upload/YHSS_47/02.pdf'))
+    );
   }
 
   @override

@@ -30,9 +30,11 @@ class ConferenceFailure extends ConferencesState {
 
 /// LoadedConferences state.
 class LoadedConferences extends ConferencesState {
-  LoadedConferences({@required this.conferences});
+  LoadedConferences({@required this.conferences, @required this.token}) :
+      assert(conferences != null), assert(token != null);
 
   final List<Conference> conferences;
+  final String token;
 
   @override
   String toString() => 'LoadedConferences';
@@ -41,9 +43,11 @@ class LoadedConferences extends ConferencesState {
 /// LoadedConferences state.
 @immutable
 class RefreshConferencesCompleted extends ConferencesState {
-  RefreshConferencesCompleted({@required this.conferences}) : assert(conferences != null);
+  RefreshConferencesCompleted({@required this.conferences, @required this.token}) :
+      assert(conferences != null), assert(token != null);
 
   final List<Conference> conferences;
+  final String token;
 
   @override
   String toString() => 'RefreshConferencesCompleted';

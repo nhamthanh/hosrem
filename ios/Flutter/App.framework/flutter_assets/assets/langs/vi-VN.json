@@ -1,7 +1,5 @@
 {
-  "msg": "Hello {} in the {} world ",
   "login": {
-    "title": "Login",
     "email": "Email",
     "email_hint": "Enter your email",
     "password": "Password",
@@ -37,12 +35,40 @@
     "confirm_password_is_required": "Confirm Password is required",
     "password_not_match": "Password not match",
     "job_title_is_required": "Job Title is required",
-    "working_place_is_required": "Working Place is required"
+    "working_place_is_required": "Working Place is required",
+    "registration_success": "You have been registered successfully"
   },
   "home": {
     "home": "Home",
     "events": "Events",
     "notifications": "Notifications",
-    "profile": "Profile"
+    "profile": "Profile",
+    "under_construction": "Under Construction"
+  },
+  "conferences": {
+    "upcoming": "Sắp Diễn Ra",
+    "completed": "Đã Hoàn Thành",
+    "events": "Hội Nghị",
+    "notifications": "Thông Báo",
+    "profile": "Cá Nhân",
+    "register_for_event": "Đăng Ký Tham Dự",
+    "about_event": "About Event"
+  },
+  "profile": {
+    "your_profile": "Your Profile",
+    "change_your_password": "Change Your Password",
+    "my_registered_events": "My Registered Events",
+    "my_favorites_domains": "My Favorites Domains",
+    "logout": "Logout"
+  },
+  "my_profile": {
+    "my_profile": "My Profile",
+    "first_name": "First Name",
+    "last_name": "Last Name",
+    "job_title": "Job Title",
+    "working_place": "Working Place",
+    "update_profile": "Update Profile",
+    "your_profile_updated": "Your profile has been updated successfully.",
+    "save": "Save"
   }
 }

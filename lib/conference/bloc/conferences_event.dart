@@ -9,12 +9,24 @@ abstract class ConferencesEvent extends Equatable {
 
 /// LoadConferencesEvent event.
 class LoadMoreConferencesEvent extends ConferencesEvent {
+  LoadMoreConferencesEvent({
+    @required this.searchCriteria,
+  }) : super(<dynamic>[searchCriteria]);
+
+  final Map<String, dynamic> searchCriteria;
+
   @override
   String toString() => 'LoadConferencesEvent { }';
 }
 
 /// RefreshConferencesEvent event.
 class RefreshConferencesEvent extends ConferencesEvent {
+  RefreshConferencesEvent({
+    @required this.searchCriteria,
+  }) : super(<dynamic>[searchCriteria]);
+
+  final Map<String, dynamic> searchCriteria;
+
   @override
   String toString() => 'RefreshConferencesEvent { }';
 }

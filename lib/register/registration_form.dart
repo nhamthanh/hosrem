@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_alert/flutter_alert.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/register/bloc/registration_bloc.dart';
@@ -40,7 +41,7 @@ class _RegistrationFormState extends BaseState<RegistrationForm> {
       child:BlocListener<RegistrationBloc, RegistrationState>(
         listener: (BuildContext context, RegistrationState state) {
           if (state is RegistrationSuccess) {
-            Navigator.pop(context);
+            _showSuccessDialog();
           }
 
           if (state is RegistrationFailure) {
@@ -202,6 +203,16 @@ class _RegistrationFormState extends BaseState<RegistrationForm> {
         workingPlace: _workingPlaceController.text,
       ));
     }
+  }
+
+  void _showSuccessDialog() {
+    showAlert(
+      context: context,
+      body: AppLocalizations.of(context).tr('registration.registration_success'),
+      actions: <AlertAction>[
+        AlertAction(text: 'OK', onPressed: () => Navigator.pop(context))
+      ]
+    );
   }
 
   @override

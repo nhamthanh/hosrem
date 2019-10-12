@@ -8,11 +8,11 @@ part of 'conference_pagination.dart';
 
 ConferencePagination _$ConferencePaginationFromJson(Map<String, dynamic> json) {
   return ConferencePagination(
-    json['total_items'] as int,
+    json['totalSize'] as int,
     json['page'] as int,
-    json['total_pages'] as int,
+    json['totalPage'] as int,
     json['size'] as int,
-    (json['items'] as List)
+    (json['result'] as List)
         .map((e) => Conference.fromJson(e as Map<String, dynamic>))
         .toList(),
   );
@@ -21,9 +21,9 @@ ConferencePagination _$ConferencePaginationFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$ConferencePaginationToJson(
         ConferencePagination instance) =>
     <String, dynamic>{
-      'total_items': instance.totalItems,
+      'totalSize': instance.totalItems,
       'page': instance.page,
-      'total_pages': instance.totalPages,
+      'totalPage': instance.totalPages,
       'size': instance.size,
-      'items': instance.items,
+      'result': instance.items,
     };

@@ -1,6 +1,9 @@
 import 'package:dio/dio.dart';
+import 'package:hosrem_app/api/auth/api_error.dart';
 import 'package:hosrem_app/api/auth/auth_api.dart';
+import 'package:hosrem_app/api/auth/user_api.dart';
 import 'package:hosrem_app/api/conference/conference_api.dart';
+import 'package:hosrem_app/auth/auth_service.dart';
 import 'package:logging/logging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,6 +17,7 @@ class ApiProvider {
 
   AuthApi _authApi;
   ConferenceApi _conferenceApi;
+  UserApi _userApi;
   Logger _logger;
 
   Function() _onUnauthorized;
@@ -34,13 +38,26 @@ class ApiProvider {
       return options;
     }, onResponse: (Response<dynamic> response) {
       return response;
-    }, onError: (DioError error) {
+    }, onError: (DioError error) async {
       _logger.fine(error.message);
-      if (error.response?.statusCode == 401) {
+      if (error.response?.statusCode == 401 && error.request.path != 'login') {
+        final AuthService authService = AuthService(this);
+        await authService.clearUser();
         _onUnauthorized();
       }
+      error.response.extra['apiError'] = _parseApiError(error);
       return error;
     }));
+  }
+
+  ApiError _parseApiError(DioError error) {
+    ApiError apiError = ApiError(message: 'Failed to process data from backend');
+    try {
+      apiError = ApiError.fromJson(error.response?.data);
+    } catch (error) {
+      _logger.fine(error.message);
+    }
+    return apiError;
   }
 
   /// Register [onUnauthorized] event to receive error if backend responds 401.
@@ -52,6 +69,12 @@ class ApiProvider {
   AuthApi get authApi {
     _authApi ??= AuthApi(dio);
     return _authApi;
+  }
+
+  /// Get user api.
+  UserApi get userApi {
+    _userApi ??= UserApi(dio);
+    return _userApi;
   }
 
   /// Get conference api.

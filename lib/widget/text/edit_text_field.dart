@@ -4,10 +4,12 @@ import 'package:hosrem_app/common/app_colors.dart';
 /// Edit text field.
 @immutable
 class EditTextField extends StatelessWidget {
-  const EditTextField({this.title, this.hint, this.obscureText = false, this.controller, this.onTextChanged});
+  const EditTextField({this.title, this.hint, this.obscureText = false, this.hasLabel = true,
+    this.controller, this.onTextChanged});
 
   final String title;
   final String hint;
+  final bool hasLabel;
   final bool obscureText;
   final Function onTextChanged;
   final TextEditingController controller;
@@ -18,14 +20,14 @@ class EditTextField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
-        Text(
+        hasLabel ? Text(
           title,
           style: TextStyle(
             fontSize: 14.0,
             color: AppColors.editTextFieldTitleColor
           ),
-        ),
-        const SizedBox(height: 10),
+        ) : Container(),
+        hasLabel ? const SizedBox(height: 10) : Container(),
         Container(
           height: 42.0,
           child: TextField(
