@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:hosrem_app/app/app_routes.dart';
@@ -34,30 +35,29 @@ class _ProfileState extends BaseState<Profile> {
         children: <Widget>[
           const SizedBox(height: 20.0),
           NavigatorItem(
-            text: 'Your Profile',
+            text: AppLocalizations.of(context).tr('profile.your_profile'),
             icon: Icons.person_outline,
             onTap: _navigateToProfile,
           ),
           const Divider(),
           NavigatorItem(
-            text: 'Change Your Password',
+            text: AppLocalizations.of(context).tr('profile.change_your_password'),
             icon: Icons.lock_outline,
-            onTap: _navigateToProfile,
           ),
           const Divider(),
-          const NavigatorItem(
-            text: 'My Registered Events',
-            icon: Icons.event,
+          NavigatorItem(
+            text: AppLocalizations.of(context).tr('profile.my_registered_events'),
+            icon: Icons.event
           ),
           const Divider(),
-          const NavigatorItem(text: 'My Favorites Domains'),
+          NavigatorItem(text: AppLocalizations.of(context).tr('profile.my_favorites_domains')),
           const SizedBox(height: 40.0),
           Row(
             children: <Widget>[
               Expanded(
                 child: DefaultButton(
                   backgroundColor: AppColors.lightPrimaryColor,
-                  text: 'LOGOUT',
+                  text: AppLocalizations.of(context).tr('profile.logout'),
                   onPressed: _onLogoutButtonPressed,
                 )
               ),

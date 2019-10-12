@@ -6,12 +6,12 @@ import 'package:hosrem_app/api/auth/user.dart';
 part 'user_api.g.dart';
 
 /// User Api.
-@RestApi(baseUrl: 'https://api.hosrem-dev.zamo.io/api/')
+@RestApi()
 abstract class UserApi {
   factory UserApi(Dio dio) = _UserApi;
 
-  /// Update user profile.
-  @POST('users/{id}')
-  Future<User> updateUser(@Path() String id, @Body() Map<String, dynamic> body);
+  /// Get user profile.
+  @GET('users/{id}')
+  Future<User> getUser(@Path() String id);
 }
 

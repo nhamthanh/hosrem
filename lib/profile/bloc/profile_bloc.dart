@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:hosrem_app/api/auth/user.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
+import 'package:hosrem_app/common/error_handler.dart';
 import 'package:meta/meta.dart';
 
 import 'profile_event.dart';
@@ -28,7 +29,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         final User user = await authService.currentUser();
         yield ProfileSuccess(user: user);
       } catch (error) {
-        yield ProfileFailure(error: error.toString());
+        yield ProfileFailure(error: ErrorHandler.extractErrorMessage(error));
       }
     }
 
@@ -39,7 +40,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         await authService.updateProfile(event.user);
         yield UpdateProfileSuccess();
       } catch (error) {
-        yield ProfileFailure(error: error.toString());
+        yield ProfileFailure(error: ErrorHandler.extractErrorMessage(error));
       }
     }
   }

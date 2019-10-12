@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
+import 'package:hosrem_app/common/error_handler.dart';
 import 'package:hosrem_app/register/bloc/registration_event.dart';
 import 'package:meta/meta.dart';
 
@@ -26,7 +27,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
         await authService.signUp(event.toUser());
         yield RegistrationSuccess();
       } catch (error) {
-        yield RegistrationFailure(error: error.toString());
+        yield RegistrationFailure(error: ErrorHandler.extractErrorMessage(error));
       }
     }
   }

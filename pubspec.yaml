@@ -31,6 +31,10 @@ dependencies:
   loading_overlay: ^0.2.0
   flutter_full_pdf_viewer: ^1.0.6
   bubble_tab_indicator: ^0.1.4
+  flutter_svg: ^0.14.1
+  date_format: ^1.0.6
+  sticky_headers: ^0.1.8
+  corsac_jwt: ^0.1.2
 
 dev_dependencies:
   flutter_test:
@@ -44,5 +48,28 @@ flutter:
   uses-material-design: true
   assets:
   - assets/images/logo.png
+  - assets/images/home_normal.svg
+  - assets/images/home_selected.svg
+  - assets/images/event_normal.svg
+  - assets/images/event_selected.svg
+  - assets/images/notification_normal.svg
+  - assets/images/notification_selected.svg
+  - assets/images/profile_normal.svg
+  - assets/images/profile_selected.svg
+  - assets/images/conference_placeholder.png
+  - assets/images/registered.svg
+  - assets/images/pdf_file_type.svg
+  - assets/images/jpg_file_type.svg
+  - assets/images/expired.svg
   - assets/langs/vi-VN.json
   - assets/langs/en-US.json
+
+  fonts:
+  - family: Muli
+    fonts:
+    - asset: assets/fonts/Muli.ttf
+      style: normal
+    - asset: assets/fonts/Muli-Italic.ttf
+      style: italic
+    - asset: assets/fonts/Muli-Bold.ttf
+      weight: 600

@@ -8,7 +8,7 @@ part of 'conference_resource.dart';
 
 ConferenceResource _$ConferenceResourceFromJson(Map<String, dynamic> json) {
   return ConferenceResource(
-    json['id'] as int,
+    json['id'] as String,
     json['title'] as String,
     json['description'] as String,
     json['pdf_url'] as String,

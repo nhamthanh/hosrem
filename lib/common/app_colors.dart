@@ -5,7 +5,7 @@ class AppColors {
   AppColors._();
 
   /// Primary light color.
-  static const Color lightPrimaryColor = Color(0xFF34A9FF);
+  static const Color lightPrimaryColor = Color(0xFF69C0FF);
 
   /// Accent light color.
   static const Color lightAccentColor = Color(0xFF808080);
@@ -25,6 +25,12 @@ class AppColors {
   /// Edit text field title color.
   static const Color editTextFieldTitleColor = Color(0xFF424242);
 
+  /// Highlight color for label.
+  static const Color labelHighlightColor = Color(0xFFC90000);
+
+  /// Light grey color for label.
+  static const Color labelLightGreyColor = Color(0xFF9E9E9E);
+
   /// Button shadow color.
   static const Color buttonShadowColor1 = Color.fromRGBO(52, 169, 255, 0.2);
 
@@ -33,5 +39,17 @@ class AppColors {
 
   /// Button shadow color.
   static const Color buttonShadowColor3 = Color.fromRGBO(0, 129, 225, 0.14);
+
+  /// Box shadow color.
+  static const Color boxShadowColor = Color.fromRGBO(17, 98, 157, 0.16);
+
+  /// Unselect label color.
+  static const Color unselectLabelColor = Color(0xFF34A9FF);
+
+  /// Background light grey.
+  static const Color backgroundLightGreyColor = Color(0xFFEDEDED);
+
+  /// Background conference color.
+  static const Color backgroundConferenceColor = Color(0xFFF5F8FA);
 }
 

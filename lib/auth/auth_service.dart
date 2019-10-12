@@ -1,7 +1,10 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
+import 'package:corsac_jwt/corsac_jwt.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:hosrem_app/api/auth/token.dart';
+import 'package:hosrem_app/api/auth/token_payload.dart';
 import 'package:hosrem_app/api/auth/user.dart';
 import 'package:hosrem_app/network/api_provider.dart';
 import 'package:meta/meta.dart';
@@ -19,7 +22,7 @@ class AuthService {
     @required String password
   }) async {
     final Token tokenObj = await apiProvider.authApi.login(<String, String>{
-      'email': email,
+      'username': email,
       'password': password
     });
     return tokenObj.token;
@@ -33,8 +36,18 @@ class AuthService {
 
   /// Persist [token] into shared preferences.
   Future<void> persistToken(String token) async {
+    final JWT decodedToken = JWT.parse(token);
+    final Uint8List payloadList = base64.decode(base64.normalize(decodedToken.encodedPayload));
+    final TokenPayload tokenPayload = TokenPayload.fromJson(jsonDecode(String.fromCharCodes(payloadList)));
     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
     await _sharedPreferences.setString('token', token);
+    await _sharedPreferences.setString('id', tokenPayload.id);
+  }
+
+  /// Get authentication token.
+  Future<String> getToken() async {
+    final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+    return _sharedPreferences.getString('token');
   }
 
   /// Check if token exists in shared preferences.
@@ -47,31 +60,20 @@ class AuthService {
   /// Login with Facebook account.
   Future<String> loginWithFacebook() async {
     final FacebookLogin facebookLogin = FacebookLogin();
-    final FacebookLoginResult result = await facebookLogin.logIn(<String>['email']);
+    await facebookLogin.logIn(<String>['email']);
+//    if (result.status == FacebookLoginStatus.loggedIn) {
+//      return 'jwttoken';
+//    }
+//    return 'jwttoken';
 
-    if (result.status == FacebookLoginStatus.loggedIn) {
-      return 'jwttoken';
-    }
-
-    return 'jwttoken';
+    throw Exception('Chưa hỗ trợ để đăng nhập với Facebook');
   }
 
   /// Load current user.
   Future<User> loadCurrentUser() async {
-//    return apiProvider.authApi.currentUser();
     await Future<String>.delayed(Duration(seconds: 1));
-    return User(
-      'An',
-      'Le',
-      'An Le',
-      'an.le@zamo.io',
-      '',
-      'Active',
-      'Staff',
-      'Doctor',
-      'Hosrem',
-      null
-    );
+    final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+    return apiProvider.userApi.getUser(_sharedPreferences.get('id'));
   }
 
   /// Persist [user] into shared preferences.
@@ -96,5 +98,12 @@ class AuthService {
   Future<bool> updateProfile(User user) async {
     await Future<String>.delayed(Duration(seconds: 1));
     return true;
+  }
+
+  /// Clear authentication.
+  Future<void> clearUser() async {
+    final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+    await _sharedPreferences.remove('token');
+    await _sharedPreferences.remove('currentUser');
   }
 }

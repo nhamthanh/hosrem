@@ -5,13 +5,14 @@ import 'package:hosrem_app/logger/logger.dart';
 import 'app/app.dart';
 import 'config/api_config.dart';
 
+/// Main application.
 void main() {
   initLogger();
 
   const ApiConfig apiConfig = ApiConfig(
     appName: 'Build flavors DEV',
     flavorName: 'dev',
-    apiBaseUrl: 'https://api.vulcan-dev.dabridal.com/api/v1/',
+    apiBaseUrl: 'https://api.hosrem-dev.zamo.io/api/',
   );
 
   runApp(EasyLocalization(child: const App(apiConfig: apiConfig)));

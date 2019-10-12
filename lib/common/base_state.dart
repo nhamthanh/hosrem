@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosrem_app/app/app_context.dart';
 import 'package:hosrem_app/app/bloc/app_bloc.dart';
+import 'package:hosrem_app/config/api_config.dart';
 import 'package:hosrem_app/db/app_database.dart';
 import 'package:hosrem_app/network/api_provider.dart';
 
@@ -25,6 +26,11 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
   /// Get api provider.
   ApiProvider get apiProvider {
     return appContext.apiProvider;
+  }
+
+  /// Get api configuration.
+  ApiConfig get apiConfig {
+    return appContext.apiConfig;
   }
 
   /// Get database manager.

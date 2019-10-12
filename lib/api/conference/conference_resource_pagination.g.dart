@@ -9,11 +9,11 @@ part of 'conference_resource_pagination.dart';
 ConferenceResourcePagination _$ConferenceResourcePaginationFromJson(
     Map<String, dynamic> json) {
   return ConferenceResourcePagination(
-    json['total_items'] as int,
+    json['totalSize'] as int,
     json['page'] as int,
-    json['total_pages'] as int,
+    json['totalPage'] as int,
     json['size'] as int,
-    (json['items'] as List)
+    (json['result'] as List)
         .map((e) => ConferenceResource.fromJson(e as Map<String, dynamic>))
         .toList(),
   );
@@ -22,9 +22,9 @@ ConferenceResourcePagination _$ConferenceResourcePaginationFromJson(
 Map<String, dynamic> _$ConferenceResourcePaginationToJson(
         ConferenceResourcePagination instance) =>
     <String, dynamic>{
-      'total_items': instance.totalItems,
+      'totalSize': instance.totalItems,
       'page': instance.page,
-      'total_pages': instance.totalPages,
+      'totalPage': instance.totalPages,
       'size': instance.size,
-      'items': instance.items,
+      'result': instance.items,
     };

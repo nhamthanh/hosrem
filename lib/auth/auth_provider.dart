@@ -15,7 +15,7 @@ class AuthProvider extends StatefulWidget {
 
   final Widget child;
   final ApiProvider apiProvider;
-  final Function handleUnauthorized;
+  final Function(BuildContext) handleUnauthorized;
 
   @override
   State<AuthProvider> createState() => _AuthProviderState();
@@ -33,7 +33,7 @@ class _AuthProviderState extends State<AuthProvider> {
   void _onUnauthorized() {
     if (!_handleUnauthorized) {
       _handleUnauthorized = true;
-      widget.handleUnauthorized();
+      widget.handleUnauthorized(context);
     }
   }
 

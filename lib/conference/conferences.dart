@@ -2,6 +2,8 @@ import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:hosrem_app/common/app_colors.dart';
 
+import 'upcoming_conferences.dart';
+
 /// Conferences page.
 @immutable
 class Conferences extends StatefulWidget {
@@ -14,15 +16,19 @@ class Conferences extends StatefulWidget {
 }
 
 class _ConferencesState extends State<Conferences> with SingleTickerProviderStateMixin {
-  final List<Tab> tabs = <Tab>[
-    Tab(text: 'Upcoming'),
-    Tab(text: 'Completed')];
+
+  List<Tab> tabs;
 
   TabController _tabController;
 
   @override
   void initState() {
     super.initState();
+    tabs = const <Tab>[
+      Tab(text: '   Sắp Diễn Ra   '),
+      Tab(text: '   Đã Hoàn Thành   ')
+    ];
+
     _tabController = TabController(vsync: this, length: tabs.length);
   }
 
@@ -34,34 +40,45 @@ class _ConferencesState extends State<Conferences> with SingleTickerProviderStat
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        TabBar(
+    return Scaffold(
+      appBar: AppBar(
+        title: TabBar(
           isScrollable: true,
-          unselectedLabelColor: Colors.grey,
+          unselectedLabelColor: AppColors.unselectLabelColor,
+          labelStyle: TextStyle(
+            fontSize: 16.0
+          ),
+          unselectedLabelStyle: TextStyle(
+            fontSize: 16.0
+          ),
           labelColor: Colors.white,
           indicatorSize: TabBarIndicatorSize.tab,
           indicator: BubbleTabIndicator(
-            indicatorHeight: 25.0,
+            indicatorHeight: 36.0,
             indicatorColor: AppColors.lightPrimaryColor,
+            indicatorRadius: 20.0,
             tabBarIndicatorSize: TabBarIndicatorSize.tab,
           ),
           tabs: tabs,
           controller: _tabController,
         ),
-        Expanded(
-            child: TabBarView(
+        backgroundColor: AppColors.backgroundConferenceColor,
+        elevation: 0.0
+      ),
+      body: Container(
+        color: AppColors.backgroundConferenceColor,
+        child: TabBarView(
           controller: _tabController,
-          children: tabs.map((Tab tab) {
-            return Center(
-              child: Text(
-                tab.text,
-                style: TextStyle(fontSize: 20.0)
-              )
-            );
-          }).toList(),
-        ))
-      ],
+          children: const <Widget>[
+            UpcomingConferences(criteria: <String, dynamic>{
+              'status': 'Draft'
+            }),
+            UpcomingConferences(criteria: <String, dynamic>{
+              'status': 'Done'
+            }),
+          ]
+        )
+      )
     );
   }
 }
