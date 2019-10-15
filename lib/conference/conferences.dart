@@ -17,16 +17,16 @@ class Conferences extends StatefulWidget {
 
 class _ConferencesState extends State<Conferences> with SingleTickerProviderStateMixin {
 
-  List<Tab> tabs;
+  List<Widget> tabs;
 
   TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-    tabs = const <Tab>[
-      Tab(text: '   Sắp Diễn Ra   '),
-      Tab(text: '   Đã Hoàn Thành   ')
+    tabs = <Widget>[
+      Container(child: const Tab(text: 'Sắp Diễn Ra'), width: 120.0),
+      Container(child: const Tab(text: 'Đã Hoàn Thành'), width: 120.0),
     ];
 
     _tabController = TabController(vsync: this, length: tabs.length);
@@ -45,10 +45,10 @@ class _ConferencesState extends State<Conferences> with SingleTickerProviderStat
         title: TabBar(
           isScrollable: true,
           unselectedLabelColor: AppColors.unselectLabelColor,
-          labelStyle: TextStyle(
+          labelStyle: const TextStyle(
             fontSize: 16.0
           ),
-          unselectedLabelStyle: TextStyle(
+          unselectedLabelStyle: const TextStyle(
             fontSize: 16.0
           ),
           labelColor: Colors.white,
@@ -63,7 +63,8 @@ class _ConferencesState extends State<Conferences> with SingleTickerProviderStat
           controller: _tabController,
         ),
         backgroundColor: AppColors.backgroundConferenceColor,
-        elevation: 0.0
+        elevation: 0.0,
+        centerTitle: true
       ),
       body: Container(
         color: AppColors.backgroundConferenceColor,
@@ -71,7 +72,7 @@ class _ConferencesState extends State<Conferences> with SingleTickerProviderStat
           controller: _tabController,
           children: const <Widget>[
             UpcomingConferences(criteria: <String, dynamic>{
-              'status': 'Draft'
+              'status': 'RegisterOpen'
             }),
             UpcomingConferences(criteria: <String, dynamic>{
               'status': 'Done'

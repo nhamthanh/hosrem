@@ -29,7 +29,7 @@ platform :android do
         app: "1:415552824898:android:1a26dcb89b03aaf6c8afdb",
         apk_path: "../build/app/outputs/apk/release/app-release.apk",
         groups: "qa-group",
-        release_notes: "Android release",
+        release_notes: "Dev release",
         firebase_cli_path: "/Users/anle/Applications/firebase"
       )
     end

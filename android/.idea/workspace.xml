@@ -4,7 +4,51 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fa9b72fd-c260-4a51-b914-e000ac41cf11" name="Default Changelist" comment="" />
+    <list default="true" id="fa9b72fd-c260-4a51-b914-e000ac41cf11" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/conference/bloc/documents_event.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fastlane/Fastfile" beforeDir="false" afterPath="$PROJECT_DIR$/fastlane/Fastfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fastlane/report.xml" beforeDir="false" afterPath="$PROJECT_DIR$/fastlane/report.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Flutter/App.framework/App" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Flutter/App.framework/App" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Flutter/Flutter.framework/Flutter" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Flutter/Flutter.framework/Flutter" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Flutter/Generated.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Flutter/Generated.xcconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Flutter/flutter_export_environment.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Flutter/flutter_export_environment.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Podfile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Runner/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Runner/Info.plist" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/fastlane/Fastfile" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/fastlane/Fastfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/fastlane/report.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/fastlane/report.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/api/conference/conference.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/api/conference/conference.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/api/conference/conference_api.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/api/conference/conference_api.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/api/conference/conference_api.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/api/conference/conference_api.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/api/conference/conference_resource.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/api/conference/conference_resource.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/api/conference/conference_resource_pagination.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/api/conference/conference_resource_pagination.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/api/conference/document.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/api/document/document.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/api/conference/document.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/auth/auth_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/auth/auth_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/conference/bloc/conference_resources_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/conference/bloc/documents_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/conference/bloc/conference_resources_event.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/conference/bloc/conference_resources_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/conference/bloc/documents_state.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/conference/bloc/conferences_event.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/conference/bloc/conferences_event.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/conference/conference_detail.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/conference/conference_detail.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/conference/conference_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/conference/conference_item.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/conference/conference_overview.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/conference/conference_overview.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/conference/conference_resource_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/conference/conference_resource_item.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/conference/conference_resources.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/conference/conference_resources.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/conference/conference_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/conference/conference_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/conference/conferences.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/conference/conferences.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/login/bloc/login_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/login/bloc/login_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/network/api_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/network/api_provider.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/pdf/bloc/pdf_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/pdf/bloc/pdf_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/pdf/pdf_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/pdf/pdf_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/pdf/pdf_viewer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/pdf/pdf_viewer.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../pubspec.yaml" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,20 +86,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+          <provider editor-type-id="android-manifest" />
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="720">
-              <caret line="48" column="19" selection-start-line="48" selection-start-column="19" selection-end-line="48" selection-end-column="19" />
+            <state relative-caret-position="191">
+              <caret line="18" column="22" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
             </state>
           </provider>
-          <provider editor-type-id="android-manifest" />
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-381" />
+            <state relative-caret-position="-260" />
           </provider>
         </entry>
       </file>
@@ -71,7 +115,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="380">
+            <state relative-caret-position="480">
               <caret line="32" selection-start-line="32" selection-end-line="32" />
             </state>
           </provider>
@@ -84,25 +128,49 @@
       <find>kotlin_version</find>
     </findStrings>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/build.gradle" />
+        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds">
     <option name="y" value="23" />
     <option name="width" value="1680" />
     <option name="height" value="954" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="AndroidView">
+        <subPane>
+          <expand>
+            <path>
+              <item name="android" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+            </path>
+            <path>
+              <item name="android" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="manifests" type="f94875db:AndroidManifestsGroupNode" />
+            </path>
+            <path>
+              <item name="android" type="1abcf292:AndroidViewProjectNode" />
+              <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -120,21 +188,11 @@
         </subPane>
       </pane>
       <pane id="PackagesPane" />
-      <pane id="AndroidView">
-        <subPane>
-          <expand>
-            <path>
-              <item name="android" type="1abcf292:AndroidViewProjectNode" />
-              <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
       <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/Library/Android/sdk" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/app/src/main/res/values" />
     <property name="not.eligible.for.single.variant.sync" value="true" />
@@ -392,27 +450,27 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1680" height="951" extended-state="6" />
+    <frame x="0" y="23" width="1680" height="954" extended-state="6" />
     <layout>
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
-      <window_info content_ui="combo" id="Project" order="1" sideWeight="0.49554366" visible="true" weight="0.32967034" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" sideWeight="0.4929078" visible="true" weight="0.32967034" />
       <window_info id="Structure" order="2" side_tool="true" />
-      <window_info id="Build Variants" order="3" sideWeight="0.50445634" side_tool="true" visible="true" weight="0.32967034" />
+      <window_info id="Build Variants" order="3" sideWeight="0.5070922" side_tool="true" visible="true" weight="0.32967034" />
       <window_info id="Image Layers" order="4" />
       <window_info id="Designer" order="5" />
       <window_info id="Resources Explorer" order="6" sideWeight="0.49880382" weight="0.32967034" />
       <window_info id="Capture Tool" order="7" />
       <window_info id="Favorites" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Run" order="0" weight="0.32894737" />
-      <window_info active="true" anchor="bottom" id="Logcat" order="1" visible="true" weight="0.32894737" />
+      <window_info anchor="bottom" id="Logcat" order="1" weight="0.32777116" />
       <window_info anchor="bottom" id="TODO" order="2" weight="0.32894737" />
-      <window_info anchor="bottom" id="Android Profiler" order="3" weight="0.32894737" />
+      <window_info anchor="bottom" id="Android Profiler" order="3" show_stripe_button="false" weight="0.32894737" />
       <window_info anchor="bottom" id="Debug" order="4" />
       <window_info anchor="bottom" id="Terminal" order="5" />
       <window_info anchor="bottom" id="Event Log" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Flutter Performance" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info anchor="bottom" id="Build" order="9" weight="0.32894737" />
+      <window_info anchor="bottom" id="Build" order="9" visible="true" weight="0.32777116" />
       <window_info anchor="bottom" id="Find" order="10" weight="0.32894737" />
       <window_info anchor="right" id="Device File Explorer" order="0" side_tool="true" />
       <window_info anchor="right" id="Capture Analysis" order="1" />
@@ -428,14 +486,6 @@
     <entry file="file://$PROJECT_DIR$/app/google-services.json">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider editor-type-id="android-manifest" />
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="720">
-          <caret line="48" column="19" selection-start-line="48" selection-start-column="19" selection-end-line="48" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
@@ -445,14 +495,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
+        <state relative-caret-position="480">
           <caret line="32" selection-start-line="32" selection-end-line="32" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-381" />
+        <state relative-caret-position="-260" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider editor-type-id="android-manifest" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="191">
+          <caret line="18" column="22" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
+        </state>
       </provider>
     </entry>
   </component>

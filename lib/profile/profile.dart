@@ -30,38 +30,104 @@ class _ProfileState extends BaseState<Profile> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(left: 15.0),
       child: ListView(
         children: <Widget>[
           const SizedBox(height: 20.0),
+          Container(
+            padding: const EdgeInsets.all(28.0),
+            child: Row(
+              children: <Widget>[
+                Container(
+                  width: 108.0,
+                  height: 108.0,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppColors.lightPrimaryColor
+                  ),
+                  child: Icon(Icons.person, size: 80.0, color: Colors.white),
+                ),
+                const SizedBox(width: 28.0),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        'TS.BS Hồ Mạnh Tường',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          height: 1.6,
+                          color: AppColors.editTextFieldTitleColor
+                        )
+                      ),
+                      Text(
+                        'Hết hạn ngày 20/11/2019',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          height: 2,
+                          color: AppColors.editTextFieldTitleColor
+                        )
+                      ),
+                      const SizedBox(height: 10.0),
+                      FlatButton(
+                        child: Text(
+                          'Premium Member',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.lightPrimaryColor
+                          )
+                        ),
+                        textColor: AppColors.lightPrimaryColor,
+                        onPressed: () {},
+                        color: const Color.fromRGBO(105, 192, 255, 0.2),
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                            color: AppColors.lightPrimaryColor,
+                            style: BorderStyle.solid,
+                            width: 1.0,
+                          ),
+                          borderRadius: BorderRadius.circular(18.0))
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+          Container(
+            height: 20.0,
+            color: const Color(0xFFF5F8FA),
+          ),
           NavigatorItem(
             text: AppLocalizations.of(context).tr('profile.your_profile'),
             icon: Icons.person_outline,
             onTap: _navigateToProfile,
           ),
-          const Divider(),
           NavigatorItem(
             text: AppLocalizations.of(context).tr('profile.change_your_password'),
             icon: Icons.lock_outline,
           ),
-          const Divider(),
           NavigatorItem(
             text: AppLocalizations.of(context).tr('profile.my_registered_events'),
             icon: Icons.event
           ),
-          const Divider(),
           NavigatorItem(text: AppLocalizations.of(context).tr('profile.my_favorites_domains')),
           const SizedBox(height: 40.0),
-          Row(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Expanded(
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 28.0),
                 child: DefaultButton(
                   backgroundColor: AppColors.lightPrimaryColor,
                   text: AppLocalizations.of(context).tr('profile.logout'),
                   onPressed: _onLogoutButtonPressed,
                 )
-              ),
-              const SizedBox(width: 15.0)
+              )
             ],
           ),
         ],

@@ -35,6 +35,9 @@ dependencies:
   date_format: ^1.0.6
   sticky_headers: ^0.1.8
   corsac_jwt: ^0.1.2
+  flutter_cache_manager: ^1.1.1
+  page_transition: ^1.1.5
+  timeago: ^2.0.20
 
 dev_dependencies:
   flutter_test:
