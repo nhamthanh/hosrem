@@ -5,22 +5,22 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.001078">
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000906">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="1: gradle" time="9.624214">
+      <testcase classname="fastlane.lanes" name="1: gradle" time="10.596296">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="2: gradle" time="163.772328">
+      <testcase classname="fastlane.lanes" name="2: gradle" time="139.191798">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="3: firebase_app_distribution" time="37.159548">
+      <testcase classname="fastlane.lanes" name="3: firebase_app_distribution" time="142.708276">
         
       </testcase>
     

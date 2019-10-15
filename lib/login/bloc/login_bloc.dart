@@ -26,7 +26,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           email: event.email,
           password: event.password,
         );
-        await authService.persistToken(token);
+        await authService.persistToken(token, email: event.email, password: event.password);
         final User user = await authService.loadCurrentUser();
         await authService.persistCurrentUser(user);
         yield LoginSuccess();

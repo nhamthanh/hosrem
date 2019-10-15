@@ -6,7 +6,7 @@ class DateTimeUtils {
 
   /// Format [dateTime] as dd.MM.yyyy.
   static String format(DateTime dateTime) {
-    return formatDate(DateTime(1989, 02, 21), <String>[dd, '.', mm, '.', yyyy]);
+    return formatDate(dateTime, <String>[dd, '.', mm, '.', yyyy]);
   }
 }
 

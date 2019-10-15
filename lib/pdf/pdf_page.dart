@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hosrem_app/auth/auth_service.dart';
 import 'package:hosrem_app/common/base_state.dart';
-import 'package:hosrem_app/conference/conference_service.dart';
+import 'package:hosrem_app/conference/document_service.dart';
 import 'package:hosrem_app/loading/loading_indicator.dart';
 import 'package:hosrem_app/pdf/pdf_viewer.dart';
 
@@ -13,9 +14,10 @@ import 'bloc/pdf_state.dart';
 /// Pdf page.
 @immutable
 class PdfPage extends StatefulWidget {
-  const PdfPage({Key key, this.url}) : super(key: key);
+  const PdfPage({Key key, this.url, this.name}) : super(key: key);
 
   final String url;
+  final String name;
 
   @override
   _PdfPageState createState() => _PdfPageState();
@@ -28,7 +30,7 @@ class _PdfPageState extends BaseState<PdfPage> {
   @override
   void initState() {
     super.initState();
-    _pdfBloc = PdfBloc(conferenceService: ConferenceService(apiProvider));
+    _pdfBloc = PdfBloc(documentService: DocumentService(apiProvider), authService: AuthService(apiProvider));
     _pdfBloc.dispatch(LoadPdfEvent(widget.url));
   }
 
@@ -37,7 +39,30 @@ class _PdfPageState extends BaseState<PdfPage> {
     return BlocBuilder<PdfBloc, PdfState>(
       bloc: _pdfBloc,
       builder: (BuildContext context, PdfState state) {
-        _appBar = AppBar(title: const Text('Document'));
+        _appBar = AppBar(
+          title: Row(
+            children: <Widget>[
+              Expanded(
+                child: Text(
+                  widget.name,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 14.0,
+                    color: Colors.white,
+                    height: 1.57
+                  )
+                ),
+              ),
+              IconButton(
+                icon: Icon(Icons.clear),
+                color: Colors.white,
+                onPressed: () => Navigator.pop(context)
+              )
+            ],
+          ),
+          automaticallyImplyLeading: false
+        );
         return Scaffold(
           appBar: _appBar,
           body: (state is LoadedPdf) ? PdfViewer(

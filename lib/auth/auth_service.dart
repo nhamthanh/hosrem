@@ -35,13 +35,19 @@ class AuthService {
   }
 
   /// Persist [token] into shared preferences.
-  Future<void> persistToken(String token) async {
+  Future<void> persistToken(String token, {String email, String password}) async {
     final JWT decodedToken = JWT.parse(token);
     final Uint8List payloadList = base64.decode(base64.normalize(decodedToken.encodedPayload));
     final TokenPayload tokenPayload = TokenPayload.fromJson(jsonDecode(String.fromCharCodes(payloadList)));
     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
     await _sharedPreferences.setString('token', token);
     await _sharedPreferences.setString('id', tokenPayload.id);
+    if (email != null) {
+      await _sharedPreferences.setString('email', email);
+    }
+    if (password != null) {
+      await _sharedPreferences.setString('password', password);
+    }
   }
 
   /// Get authentication token.
@@ -105,5 +111,7 @@ class AuthService {
     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
     await _sharedPreferences.remove('token');
     await _sharedPreferences.remove('currentUser');
+    await _sharedPreferences.remove('email');
+    await _sharedPreferences.remove('password');
   }
 }

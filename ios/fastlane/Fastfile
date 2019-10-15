@@ -33,8 +33,8 @@ platform :ios do
     firebase_app_distribution(
       app: "1:415552824898:ios:b09cb4ea482990dbc8afdb",
       ipa_path: "Runner.ipa",
-      groups: "qa-group",
-      release_notes: "Development release",
+       groups: "qa-group",
+      release_notes: "Dev release",
       firebase_cli_path: "/Users/anle/Applications/firebase"
     )
   end

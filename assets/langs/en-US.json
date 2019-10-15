@@ -52,7 +52,15 @@
     "notifications": "Thông Báo",
     "profile": "Cá Nhân",
     "register_for_event": "Đăng Ký Tham Dự",
-    "about_event": "Thông Tin Hội Nghị"
+    "about_event": "Thông Tin Hội Nghị",
+    "details": {
+      "no_document_found": "Không Tìm Thấy Tài Liệu"
+    },
+    "documents": {
+      "main_documents": "Tài Liệu Chính",
+      "supplement_documents": "Tài Liệu Bổ Sung",
+      "no_document_found": "Không Tìm Thấy Tài Liệu"
+    }
   },
   "profile": {
     "your_profile": "Thông tin tài khoản",
@@ -70,5 +78,9 @@
     "update_profile": "Cập nhật tài khoản",
     "your_profile_updated": "Tài khoản đã được cập nhật.",
     "save": "Cập Nhật"
+  },
+  "notifications": {
+    "notification": "Thông báo",
+    "no_notification_found": "Không Tìm Thấy Thông Báo"
   }
 }

@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization_delegate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosrem_app/conference/conferences.dart';
+import 'package:hosrem_app/notification/notifications.dart';
 import 'package:hosrem_app/profile/profile.dart';
 import 'package:hosrem_app/widget/svg/svg_icon.dart';
 
@@ -43,22 +44,42 @@ class _HomeState extends State<Home> {
               BottomNavigationBarItem(
                 icon: const SvgIcon('assets/images/home_normal.svg'),
                 activeIcon: const SvgIcon('assets/images/home_selected.svg'),
-                title: Text(AppLocalizations.of(context).tr('home.home')),
+                title: Text(
+                  AppLocalizations.of(context).tr('home.home'),
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600
+                  )
+                )
               ),
               BottomNavigationBarItem(
                 icon: const SvgIcon('assets/images/event_normal.svg'),
                 activeIcon: const SvgIcon('assets/images/event_selected.svg'),
-                title: Text(AppLocalizations.of(context).tr('home.events')),
+                title: Text(
+                  AppLocalizations.of(context).tr('home.events'),
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600
+                  )
+                )
               ),
               BottomNavigationBarItem(
                 icon: const SvgIcon('assets/images/notification_normal.svg'),
                 activeIcon: const SvgIcon('assets/images/notification_selected.svg'),
-                title: Text(AppLocalizations.of(context).tr('home.notifications')),
+                title: Text(
+                  AppLocalizations.of(context).tr('home.notifications'),
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600
+                  )
+                )
               ),
               BottomNavigationBarItem(
                 icon: const SvgIcon('assets/images/profile_normal.svg'),
                 activeIcon: const SvgIcon('assets/images/profile_selected.svg'),
-                title: Text(AppLocalizations.of(context).tr('home.profile')),
+                title: Text(
+                  AppLocalizations.of(context).tr('home.profile'),
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600
+                  )
+                )
               ),
             ],
             onTap: _handleBottomBarTap,
@@ -100,9 +121,7 @@ class _HomeState extends State<Home> {
     }
 
     if (state is ShowNotifications) {
-      return Center(
-        child: Text(AppLocalizations.of(context).tr('home.under_construction')),
-      );
+      return Notifications();
     }
 
     if (state is ShowProfile) {

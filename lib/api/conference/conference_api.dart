@@ -3,8 +3,6 @@ import 'package:retrofit/retrofit.dart';
 
 import 'package:hosrem_app/api/conference/conference_pagination.dart';
 
-import 'conference_resource_pagination.dart';
-
 part 'conference_api.g.dart';
 
 /// Conference Api.
@@ -15,9 +13,5 @@ abstract class ConferenceApi {
   /// Get all conferences.
   @GET('conferences')
   Future<ConferencePagination> getAll(@Queries() Map<String, dynamic> query);
-
-  @GET('users')
-//  @GET('conferences')
-  Future<ConferenceResourcePagination> getAllConferenceResources(@Queries() Map<String, dynamic> query);
 }
 

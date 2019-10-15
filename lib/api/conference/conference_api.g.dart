@@ -29,20 +29,4 @@ class _ConferenceApi implements ConferenceApi {
     final value = ConferencePagination.fromJson(_result.data);
     return Future.value(value);
   }
-
-  @override
-  getAllConferenceResources(query) async {
-    ArgumentError.checkNotNull(query, 'query');
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    queryParameters.addAll(query ?? <String, dynamic>{});
-    final _data = <String, dynamic>{};
-    final Response<Map<String, dynamic>> _result = await _dio.request('users',
-        queryParameters: queryParameters,
-        options: RequestOptions(
-            method: 'GET', headers: <String, dynamic>{}, extra: _extra),
-        data: _data);
-    final value = ConferenceResourcePagination.fromJson(_result.data);
-    return Future.value(value);
-  }
 }

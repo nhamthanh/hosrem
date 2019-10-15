@@ -1,8 +1,12 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:hosrem_app/api/auth/api_error.dart';
 import 'package:hosrem_app/api/auth/auth_api.dart';
+import 'package:hosrem_app/api/auth/token.dart';
 import 'package:hosrem_app/api/auth/user_api.dart';
 import 'package:hosrem_app/api/conference/conference_api.dart';
+import 'package:hosrem_app/api/document/document_api.dart';
+import 'package:hosrem_app/api/notification/notification_api.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
 import 'package:logging/logging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,6 +22,10 @@ class ApiProvider {
   AuthApi _authApi;
   ConferenceApi _conferenceApi;
   UserApi _userApi;
+  DocumentApi _documentApi;
+  NotificationApi _notificationApi;
+
+  DefaultCacheManager _cacheManager;
   Logger _logger;
 
   Function() _onUnauthorized;
@@ -41,6 +49,30 @@ class ApiProvider {
     }, onError: (DioError error) async {
       _logger.fine(error.message);
       if (error.response?.statusCode == 401 && error.request.path != 'login') {
+        if (error.request.headers != null && !error.request.headers.containsKey('Retry')) {
+          final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+          final String email = sharedPreferences.get('email');
+          final String password = sharedPreferences.get('password');
+          if (email != null) {
+            final Token token = await authApi.login(<String, String>{
+              'username': email,
+              'password': password
+            });
+
+            await sharedPreferences.setString('token', token.token);
+            error.request.headers['Retry'] = true;
+            return await dio.request<dynamic>(
+              error.request.path,
+              data: error.request.data,
+              queryParameters: error.request.queryParameters,
+              options: RequestOptions(
+                method: error.request.method,
+                headers: error.request.headers
+              )
+            );
+          }
+        }
+
         final AuthService authService = AuthService(this);
         await authService.clearUser();
         _onUnauthorized();
@@ -81,5 +113,23 @@ class ApiProvider {
   ConferenceApi get conferenceApi {
     _conferenceApi ??= ConferenceApi(dio);
     return _conferenceApi;
+  }
+
+  /// Get document api.
+  DocumentApi get documentApi {
+    _documentApi ??= DocumentApi(dio);
+    return _documentApi;
+  }
+
+  /// Get cache manager.
+  DefaultCacheManager get cacheManager {
+    _cacheManager ??= DefaultCacheManager();
+    return _cacheManager;
+  }
+
+  /// Get notification api.
+  NotificationApi get notificationApi {
+    _notificationApi ??= NotificationApi(dio);
+    return _notificationApi;
   }
 }

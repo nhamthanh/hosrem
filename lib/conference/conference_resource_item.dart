@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:hosrem_app/api/conference/document.dart';
+import 'package:hosrem_app/api/document/document.dart';
 import 'package:hosrem_app/common/app_colors.dart';
 
 /// Conference resource item.
@@ -17,7 +17,7 @@ class ConferenceResourceItem extends StatelessWidget {
         Container(
           padding: const EdgeInsets.only(left: 28.0, right: 28.0, top: 20.0, bottom: 20.0),
           child: SvgPicture.asset(
-            document.docType == 'pdf' ? 'assets/images/pdf_file_type.svg' : 'assets/images/jpg_file_type.svg',
+            document.docType == 'jpg' ? 'assets/images/jpg_file_type.svg' : 'assets/images/pdf_file_type.svg',
             height: 60.0,
             width: 60.0
           )
@@ -27,7 +27,7 @@ class ConferenceResourceItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                document.title ?? '',
+                document.title ?? 'Tài liệu tham khảo',
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
@@ -37,11 +37,11 @@ class ConferenceResourceItem extends StatelessWidget {
                 )
               ),
               Text(
-                document.speakers ?? 'Hồ Mạnh Tường',
+                document.speakers ?? '',
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                  fontSize: 16.0,
+                  fontSize: 14.0,
                   height: 1.38,
                   color: AppColors.editTextFieldTitleColor
                 )

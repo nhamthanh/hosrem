@@ -46,13 +46,21 @@
     "under_construction": "Under Construction"
   },
   "conferences": {
-    "upcoming": "Sắp Diễn Ra",
-    "completed": "Đã Hoàn Thành",
-    "events": "Hội Nghị",
-    "notifications": "Thông Báo",
-    "profile": "Cá Nhân",
-    "register_for_event": "Đăng Ký Tham Dự",
-    "about_event": "About Event"
+    "upcoming": "Upcoming",
+    "completed": "Completed",
+    "events": "Events",
+    "notifications": "Notifications",
+    "profile": "Profile",
+    "register_for_event": "Register For Event",
+    "about_event": "About Event",
+    "details": {
+      "no_document_found": "No Document Found"
+    },
+    "documents": {
+      "main_documents": "Main Documents",
+      "supplement_documents": "Supplement Documents",
+      "no_document_found": "No Document Found"
+    }
   },
   "profile": {
     "your_profile": "Your Profile",
@@ -70,5 +78,9 @@
     "update_profile": "Update Profile",
     "your_profile_updated": "Your profile has been updated successfully.",
     "save": "Save"
+  },
+  "notifications": {
+    "notification": "Notifications",
+    "no_notification_found": "No notification found"
   }
 }

@@ -17,7 +17,6 @@ class ConferenceItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const String banner = 'hosrem-httn2019-avatar-2019-10-11-04-46-01.PNG';
     return Container(
       margin: const EdgeInsets.all(10.0),
       decoration: BoxDecoration(
@@ -35,7 +34,7 @@ class ConferenceItem extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Container(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.only(top: 20.0, right: 20.0, left: 20.0),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -51,17 +50,20 @@ class ConferenceItem extends StatelessWidget {
                       ),
                       const SizedBox(height: 8.0),
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Icon(Icons.location_on, size: 16.0, color: AppColors.labelLightGreyColor),
                           const SizedBox(width: 5.0),
-                          Text(
-                            conference.location,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(fontSize: 11.0, color: AppColors.labelLightGreyColor)
+                          Expanded(
+                            child: Text(
+                              conference.location,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(fontSize: 14.0, color: AppColors.labelLightGreyColor)
+                            )
                           )
                         ],
-                      ),
+                      )
                     ],
                   ),
                 ),
@@ -87,7 +89,7 @@ class ConferenceItem extends StatelessWidget {
                     const SizedBox(height: 20.0),
                     Container(
                       transform: Matrix4.translationValues(27.0, 0.0, 0.0),
-                      child: conference.status == 'Done' ? SvgPicture.asset('assets/images/expired.svg') : Container()
+                      child: conference.status == 'Done' ? SvgPicture.asset('assets/images/expired.svg') : SvgPicture.asset('assets/images/registered.svg')
                     )
                   ],
                 )
@@ -98,7 +100,7 @@ class ConferenceItem extends StatelessWidget {
             padding: const EdgeInsets.all(10.0),
             child: CachedNetworkImage(
               height: 168.0,
-              imageUrl: banner != null ? '${apiConfig.apiBaseUrl}files/$banner?token=$token' : 'https://',
+              imageUrl: conference.banner != null ? '${apiConfig.apiBaseUrl}files/${conference.banner}?token=$token' : 'https://',
               placeholder: (BuildContext context, String url) => Center(child: const CircularProgressIndicator()),
               errorWidget: (BuildContext context, String url, Object error) => Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,

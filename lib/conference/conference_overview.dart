@@ -18,7 +18,6 @@ class ConferenceOverview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const String banner = 'hosrem-httn2019-avatar-2019-10-11-04-46-01.PNG';
     return Container(
       color: Colors.white,
       child: Column(
@@ -48,11 +47,13 @@ class ConferenceOverview extends StatelessWidget {
                                 children: <Widget>[
                                   Icon(Icons.location_on, size: 16.0, color: AppColors.labelLightGreyColor),
                                   const SizedBox(width: 5.0),
-                                  Text(
-                                    conference.location ?? '',
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(fontSize: 11.0, color: AppColors.labelLightGreyColor)
+                                  Expanded(
+                                    child: Text(
+                                      conference.location,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(fontSize: 14.0, color: AppColors.labelLightGreyColor)
+                                    )
                                   )
                                 ],
                               ),
@@ -81,7 +82,7 @@ class ConferenceOverview extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(28.0),
                     child: CachedNetworkImage(
-                      imageUrl: banner != null ? '${apiConfig.apiBaseUrl}files/$banner?token=$token' : 'https://',
+                      imageUrl: conference.banner != null ? '${apiConfig.apiBaseUrl}files/${conference.banner}?token=$token' : 'https://',
                       placeholder: (BuildContext context, String url) => Center(child: const CircularProgressIndicator()),
                       errorWidget: (BuildContext context, String url, Object error) =>
                         Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
@@ -96,7 +97,7 @@ class ConferenceOverview extends StatelessWidget {
                   ),
                   Container(
                     height: 20.0,
-                    color: AppColors.backgroundLightGreyColor,
+                    color: const Color(0xFFF5F8FA),
                   ),
                   const SizedBox(height: 9.0),
                   Container(
@@ -116,6 +117,269 @@ class ConferenceOverview extends StatelessWidget {
                       ],
                     )
                   ),
+                  Container(
+                    height: 20.0,
+                    color: const Color(0xFFF5F8FA),
+                  ),
+                  const SizedBox(height: 17.0),
+                  Container(
+                    padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 0.0, top: 0.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        Text(
+                          'Phí tham gia đối với hội viên HOSREM',
+                          style: TextStyle(fontSize: 16.0, color: const Color(0xFF002029), fontWeight: FontWeight.w600)
+                        ),
+                        const SizedBox(height: 17.0),
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: AppColors.editTextFieldBorderColor)
+                          ),
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
+                                child: Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            'Đăng ký trước',
+                                            style: TextStyle(
+                                              fontSize: 12.0,
+                                              color: const Color(0xFF002029))
+                                          ),
+                                          Text(
+                                            '08/11/2019',
+                                            style: TextStyle(
+                                              fontSize: 12.0,
+                                              color: const Color(0xFF002029))
+                                          )
+                                        ],
+                                      )
+                                    ),
+                                    Column(
+                                      children: <Widget>[
+                                        Text(
+                                          '2.000.000 đ/người',
+                                          style: TextStyle(
+                                            fontSize: 12.0,
+                                            color: const Color(0xFF002029))
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                )
+                              ),
+                              const Divider(),
+                              Container(
+                                padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
+                                child: Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            'Đăng ký từ',
+                                            style: TextStyle(
+                                              fontSize: 12.0,
+                                              color: const Color(0xFF002029))
+                                          ),
+                                          Text(
+                                            '9/11 - 21/11/2019',
+                                            style: TextStyle(
+                                              fontSize: 12.0,
+                                              color: const Color(0xFF002029))
+                                          )
+                                        ],
+                                      )
+                                    ),
+                                    Column(
+                                      children: <Widget>[
+                                        Text(
+                                          '2.250.000 đ/người',
+                                          style: TextStyle(
+                                            fontSize: 12.0,
+                                            color: const Color(0xFF002029))
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                )
+                              ),
+                              const Divider(),
+                              Container(
+                                padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
+                                child: Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            'Đăng ký từ',
+                                            style: TextStyle(
+                                              fontSize: 12.0,
+                                              color: const Color(0xFF002029))
+                                          ),
+                                          Text(
+                                            '22/11/2019',
+                                            style: TextStyle(
+                                              fontSize: 12.0,
+                                              color: const Color(0xFF002029))
+                                          )
+                                        ],
+                                      )
+                                    ),
+                                    Column(
+                                      children: <Widget>[
+                                        Text(
+                                          '2.500.000 đ/người',
+                                          style: TextStyle(
+                                            fontSize: 12.0,
+                                            color: const Color(0xFF002029))
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                )
+                              )
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 22.0),
+                        Text(
+                          'Phí tham gia cho đối tượng khác',
+                          style: TextStyle(fontSize: 16.0, color: const Color(0xFF002029), fontWeight: FontWeight.w600)
+                        ),
+                        const SizedBox(height: 17.0),
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: AppColors.editTextFieldBorderColor)
+                          ),
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
+                                child: Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            'Đăng ký trước',
+                                            style: TextStyle(
+                                              fontSize: 12.0,
+                                              color: const Color(0xFF002029))
+                                          ),
+                                          Text(
+                                            '08/11/2019',
+                                            style: TextStyle(
+                                              fontSize: 12.0,
+                                              color: const Color(0xFF002029))
+                                          )
+                                        ],
+                                      )
+                                    ),
+                                    Column(
+                                      children: <Widget>[
+                                        Text(
+                                          '2.200.000 đ/người',
+                                          style: TextStyle(
+                                            fontSize: 12.0,
+                                            color: const Color(0xFF002029))
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                )
+                              ),
+                              const Divider(),
+                              Container(
+                                padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
+                                child: Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            'Đăng ký từ',
+                                            style: TextStyle(
+                                              fontSize: 12.0,
+                                              color: const Color(0xFF002029))
+                                          ),
+                                          Text(
+                                            '09/11 - 21/11/2019',
+                                            style: TextStyle(
+                                              fontSize: 12.0,
+                                              color: const Color(0xFF002029))
+                                          )
+                                        ],
+                                      )
+                                    ),
+                                    Column(
+                                      children: <Widget>[
+                                        Text(
+                                          '2.450.000 đ/người',
+                                          style: TextStyle(
+                                            fontSize: 12.0,
+                                            color: const Color(0xFF002029))
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                )
+                              ),
+                              const Divider(),
+                              Container(
+                                padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
+                                child: Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            'Đăng ký từ',
+                                            style: TextStyle(
+                                              fontSize: 12.0,
+                                              color: const Color(0xFF002029))
+                                          ),
+                                          Text(
+                                            '22/11/2019',
+                                            style: TextStyle(
+                                              fontSize: 12.0,
+                                              color: const Color(0xFF002029))
+                                          )
+                                        ],
+                                      )
+                                    ),
+                                    Column(
+                                      children: <Widget>[
+                                        Text(
+                                          '2.700.000 đ/người',
+                                          style: TextStyle(
+                                            fontSize: 12.0,
+                                            color: const Color(0xFF002029))
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                )
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    )
+                  ),
+                  const SizedBox(height: 20.0),
                 ],
               )
             )
