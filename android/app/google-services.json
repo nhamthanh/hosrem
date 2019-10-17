@@ -32,10 +32,10 @@
               "client_type": 3
             },
             {
-              "client_id": "415552824898-po92uu2lig83fl4qnb41tb2779gafag2.apps.googleusercontent.com",
+              "client_id": "415552824898-n0a3mn9bott8endn1i99tpch1n8q0siu.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "io.zamo.hosrem.app"
+                "bundle_id": "io.zamo.hosrem.dev"
               }
             }
           ]
@@ -44,9 +44,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:415552824898:android:1a26dcb89b03aaf6c8afdb",
+        "mobilesdk_app_id": "1:415552824898:android:92ae98b4d4cc8f51c8afdb",
         "android_client_info": {
-          "package_name": "io.zamo.hosrem.hosrem_app"
+          "package_name": "io.zamo.hosrem.dev"
         }
       },
       "oauth_client": [
@@ -68,10 +68,10 @@
               "client_type": 3
             },
             {
-              "client_id": "415552824898-po92uu2lig83fl4qnb41tb2779gafag2.apps.googleusercontent.com",
+              "client_id": "415552824898-n0a3mn9bott8endn1i99tpch1n8q0siu.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "io.zamo.hosrem.app"
+                "bundle_id": "io.zamo.hosrem.dev"
               }
             }
           ]

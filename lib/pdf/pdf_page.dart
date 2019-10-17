@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -62,15 +63,32 @@ class _PdfPageState extends BaseState<PdfPage> {
         );
         return Scaffold(
           appBar: _appBar,
-          body: (state is LoadedPdf) ? PdfViewer(
-            url: widget.url,
-            top: _appBar.preferredSize.height + MediaQuery.of(context).padding.top,
-            width: _calculatePdfWidth(context),
-            height: _calculatePdfHeight(context),
-          ) : LoadingIndicator()
+          body: _buildPdfWidget(state, context)
         );
       }
     );
+  }
+
+  Widget _buildPdfWidget(PdfState state, BuildContext context) {
+    if (state is LoadedPdf) {
+      return PdfViewer(
+        url: widget.url,
+        top: _appBar.preferredSize.height + MediaQuery.of(context).padding.top,
+        width: _calculatePdfWidth(context),
+        height: _calculatePdfHeight(context),
+      );
+    }
+
+    if (state is PdfFailure) {
+      return Center(
+        child: Text(
+          AppLocalizations.of(context).tr('conferences.documents.no_document_found'),
+          style: TextStyles.textStyle16PrimaryBlack
+        )
+      );
+    }
+
+    return LoadingIndicator();
   }
 
   double _calculatePdfHeight(BuildContext context) {
