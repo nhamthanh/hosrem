@@ -38,6 +38,7 @@ dependencies:
   flutter_cache_manager: ^1.1.1
   page_transition: ^1.1.5
   timeago: ^2.0.20
+  firebase_messaging: ^5.1.6
 
 dev_dependencies:
   flutter_test:
@@ -63,6 +64,7 @@ flutter:
   - assets/images/registered.svg
   - assets/images/pdf_file_type.svg
   - assets/images/jpg_file_type.svg
+  - assets/images/search.svg
   - assets/images/expired.svg
   - assets/langs/vi-VN.json
   - assets/langs/en-US.json

@@ -26,7 +26,7 @@ platform :android do
         build_type: "Release"
       )
       firebase_app_distribution(
-        app: "1:415552824898:android:1a26dcb89b03aaf6c8afdb",
+        app: "1:415552824898:android:440b19feeb694592c8afdb",
         apk_path: "../build/app/outputs/apk/release/app-release.apk",
         groups: "qa-group",
         release_notes: "Dev release",

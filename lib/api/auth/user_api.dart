@@ -13,5 +13,9 @@ abstract class UserApi {
   /// Get user profile.
   @GET('users/{id}')
   Future<User> getUser(@Path() String id);
+
+  /// Update user profile.
+  @PUT('users/{id}')
+  Future<User> updateUser(@Path() String id, @Body() User user);
 }
 

@@ -2,6 +2,7 @@ package io.flutter.plugins;
 
 import io.flutter.plugin.common.PluginRegistry;
 import io.flutter.plugins.connectivity.ConnectivityPlugin;
+import io.flutter.plugins.firebasemessaging.FirebaseMessagingPlugin;
 import com.roughike.facebooklogin.facebooklogin.FacebookLoginPlugin;
 import com.alveliu.flutterfullpdfviewer.FlutterFullPdfViewerPlugin;
 import io.flutter.plugins.pathprovider.PathProviderPlugin;
@@ -17,6 +18,7 @@ public final class GeneratedPluginRegistrant {
       return;
     }
     ConnectivityPlugin.registerWith(registry.registrarFor("io.flutter.plugins.connectivity.ConnectivityPlugin"));
+    FirebaseMessagingPlugin.registerWith(registry.registrarFor("io.flutter.plugins.firebasemessaging.FirebaseMessagingPlugin"));
     FacebookLoginPlugin.registerWith(registry.registrarFor("com.roughike.facebooklogin.facebooklogin.FacebookLoginPlugin"));
     FlutterFullPdfViewerPlugin.registerWith(registry.registrarFor("com.alveliu.flutterfullpdfviewer.FlutterFullPdfViewerPlugin"));
     PathProviderPlugin.registerWith(registry.registrarFor("io.flutter.plugins.pathprovider.PathProviderPlugin"));

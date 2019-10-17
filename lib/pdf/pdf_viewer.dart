@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_full_pdf_viewer/full_pdf_viewer_plugin.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
-import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/base_state.dart';
+import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/conference/document_service.dart';
 import 'package:hosrem_app/loading/loading_indicator.dart';
 
@@ -73,10 +73,7 @@ class _PdfViewerState extends BaseState<PdfViewer> {
               return Center(
                 child: const Text(
                   'Failed to load conference',
-                  style: TextStyle(
-                    color: AppColors.editTextFieldTitleColor,
-                    fontSize: 16.0
-                  )
+                  style: TextStyles.textStyle16PrimaryBlack
                 )
               );
             }

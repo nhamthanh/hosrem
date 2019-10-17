@@ -5,6 +5,7 @@ import 'package:hosrem_app/api/conference/conference.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
 import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/base_state.dart';
+import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/config/api_config.dart';
 import 'package:hosrem_app/pdf/pdf_viewer.dart';
 
@@ -61,12 +62,8 @@ class _ConferenceDetailState extends BaseState<ConferenceDetail> with SingleTick
     _tabBar = TabBar(
       isScrollable: true,
       unselectedLabelColor: AppColors.unselectLabelColor,
-      labelStyle: const TextStyle(
-        fontSize: 16.0
-      ),
-      unselectedLabelStyle: const TextStyle(
-        fontSize: 16.0
-      ),
+      labelStyle: TextStyles.textStyle16,
+      unselectedLabelStyle: TextStyles.textStyle16,
       labelColor: Colors.white,
       indicatorSize: TabBarIndicatorSize.tab,
       indicator: BubbleTabIndicator(
@@ -95,23 +92,19 @@ class _ConferenceDetailState extends BaseState<ConferenceDetail> with SingleTick
                   children: <Widget>[
                     ConferenceOverview(
                       conference: widget.conference,
-                      apiConfig: widget.apiConfig,
                       token: widget.token
                     ),
                     widget.conference.files.isNotEmpty ?
                     PdfViewer(
-//              url: widget.conference.files.isNotEmpty ? '${apiConfig.apiBaseUrl}files/${widget.conference.files[0]}?token=${widget.token}' : 'http://',
-                      url: 'http://hosrem.org.vn/public/frontend/images/photos/GUIDELINES%20PCOS%201.0.pdf',
+                      url: widget.conference.files.isNotEmpty ? '${apiConfig.apiBaseUrl}files/${widget.conference.files[0]}?token=${widget.token}' : 'http://',
+//                      url: 'http://hosrem.org.vn/public/frontend/images/photos/GUIDELINES%20PCOS%201.0.pdf',
                       top: _appBar.preferredSize.height + MediaQuery.of(context).padding.top + _tabBar.preferredSize.height + 10.0,
                       width: _calculatePdfWidth(context),
                       height: _calculatePdfHeight(context),
                     ) : Center(
                       child: Text(
                         AppLocalizations.of(context).tr('conferences.details.no_document_found'),
-                        style: const TextStyle(
-                          color: AppColors.editTextFieldTitleColor,
-                          fontSize: 16.0
-                        )
+                        style: TextStyles.textStyle16PrimaryBlack
                       )
                     ),
                     ConferenceResources(widget.conference)

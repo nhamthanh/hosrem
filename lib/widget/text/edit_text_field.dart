@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:hosrem_app/common/app_colors.dart';
+import 'package:hosrem_app/common/text_styles.dart';
 
 /// Edit text field.
 @immutable
 class EditTextField extends StatelessWidget {
-  const EditTextField({this.title, this.hint, this.obscureText = false, this.hasLabel = true,
+  const EditTextField({this.title, this.hint, this.obscureText = false, this.prefixIcon, this.hasLabel = true,
     this.controller, this.onTextChanged});
 
   final String title;
   final String hint;
   final bool hasLabel;
   final bool obscureText;
+  final Widget prefixIcon;
   final Function onTextChanged;
   final TextEditingController controller;
 
@@ -22,30 +24,31 @@ class EditTextField extends StatelessWidget {
       children: <Widget>[
         hasLabel ? Text(
           title,
-          style: TextStyle(
-            fontSize: 14.0,
-            color: AppColors.editTextFieldTitleColor
-          ),
+          style: TextStyles.textStyle16PrimaryBlack,
         ) : Container(),
         hasLabel ? const SizedBox(height: 10) : Container(),
         Container(
-          height: 42.0,
+          height: 40.0,
           child: TextField(
             decoration: InputDecoration(
               hintText: hint,
-              contentPadding: const EdgeInsets.fromLTRB(15.0, 11.0, 20.0, 11.0),
+              contentPadding: const EdgeInsets.fromLTRB(13.0, 11.0, 5.0, 11.0),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(5.0),
-                borderSide: const BorderSide(color: AppColors.editTextFieldBorderColor, width: 1.5),
+                borderRadius: BorderRadius.circular(8.0),
+                borderSide: const BorderSide(color: AppColors.editTextFieldBorderColor, width: 1.0),
               ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.0),
+                borderSide: const BorderSide(color: AppColors.editTextFieldBorderColor, width: 1.0),
+              ),
+              prefixIcon: prefixIcon == null ? null : prefixIcon,
+              fillColor: Colors.white,
+              filled: true
             ),
             obscureText: obscureText,
             onChanged: onTextChanged,
             controller: controller,
-            style: TextStyle(
-              fontSize: 14.0,
-              color: AppColors.editTextFieldTitleColor
-            )
+            style: TextStyles.textStyle16PrimaryGrey
           )
         )
       ]

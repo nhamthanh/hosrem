@@ -1,23 +1,48 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization_delegate.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosrem_app/api/conference/conference.dart';
+import 'package:hosrem_app/api/conference/conference_fee.dart';
 import 'package:hosrem_app/common/app_colors.dart';
+import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/common/date_time_utils.dart';
-import 'package:hosrem_app/config/api_config.dart';
+import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/widget/button/primary_button.dart';
+import 'package:page_transition/page_transition.dart';
+
+import 'bloc/conference_fees_bloc.dart';
+import 'bloc/conference_fees_event.dart';
+import 'bloc/conference_fees_state.dart';
+import 'conference_registration.dart';
+import 'conference_service.dart';
 
 /// Conference detail page.
-@immutable
-class ConferenceOverview extends StatelessWidget {
-  const ConferenceOverview({Key key, this.conference, this.apiConfig, this.token}) : super(key: key);
+class ConferenceOverview extends StatefulWidget {
+  const ConferenceOverview({Key key, this.conference, this.token}) : super(key: key);
 
   final Conference conference;
   final String token;
-  final ApiConfig apiConfig;
+
+  @override
+  State<ConferenceOverview> createState() => _ConferenceOverviewState();
+}
+
+class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
+
+  ConferenceFeesBloc _conferenceFeesBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _conferenceFeesBloc = ConferenceFeesBloc(conferenceService: ConferenceService(apiProvider));
+    _conferenceFeesBloc.dispatch(LoadConferenceFeesByConferenceIdEvent(conferenceId: widget.conference.id));
+  }
 
   @override
   Widget build(BuildContext context) {
+    final Conference conference = widget.conference;
+    final String token = widget.token;
     return Container(
       color: Colors.white,
       child: Column(
@@ -40,19 +65,19 @@ class ConferenceOverview extends StatelessWidget {
                                 conference.title ?? '',
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(fontSize: 18.0, color: AppColors.editTextFieldTitleColor, height: 1.5)
+                                style: TextStyles.textStyle18PrimaryBlack
                               ),
                               const SizedBox(height: 8.0),
                               Row(
                                 children: <Widget>[
-                                  Icon(Icons.location_on, size: 16.0, color: AppColors.labelLightGreyColor),
+                                  Icon(Icons.location_on, size: 16.0, color: AppColors.secondaryGreyColor),
                                   const SizedBox(width: 5.0),
                                   Expanded(
                                     child: Text(
                                       conference.location,
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(fontSize: 14.0, color: AppColors.labelLightGreyColor)
+                                      style: TextStyles.textStyle14SecondaryGrey
                                     )
                                   )
                                 ],
@@ -67,11 +92,12 @@ class ConferenceOverview extends StatelessWidget {
                             const SizedBox(height: 7.0),
                             Row(
                               children: <Widget>[
-                                Icon(Icons.calendar_today, size: 16.0, color: AppColors.labelLightGreyColor),
+                                Icon(Icons.calendar_today, size: 16.0, color: AppColors.secondaryGreyColor),
                                 const SizedBox(width: 5.0),
                                 Text(
                                   conference.startTime == null ? '' : DateTimeUtils.format(conference.startTime),
-                                  style: TextStyle(fontSize: 10.0, color: AppColors.labelHighlightColor, height: 1.33)),
+                                  style: TextStyles.textStyle10PrimaryRed
+                                ),
                               ],
                             )
                           ],
@@ -107,12 +133,12 @@ class ConferenceOverview extends StatelessWidget {
                       children: <Widget>[
                         Text(
                           AppLocalizations.of(context).tr('conferences.about_event'),
-                          style: TextStyle(fontSize: 16.0, color: AppColors.editTextFieldTitleColor, fontWeight: FontWeight.w600)
+                          style: TextStyles.textStyle16PrimaryBlackBold
                         ),
                         const SizedBox(height: 10.0),
                         Text(
                           conference.description ?? '',
-                          style: TextStyle(fontSize: 16.0, color: AppColors.editTextFieldTitleColor, height: 1.5)
+                          style: TextStyles.textStyle16PrimaryBlack
                         )
                       ],
                     )
@@ -129,253 +155,17 @@ class ConferenceOverview extends StatelessWidget {
                       children: <Widget>[
                         Text(
                           'Phí tham gia đối với hội viên HOSREM',
-                          style: TextStyle(fontSize: 16.0, color: const Color(0xFF002029), fontWeight: FontWeight.w600)
+                          style: TextStyles.textStyle16SecondaryBlackBold
                         ),
                         const SizedBox(height: 17.0),
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: AppColors.editTextFieldBorderColor)
-                          ),
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
-                                child: Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text(
-                                            'Đăng ký trước',
-                                            style: TextStyle(
-                                              fontSize: 12.0,
-                                              color: const Color(0xFF002029))
-                                          ),
-                                          Text(
-                                            '08/11/2019',
-                                            style: TextStyle(
-                                              fontSize: 12.0,
-                                              color: const Color(0xFF002029))
-                                          )
-                                        ],
-                                      )
-                                    ),
-                                    Column(
-                                      children: <Widget>[
-                                        Text(
-                                          '2.000.000 đ/người',
-                                          style: TextStyle(
-                                            fontSize: 12.0,
-                                            color: const Color(0xFF002029))
-                                        )
-                                      ],
-                                    )
-                                  ],
-                                )
-                              ),
-                              const Divider(),
-                              Container(
-                                padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
-                                child: Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text(
-                                            'Đăng ký từ',
-                                            style: TextStyle(
-                                              fontSize: 12.0,
-                                              color: const Color(0xFF002029))
-                                          ),
-                                          Text(
-                                            '9/11 - 21/11/2019',
-                                            style: TextStyle(
-                                              fontSize: 12.0,
-                                              color: const Color(0xFF002029))
-                                          )
-                                        ],
-                                      )
-                                    ),
-                                    Column(
-                                      children: <Widget>[
-                                        Text(
-                                          '2.250.000 đ/người',
-                                          style: TextStyle(
-                                            fontSize: 12.0,
-                                            color: const Color(0xFF002029))
-                                        )
-                                      ],
-                                    )
-                                  ],
-                                )
-                              ),
-                              const Divider(),
-                              Container(
-                                padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
-                                child: Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text(
-                                            'Đăng ký từ',
-                                            style: TextStyle(
-                                              fontSize: 12.0,
-                                              color: const Color(0xFF002029))
-                                          ),
-                                          Text(
-                                            '22/11/2019',
-                                            style: TextStyle(
-                                              fontSize: 12.0,
-                                              color: const Color(0xFF002029))
-                                          )
-                                        ],
-                                      )
-                                    ),
-                                    Column(
-                                      children: <Widget>[
-                                        Text(
-                                          '2.500.000 đ/người',
-                                          style: TextStyle(
-                                            fontSize: 12.0,
-                                            color: const Color(0xFF002029))
-                                        )
-                                      ],
-                                    )
-                                  ],
-                                )
-                              )
-                            ],
-                          ),
-                        ),
+                        _buildConferenceFee(),
                         const SizedBox(height: 22.0),
                         Text(
                           'Phí tham gia cho đối tượng khác',
-                          style: TextStyle(fontSize: 16.0, color: const Color(0xFF002029), fontWeight: FontWeight.w600)
+                          style: TextStyles.textStyle16SecondaryBlackBold
                         ),
                         const SizedBox(height: 17.0),
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: AppColors.editTextFieldBorderColor)
-                          ),
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
-                                child: Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text(
-                                            'Đăng ký trước',
-                                            style: TextStyle(
-                                              fontSize: 12.0,
-                                              color: const Color(0xFF002029))
-                                          ),
-                                          Text(
-                                            '08/11/2019',
-                                            style: TextStyle(
-                                              fontSize: 12.0,
-                                              color: const Color(0xFF002029))
-                                          )
-                                        ],
-                                      )
-                                    ),
-                                    Column(
-                                      children: <Widget>[
-                                        Text(
-                                          '2.200.000 đ/người',
-                                          style: TextStyle(
-                                            fontSize: 12.0,
-                                            color: const Color(0xFF002029))
-                                        )
-                                      ],
-                                    )
-                                  ],
-                                )
-                              ),
-                              const Divider(),
-                              Container(
-                                padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
-                                child: Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text(
-                                            'Đăng ký từ',
-                                            style: TextStyle(
-                                              fontSize: 12.0,
-                                              color: const Color(0xFF002029))
-                                          ),
-                                          Text(
-                                            '09/11 - 21/11/2019',
-                                            style: TextStyle(
-                                              fontSize: 12.0,
-                                              color: const Color(0xFF002029))
-                                          )
-                                        ],
-                                      )
-                                    ),
-                                    Column(
-                                      children: <Widget>[
-                                        Text(
-                                          '2.450.000 đ/người',
-                                          style: TextStyle(
-                                            fontSize: 12.0,
-                                            color: const Color(0xFF002029))
-                                        )
-                                      ],
-                                    )
-                                  ],
-                                )
-                              ),
-                              const Divider(),
-                              Container(
-                                padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
-                                child: Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text(
-                                            'Đăng ký từ',
-                                            style: TextStyle(
-                                              fontSize: 12.0,
-                                              color: const Color(0xFF002029))
-                                          ),
-                                          Text(
-                                            '22/11/2019',
-                                            style: TextStyle(
-                                              fontSize: 12.0,
-                                              color: const Color(0xFF002029))
-                                          )
-                                        ],
-                                      )
-                                    ),
-                                    Column(
-                                      children: <Widget>[
-                                        Text(
-                                          '2.700.000 đ/người',
-                                          style: TextStyle(
-                                            fontSize: 12.0,
-                                            color: const Color(0xFF002029))
-                                        )
-                                      ],
-                                    )
-                                  ],
-                                )
-                              )
-                            ],
-                          ),
-                        ),
+                        _buildConferenceFee(),
                       ],
                     )
                   ),
@@ -390,12 +180,92 @@ class ConferenceOverview extends StatelessWidget {
             color: Colors.white,
             child: PrimaryButton(
               text: AppLocalizations.of(context).tr('conferences.register_for_event'),
-              onPressed: () {
-              },
+              onPressed: _navigateToRegistration,
             )
           )
         ],
       )
     );
+  }
+
+  Widget _buildConferenceFee() {
+    return BlocProvider<ConferenceFeesBloc>(
+      builder: (BuildContext context) => _conferenceFeesBloc,
+      child: BlocListener<ConferenceFeesBloc, ConferenceFeesState>(
+        listener: (BuildContext context, ConferenceFeesState state) {
+          if (state is ConferenceFeesFailure) {
+            Scaffold.of(context).showSnackBar(
+              SnackBar(
+                content: Text('${state.error}'),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
+        },
+        child: BlocBuilder<ConferenceFeesBloc, ConferenceFeesState>(
+          bloc: _conferenceFeesBloc,
+          builder: (BuildContext context, ConferenceFeesState state) {
+            if (state is LoadedConferenceFees) {
+              return Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: AppColors.editTextFieldBorderColor)
+                ),
+                child: Column(
+                  children: state.conferenceFees.memberFees.map((ConferenceFee conferenceFee) => Column(
+                    children: <Widget>[
+                      state.conferenceFees.memberFees.indexOf(conferenceFee) == 0 ? Container() : const Divider(),
+                      Container(
+                        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    conferenceFee?.description ?? '',
+                                    style: TextStyles.textStyle12SecondaryBlack
+                                  ),
+                                  Text(
+                                    '9/11 - 21/11/2019',
+                                    style: TextStyles.textStyle12SecondaryBlack
+                                  )
+                                ],
+                              )
+                            ),
+                            Column(
+                              children: <Widget>[
+                                Text(
+                                  '2.250.000 đ/người',
+                                  style: TextStyles.textStyle12SecondaryBlack
+                                )
+                              ],
+                            )
+                          ],
+                        )
+                      ),
+
+                    ],
+                  )).toList(),
+                ),
+              );
+            }
+
+            if (state is ConferenceFeesFailure) {
+              return Container();
+            }
+
+            return Container();
+          }
+        )
+      )
+    );
+  }
+
+  void _navigateToRegistration() {
+    Navigator.push<dynamic>(context, PageTransition<dynamic>(
+      type: PageTransitionType.downToUp,
+      child: ConferenceRegistration()
+    ));
   }
 }

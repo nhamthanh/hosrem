@@ -1,6 +1,5 @@
-import 'package:json_annotation/json_annotation.dart';
-
 import 'package:hosrem_app/api/document/document.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'conference.g.dart';
 

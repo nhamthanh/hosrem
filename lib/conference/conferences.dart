@@ -1,6 +1,7 @@
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:hosrem_app/common/app_colors.dart';
+import 'package:hosrem_app/common/text_styles.dart';
 
 import 'upcoming_conferences.dart';
 
@@ -28,7 +29,6 @@ class _ConferencesState extends State<Conferences> with SingleTickerProviderStat
       Container(child: const Tab(text: 'Sắp Diễn Ra'), width: 120.0),
       Container(child: const Tab(text: 'Đã Hoàn Thành'), width: 120.0),
     ];
-
     _tabController = TabController(vsync: this, length: tabs.length);
   }
 
@@ -45,12 +45,8 @@ class _ConferencesState extends State<Conferences> with SingleTickerProviderStat
         title: TabBar(
           isScrollable: true,
           unselectedLabelColor: AppColors.unselectLabelColor,
-          labelStyle: const TextStyle(
-            fontSize: 16.0
-          ),
-          unselectedLabelStyle: const TextStyle(
-            fontSize: 16.0
-          ),
+          labelStyle: TextStyles.textStyle16,
+          unselectedLabelStyle: TextStyles.textStyle16,
           labelColor: Colors.white,
           indicatorSize: TabBarIndicatorSize.tab,
           indicator: BubbleTabIndicator(

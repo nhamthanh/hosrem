@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hosrem_app/api/document/document.dart';
-import 'package:hosrem_app/common/app_colors.dart';
+import 'package:hosrem_app/common/text_styles.dart';
 
 /// Conference resource item.
 @immutable
@@ -30,21 +30,13 @@ class ConferenceResourceItem extends StatelessWidget {
                 document.title ?? 'Tài liệu tham khảo',
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 16.0,
-                  height: 1.38,
-                  color: AppColors.editTextFieldTitleColor
-                )
+                style: TextStyles.textStyle16PrimaryBlack
               ),
               Text(
                 document.speakers ?? '',
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 14.0,
-                  height: 1.38,
-                  color: AppColors.editTextFieldTitleColor
-                )
+                style: TextStyles.textStyle14SecondaryGrey
               )
             ],
           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hosrem_app/common/app_colors.dart';
+import 'package:hosrem_app/common/text_styles.dart';
 
 /// Navigator Item.
 @immutable
@@ -19,17 +20,13 @@ class NavigatorItem extends StatelessWidget {
           Expanded(
             child: Text(
               text,
-              style: TextStyle(
-                fontSize: 20.0,
-                height: 1.6,
-                color: AppColors.editTextFieldTitleColor
-              )
+              style: TextStyles.textStyle20PrimaryBlack
             )
           ),
           IconButton(
             icon: Icon(
               Icons.keyboard_arrow_right,
-              color: AppColors.editTextFieldTitleColor,
+              color: AppColors.primaryBlackColor,
               size: 24.0
             ),
             onPressed: () {},

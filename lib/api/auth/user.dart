@@ -5,10 +5,13 @@ part 'user.g.dart';
 /// User response model.
 @JsonSerializable(nullable: false)
 class User {
-  User(this.firstName, this.lastName, this.fullName, this.email, this.password, this.status,
+  User(this.id, this.firstName, this.lastName, this.fullName, this.email, this.password, this.status,
     this.userType, this.jobTitle, this.workingPlace, this.avatarUrl);
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+
+  @JsonKey(name: 'id')
+  final String id;
 
   @JsonKey(name: 'firstName')
   final String firstName;
@@ -43,6 +46,7 @@ class User {
   Map<String, dynamic> toJson() => _$UserToJson(this);
 
   User copyWith({
+    String id,
     String firstName,
     String lastName,
     String fullName,
@@ -55,6 +59,7 @@ class User {
     String avatarUrl
   }) {
     return User(
+      id ?? this.id,
       firstName ?? this.firstName,
       lastName ?? this.lastName,
       fullName ?? this.fullName,

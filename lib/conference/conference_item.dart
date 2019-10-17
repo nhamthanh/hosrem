@@ -4,15 +4,17 @@ import 'package:flutter_svg/svg.dart';
 import 'package:hosrem_app/api/conference/conference.dart';
 import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/date_time_utils.dart';
+import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/config/api_config.dart';
 
 /// Conference item.
 @immutable
 class ConferenceItem extends StatelessWidget {
-  const ConferenceItem(this.conference, this.apiConfig, this.token);
+  const ConferenceItem(this.conference, this.apiConfig, this.token, this.registeredConference);
 
   final Conference conference;
   final String token;
+  final bool registeredConference;
   final ApiConfig apiConfig;
 
   @override
@@ -46,20 +48,20 @@ class ConferenceItem extends StatelessWidget {
                         conference.title,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontSize: 18.0, color: AppColors.editTextFieldTitleColor, height: 1.5)
+                        style: TextStyles.textStyle18PrimaryBlack
                       ),
                       const SizedBox(height: 8.0),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Icon(Icons.location_on, size: 16.0, color: AppColors.labelLightGreyColor),
+                          Icon(Icons.location_on, size: 16.0, color: AppColors.secondaryGreyColor),
                           const SizedBox(width: 5.0),
                           Expanded(
                             child: Text(
                               conference.location,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(fontSize: 14.0, color: AppColors.labelLightGreyColor)
+                              style: TextStyles.textStyle14SecondaryGrey
                             )
                           )
                         ],
@@ -74,22 +76,18 @@ class ConferenceItem extends StatelessWidget {
                     const SizedBox(height: 7.0),
                     Row(
                       children: <Widget>[
-                        Icon(Icons.calendar_today, size: 16.0, color: AppColors.labelLightGreyColor),
+                        Icon(Icons.calendar_today, size: 16.0, color: AppColors.secondaryGreyColor),
                         const SizedBox(width: 5.0),
                         Text(
                           DateTimeUtils.format(conference.startTime),
-                          style: TextStyle(
-                            fontSize: 10.0,
-                            color: AppColors.labelHighlightColor,
-                            height: 1.33
-                          )
+                          style: TextStyles.textStyle10PrimaryRed
                         ),
                       ],
                     ),
                     const SizedBox(height: 20.0),
                     Container(
                       transform: Matrix4.translationValues(27.0, 0.0, 0.0),
-                      child: conference.status == 'Done' ? SvgPicture.asset('assets/images/expired.svg') : SvgPicture.asset('assets/images/registered.svg')
+                      child: _buildConferenceStatusWidget()
                     )
                   ],
                 )
@@ -117,5 +115,17 @@ class ConferenceItem extends StatelessWidget {
         ],
       )
     );
+  }
+
+  Widget _buildConferenceStatusWidget() {
+    if (registeredConference) {
+      return SvgPicture.asset('assets/images/registered.svg');
+    }
+
+    if (conference.status == 'Done') {
+      return SvgPicture.asset('assets/images/expired.svg');
+    }
+
+    return Container();
   }
 }

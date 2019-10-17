@@ -28,3 +28,15 @@ class RefreshConferencesEvent extends ConferencesEvent {
   @override
   String toString() => 'RefreshConferencesEvent { }';
 }
+
+/// CheckRegistrationEvent event.
+class CheckRegistrationEvent extends ConferencesEvent {
+  CheckRegistrationEvent({
+    @required this.conferenceId
+  });
+
+  final String conferenceId;
+
+  @override
+  String toString() => 'CheckRegistrationEvent { }';
+}

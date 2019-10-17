@@ -1,7 +1,7 @@
 import 'package:hosrem_app/api/conference/conference.dart';
 import 'package:meta/meta.dart';
 
-/// Profile state.
+/// Conferenes  state.
 @immutable
 abstract class ConferencesState {
 }
@@ -30,25 +30,20 @@ class ConferenceFailure extends ConferencesState {
 
 /// LoadedConferences state.
 class LoadedConferences extends ConferencesState {
-  LoadedConferences({@required this.conferences, @required this.token}) :
-      assert(conferences != null), assert(token != null);
+  LoadedConferences({@required this.conferences, @required this.token, @required this.registeredConferences}) :
+      assert(conferences != null), assert(token != null), assert(registeredConferences != null);
 
   final List<Conference> conferences;
+  final Map<String, bool> registeredConferences;
   final String token;
 
   @override
   String toString() => 'LoadedConferences';
 }
 
-/// LoadedConferences state.
+/// RefreshConferencesCompleted state.
 @immutable
 class RefreshConferencesCompleted extends ConferencesState {
-  RefreshConferencesCompleted({@required this.conferences, @required this.token}) :
-      assert(conferences != null), assert(token != null);
-
-  final List<Conference> conferences;
-  final String token;
-
   @override
   String toString() => 'RefreshConferencesCompleted';
 }

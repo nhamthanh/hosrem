@@ -22,13 +22,15 @@ class DocumentsFailure extends DocumentsState {
   String toString() => 'DocumentsFailure { error: $error }';
 }
 
-/// LoadedConferenceResources state.
+/// LoadedDocumentsState state.
 class LoadedDocumentsState extends DocumentsState {
-  LoadedDocumentsState({@required this.documents});
+  LoadedDocumentsState({@required this.documents, @required this.supplementDocs, @required this.token});
 
   final List<Document> documents;
+  final List<Document> supplementDocs;
+  final String token;
 
   @override
-  String toString() => 'LoadedDocumentsEvent';
+  String toString() => 'LoadedDocumentsState';
 }
 

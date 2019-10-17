@@ -26,7 +26,7 @@ class RegisterButtonPressed extends RegistrationEvent {
   final String jobTitle;
   final String workingPlace;
 
-  User toUser() => User(firstName, lastName, '$firstName $lastName', email, password, 'Register', 'Member',
+  User toUser() => User(null, firstName, lastName, '$firstName $lastName', email, password, 'Register', 'Member',
     jobTitle, workingPlace, null);
 
   @override

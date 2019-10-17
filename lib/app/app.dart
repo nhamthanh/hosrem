@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:timeago/timeago.dart' as timeago;
 import 'package:hosrem_app/auth/auth_provider.dart';
 import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/config/api_config.dart';
 import 'package:hosrem_app/db/app_database.dart';
 import 'package:hosrem_app/network/api_provider.dart';
+import 'package:hosrem_app/notification/fcm_configuration.dart';
 import 'package:hosrem_app/splash/splash.dart';
 
 import 'app_bloc_delegate.dart';
@@ -45,6 +47,9 @@ class _AppState extends State<App> {
       apiConfig: widget.apiConfig,
       apiProvider: ApiProvider(widget.apiConfig.apiBaseUrl))
     );
+
+    timeago.setLocaleMessages('vi', timeago.ViShortMessages());
+    _configureFcm();
   }
 
   @override
@@ -116,5 +121,10 @@ class _AppState extends State<App> {
       primaryColor: AppColors.darkPrimaryColor,
       fontFamily: 'Muli'
     );
+  }
+
+  void _configureFcm() {
+    final FcmConfiguration fcmConfiguration = FcmConfiguration();
+    fcmConfiguration.initFcm(context);
   }
 }
