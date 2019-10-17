@@ -102,7 +102,7 @@ class AuthService {
 
   /// Update user profile via [user].
   Future<bool> updateProfile(User user) async {
-    await Future<String>.delayed(Duration(seconds: 1));
+    await apiProvider.userApi.updateUser(user.id, user);
     return true;
   }
 

@@ -54,7 +54,7 @@ class _SplashState extends State<Splash> {
   }
 
   Future<void> _startTimeout() async {
-    final Duration duration = Duration(seconds: 1);
+    final Duration duration = Duration(milliseconds: 500);
     return Timer(duration, handleTimeout);
   }
 }

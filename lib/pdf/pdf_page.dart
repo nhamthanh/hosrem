@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
 import 'package:hosrem_app/common/base_state.dart';
+import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/conference/document_service.dart';
 import 'package:hosrem_app/loading/loading_indicator.dart';
 import 'package:hosrem_app/pdf/pdf_viewer.dart';
@@ -47,11 +48,7 @@ class _PdfPageState extends BaseState<PdfPage> {
                   widget.name,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 14.0,
-                    color: Colors.white,
-                    height: 1.57
-                  )
+                  style: TextStyles.textStyle14PrimaryWhite
                 ),
               ),
               IconButton(
@@ -66,7 +63,7 @@ class _PdfPageState extends BaseState<PdfPage> {
         return Scaffold(
           appBar: _appBar,
           body: (state is LoadedPdf) ? PdfViewer(
-            url: 'http://hosrem.org.vn/public/frontend/upload/YHSS_47/02.pdf',
+            url: widget.url,
             top: _appBar.preferredSize.height + MediaQuery.of(context).padding.top,
             width: _calculatePdfWidth(context),
             height: _calculatePdfHeight(context),

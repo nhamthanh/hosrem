@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization_delegate.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/conference/conferences.dart';
 import 'package:hosrem_app/notification/notifications.dart';
 import 'package:hosrem_app/profile/profile.dart';
@@ -28,6 +30,30 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+
+    final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print('onMessage: $message');
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print('onLaunch: $message');
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print('onResume: $message');
+      },
+    );
+
+    _firebaseMessaging.requestNotificationPermissions(
+      const IosNotificationSettings(sound: true, badge: true, alert: true));
+
+    _firebaseMessaging.onIosSettingsRegistered
+      .listen((IosNotificationSettings settings) {
+      print('Settings registered: $settings');
+    });
+    _firebaseMessaging.getToken().then((String token) {
+      print('token: $token');
+    });
   }
 
   @override
@@ -46,9 +72,7 @@ class _HomeState extends State<Home> {
                 activeIcon: const SvgIcon('assets/images/home_selected.svg'),
                 title: Text(
                   AppLocalizations.of(context).tr('home.home'),
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600
-                  )
+                  style: TextStyles.textStyleBold
                 )
               ),
               BottomNavigationBarItem(
@@ -56,9 +80,7 @@ class _HomeState extends State<Home> {
                 activeIcon: const SvgIcon('assets/images/event_selected.svg'),
                 title: Text(
                   AppLocalizations.of(context).tr('home.events'),
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600
-                  )
+                  style: TextStyles.textStyleBold
                 )
               ),
               BottomNavigationBarItem(
@@ -66,9 +88,7 @@ class _HomeState extends State<Home> {
                 activeIcon: const SvgIcon('assets/images/notification_selected.svg'),
                 title: Text(
                   AppLocalizations.of(context).tr('home.notifications'),
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600
-                  )
+                  style: TextStyles.textStyleBold
                 )
               ),
               BottomNavigationBarItem(
@@ -76,9 +96,7 @@ class _HomeState extends State<Home> {
                 activeIcon: const SvgIcon('assets/images/profile_selected.svg'),
                 title: Text(
                   AppLocalizations.of(context).tr('home.profile'),
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600
-                  )
+                  style: TextStyles.textStyleBold
                 )
               ),
             ],

@@ -28,4 +28,22 @@ class _UserApi implements UserApi {
     final value = User.fromJson(_result.data);
     return Future.value(value);
   }
+
+  @override
+  updateUser(id, user) async {
+    ArgumentError.checkNotNull(id, 'id');
+    ArgumentError.checkNotNull(user, 'user');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(user.toJson() ?? <String, dynamic>{});
+    final Response<Map<String, dynamic>> _result = await _dio.request(
+        'users/$id',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'PUT', headers: <String, dynamic>{}, extra: _extra),
+        data: _data);
+    final value = User.fromJson(_result.data);
+    return Future.value(value);
+  }
 }

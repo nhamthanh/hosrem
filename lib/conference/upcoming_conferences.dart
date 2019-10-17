@@ -5,6 +5,7 @@ import 'package:hosrem_app/auth/auth_service.dart';
 import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/loading/loading_indicator.dart';
 import 'package:hosrem_app/widget/refresher/refresh_widget.dart';
+import 'package:hosrem_app/widget/text/search_text_field.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'bloc/conferences_bloc.dart';
@@ -61,12 +62,8 @@ class _UpcomingConferencesState extends BaseState<UpcomingConferences> {
             _refreshController.refreshCompleted();
             _refreshController.loadComplete();
 
-            if (state is RefreshConferencesCompleted) {
-              return _buildRefreshWidget(state.conferences, state.token);
-            }
-
             if (state is LoadedConferences) {
-              return _buildRefreshWidget(state.conferences, state.token);
+              return _buildRefreshWidget(state.conferences, state.token, state.registeredConferences);
             }
 
             if (state is ConferenceFailure) {
@@ -82,28 +79,46 @@ class _UpcomingConferencesState extends BaseState<UpcomingConferences> {
     );
   }
 
-  Widget _buildRefreshWidget(List<Conference> conferences, String token) {
+  Widget _buildRefreshWidget(List<Conference> conferences, String token, Map<String, bool> registeredConferences) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(18.0, 14.0, 18.0, 14.0),
-      child: RefreshWidget(
-        child: ListView.builder(
-          itemCount: conferences.length,
-          itemBuilder: (BuildContext context, int index) {
-            final Conference conference = conferences[index];
-            return InkWell(
-              child: ConferenceItem(conference, apiConfig, token),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute<bool>(builder: (BuildContext context) => ConferenceDetail(conference, apiConfig, token))
-                );
-              }
-            );
-          },
-        ),
-        onRefresh: _onRefresh,
-        onLoading: _onLoading,
-        refreshController: _refreshController
+      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+      child: Column(
+        children: <Widget>[
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 16.0),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: SearchTextField(
+                    executeSearch: _searchConferences
+                  )
+                ),
+              ],
+            )
+          ),
+          Expanded(
+            child: RefreshWidget(
+              child: ListView.builder(
+                itemCount: conferences.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final Conference conference = conferences[index];
+                  return InkWell(
+                    child: ConferenceItem(conference, apiConfig, token, registeredConferences[conference.id] ?? false),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<bool>(builder: (BuildContext context) => ConferenceDetail(conference, apiConfig, token))
+                      );
+                    }
+                  );
+                },
+              ),
+              onRefresh: _onRefresh,
+              onLoading: _onLoading,
+              refreshController: _refreshController
+            )
+          )
+        ],
       )
     );
   }
@@ -114,6 +129,13 @@ class _UpcomingConferencesState extends BaseState<UpcomingConferences> {
 
   void _onRefresh() {
     _conferenceBloc.dispatch(RefreshConferencesEvent(searchCriteria: widget.criteria));
+  }
+
+  void _searchConferences(String value) {
+    final Map<String, dynamic> searchCriteria = <String, dynamic>{};
+    searchCriteria.addAll(widget.criteria);
+    searchCriteria['title'] = value;
+    _conferenceBloc.dispatch(RefreshConferencesEvent(searchCriteria: searchCriteria));
   }
 
   @override

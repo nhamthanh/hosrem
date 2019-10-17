@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
+import 'package:hosrem_app/api/auth/user.dart';
 import 'package:hosrem_app/api/conference/conference.dart';
 import 'package:hosrem_app/api/conference/conference_pagination.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
@@ -22,8 +23,10 @@ class ConferencesBloc extends Bloc<ConferencesEvent, ConferencesState> {
   final ConferenceService conferenceService;
   final AuthService authService;
 
-  List<Conference> conferences = <Conference>[];
-  ConferencePagination conferencePagination;
+  final Map<String, bool> _registeredConferences = <String, bool>{};
+
+  List<Conference> _conferences = <Conference>[];
+  ConferencePagination _conferencePagination;
 
   @override
   ConferencesState get initialState => ConferenceInitial();
@@ -38,11 +41,13 @@ class ConferencesBloc extends Bloc<ConferencesEvent, ConferencesState> {
           'size': DEFAULT_PAGE_SIZE
         };
         queryParams.addAll(event.searchCriteria);
-        conferencePagination = await conferenceService.getConferences(queryParams);
-        conferences = conferencePagination.items;
+        _conferencePagination = await conferenceService.getConferences(queryParams);
+        _conferences = _conferencePagination.items;
 
-        yield RefreshConferencesCompleted(conferences: conferences, token: token);
-        yield LoadedConferences(conferences: conferences, token: token);
+        _dispatchCheckRegistrationEvents(_conferences);
+
+        yield RefreshConferencesCompleted();
+        yield LoadedConferences(conferences: _conferences, token: token, registeredConferences: _registeredConferences);
       } catch (error) {
         print(error);
         yield ConferenceFailure(error: ErrorHandler.extractErrorMessage(error));
@@ -52,20 +57,46 @@ class ConferencesBloc extends Bloc<ConferencesEvent, ConferencesState> {
     if (event is LoadMoreConferencesEvent) {
       try {
         final String token = await authService.getToken();
-        if (conferencePagination.page < conferencePagination.totalPages) {
+        if (_conferencePagination.page < _conferencePagination.totalPages) {
           final Map<String, dynamic> queryParams = <String, dynamic>{
-            'page': conferencePagination.page + 1,
+            'page': _conferencePagination.page + 1,
             'size': DEFAULT_PAGE_SIZE
           };
           queryParams.addAll(event.searchCriteria);
-          conferencePagination = await conferenceService.getConferences(queryParams);
-          conferences.addAll(conferencePagination.items);
+
+          _conferencePagination = await conferenceService.getConferences(queryParams);
+          _conferences.addAll(_conferencePagination.items);
+
+          _dispatchCheckRegistrationEvents(_conferencePagination.items);
         }
-        yield LoadedConferences(conferences: conferences, token: token);
+        yield LoadedConferences(conferences: _conferences, token: token, registeredConferences: _registeredConferences);
       } catch (error) {
         print(error);
         yield ConferenceFailure(error: ErrorHandler.extractErrorMessage(error));
       }
+    }
+
+    if (event is CheckRegistrationEvent) {
+      try {
+        if (!_registeredConferences.containsKey(event.conferenceId)) {
+          final User user = await authService.currentUser();
+          final String token = await authService.getToken();
+          final bool registeredConference = await conferenceService.checkIfUserRegisterConference(
+            event.conferenceId, user.id);
+          _registeredConferences[event.conferenceId] = registeredConference;
+          yield LoadedConferences(conferences: _conferences, token: token, registeredConferences: _registeredConferences);
+        }
+
+      } catch (error) {
+        print(error);
+        yield ConferenceFailure(error: ErrorHandler.extractErrorMessage(error));
+      }
+    }
+  }
+
+  void _dispatchCheckRegistrationEvents(List<Conference> conferences) {
+    for (final Conference conference in conferences) {
+      dispatch(CheckRegistrationEvent(conferenceId: conference.id));
     }
   }
 }

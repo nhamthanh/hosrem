@@ -38,6 +38,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
       try {
         await authService.updateProfile(event.user);
+        await authService.persistCurrentUser(event.user);
         yield UpdateProfileSuccess();
       } catch (error) {
         yield ProfileFailure(error: ErrorHandler.extractErrorMessage(error));

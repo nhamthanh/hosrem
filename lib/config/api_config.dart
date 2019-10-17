@@ -7,7 +7,7 @@ class ApiConfig {
   const ApiConfig({
     @required this.appName,
     @required this.flavorName,
-    @required this.apiBaseUrl,
+    @required this.apiBaseUrl
   });
 
   final String appName;

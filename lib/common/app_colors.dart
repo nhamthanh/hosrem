@@ -22,14 +22,20 @@ class AppColors {
   /// Edit text field border color.
   static const Color editTextFieldBorderColor = Color(0xFFE0E0E0);
 
-  /// Edit text field title color.
-  static const Color editTextFieldTitleColor = Color(0xFF424242);
+  /// Primary black color.
+  static const Color primaryBlackColor = Color(0xFF424242);
 
-  /// Highlight color for label.
-  static const Color labelHighlightColor = Color(0xFFC90000);
+  /// Secondary black color.
+  static const Color secondaryBlackColor = Color(0xFF002029);
 
-  /// Light grey color for label.
-  static const Color labelLightGreyColor = Color(0xFF9E9E9E);
+  /// Primary grey color.
+  static const Color primaryGreyColor = Color(0xFF757575);
+
+  /// Primary red color.
+  static const Color primaryRedColor = Color(0xFFC90000);
+
+  /// Secondary grey color.
+  static const Color secondaryGreyColor = Color(0xFF9E9E9E);
 
   /// Button shadow color.
   static const Color buttonShadowColor1 = Color.fromRGBO(52, 169, 255, 0.2);

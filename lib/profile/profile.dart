@@ -58,7 +58,7 @@ class _ProfileState extends BaseState<Profile> {
                         style: TextStyle(
                           fontSize: 20.0,
                           height: 1.6,
-                          color: AppColors.editTextFieldTitleColor
+                          color: AppColors.primaryBlackColor
                         )
                       ),
                       Text(
@@ -68,7 +68,7 @@ class _ProfileState extends BaseState<Profile> {
                         style: TextStyle(
                           fontSize: 16.0,
                           height: 2,
-                          color: AppColors.editTextFieldTitleColor
+                          color: AppColors.primaryBlackColor
                         )
                       ),
                       const SizedBox(height: 10.0),
