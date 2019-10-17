@@ -81,8 +81,8 @@ class ConferencesBloc extends Bloc<ConferencesEvent, ConferencesState> {
         if (!_registeredConferences.containsKey(event.conferenceId)) {
           final User user = await authService.currentUser();
           final String token = await authService.getToken();
-          final bool registeredConference = await conferenceService.checkIfUserRegisterConference(
-            event.conferenceId, user.id);
+          final bool registeredConference = token == null ? false : await conferenceService.checkIfUserRegisterConference(
+            event.conferenceId, user?.id);
           _registeredConferences[event.conferenceId] = registeredConference;
           yield LoadedConferences(conferences: _conferences, token: token, registeredConferences: _registeredConferences);
         }

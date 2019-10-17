@@ -92,7 +92,7 @@ class AuthService {
   Future<User> currentUser() async {
     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
     final String currentUser = _sharedPreferences.getString('currentUser');
-    return User.fromJson(jsonDecode(currentUser));
+    return currentUser == null ? null : User.fromJson(jsonDecode(currentUser));
   }
 
   /// Register a new account using [email] and [password].
