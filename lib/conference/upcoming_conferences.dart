@@ -107,7 +107,9 @@ class _UpcomingConferencesState extends BaseState<UpcomingConferences> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute<bool>(builder: (BuildContext context) => ConferenceDetail(conference, apiConfig, token))
+                        MaterialPageRoute<bool>(
+                          builder: (BuildContext context) => ConferenceDetail(conference, apiConfig, token)
+                        )
                       );
                     }
                   );

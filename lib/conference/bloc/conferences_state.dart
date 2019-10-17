@@ -30,8 +30,8 @@ class ConferenceFailure extends ConferencesState {
 
 /// LoadedConferences state.
 class LoadedConferences extends ConferencesState {
-  LoadedConferences({@required this.conferences, @required this.token, @required this.registeredConferences}) :
-      assert(conferences != null), assert(token != null), assert(registeredConferences != null);
+  LoadedConferences({@required this.conferences, @required this.registeredConferences, this.token}) :
+      assert(conferences != null), assert(registeredConferences != null);
 
   final List<Conference> conferences;
   final Map<String, bool> registeredConferences;

@@ -84,6 +84,15 @@ class _ConferenceResourcesState extends BaseState<ConferenceResources> {
               );
             }
 
+            if (state is DocumentsFailure) {
+              return Center(
+                child: Text(
+                  AppLocalizations.of(context).tr('conferences.documents.no_document_found'),
+                  style: TextStyles.textStyle16PrimaryBlack
+                )
+              );
+            }
+
             return LoadingIndicator();
           }
         )

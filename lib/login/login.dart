@@ -29,6 +29,21 @@ class _LoginState extends BaseState<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Row(
+          children: <Widget>[
+            const Expanded(
+              child: Text(''),
+            ),
+            IconButton(
+              icon: Icon(Icons.clear),
+              color: Colors.white,
+              onPressed: () => Navigator.pop(context)
+            )
+          ],
+        ),
+        automaticallyImplyLeading: false
+      ),
       body: BlocProvider<LoginBloc>(
         builder: (BuildContext context) => _loginBloc,
         child: BlocBuilder<LoginBloc, LoginState>(
