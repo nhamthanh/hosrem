@@ -6,7 +6,7 @@ part 'document.g.dart';
 @JsonSerializable(nullable: false)
 class Document {
   Document(this.id, this.content, this.createdTime, this.previewImg, this.speakers, this.speakingTime,
-    this.title, {this.docType = 'pdf'});
+    this.title, {this.type = 'pdf'});
 
   factory Document.fromJson(Map<String, dynamic> json) => _$DocumentFromJson(json);
 
@@ -31,8 +31,8 @@ class Document {
   @JsonKey(name: 'title')
   final String title;
 
-  @JsonKey(name: 'docType')
-  final String docType;
+  @JsonKey(name: 'type')
+  final String type;
 
   Map<String, dynamic> toJson() => _$DocumentToJson(this);
 }

@@ -63,7 +63,7 @@ class _UpcomingConferencesState extends BaseState<UpcomingConferences> {
             _refreshController.loadComplete();
 
             if (state is LoadedConferences) {
-              return _buildRefreshWidget(state.conferences, state.token, state.registeredConferences);
+              return _buildRefreshWidget(state.conferences, state.registeredConferences);
             }
 
             if (state is ConferenceFailure) {
@@ -79,7 +79,7 @@ class _UpcomingConferencesState extends BaseState<UpcomingConferences> {
     );
   }
 
-  Widget _buildRefreshWidget(List<Conference> conferences, String token, Map<String, bool> registeredConferences) {
+  Widget _buildRefreshWidget(List<Conference> conferences, Map<String, bool> registeredConferences) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: Column(
@@ -103,7 +103,7 @@ class _UpcomingConferencesState extends BaseState<UpcomingConferences> {
                 itemBuilder: (BuildContext context, int index) {
                   final Conference conference = conferences[index];
                   return InkWell(
-                    child: ConferenceItem(conference, apiConfig, token, registeredConferences[conference.id] ?? false),
+                    child: ConferenceItem(conference, apiConfig, registeredConferences[conference.id] ?? false),
                     onTap: () {
                       Navigator.push(
                         context,

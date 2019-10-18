@@ -35,7 +35,6 @@ class ConferencesBloc extends Bloc<ConferencesEvent, ConferencesState> {
   Stream<ConferencesState> mapEventToState(ConferencesEvent event) async* {
     if (event is RefreshConferencesEvent) {
       try {
-        final String token = await authService.getToken();
         final Map<String, dynamic> queryParams = <String, dynamic>{
           'page': DEFAULT_PAGE,
           'size': DEFAULT_PAGE_SIZE
@@ -47,7 +46,7 @@ class ConferencesBloc extends Bloc<ConferencesEvent, ConferencesState> {
         _dispatchCheckRegistrationEvents(_conferences);
 
         yield RefreshConferencesCompleted();
-        yield LoadedConferences(conferences: _conferences, token: token, registeredConferences: _registeredConferences);
+        yield LoadedConferences(conferences: _conferences, registeredConferences: _registeredConferences);
       } catch (error) {
         print(error);
         yield ConferenceFailure(error: ErrorHandler.extractErrorMessage(error));
@@ -56,7 +55,6 @@ class ConferencesBloc extends Bloc<ConferencesEvent, ConferencesState> {
 
     if (event is LoadMoreConferencesEvent) {
       try {
-        final String token = await authService.getToken();
         if (_conferencePagination.page < _conferencePagination.totalPages) {
           final Map<String, dynamic> queryParams = <String, dynamic>{
             'page': _conferencePagination.page + 1,
@@ -69,7 +67,7 @@ class ConferencesBloc extends Bloc<ConferencesEvent, ConferencesState> {
 
           _dispatchCheckRegistrationEvents(_conferencePagination.items);
         }
-        yield LoadedConferences(conferences: _conferences, token: token, registeredConferences: _registeredConferences);
+        yield LoadedConferences(conferences: _conferences, registeredConferences: _registeredConferences);
       } catch (error) {
         print(error);
         yield ConferenceFailure(error: ErrorHandler.extractErrorMessage(error));
@@ -80,11 +78,10 @@ class ConferencesBloc extends Bloc<ConferencesEvent, ConferencesState> {
       try {
         if (!_registeredConferences.containsKey(event.conferenceId)) {
           final User user = await authService.currentUser();
-          final String token = await authService.getToken();
-          final bool registeredConference = token == null ? false : await conferenceService.checkIfUserRegisterConference(
+          final bool registeredConference = user == null ? false : await conferenceService.checkIfUserRegisterConference(
             event.conferenceId, user?.id);
           _registeredConferences[event.conferenceId] = registeredConference;
-          yield LoadedConferences(conferences: _conferences, token: token, registeredConferences: _registeredConferences);
+          yield LoadedConferences(conferences: _conferences, registeredConferences: _registeredConferences);
         }
 
       } catch (error) {

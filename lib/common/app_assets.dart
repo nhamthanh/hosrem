@@ -14,9 +14,6 @@ class AppAssets {
   /// Calendar icon.
   static const String calendarIcon = 'assets/images/calendar.svg';
 
-  /// Conference placeholder.
-  static const String conferencePlaceholder = 'assets/images/conference_placeholder.png';
-
   /// Registered icons.
   static const String registered_icons = 'assets/images/registered.svg';
 
@@ -58,5 +55,26 @@ class AppAssets {
 
   /// Notice icon.
   static const String profileSelectedIcon = 'assets/images/profile_selected.svg';
+
+  /// Diamond icon.
+  static const String diamondIcon = 'assets/images/diamond.svg';
+
+  /// Card icon.
+  static const String cardIcon = 'assets/images/card.svg';
+
+  /// Pencil icon.
+  static const String pencil = 'assets/images/pencil.svg';
+
+  /// Megaphone icon.
+  static const String megaphone = 'assets/images/megaphone.svg';
+
+  /// Gift icon.
+  static const String giftIcon = 'assets/images/gift.svg';
+
+  /// Profile placeholder.
+  static const String profilePlaceholder = 'assets/images/profile_placeholder.svg';
+
+  /// Conference placeholder.
+  static const String conferencePlaceholder = 'assets/images/conference_placeholder.png';
 }
 

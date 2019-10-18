@@ -2,7 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hosrem_app/api/notification/notification.dart' as alert;
+import 'package:hosrem_app/common/app_assets.dart';
+import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/text_styles.dart';
+import 'package:hosrem_app/widget/svg/svg_icon.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 /// Notification Item.
@@ -23,7 +26,7 @@ class NotificationItem extends StatelessWidget {
           children: <Widget>[
             Row(
               children: <Widget>[
-                Icon(Icons.person_outline, size: 26.3),
+                SvgIcon(AppAssets.calendarIcon, size: 26.3, color: AppColors.tertiaryGreyColor),
                 const SizedBox(width: 28.0),
                 Expanded(
                   child: Container(

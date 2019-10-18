@@ -50,6 +50,18 @@ class TextStyles {
     color: AppColors.primaryGreyColor
   );
 
+  static const TextStyle textStyle16SecondaryGreyBold = TextStyle(
+    fontSize: 16.0,
+    color: AppColors.secondaryGreyColor,
+    fontWeight: FontWeight.w600
+  );
+
+  static const TextStyle textStyle16PrimaryBlue = TextStyle(
+    color: AppColors.unselectLabelColor,
+    fontSize: 16.0,
+    fontWeight: FontWeight.w600
+  );
+
   static const TextStyle textStyle14SecondaryGrey = TextStyle(
     fontSize: 14.0,
     color: AppColors.secondaryGreyColor
@@ -66,10 +78,41 @@ class TextStyles {
     color: AppColors.secondaryBlackColor,
   );
 
+  static const TextStyle textStyle14PrimaryGrey = TextStyle(
+    fontSize: 14.0,
+    letterSpacing: 0.23,
+    color: AppColors.primaryGreyColor
+  );
+
   static const TextStyle textStyle14PrimaryWhite = TextStyle(
     fontSize: 14.0,
     color: Colors.white,
     height: 1.57
+  );
+
+  static const TextStyle textStyle14PrimaryOrangeBold = TextStyle(
+    fontSize: 14.0,
+    letterSpacing: 0.23,
+    fontWeight: FontWeight.w600,
+    color: AppColors.primaryOrangeColor
+  );
+
+  static const TextStyle textStyle13PrimaryGrey = TextStyle(
+    color: AppColors.primaryGreyColor,
+    fontSize: 13.0,
+    letterSpacing: 0.22
+  );
+
+  static const TextStyle textStyle13PrimaryBlue = TextStyle(
+    color: AppColors.unselectLabelColor,
+    fontSize: 13.0,
+    letterSpacing: 0.22
+  );
+
+  static const TextStyle textStyle12PrimaryGrey = TextStyle(
+    fontSize: 12.0,
+    letterSpacing: 0.2,
+    color: AppColors.primaryGreyColor
   );
 
   static const TextStyle textStyle11PrimaryBlack = TextStyle(

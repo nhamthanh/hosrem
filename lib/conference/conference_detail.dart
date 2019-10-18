@@ -158,7 +158,6 @@ class _ConferenceDetailState extends BaseState<ConferenceDetail> with SingleTick
   }
 
   Widget _buildPdfWidget(List<Document> documents, BuildContext context) {
-    print(MediaQuery.of(context).padding.top);
     final List<String> files = documents.map(_constructDocumentUrl).toList();
     if (files.isNotEmpty) {
       return PdfViewer(

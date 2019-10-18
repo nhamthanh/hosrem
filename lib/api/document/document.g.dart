@@ -15,7 +15,7 @@ Document _$DocumentFromJson(Map<String, dynamic> json) {
     json['speakers'] as String,
     json['speakingTime'] as String,
     json['title'] as String,
-    docType: json['docType'] as String,
+    type: json['type'] as String,
   );
 }
 
@@ -27,5 +27,5 @@ Map<String, dynamic> _$DocumentToJson(Document instance) => <String, dynamic>{
       'speakers': instance.speakers,
       'speakingTime': instance.speakingTime,
       'title': instance.title,
-      'docType': instance.docType,
+      'type': instance.type,
     };

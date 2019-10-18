@@ -18,7 +18,7 @@ class ConferenceResourceItem extends StatelessWidget {
         Container(
           padding: const EdgeInsets.only(left: 28.0, right: 28.0, top: 20.0, bottom: 20.0),
           child: SvgPicture.asset(
-            document.docType == 'jpg' ? AppAssets.jpgFileType : AppAssets.pdfFileType,
+            (document?.content?.toLowerCase()?? '').endsWith('pdf') ? AppAssets.pdfFileType : AppAssets.jpgFileType,
             height: 60.0,
             width: 60.0
           )

@@ -40,6 +40,7 @@ dependencies:
   timeago: ^2.0.20
   firebase_messaging: ^5.1.6
   collection: ^1.14.11
+  flutter_money_formatter: ^0.8.3
 
 dev_dependencies:
   flutter_test:
@@ -71,6 +72,12 @@ flutter:
   - assets/images/notice.svg
   - assets/images/location.svg
   - assets/images/calendar.svg
+  - assets/images/profile_placeholder.svg
+  - assets/images/diamond.svg
+  - assets/images/pencil.svg
+  - assets/images/megaphone.svg
+  - assets/images/gift.svg
+  - assets/images/card.svg
   - assets/langs/vi-VN.json
   - assets/langs/en-US.json
 

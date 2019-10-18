@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization_delegate.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosrem_app/common/app_assets.dart';

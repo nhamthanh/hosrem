@@ -67,8 +67,8 @@ class _UpdateProfileState extends BaseState<UpdateProfile> {
               _emailController.text = state.user.email;
               _firstNameController.text = state.user.firstName;
               _lastNameController.text = state.user.lastName;
-              _jobTitleController.text = state.user.jobTitle;
-              _workingPlaceController.text = state.user.workingPlace;
+              _jobTitleController.text = state.user.department;
+              _workingPlaceController.text = state.user.company;
             }
 
             return Scaffold(
@@ -221,8 +221,8 @@ class _UpdateProfileState extends BaseState<UpdateProfile> {
         firstName: firstName,
         lastName: lastName,
         fullName: '$firstName $lastName',
-        jobTitle: jobTitle,
-        workingPlace: workingPlace
+        department: jobTitle,
+        company: workingPlace
       );
 
       _profileBloc.dispatch(SaveProfileEvent(user));

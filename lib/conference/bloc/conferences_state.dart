@@ -30,12 +30,11 @@ class ConferenceFailure extends ConferencesState {
 
 /// LoadedConferences state.
 class LoadedConferences extends ConferencesState {
-  LoadedConferences({@required this.conferences, @required this.registeredConferences, this.token}) :
+  LoadedConferences({@required this.conferences, @required this.registeredConferences}) :
       assert(conferences != null), assert(registeredConferences != null);
 
   final List<Conference> conferences;
   final Map<String, bool> registeredConferences;
-  final String token;
 
   @override
   String toString() => 'LoadedConferences';
