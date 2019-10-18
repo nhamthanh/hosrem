@@ -94,9 +94,9 @@ class _ConferenceDetailState extends BaseState<ConferenceDetail> with SingleTick
                       conference: widget.conference,
                       token: widget.token
                     ),
-                    widget.conference.files.isNotEmpty ?
+                    widget.conference.files?.isNotEmpty ?? false ?
                     PdfViewer(
-                      url: widget.conference.files.isNotEmpty ? '${apiConfig.apiBaseUrl}files/${widget.conference.files[0]}?token=${widget.token}' : 'http://',
+                      url: widget.conference.files?.isNotEmpty ?? false ? '${apiConfig.apiBaseUrl}files/${widget.conference.files[0]}?token=${widget.token}' : 'http://',
 //                      url: 'http://hosrem.org.vn/public/frontend/images/photos/GUIDELINES%20PCOS%201.0.pdf',
                       top: _appBar.preferredSize.height + MediaQuery.of(context).padding.top + _tabBar.preferredSize.height + 10.0,
                       width: _calculatePdfWidth(context),
