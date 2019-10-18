@@ -68,7 +68,7 @@ class _ConferencesState extends State<Conferences> with SingleTickerProviderStat
           controller: _tabController,
           children: const <Widget>[
             UpcomingConferences(criteria: <String, dynamic>{
-              'status': 'RegisterOpen'
+              'status': 'Published'
             }),
             UpcomingConferences(criteria: <String, dynamic>{
               'status': 'Done'
