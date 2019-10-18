@@ -220,6 +220,7 @@ class _UpdateProfileState extends BaseState<UpdateProfile> {
         email: email,
         firstName: firstName,
         lastName: lastName,
+        fullName: '$firstName $lastName',
         jobTitle: jobTitle,
         workingPlace: workingPlace
       );
