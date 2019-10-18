@@ -21,7 +21,7 @@ class DocumentService {
 
   /// Download and cache files.
   Future<void> downloadAndCacheFiles(List<String> urls, String token) async {
-    urls.map((String url) => apiProvider.cacheManager.getSingleFile(url));
+    urls?.map((String url) => apiProvider.cacheManager.getSingleFile(url));
   }
 
   /// Get document from cache or download from [url] and [token].

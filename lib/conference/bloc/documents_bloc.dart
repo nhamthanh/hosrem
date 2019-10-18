@@ -38,7 +38,7 @@ class DocumentsBloc extends Bloc<DocumentsEvent, DocumentsState> {
         final DocumentPagination documentPagination =
             await documentService.getDocumentsByConferenceId(event.conferenceId, DEFAULT_PAGE, DEFAULT_PAGE_SIZE);
         _documents = documentPagination.items;
-        _supplementDocs = event.supplementDocs.map(_convertToDocument).toList();
+        _supplementDocs = event.supplementDocs?.map(_convertToDocument)?.toList() ?? <Document>[];
         _token = await authService.getToken();
         yield LoadedDocumentsState(
           documents: documentPagination.items,
