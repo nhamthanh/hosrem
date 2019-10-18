@@ -2,10 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hosrem_app/api/conference/conference.dart';
+import 'package:hosrem_app/common/app_assets.dart';
 import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/date_time_utils.dart';
 import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/config/api_config.dart';
+import 'package:hosrem_app/widget/svg/svg_icon.dart';
 
 /// Conference item.
 @immutable
@@ -54,7 +56,10 @@ class ConferenceItem extends StatelessWidget {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Icon(Icons.location_on, size: 16.0, color: AppColors.secondaryGreyColor),
+                          Container(
+                            padding: const EdgeInsets.only(top: 4.0),
+                            child: SvgIcon(AppAssets.locationIcon, size: 16.0, color: AppColors.secondaryGreyColor)
+                          ),
                           const SizedBox(width: 5.0),
                           Expanded(
                             child: Text(
@@ -76,7 +81,10 @@ class ConferenceItem extends StatelessWidget {
                     const SizedBox(height: 7.0),
                     Row(
                       children: <Widget>[
-                        Icon(Icons.calendar_today, size: 16.0, color: AppColors.secondaryGreyColor),
+                        Container(
+                          padding: const EdgeInsets.only(top: 4.0),
+                          child: SvgIcon(AppAssets.calendarIcon, size: 16.0, color: AppColors.secondaryGreyColor)
+                        ),
                         const SizedBox(width: 5.0),
                         Text(
                           DateTimeUtils.format(conference.startTime),
@@ -98,7 +106,7 @@ class ConferenceItem extends StatelessWidget {
             padding: const EdgeInsets.all(10.0),
             child: CachedNetworkImage(
               height: 168.0,
-              imageUrl: conference.banner != null ? '${apiConfig.apiBaseUrl}files/${conference.banner}?token=$token' : 'https://',
+              imageUrl: conference.banner != null ? '${apiConfig.apiBaseUrl}conferences/${conference.id}/banner' : 'https://',
               placeholder: (BuildContext context, String url) => Center(child: const CircularProgressIndicator()),
               errorWidget: (BuildContext context, String url, Object error) => Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -106,7 +114,7 @@ class ConferenceItem extends StatelessWidget {
                   Container(
                     height: 168.0,
                     color: const Color.fromRGBO(52, 169, 255, 0.1),
-                    child: Image.asset('assets/images/conference_placeholder.png')
+                    child: Image.asset(AppAssets.conferencePlaceholder)
                   )
                 ]
               )
@@ -119,11 +127,11 @@ class ConferenceItem extends StatelessWidget {
 
   Widget _buildConferenceStatusWidget() {
     if (registeredConference) {
-      return SvgPicture.asset('assets/images/registered.svg');
+      return SvgPicture.asset(AppAssets.registered_icons);
     }
 
     if (conference.status == 'Done') {
-      return SvgPicture.asset('assets/images/expired.svg');
+      return SvgPicture.asset(AppAssets.expired_icons);
     }
 
     return Container();

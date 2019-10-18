@@ -14,7 +14,7 @@ class DocumentService {
     final DocumentPagination documentPagination = await apiProvider.documentApi.getAll(<String, dynamic>{
       'page': page,
       'size': size,
-      'conference': conferenceId
+      'type': 'Speaker'
     });
     return documentPagination;
   }

@@ -61,15 +61,15 @@ class TextStyles {
     color: AppColors.primaryBlackColor
   );
 
+  static const TextStyle textStyle14SecondaryBlack = TextStyle(
+    fontSize: 14.0,
+    color: AppColors.secondaryBlackColor,
+  );
+
   static const TextStyle textStyle14PrimaryWhite = TextStyle(
     fontSize: 14.0,
     color: Colors.white,
     height: 1.57
-  );
-
-  static const TextStyle textStyle12SecondaryBlack = TextStyle(
-    fontSize: 12.0,
-    color: AppColors.secondaryBlackColor,
   );
 
   static const TextStyle textStyle11PrimaryBlack = TextStyle(
@@ -77,11 +77,22 @@ class TextStyles {
     color: AppColors.primaryBlackColor
   );
 
+  static const TextStyle textStyle11SecondaryBlack = TextStyle(
+    fontSize: 11.0,
+    color: AppColors.secondaryBlackColor,
+    height: 1.64
+  );
+
 
   static const TextStyle textStyle10PrimaryRed = TextStyle(
     fontSize: 10.0,
     color: AppColors.primaryRedColor,
     height: 1.33
+  );
+
+  static const TextStyle textStyle9SecondaryBlack= TextStyle(
+    fontSize: 9.0,
+    color: AppColors.secondaryBlackColor
   );
 }
 

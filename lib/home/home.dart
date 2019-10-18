@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization_delegate.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hosrem_app/common/app_assets.dart';
 import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/conference/conferences.dart';
 import 'package:hosrem_app/notification/notifications.dart';
@@ -30,30 +31,6 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-
-    final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-    _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        print('onMessage: $message');
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        print('onLaunch: $message');
-      },
-      onResume: (Map<String, dynamic> message) async {
-        print('onResume: $message');
-      },
-    );
-
-    _firebaseMessaging.requestNotificationPermissions(
-      const IosNotificationSettings(sound: true, badge: true, alert: true));
-
-    _firebaseMessaging.onIosSettingsRegistered
-      .listen((IosNotificationSettings settings) {
-      print('Settings registered: $settings');
-    });
-    _firebaseMessaging.getToken().then((String token) {
-      print('token: $token');
-    });
   }
 
   @override
@@ -68,32 +45,32 @@ class _HomeState extends State<Home> {
             currentIndex: state.itemIndex,
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                icon: const SvgIcon('assets/images/home_normal.svg'),
-                activeIcon: const SvgIcon('assets/images/home_selected.svg'),
+                icon: const SvgIcon(AppAssets.homeNormalIcon),
+                activeIcon: const SvgIcon(AppAssets.homeSelectedIcon),
                 title: Text(
                   AppLocalizations.of(context).tr('home.home'),
                   style: TextStyles.textStyleBold
                 )
               ),
               BottomNavigationBarItem(
-                icon: const SvgIcon('assets/images/event_normal.svg'),
-                activeIcon: const SvgIcon('assets/images/event_selected.svg'),
+                icon: const SvgIcon(AppAssets.eventNormalIcon),
+                activeIcon: const SvgIcon(AppAssets.eventSelectedIcon),
                 title: Text(
                   AppLocalizations.of(context).tr('home.events'),
                   style: TextStyles.textStyleBold
                 )
               ),
               BottomNavigationBarItem(
-                icon: const SvgIcon('assets/images/notification_normal.svg'),
-                activeIcon: const SvgIcon('assets/images/notification_selected.svg'),
+                icon: const SvgIcon(AppAssets.notificationNormalIcon),
+                activeIcon: const SvgIcon(AppAssets.notificationSelectedIcon),
                 title: Text(
                   AppLocalizations.of(context).tr('home.notifications'),
                   style: TextStyles.textStyleBold
                 )
               ),
               BottomNavigationBarItem(
-                icon: const SvgIcon('assets/images/profile_normal.svg'),
-                activeIcon: const SvgIcon('assets/images/profile_selected.svg'),
+                icon: const SvgIcon(AppAssets.profileNormalIcon),
+                activeIcon: const SvgIcon(AppAssets.profileSelectedIcon),
                 title: Text(
                   AppLocalizations.of(context).tr('home.profile'),
                   style: TextStyles.textStyleBold

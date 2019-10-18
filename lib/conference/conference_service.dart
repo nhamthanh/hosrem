@@ -23,7 +23,7 @@ class ConferenceService {
   /// Check if user [userId] registered the conference.
   Future<bool> checkIfUserRegisterConference(String conferenceId, String userId) async {
     final ConferenceMemberPagination conferenceMemberPagination = await apiProvider.conferenceApi.getConferenceMembers(
-      conferenceId, <String, String>{ 'user': userId });
+      conferenceId, <String, String>{ 'id': userId });
 
     return conferenceMemberPagination.totalItems > 0;
   }

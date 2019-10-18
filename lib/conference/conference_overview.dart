@@ -4,18 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosrem_app/api/conference/conference.dart';
 import 'package:hosrem_app/api/conference/conference_fee.dart';
+import 'package:hosrem_app/common/app_assets.dart';
 import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/common/date_time_utils.dart';
 import 'package:hosrem_app/common/text_styles.dart';
+import 'package:hosrem_app/conference/registration/conference_registration.dart';
 import 'package:hosrem_app/widget/button/primary_button.dart';
+import 'package:hosrem_app/widget/svg/svg_icon.dart';
 import 'package:page_transition/page_transition.dart';
 
 import 'bloc/conference_fees_bloc.dart';
 import 'bloc/conference_fees_event.dart';
 import 'bloc/conference_fees_state.dart';
-import 'conference_registration.dart';
 import 'conference_service.dart';
+import 'registration/conference_registration_fees.dart';
 
 /// Conference detail page.
 class ConferenceOverview extends StatefulWidget {
@@ -69,8 +72,12 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
                               ),
                               const SizedBox(height: 8.0),
                               Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  Icon(Icons.location_on, size: 16.0, color: AppColors.secondaryGreyColor),
+                                  Container(
+                                    padding: const EdgeInsets.only(top: 4.0),
+                                    child: SvgIcon(AppAssets.locationIcon, size: 16.0, color: AppColors.secondaryGreyColor)
+                                  ),
                                   const SizedBox(width: 5.0),
                                   Expanded(
                                     child: Text(
@@ -92,7 +99,10 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
                             const SizedBox(height: 7.0),
                             Row(
                               children: <Widget>[
-                                Icon(Icons.calendar_today, size: 16.0, color: AppColors.secondaryGreyColor),
+                                Container(
+                                  padding: const EdgeInsets.only(top: 4.0),
+                                  child: SvgIcon(AppAssets.calendarIcon, size: 16.0, color: AppColors.secondaryGreyColor)
+                                ),
                                 const SizedBox(width: 5.0),
                                 Text(
                                   conference.startTime == null ? '' : DateTimeUtils.format(conference.startTime),
@@ -108,7 +118,7 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
                   Container(
                     padding: const EdgeInsets.all(28.0),
                     child: CachedNetworkImage(
-                      imageUrl: conference.banner != null ? '${apiConfig.apiBaseUrl}files/${conference.banner}?token=$token' : 'https://',
+                      imageUrl: conference.banner != null ? '${apiConfig.apiBaseUrl}conferences/${conference.id}/banner' : 'https://',
                       placeholder: (BuildContext context, String url) => Center(child: const CircularProgressIndicator()),
                       errorWidget: (BuildContext context, String url, Object error) =>
                         Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
@@ -118,7 +128,7 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
                               borderRadius: BorderRadius.circular(10.0),
                               color: const Color.fromRGBO(52, 169, 255, 0.1)
                             ),
-                            child: Image.asset('assets/images/conference_placeholder.png'))
+                            child: Image.asset(AppAssets.conferencePlaceholder))
                         ])),
                   ),
                   Container(
@@ -150,24 +160,7 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
                   const SizedBox(height: 17.0),
                   Container(
                     padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 0.0, top: 0.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        Text(
-                          'Phí tham gia đối với hội viên HOSREM',
-                          style: TextStyles.textStyle16SecondaryBlackBold
-                        ),
-                        const SizedBox(height: 17.0),
-                        _buildConferenceFee(),
-                        const SizedBox(height: 22.0),
-                        Text(
-                          'Phí tham gia cho đối tượng khác',
-                          style: TextStyles.textStyle16SecondaryBlackBold
-                        ),
-                        const SizedBox(height: 17.0),
-                        _buildConferenceFee(),
-                      ],
-                    )
+                    child: _buildConferenceFee()
                   ),
                   const SizedBox(height: 20.0),
                 ],
@@ -206,49 +199,7 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
           bloc: _conferenceFeesBloc,
           builder: (BuildContext context, ConferenceFeesState state) {
             if (state is LoadedConferenceFees) {
-              return Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: AppColors.editTextFieldBorderColor)
-                ),
-                child: Column(
-                  children: state.conferenceFees.memberFees.map((ConferenceFee conferenceFee) => Column(
-                    children: <Widget>[
-                      state.conferenceFees.memberFees.indexOf(conferenceFee) == 0 ? Container() : const Divider(),
-                      Container(
-                        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    conferenceFee?.description ?? '',
-                                    style: TextStyles.textStyle12SecondaryBlack
-                                  ),
-                                  Text(
-                                    '9/11 - 21/11/2019',
-                                    style: TextStyles.textStyle12SecondaryBlack
-                                  )
-                                ],
-                              )
-                            ),
-                            Column(
-                              children: <Widget>[
-                                Text(
-                                  '2.250.000 đ/người',
-                                  style: TextStyles.textStyle12SecondaryBlack
-                                )
-                              ],
-                            )
-                          ],
-                        )
-                      ),
-
-                    ],
-                  )).toList(),
-                ),
-              );
+              return ConferenceRegistrationFees(state.conferenceFees);
             }
 
             if (state is ConferenceFeesFailure) {
