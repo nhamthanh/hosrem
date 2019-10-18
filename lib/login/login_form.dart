@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosrem_app/app/app_routes.dart';
 import 'package:hosrem_app/app/bloc/app_bloc.dart';
+import 'package:hosrem_app/common/app_assets.dart';
 import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/login/bloc/login_bloc.dart';
 import 'package:hosrem_app/login/bloc/login_event.dart';
@@ -74,7 +75,7 @@ class _LoginFormState extends State<LoginForm> {
                       ),
                       alignment: Alignment.center,
                       padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
-                      child: Image.asset('assets/images/logo.png'),
+                      child: Image.asset(AppAssets.imageLogo),
                     ),
                     Row(
                       children: <Widget>[

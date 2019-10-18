@@ -37,6 +37,12 @@ class AppColors {
   /// Secondary grey color.
   static const Color secondaryGreyColor = Color(0xFF9E9E9E);
 
+  /// Tertiary grey color.
+  static const Color tertiaryGreyColor = Color(0xFFBDBDBD);
+
+  /// Primary red color.
+  static const Color primaryPurpleColor = Color(0xFFB37FEB);
+
   /// Button shadow color.
   static const Color buttonShadowColor1 = Color.fromRGBO(52, 169, 255, 0.2);
 

@@ -173,6 +173,7 @@ class _ConferenceResourcesState extends BaseState<ConferenceResources> {
 
   void _navigateToPdfViewer(String title, String content, String token) {
     final String pdfUrl = content != null && content.isNotEmpty ? '${apiConfig.apiBaseUrl}files/$content?token=$token' : 'http://';
+    print(pdfUrl);
     Navigator.push<dynamic>(context, PageTransition<dynamic>(
       type: PageTransitionType.downToUp,
       child: PdfPage(url: pdfUrl, name: title ?? 'Tài liệu tham khảo')

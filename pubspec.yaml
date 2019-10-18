@@ -39,6 +39,7 @@ dependencies:
   page_transition: ^1.1.5
   timeago: ^2.0.20
   firebase_messaging: ^5.1.6
+  collection: ^1.14.11
 
 dev_dependencies:
   flutter_test:
@@ -66,6 +67,10 @@ flutter:
   - assets/images/jpg_file_type.svg
   - assets/images/search.svg
   - assets/images/expired.svg
+  - assets/images/email.svg
+  - assets/images/notice.svg
+  - assets/images/location.svg
+  - assets/images/calendar.svg
   - assets/langs/vi-VN.json
   - assets/langs/en-US.json
 

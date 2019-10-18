@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hosrem_app/common/app_assets.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:hosrem_app/auth/auth_provider.dart';
 import 'package:hosrem_app/common/app_colors.dart';
@@ -72,7 +73,8 @@ class _AppState extends State<App> {
                 //app-specific localization
                 EasylocaLizationDelegate(
                   locale: data.locale,
-                  path: 'assets/langs')
+                  path: AppAssets.languagesFolder
+                )
               ],
               supportedLocales: const <Locale>[Locale('en', 'US'), Locale('vi', 'VN')],
               home: AuthProvider(
