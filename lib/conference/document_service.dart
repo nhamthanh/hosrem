@@ -7,20 +7,24 @@ import 'package:hosrem_app/network/api_provider.dart';
 class DocumentService {
   DocumentService(this.apiProvider) : assert(apiProvider != null);
 
+  static const String SPEAKER_DOCUMENT_TYPE = 'Speaker';
+  static const String OTHER_DOCUMENT_TYPE = 'Other';
+
   final ApiProvider apiProvider;
 
   /// Get documents by [conferenceId].
-  Future<DocumentPagination> getDocumentsByConferenceId(String conferenceId, int page, int size) async {
-    final DocumentPagination documentPagination = await apiProvider.documentApi.getAll(<String, dynamic>{
+  Future<DocumentPagination> getDocumentsByConferenceId(String conferenceId, String type, int page, int size) async {
+    final DocumentPagination documentPagination = await apiProvider.conferenceApi.getConferenceDocuments(
+        conferenceId, <String, dynamic>{
       'page': page,
       'size': size,
-      'type': 'Speaker'
+      'type': type
     });
     return documentPagination;
   }
 
   /// Download and cache files.
-  Future<void> downloadAndCacheFiles(List<String> urls, String token) async {
+  Future<void> downloadAndCacheFiles(List<String> urls) async {
     urls?.map((String url) => apiProvider.cacheManager.getSingleFile(url));
   }
 
