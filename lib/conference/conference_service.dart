@@ -1,3 +1,4 @@
+import 'package:hosrem_app/api/conference/conference.dart';
 import 'package:hosrem_app/api/conference/conference_fees.dart';
 import 'package:hosrem_app/api/conference/conference_member_pagination.dart';
 import 'package:hosrem_app/api/conference/conference_pagination.dart';
@@ -26,5 +27,10 @@ class ConferenceService {
       conferenceId, <String, String>{ 'id': userId });
 
     return conferenceMemberPagination.totalItems > 0;
+  }
+
+  /// Get conference by id.
+  Future<Conference> getConferenceById(String id) async {
+    return apiProvider.conferenceApi.getConferenceById(id);
   }
 }

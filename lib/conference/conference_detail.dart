@@ -1,25 +1,30 @@
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosrem_app/api/conference/conference.dart';
-import 'package:hosrem_app/auth/auth_service.dart';
+import 'package:hosrem_app/api/document/document.dart';
 import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/config/api_config.dart';
 import 'package:hosrem_app/pdf/pdf_viewer.dart';
+import 'package:loading_overlay/loading_overlay.dart';
 
+import 'bloc/conference_bloc.dart';
+import 'bloc/conference_event.dart';
+import 'bloc/conference_state.dart';
 import 'conference_overview.dart';
 import 'conference_resources.dart';
+import 'conference_service.dart';
 import 'document_service.dart';
 
 /// Conference detail page.
 @immutable
 class ConferenceDetail extends StatefulWidget {
-  const ConferenceDetail(this.conference, this.apiConfig, this.token);
+  const ConferenceDetail(this.conferenceId, this.apiConfig);
 
-  final Conference conference;
-  final String token;
+  final String conferenceId;
   final ApiConfig apiConfig;
 
   @override
@@ -33,6 +38,9 @@ class _ConferenceDetailState extends BaseState<ConferenceDetail> with SingleTick
     Container(child: const Tab(text: 'Tài Liệu'), width: 80.0),
   ];
 
+  ConferenceBloc _conferenceBloc;
+  DocumentService _documentService;
+
   TabController _tabController;
   AppBar _appBar;
   TabBar _tabBar;
@@ -42,9 +50,10 @@ class _ConferenceDetailState extends BaseState<ConferenceDetail> with SingleTick
     super.initState();
     _tabController = TabController(vsync: this, length: tabs.length);
 
-    final AuthService authService = AuthService(apiProvider);
-    final DocumentService documentService = DocumentService(apiProvider);
-    authService.getToken().then((String token) => documentService.downloadAndCacheFiles(widget.conference.files, token));
+    _documentService = DocumentService(apiProvider);
+    _conferenceBloc = ConferenceBloc(conferenceService: ConferenceService(apiProvider),
+        documentService: _documentService);
+    _conferenceBloc.dispatch(LoadConferenceEvent(conferenceId: widget.conferenceId));
   }
 
   @override
@@ -55,11 +64,58 @@ class _ConferenceDetailState extends BaseState<ConferenceDetail> with SingleTick
 
   @override
   Widget build(BuildContext context) {
-    _appBar = AppBar(
-      title: Text(widget.conference.title),
-      centerTitle: true,
+    return BlocProvider<ConferenceBloc>(
+      builder: (BuildContext context) => _conferenceBloc,
+      child: BlocListener<ConferenceBloc, ConferenceState>(
+        listener: (BuildContext context, ConferenceState state) {
+          if (state is LoadedConferenceState) {
+            _downloadAndCacheDocuments(state.documents);
+          }
+        },
+        child: BlocBuilder<ConferenceBloc, ConferenceState>(
+          bloc: _conferenceBloc,
+          builder: (BuildContext context, ConferenceState state) {
+            _appBar = AppBar(
+              title: Text(state is LoadedConferenceState ? state.conference.title : ''),
+              centerTitle: true,
+            );
+
+            _tabBar = _buildTabBar();
+            return Scaffold(
+              appBar: _appBar,
+              body: Container(
+                color: Colors.white,
+                child: BlocProvider<ConferenceBloc>(
+                  builder: (BuildContext context) => _conferenceBloc,
+                  child: BlocListener<ConferenceBloc, ConferenceState>(
+                    listener: (BuildContext context, ConferenceState state) {
+                      if (state is LoadedConferenceState) {
+                        _downloadAndCacheDocuments(state.documents);
+                      }
+                    },
+                    child: BlocBuilder<ConferenceBloc, ConferenceState>(
+                      bloc: _conferenceBloc,
+                      builder: (BuildContext context, ConferenceState state) {
+                        return LoadingOverlay(
+                          isLoading: state is ConferenceLoading,
+                          child: state is LoadedConferenceState
+                            ? _buildConferenceWidget(context, state.conference, state.documents)
+                            : Container()
+                        );
+                      }
+                    )
+                  )
+                )
+              )
+            );
+          }
+        )
+      )
     );
-    _tabBar = TabBar(
+  }
+
+  TabBar _buildTabBar() {
+    return TabBar(
       isScrollable: true,
       unselectedLabelColor: AppColors.unselectLabelColor,
       labelStyle: TextStyles.textStyle16,
@@ -75,45 +131,50 @@ class _ConferenceDetailState extends BaseState<ConferenceDetail> with SingleTick
       tabs: tabs,
       controller: _tabController
     );
-    return Scaffold(
-      appBar: _appBar,
-      body: Container(
-        color: Colors.white,
-        child: Column(
-          children: <Widget>[
-            const SizedBox(height: 5.0),
-            _tabBar,
-            const SizedBox(height: 5.0),
-            Expanded(
-              child: Container(
-                color: Colors.white,
-                child: TabBarView(
-                  controller: _tabController,
-                  children: <Widget>[
-                    ConferenceOverview(
-                      conference: widget.conference,
-                      token: widget.token
-                    ),
-                    widget.conference.files?.isNotEmpty ?? false ?
-                    PdfViewer(
-                      url: widget.conference.files?.isNotEmpty ?? false ? '${apiConfig.apiBaseUrl}files/${widget.conference.files[0]}?token=${widget.token}' : 'http://',
-//                      url: 'http://hosrem.org.vn/public/frontend/images/photos/GUIDELINES%20PCOS%201.0.pdf',
-                      top: _appBar.preferredSize.height + MediaQuery.of(context).padding.top + _tabBar.preferredSize.height + 10.0,
-                      width: _calculatePdfWidth(context),
-                      height: _calculatePdfHeight(context),
-                    ) : Center(
-                      child: Text(
-                        AppLocalizations.of(context).tr('conferences.details.no_document_found'),
-                        style: TextStyles.textStyle16PrimaryBlack
-                      )
-                    ),
-                    ConferenceResources(widget.conference)
-                  ]
-                )
-              )
+  }
+
+  Column _buildConferenceWidget(BuildContext context, Conference conference, List<Document> documents) {
+    return Column(
+      children: <Widget>[
+        const SizedBox(height: 5.0),
+        _buildTabBar(),
+        const SizedBox(height: 5.0),
+        Expanded(
+          child: Container(
+            color: Colors.white,
+            child: TabBarView(
+              controller: _tabController,
+              children: <Widget>[
+                ConferenceOverview(conference: conference),
+                _buildPdfWidget(documents, context),
+                ConferenceResources(conference)
+              ]
             )
-          ]
+          )
         )
+      ]
+    );
+  }
+
+  Widget _buildPdfWidget(List<Document> documents, BuildContext context) {
+    print('xxxxx');
+    print(_tabBar.preferredSize.height);
+    print(_appBar.preferredSize.height);
+    print(MediaQuery.of(context).padding.top);
+    final List<String> files = documents.map(_constructDocumentUrl).toList();
+    if (files.isNotEmpty) {
+      return PdfViewer(
+        url: files.isNotEmpty ? files[0] : 'http://',
+        top: _appBar.preferredSize.height + MediaQuery.of(context).padding.top + _tabBar.preferredSize.height + 55.0,
+        width: _calculatePdfWidth(context),
+        height: _calculatePdfHeight(context),
+      );
+    }
+
+    return Center(
+      child: Text(
+        AppLocalizations.of(context).tr('conferences.details.no_document_found'),
+        style: TextStyles.textStyle16PrimaryBlack
       )
     );
   }
@@ -133,4 +194,12 @@ class _ConferenceDetailState extends BaseState<ConferenceDetail> with SingleTick
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     return mediaQuery.size.width;
   }
+
+  void _downloadAndCacheDocuments(List<Document> documents) {
+    final List<String> files = documents.map(_constructDocumentUrl).toList();
+    _documentService.downloadAndCacheFiles(files);
+  }
+
+  String _constructDocumentUrl(Document document) =>
+    '${apiConfig.apiBaseUrl}conferences/${widget.conferenceId}/document?fileName=${document.content}';
 }

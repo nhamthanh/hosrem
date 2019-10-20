@@ -3,7 +3,6 @@ import 'package:easy_localization/easy_localization_delegate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosrem_app/api/conference/conference.dart';
-import 'package:hosrem_app/api/conference/conference_fee.dart';
 import 'package:hosrem_app/common/app_assets.dart';
 import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/base_state.dart';
@@ -22,10 +21,9 @@ import 'registration/conference_registration_fees.dart';
 
 /// Conference detail page.
 class ConferenceOverview extends StatefulWidget {
-  const ConferenceOverview({Key key, this.conference, this.token}) : super(key: key);
+  const ConferenceOverview({Key key, this.conference}) : super(key: key);
 
   final Conference conference;
-  final String token;
 
   @override
   State<ConferenceOverview> createState() => _ConferenceOverviewState();
@@ -45,7 +43,6 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
   @override
   Widget build(BuildContext context) {
     final Conference conference = widget.conference;
-    final String token = widget.token;
     return Container(
       color: Colors.white,
       child: Column(

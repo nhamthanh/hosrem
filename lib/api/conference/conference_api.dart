@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:hosrem_app/api/document/document_pagination.dart';
 import 'package:retrofit/retrofit.dart';
 
+import 'conference.dart';
 import 'conference_fees.dart';
 import 'conference_member_pagination.dart';
 import 'conference_pagination.dart';
@@ -23,5 +25,13 @@ abstract class ConferenceApi {
   /// Get all conference fees.
   @GET('conferences/{id}/members')
   Future<ConferenceMemberPagination> getConferenceMembers(@Path() String id, @Queries() Map<String, dynamic> query);
+
+  /// Get all conference documents.
+  @GET('conferences/{id}/documents')
+  Future<DocumentPagination> getConferenceDocuments(@Path() String id, @Queries() Map<String, dynamic> query);
+
+  /// Get conference by id.
+  @GET('conferences/{id}')
+  Future<Conference> getConferenceById(@Path() String id);
 }
 
