@@ -22,10 +22,11 @@ import 'document_service.dart';
 /// Conference detail page.
 @immutable
 class ConferenceDetail extends StatefulWidget {
-  const ConferenceDetail(this.conferenceId, this.apiConfig);
+  const ConferenceDetail(this.conferenceId, this.registeredConference, this.apiConfig);
 
   final String conferenceId;
   final ApiConfig apiConfig;
+  final bool registeredConference;
 
   @override
   _ConferenceDetailState createState() => _ConferenceDetailState();
@@ -145,7 +146,7 @@ class _ConferenceDetailState extends BaseState<ConferenceDetail> with SingleTick
             child: TabBarView(
               controller: _tabController,
               children: <Widget>[
-                ConferenceOverview(conference: conference),
+                ConferenceOverview(conference: conference, registeredConference: widget.registeredConference),
                 _buildPdfWidget(documents, context),
                 ConferenceResources(conference)
               ]
@@ -157,9 +158,6 @@ class _ConferenceDetailState extends BaseState<ConferenceDetail> with SingleTick
   }
 
   Widget _buildPdfWidget(List<Document> documents, BuildContext context) {
-    print('xxxxx');
-    print(_tabBar.preferredSize.height);
-    print(_appBar.preferredSize.height);
     print(MediaQuery.of(context).padding.top);
     final List<String> files = documents.map(_constructDocumentUrl).toList();
     if (files.isNotEmpty) {
