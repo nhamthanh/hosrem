@@ -21,9 +21,10 @@ import 'registration/conference_registration_fees.dart';
 
 /// Conference detail page.
 class ConferenceOverview extends StatefulWidget {
-  const ConferenceOverview({Key key, this.conference}) : super(key: key);
+  const ConferenceOverview({Key key, this.conference, this.registeredConference}) : super(key: key);
 
   final Conference conference;
+  final bool registeredConference;
 
   @override
   State<ConferenceOverview> createState() => _ConferenceOverviewState();
@@ -165,7 +166,7 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
             )
           ),
           const Divider(),
-          Container(
+          widget.registeredConference ? Container() : Container(
             padding: const EdgeInsets.only(left: 25.0, top: 28.5, bottom: 28.5, right: 25.0),
             color: Colors.white,
             child: PrimaryButton(

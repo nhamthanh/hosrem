@@ -108,7 +108,7 @@ class _UpcomingConferencesState extends BaseState<UpcomingConferences> {
                       Navigator.push(
                         context,
                         MaterialPageRoute<bool>(
-                          builder: (BuildContext context) => ConferenceDetail(conference.id, apiConfig)
+                          builder: (BuildContext context) => ConferenceDetail(conference.id, registeredConferences[conference.id], apiConfig)
                         )
                       );
                     }
