@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:hosrem_app/api/conference/conference_fee.dart';
 import 'package:hosrem_app/common/app_assets.dart';
 import 'package:hosrem_app/common/app_colors.dart';
@@ -62,6 +63,12 @@ class ConferenceRegistrationFeeWidget extends StatelessWidget {
   }
 
   Column _buildFeeColumn(DateTime milestone, List<ConferenceFee> conferenceFees) {
+    MoneyFormatterSettings moneyFormatterSettings = MoneyFormatterSettings(
+      thousandSeparator: '.',
+      decimalSeparator: ',',
+      symbolAndNumberSeparator: ' '
+    );
+
     return Column(
       children: conferenceFees.map((ConferenceFee conferenceFee) => Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,11 +78,14 @@ class ConferenceRegistrationFeeWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
                 Text(
-                  '${conferenceFee.fee.toString()} đ',
+                  FlutterMoneyFormatter(
+                    amount: conferenceFee.fee,
+                    settings: moneyFormatterSettings
+                  ).output.withoutFractionDigits,
                   style: TextStyles.textStyle14SecondaryBlack
                 ),
                 Text(
-                  '/ người',
+                  'đ / người',
                   style: TextStyles.textStyle9SecondaryBlack
                 )
               ],

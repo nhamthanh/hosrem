@@ -40,7 +40,10 @@ class AppColors {
   /// Tertiary grey color.
   static const Color tertiaryGreyColor = Color(0xFFBDBDBD);
 
-  /// Primary red color.
+  /// Primary orange color.
+  static const Color primaryOrangeColor = Color(0xFFF7B500);
+
+  /// Primary purple color.
   static const Color primaryPurpleColor = Color(0xFFB37FEB);
 
   /// Button shadow color.

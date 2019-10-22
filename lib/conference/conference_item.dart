@@ -12,10 +12,9 @@ import 'package:hosrem_app/widget/svg/svg_icon.dart';
 /// Conference item.
 @immutable
 class ConferenceItem extends StatelessWidget {
-  const ConferenceItem(this.conference, this.apiConfig, this.token, this.registeredConference);
+  const ConferenceItem(this.conference, this.apiConfig, this.registeredConference);
 
   final Conference conference;
-  final String token;
   final bool registeredConference;
   final ApiConfig apiConfig;
 

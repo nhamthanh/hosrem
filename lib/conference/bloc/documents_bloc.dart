@@ -73,10 +73,6 @@ class DocumentsBloc extends Bloc<DocumentsEvent, DocumentsState> {
     }
   }
 
-  Document _convertToDocument(String file) {
-    return Document('id', file, null, null, null, null, null, docType: 'jpg');
-  }
-
   bool _filterText(Document document, String filter) {
     final String title = document.title?.toLowerCase() ?? '';
     final String speakers = document.speakers?.toLowerCase() ?? '';

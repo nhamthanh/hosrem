@@ -2,20 +2,24 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hosrem_app/api/auth/degree.dart';
 import 'package:hosrem_app/api/auth/user.dart';
 import 'package:hosrem_app/app/app_routes.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
+import 'package:hosrem_app/common/app_assets.dart';
 import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/base_state.dart';
+import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/login/login.dart';
+import 'package:hosrem_app/profile/profile_details.dart';
 import 'package:hosrem_app/widget/button/default_button.dart';
 import 'package:hosrem_app/widget/navigator/navigator_item.dart';
+import 'package:hosrem_app/widget/svg/svg_icon.dart';
 import 'package:page_transition/page_transition.dart';
 
 import 'bloc/profile_bloc.dart';
 import 'bloc/profile_event.dart';
 import 'bloc/profile_state.dart';
-import 'update_profile.dart';
 
 /// Profile page.
 @immutable
@@ -53,7 +57,7 @@ class _ProfileState extends BaseState<Profile> {
                 children: <Widget>[
                   const SizedBox(height: 20.0),
                   Container(
-                    padding: const EdgeInsets.all(28.0),
+                    padding: const EdgeInsets.only(left: 30.0, right: 23.0, bottom: 23.0),
                     child: Row(
                       children: <Widget>[
                         Container(
@@ -61,65 +65,124 @@ class _ProfileState extends BaseState<Profile> {
                           height: 108.0,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: AppColors.lightPrimaryColor
+                            color: Colors.white
                           ),
-                          child: Icon(Icons.person, size: 80.0, color: Colors.white),
+                          child: const SvgIcon(AppAssets.profilePlaceholder, size: 80.0)
                         ),
                         const SizedBox(width: 28.0),
                         Expanded(
-                          child: Column(
+                          child: user == null ? InkWell(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  'Chào mừng đến với HOSREM',
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyles.textStyle14SecondaryGrey
+                                ),
+                                Text(
+                                  'Đăng Nhập /  Đăng Ký',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyles.textStyle13PrimaryBlue
+                                )
+                              ],
+                            ),
+                            onTap: () => _navigateToProfile(user),
+                          ) :
+                          Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                '',
+                                user?.fullName ?? '',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  height: 1.6,
-                                  color: AppColors.primaryBlackColor
-                                )
+                                style: TextStyles.textStyle20PrimaryBlack
                               ),
                               Text(
-                                '',
+                                user?.degrees?.map((Degree degree) => degree.name)?.join(',') ?? '',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  height: 2,
-                                  color: AppColors.primaryBlackColor
-                                )
+                                style: TextStyles.textStyle12PrimaryGrey
                               ),
-                              const SizedBox(height: 10.0),
-                              FlatButton(
-                                child: Text(
-                                  'Premium Member',
-                                  style: TextStyle(
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.w600,
-                                    color: AppColors.lightPrimaryColor
-                                  )
-                                ),
-                                textColor: AppColors.lightPrimaryColor,
-                                onPressed: () {},
-                                color: const Color.fromRGBO(105, 192, 255, 0.2),
-                                shape: RoundedRectangleBorder(
-                                  side: BorderSide(
-                                    color: AppColors.lightPrimaryColor,
-                                    style: BorderStyle.solid,
-                                    width: 1.0,
-                                  ),
-                                  borderRadius: BorderRadius.circular(18.0))
-                              )
+                              const SizedBox(height: 12.0),
+                              Text(
+                                user?.phone ?? '',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyles.textStyle14PrimaryOrangeBold
+                              ),
                             ],
-                          ),
+                          )
                         )
                       ],
                     ),
                   ),
+                  const Divider(),
+                  user?.userType != 'Member' ? Container(
+                    padding: const EdgeInsets.symmetric(vertical: 19.5, horizontal: 28.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          'Thành Viên Bình Thường',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyles.textStyle16SecondaryGreyBold
+                        ),
+                        Text(
+                          'Nâng Cấp Thành Hội Viên HOSREM',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyles.textStyle13PrimaryBlue
+                        )
+                      ],
+                    )
+                  ) :
+                  Container(
+                    padding: const EdgeInsets.symmetric(vertical: 19.5, horizontal: 28.0),
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          padding: const EdgeInsets.only(top: 5.0),
+                          child: SvgIcon(AppAssets.diamondIcon, size: 37.0)
+                        ),
+                        const SizedBox(width: 16.0),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              'Hội Viên HOSREM',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyles.textStyle16PrimaryBlue
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Text(
+                                  'Ngày hết hạn 20/10/2019',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyles.textStyle13PrimaryGrey
+                                ),
+                                const SizedBox(width: 5.0),
+                                Text(
+                                  'Gia hạn',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyles.textStyle13PrimaryBlue
+                                )
+                              ],
+                            )
+                          ],
+                        )
+                      ],
+                    )
+                  ),
                   Container(
                     height: 20.0,
-                    color: const Color(0xFFF5F8FA),
+                    color: AppColors.backgroundConferenceColor,
                   ),
                   NavigatorItem(
                     text: AppLocalizations.of(context).tr('profile.your_profile'),
@@ -149,6 +212,7 @@ class _ProfileState extends BaseState<Profile> {
                       )
                     ],
                   ),
+                  const SizedBox(height: 40.0)
                 ],
               ),
             );
@@ -160,11 +224,14 @@ class _ProfileState extends BaseState<Profile> {
 
   }
 
-  void _navigateToProfile(User user) {
-    Navigator.push<dynamic>(context, PageTransition<dynamic>(
-      type: PageTransitionType.downToUp,
-      child: user == null ? Login() : UpdateProfile()
-    ));
+  Future<void> _navigateToProfile(User user) async {
+    if (user == null) {
+      await Navigator.push<dynamic>(context, PageTransition<dynamic>(
+        type: PageTransitionType.downToUp, child: Login()));
+    } else {
+      await Navigator.push(context, MaterialPageRoute<bool>(builder: (BuildContext context) => ProfileDetails()));
+    }
+    _profileBloc.dispatch(LoadProfileEvent());
   }
 
   void _onLogoutButtonPressed() {
