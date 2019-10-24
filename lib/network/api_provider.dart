@@ -6,6 +6,8 @@ import 'package:hosrem_app/api/auth/token.dart';
 import 'package:hosrem_app/api/auth/user_api.dart';
 import 'package:hosrem_app/api/conference/conference_api.dart';
 import 'package:hosrem_app/api/document/document_api.dart';
+import 'package:hosrem_app/api/membership/membership_api.dart';
+import 'package:hosrem_app/api/membership/user_membership_api.dart';
 import 'package:hosrem_app/api/notification/notification_api.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
 import 'package:logging/logging.dart';
@@ -24,6 +26,8 @@ class ApiProvider {
   UserApi _userApi;
   DocumentApi _documentApi;
   NotificationApi _notificationApi;
+  MembershipApi _membershipApi;
+  UserMembershipApi _userMembershipApi;
 
   DefaultCacheManager _cacheManager;
   Logger _logger;
@@ -131,5 +135,17 @@ class ApiProvider {
   NotificationApi get notificationApi {
     _notificationApi ??= NotificationApi(dio);
     return _notificationApi;
+  }
+
+  /// Get membership api.
+  MembershipApi get membershipApi {
+    _membershipApi ??= MembershipApi(dio);
+    return _membershipApi;
+  }
+
+  /// Get user membership api.
+  UserMembershipApi get userMembershipApi {
+    _userMembershipApi ??= UserMembershipApi(dio);
+    return _userMembershipApi;
   }
 }

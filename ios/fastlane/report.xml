@@ -5,32 +5,19 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000912">
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000887">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="1: increment_build_number" time="1.178113">
+      <testcase classname="fastlane.lanes" name="1: increment_build_number" time="1.172148">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="2: cd ../.. &amp;&amp; flutter clean &amp;&amp; flutter build ios --release" time="108.486977">
+      <testcase classname="fastlane.lanes" name="2: cd ../.. &amp;&amp; flutter clean &amp;&amp; flutter build ios --release" time="18.477398">
         
-      </testcase>
-    
-      
-      <testcase classname="fastlane.lanes" name="3: automatic_code_signing" time="0.082606">
-        
-      </testcase>
-    
-      
-      <testcase classname="fastlane.lanes" name="4: build_app" time="109.589358">
-        
-      </testcase>
-    
-      
-      <testcase classname="fastlane.lanes" name="5: firebase_app_distribution" time="33.934453">
+          <failure message="/usr/local/lib/ruby/gems/2.6.0/gems/fastlane-2.133.0/fastlane/lib/fastlane/actions/actions_helper.rb:48:in `execute_action'&#10;/usr/local/lib/ruby/gems/2.6.0/gems/fastlane-2.133.0/fastlane/lib/fastlane/fast_file.rb:217:in `sh'&#10;/usr/local/lib/ruby/gems/2.6.0/gems/fastlane-2.133.0/fastlane/lib/fastlane/fast_file.rb:211:in `sh'&#10;Fastfile:22:in `block (2 levels) in parsing_binding'&#10;/usr/local/lib/ruby/gems/2.6.0/gems/fastlane-2.133.0/fastlane/lib/fastlane/lane.rb:33:in `call'&#10;/usr/local/lib/ruby/gems/2.6.0/gems/fastlane-2.133.0/fastlane/lib/fastlane/runner.rb:49:in `block in execute'&#10;/usr/local/lib/ruby/gems/2.6.0/gems/fastlane-2.133.0/fastlane/lib/fastlane/runner.rb:45:in `chdir'&#10;/usr/local/lib/ruby/gems/2.6.0/gems/fastlane-2.133.0/fastlane/lib/fastlane/runner.rb:45:in `execute'&#10;/usr/local/lib/ruby/gems/2.6.0/gems/fastlane-2.133.0/fastlane/lib/fastlane/lane_manager.rb:56:in `cruise_lane'&#10;/usr/local/lib/ruby/gems/2.6.0/gems/fastlane-2.133.0/fastlane/lib/fastlane/command_line_handler.rb:36:in `handle'&#10;/usr/local/lib/ruby/gems/2.6.0/gems/fastlane-2.133.0/fastlane/lib/fastlane/commands_generator.rb:108:in `block (2 levels) in run'&#10;/usr/local/lib/ruby/gems/2.6.0/gems/commander-fastlane-4.4.6/lib/commander/command.rb:178:in `call'&#10;/usr/local/lib/ruby/gems/2.6.0/gems/commander-fastlane-4.4.6/lib/commander/command.rb:153:in `run'&#10;/usr/local/lib/ruby/gems/2.6.0/gems/commander-fastlane-4.4.6/lib/commander/runner.rb:476:in `run_active_command'&#10;/usr/local/lib/ruby/gems/2.6.0/gems/fastlane-2.133.0/fastlane_core/lib/fastlane_core/ui/fastlane_runner.rb:76:in `run!'&#10;/usr/local/lib/ruby/gems/2.6.0/gems/commander-fastlane-4.4.6/lib/commander/delegates.rb:15:in `run!'&#10;/usr/local/lib/ruby/gems/2.6.0/gems/fastlane-2.133.0/fastlane/lib/fastlane/commands_generator.rb:349:in `run'&#10;/usr/local/lib/ruby/gems/2.6.0/gems/fastlane-2.133.0/fastlane/lib/fastlane/commands_generator.rb:41:in `start'&#10;/usr/local/lib/ruby/gems/2.6.0/gems/fastlane-2.133.0/fastlane/lib/fastlane/cli_tools_distributor.rb:119:in `take_off'&#10;/usr/local/lib/ruby/gems/2.6.0/gems/fastlane-2.133.0/bin/fastlane:23:in `&lt;top (required)&gt;'&#10;/usr/local/lib/ruby/gems/2.6.0/bin/fastlane:23:in `load'&#10;/usr/local/lib/ruby/gems/2.6.0/bin/fastlane:23:in `&lt;main&gt;'&#10;&#10;Exit status of command 'cd ../.. &amp;&amp; flutter clean &amp;&amp; flutter build ios --release' was 1 instead of 0.&#10;Deleting 'build/'.&#10;Deleting '/Users/anle/Projects/Hosrem/Repo/hosrem-app/.dart_tool/'.&#10;Deleting '/Users/anle/Projects/Hosrem/Repo/hosrem-app/.android/'.&#10;Deleting '/Users/anle/Projects/Hosrem/Repo/hosrem-app/.ios/'.&#10;Building io.zamo.hosrem.app for device (ios-release)...&#10;Automatically signing iOS for device deployment using specified development team in Xcode project: A64LRCWQWB&#10;Running pod install...                                              3.2s&#10;Running Xcode build...                                          &#10;Xcode build done.                                            4.7s&#10;Failed to build iOS app&#10;Error output from Xcode build:&#10;↳&#10;    2019-10-24 15:57:04.148 xcodebuild[21347:2882045] [MT] DVTSDK: Warning: SDK path collision for path '&lt;DVTFilePath:0x7fc85a0a6530:'/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk'&gt;': SDK with name 'macosx10.15' being superseded by SDK with 'macosx10.15'.&#10;    ** BUILD FAILED **&#10;&#10;&#10;Xcode's output:&#10;↳&#10;    error: Unexpected duplicate tasks:&#10;    1) Target 'MomoiOSSwiftSdk' (project 'Pods') has copy command from '/Users/anle/Projects/Hosrem/Repo/hosrem-app/ios/Pods/MomoiOSSwiftSdk/MomoiOSvSwiftSdk/momo@2x.png' to '/Users/anle/Projects/Hosrem/Repo/hosrem-app/build/ios/Release-iphoneos/MomoiOSSwiftSdk/MomoiOSSwiftSdk.framework/momo@2x.png'&#10;    2) Target 'MomoiOSSwiftSdk' (project 'Pods') has copy command from '/Users/anle/Projects/Hosrem/Repo/hosrem-app/ios/Pods/MomoiOSSwiftSdk/MomoiOSvSwiftSdk/momo@2x.png' to '/Users/anle/Projects/Hosrem/Repo/hosrem-app/build/ios/Release-iphoneos/MomoiOSSwiftSdk/MomoiOSSwiftSdk.framework/momo@2x.png'&#10;    error: Unexpected duplicate tasks:&#10;    1) Target 'MomoiOSSwiftSdk' (project 'Pods') has copy command from '/Users/anle/Projects/Hosrem/Repo/hosrem-app/ios/Pods/MomoiOSSwiftSdk/MomoiOSvSwiftSdk/momo.png' to '/Users/anle/Projects/Hosrem/Repo/hosrem-app/build/ios/Release-iphoneos/MomoiOSSwiftSdk/MomoiOSSwiftSdk.framework/momo.png'&#10;    2) Target 'MomoiOSSwiftSdk' (project 'Pods') has copy command from '/Users/anle/Projects/Hosrem/Repo/hosrem-app/ios/Pods/MomoiOSSwiftSdk/MomoiOSvSwiftSdk/momo.png' to '/Users/anle/Projects/Hosrem/Repo/hosrem-app/build/ios/Release-iphoneos/MomoiOSSwiftSdk/MomoiOSSwiftSdk.framework/momo.png'&#10;    note: Using new build systemnote: Planning buildnote: Constructing build descriptionwarning: no rule to process file '/Users/anle/Projects/Hosrem/Repo/hosrem-app/ios/Pods/MomoiOSSwiftSdk/License.md' of type 'net.daringfireball.markdown' for architecture 'armv7' (in target 'MomoiOSSwiftSdk' from project 'Pods')warning: no rule to process file '/Users/anle/Projects/Hosrem/Repo/hosrem-app/ios/Pods/MomoiOSSwiftSdk/README.md' of type 'net.daringfireball.markdown' for architecture 'armv7' (in target 'MomoiOSSwiftSdk' from project 'Pods')warning: no rule to process file '/Users/anle/Projects/Hosrem/Repo/hosrem-app/ios/Pods/MomoiOSSwiftSdk/License.md' of type 'net.daringfireball.markdown' for architecture 'arm64' (in target 'MomoiOSSwiftSdk' from project 'Pods')warning: no rule to process file '/Users/anle/Projects/Hosrem/Repo/hosrem-app/ios/Pods/MomoiOSSwiftSdk/README.md' of type 'net.daringfireball.markdown' for architecture 'arm64' (in target 'MomoiOSSwiftSdk' from project 'Pods')&#10;&#10;Encountered error while building for device.&#10;" />
         
       </testcase>
     

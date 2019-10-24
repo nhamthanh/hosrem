@@ -11,7 +11,7 @@ class DateTimeUtils {
 
   /// Format [dateTime] as dd / MM / yyyy.
   static String formatAsStandard(DateTime dateTime) {
-    return formatDate(dateTime, <String>[dd, ' / ', mm, ' / ', yyyy]);
+    return formatDate(dateTime, <String>[dd, '/', mm, '/', yyyy]);
   }
 }
 

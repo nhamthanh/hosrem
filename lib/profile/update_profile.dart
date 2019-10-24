@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosrem_app/api/auth/user.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
 import 'package:hosrem_app/common/base_state.dart';
+import 'package:hosrem_app/membership/membership_service.dart';
 import 'package:hosrem_app/widget/button/primary_button.dart';
 import 'package:hosrem_app/widget/text/edit_text_field.dart';
 import 'package:loading_overlay/loading_overlay.dart';
@@ -36,7 +37,7 @@ class _UpdateProfileState extends BaseState<UpdateProfile> {
   void initState() {
     super.initState();
 
-    _profileBloc = ProfileBloc(authService: AuthService(apiProvider));
+    _profileBloc = ProfileBloc(authService: AuthService(apiProvider), membershipService: MembershipService(apiProvider));
     _profileBloc.dispatch(LoadProfileEvent());
   }
 

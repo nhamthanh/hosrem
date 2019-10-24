@@ -1,4 +1,5 @@
 import 'package:hosrem_app/api/auth/user.dart';
+import 'package:hosrem_app/api/membership/user_membership.dart';
 import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 
@@ -32,9 +33,10 @@ class ProfileFailure extends ProfileState {
 
 /// ProfileSuccess state.
 class ProfileSuccess extends ProfileState {
-  ProfileSuccess({@required this.user}) : super(<User>[user]);
+  ProfileSuccess({@required this.user, @required this.userMembership}) : super(<User>[user]);
 
   final User user;
+  final UserMembership userMembership;
 
   @override
   String toString() => 'ProfileSuccess';

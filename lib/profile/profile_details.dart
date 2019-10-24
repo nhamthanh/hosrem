@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization_delegate.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_alert/flutter_alert.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosrem_app/api/auth/degree.dart';
 import 'package:hosrem_app/api/auth/field.dart';
@@ -10,6 +9,7 @@ import 'package:hosrem_app/common/app_assets.dart';
 import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/common/date_time_utils.dart';
+import 'package:hosrem_app/membership/membership_service.dart';
 import 'package:hosrem_app/widget/svg/svg_icon.dart';
 import 'package:hosrem_app/widget/text/static_multiple_text_field.dart';
 import 'package:hosrem_app/widget/text/static_text_field.dart';
@@ -37,7 +37,7 @@ class _ProfileDetailsState extends BaseState<ProfileDetails> {
   void initState() {
     super.initState();
 
-    _profileBloc = ProfileBloc(authService: AuthService(apiProvider));
+    _profileBloc = ProfileBloc(authService: AuthService(apiProvider), membershipService: MembershipService(apiProvider));
     _profileBloc.dispatch(LoadProfileEvent());
   }
 

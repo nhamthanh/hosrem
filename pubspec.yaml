@@ -48,6 +48,8 @@ dev_dependencies:
   retrofit_generator: ^1.0.1+1
   build_runner: ^1.7.1
   json_serializable: ^3.2.2
+  momo:
+    path: ../momo
 
 
 flutter:
@@ -78,6 +80,14 @@ flutter:
   - assets/images/megaphone.svg
   - assets/images/gift.svg
   - assets/images/card.svg
+  - assets/images/momo.png
+  - assets/images/zalo.png
+  - assets/images/onepay.png
+  - assets/images/card_green.png
+  - assets/images/card_purple.png
+  - assets/images/atm.png
+  - assets/images/mastercard.png
+  - assets/images/visa.png
   - assets/langs/vi-VN.json
   - assets/langs/en-US.json
 
