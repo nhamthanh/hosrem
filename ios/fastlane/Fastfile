@@ -28,8 +28,7 @@ platform :ios do
       scheme: "Runner",
       workspace: "Runner.xcworkspace",
       export_method: "development",
-      clean: true,
-      export_xcargs: "-UseModernBuildSystem=NO"
+      clean: true
     )
     firebase_app_distribution(
       app: "1:415552824898:ios:b09cb4ea482990dbc8afdb",

@@ -6,6 +6,7 @@ import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:hosrem_app/api/auth/token.dart';
 import 'package:hosrem_app/api/auth/token_payload.dart';
 import 'package:hosrem_app/api/auth/user.dart';
+import 'package:hosrem_app/api/membership/user_membership.dart';
 import 'package:hosrem_app/network/api_provider.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -88,6 +89,19 @@ class AuthService {
     await _sharedPreferences.setString('currentUser', jsonEncode(user.toJson()));
   }
 
+  /// Persist [userMembership] into shared preferences.
+  Future<void> persistUserMembership(UserMembership userMembership) async {
+    final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+    await _sharedPreferences.setString('userMembership', jsonEncode(userMembership.toJson()));
+  }
+
+  /// Get current user membership.
+  Future<UserMembership> currentUserMembership() async {
+    final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+    final String currentUserMembership = _sharedPreferences.getString('userMembership');
+    return currentUserMembership == null ? null : UserMembership.fromJson(jsonDecode(currentUserMembership));
+  }
+
   /// Get current user.
   Future<User> currentUser() async {
     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
@@ -111,6 +125,7 @@ class AuthService {
     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
     await _sharedPreferences.remove('token');
     await _sharedPreferences.remove('currentUser');
+    await _sharedPreferences.remove('userMembership');
     await _sharedPreferences.remove('email');
     await _sharedPreferences.remove('password');
   }

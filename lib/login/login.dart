@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
 import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/login/bloc/login_bloc.dart';
+import 'package:hosrem_app/membership/membership_service.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 
 import 'bloc/login_state.dart';
@@ -21,8 +22,9 @@ class _LoginState extends BaseState<Login> {
   @override
   void initState() {
     final AuthService authService = AuthService(apiProvider);
+    final MembershipService membershipService = MembershipService(apiProvider);
 
-    _loginBloc = LoginBloc(authService: authService);
+    _loginBloc = LoginBloc(authService: authService, membershipService: membershipService);
     super.initState();
   }
 
