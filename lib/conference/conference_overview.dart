@@ -116,7 +116,7 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
                   Container(
                     padding: const EdgeInsets.all(28.0),
                     child: CachedNetworkImage(
-                      imageUrl: conference.banner != null ? '${apiConfig.apiBaseUrl}conferences/${conference.id}/banner' : 'https://',
+                      imageUrl: conference.banner != null ? '${apiConfig.apiBaseUrl}conferences/${conference.id}/banner?fileName=${conference.banner}' : 'https://',
                       placeholder: (BuildContext context, String url) => Center(child: const CircularProgressIndicator()),
                       errorWidget: (BuildContext context, String url, Object error) =>
                         Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
