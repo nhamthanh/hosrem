@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_alert/flutter_alert.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosrem_app/api/auth/user.dart';
 import 'package:hosrem_app/api/membership/membership.dart';
+import 'package:hosrem_app/api/payment/payment_type.dart';
 import 'package:hosrem_app/common/app_assets.dart';
 import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/base_state.dart';
@@ -12,13 +14,14 @@ import 'package:hosrem_app/common/currency_utils.dart';
 import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/widget/button/primary_button.dart';
 import 'package:loading_overlay/loading_overlay.dart';
-import 'package:momo/momo.dart';
 
 import 'bloc/membership_payment_bloc.dart';
 import 'bloc/membership_payment_event.dart';
 import 'bloc/membership_payment_state.dart';
 import 'bloc/membership_state.dart';
+import 'momo_payment.dart';
 import 'payment_methods.dart';
+import 'payment_service.dart';
 import 'payment_webview.dart';
 
 /// Membership payment page.
@@ -37,22 +40,26 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   MembershipPaymentBloc _membershipPaymentBloc;
+  List<PaymentType> _paymentTypes;
   String _selectedPayment;
-  Momo _momo;
-  StreamSubscription<Map<String, dynamic>> _streamSubscription;
+  MomoPayment _momoPayment;
 
   @override
   void initState() {
     super.initState();
 
-    _membershipPaymentBloc = MembershipPaymentBloc();
+    _momoPayment = MomoPayment(apiConfig, apiProvider, _handleMomoCallback);
+    _membershipPaymentBloc = MembershipPaymentBloc(paymentService: PaymentService(apiProvider));
+    _membershipPaymentBloc.dispatch(LoadPaymentDataEvent());
+  }
 
-    _momo = Momo();
-    _streamSubscription = _momo.onMomoCallback().listen((Map<String, dynamic> result) async {
-      print('onMomoCallback()...');
-      print(result);
-      _membershipPaymentBloc.dispatch(MomoPaymentEvent(token: ''));
-    });
+  void _handleMomoCallback(Map<String, dynamic> result) {
+    _membershipPaymentBloc.dispatch(MomoPaymentEvent(
+      membership: widget.membership,
+      detail: json.encode(result),
+      paymentType: _paymentTypes.firstWhere((PaymentType paymentType) => paymentType.type == PaymentMethods.momo,
+        orElse: () => PaymentType.fromJson(<String, dynamic>{}))
+    ));
   }
 
   @override
@@ -62,7 +69,7 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
       child: BlocListener<MembershipPaymentBloc, MembershipPaymentState>(
         listener: (BuildContext context, MembershipPaymentState state) {
           if (state is MembershipPaymentFailure) {
-            Scaffold.of(context).showSnackBar(
+            _scaffoldKey.currentState.showSnackBar(
               SnackBar(
                 content: Text('${state.error}'),
                 backgroundColor: Colors.red,
@@ -72,6 +79,10 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
 
           if (state is MembershipPaymentSuccess) {
             _showPaymentSuccessDialog();
+          }
+
+          if (state is LoadedPaymentData) {
+            _paymentTypes = state.paymentTypes;
           }
         },
         child: BlocBuilder<MembershipPaymentBloc, MembershipPaymentState>(
@@ -234,21 +245,7 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
 
   Future<void> _handleProcessPayment() async {
     if (_selectedPayment == PaymentMethods.momo) {
-      await _momo.setEnvironment('dev');
-      await _momo.requestPayment(<String, dynamic>{
-        'merchantName': 'Zamo LLC',
-        'merchantCode': 'MC123',
-        'amount': 10.0,
-        'description': 'Request a test payment on Momo',
-        'fee': 1.0,
-        'merchantNameLabel': 'Zamo LLC',
-        'requestId': '1',
-        'partnerCode': 'MOMOS9HI20191019',
-        'extraData': '',
-        'language': 'vi',
-        'extra': '',
-        'appScheme': 'momos9hi20191019'
-      });
+      await _momoPayment.requestPayment(widget.membership.fee, 'Đăng ký hội viên HOSREM');
     } else if (_selectedPayment == PaymentMethods.creditCards) {
       await Navigator.push(context, MaterialPageRoute<bool>(
         builder: (BuildContext context) => const PaymentWebview(atm: false))
@@ -276,7 +273,7 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
   @override
   void dispose() {
     _membershipPaymentBloc.dispose();
-    _streamSubscription.cancel();
+    _momoPayment.dispose();
     super.dispose();
   }
 }

@@ -1,7 +1,7 @@
+import 'package:hosrem_app/api/payment/payment_type.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'membership.dart';
-import 'payment_type.dart';
 
 part 'user_membership.g.dart';
 

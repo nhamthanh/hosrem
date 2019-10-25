@@ -25,4 +25,9 @@ class MembershipService {
     final UserMembership userMembership = await apiProvider.userMembershipApi.getMembershipStatusByUserId(userId);
     return userMembership;
   }
+
+  /// Create user membership.
+  Future<UserMembership> createUserMembership(UserMembership userMembership) async {
+    return apiProvider.userMembershipApi.createUserMembership(userMembership);
+  }
 }

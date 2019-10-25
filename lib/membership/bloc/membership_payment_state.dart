@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:hosrem_app/api/payment/payment_type.dart';
 import 'package:meta/meta.dart';
 
 /// Membership payment state.
@@ -27,4 +28,14 @@ class MembershipPaymentFailure extends MembershipPaymentState {
 class MembershipPaymentSuccess extends MembershipPaymentState {
   @override
   String toString() => 'MembershipPaymentSuccess';
+}
+
+/// LoadedPaymentData state.
+class LoadedPaymentData extends MembershipPaymentState {
+  LoadedPaymentData({@required this.paymentTypes}) : super(<dynamic>[paymentTypes]);
+
+  final List<PaymentType> paymentTypes;
+
+  @override
+  String toString() => 'LoadedPaymentData';
 }
