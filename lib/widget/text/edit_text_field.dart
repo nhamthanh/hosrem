@@ -6,10 +6,11 @@ import 'package:hosrem_app/common/text_styles.dart';
 @immutable
 class EditTextField extends StatelessWidget {
   const EditTextField({this.title, this.hint, this.obscureText = false, this.prefixIcon, this.hasLabel = true,
-    this.controller, this.onTextChanged});
+    this.controller, this.onTextChanged, this.error});
 
   final String title;
   final String hint;
+  final String error;
   final bool hasLabel;
   final bool obscureText;
   final Widget prefixIcon;
@@ -50,7 +51,8 @@ class EditTextField extends StatelessWidget {
             controller: controller,
             style: TextStyles.textStyle16PrimaryGrey
           )
-        )
+        ),
+        error != null ? Text(error, style: TextStyles.textStyle14PrimaryRed) : Container()
       ]
     );
   }

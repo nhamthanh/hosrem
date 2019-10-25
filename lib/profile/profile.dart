@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosrem_app/api/auth/degree.dart';
 import 'package:hosrem_app/api/auth/user.dart';
+import 'package:hosrem_app/api/membership/user_membership.dart';
 import 'package:hosrem_app/app/app_routes.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
 import 'package:hosrem_app/common/app_assets.dart';
@@ -11,6 +12,8 @@ import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/login/login.dart';
+import 'package:hosrem_app/membership/membership_registration.dart';
+import 'package:hosrem_app/membership/membership_service.dart';
 import 'package:hosrem_app/profile/profile_details.dart';
 import 'package:hosrem_app/widget/button/default_button.dart';
 import 'package:hosrem_app/widget/navigator/navigator_item.dart';
@@ -20,6 +23,8 @@ import 'package:page_transition/page_transition.dart';
 import 'bloc/profile_bloc.dart';
 import 'bloc/profile_event.dart';
 import 'bloc/profile_state.dart';
+
+import 'package:hosrem_app/membership/membership_status_widget.dart';
 
 /// Profile page.
 @immutable
@@ -37,7 +42,7 @@ class _ProfileState extends BaseState<Profile> {
     super.initState();
 
     _authService = AuthService(apiProvider);
-    _profileBloc = ProfileBloc(authService: AuthService(apiProvider));
+    _profileBloc = ProfileBloc(authService: AuthService(apiProvider), membershipService: MembershipService(apiProvider));
     _profileBloc.dispatch(LoadProfileEvent());
   }
 
@@ -52,6 +57,7 @@ class _ProfileState extends BaseState<Profile> {
           bloc: _profileBloc,
           builder: (BuildContext context, ProfileState state) {
             final User user = state is ProfileSuccess ? state.user : null;
+            final UserMembership userMembership = state is ProfileSuccess ? state.userMembership : null;
             return Container(
               child: ListView(
                 children: <Widget>[
@@ -63,7 +69,7 @@ class _ProfileState extends BaseState<Profile> {
                         Container(
                           width: 108.0,
                           height: 108.0,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                             color: Colors.white
                           ),
@@ -120,67 +126,8 @@ class _ProfileState extends BaseState<Profile> {
                     ),
                   ),
                   const Divider(),
-                  user?.userType != 'Member' ? Container(
-                    padding: const EdgeInsets.symmetric(vertical: 19.5, horizontal: 28.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'Thành Viên Bình Thường',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyles.textStyle16SecondaryGreyBold
-                        ),
-                        Text(
-                          'Nâng Cấp Thành Hội Viên HOSREM',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyles.textStyle13PrimaryBlue
-                        )
-                      ],
-                    )
-                  ) :
-                  Container(
-                    padding: const EdgeInsets.symmetric(vertical: 19.5, horizontal: 28.0),
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          padding: const EdgeInsets.only(top: 5.0),
-                          child: SvgIcon(AppAssets.diamondIcon, size: 37.0)
-                        ),
-                        const SizedBox(width: 16.0),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              'Hội Viên HOSREM',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyles.textStyle16PrimaryBlue
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Text(
-                                  'Ngày hết hạn 20/10/2019',
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyles.textStyle13PrimaryGrey
-                                ),
-                                const SizedBox(width: 5.0),
-                                Text(
-                                  'Gia hạn',
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyles.textStyle13PrimaryBlue
-                                )
-                              ],
-                            )
-                          ],
-                        )
-                      ],
-                    )
-                  ),
-                  Container(
+                  _buildMembershipStatusWidget(user, userMembership),
+                  user == null ? Container() : Container(
                     height: 20.0,
                     color: AppColors.backgroundConferenceColor,
                   ),
@@ -220,8 +167,13 @@ class _ProfileState extends BaseState<Profile> {
         )
       )
     );
+  }
 
-
+  Widget _buildMembershipStatusWidget(User user, UserMembership userMembership) {
+    return InkWell(
+      child: MembershipStatusWidget(user: user, userMembership: userMembership),
+      onTap: () => _navigateToMemberRegistration(user, userMembership)
+    );
   }
 
   Future<void> _navigateToProfile(User user) async {
@@ -238,6 +190,11 @@ class _ProfileState extends BaseState<Profile> {
     _authService.clearUser();
     apiProvider.cacheManager.emptyCache();
     appContext.router.navigateTo(context, AppRoutes.homeRoute, clearStack:true, transition: TransitionType.fadeIn);
+  }
+
+  Future<void> _navigateToMemberRegistration(User user, UserMembership userMembership) async {
+    await Navigator.push<dynamic>(context, PageTransition<dynamic>(
+      type: PageTransitionType.downToUp, child: MembershipRegistration(user: user, userMembership: userMembership)));
   }
 
   @override

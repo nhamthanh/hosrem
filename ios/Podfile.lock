@@ -100,6 +100,10 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (6.3.0):
     - GoogleUtilities/Logger
+  - momo (0.0.1):
+    - Flutter
+    - MomoiOSSwiftSdk
+  - MomoiOSSwiftSdk (2.1.1)
   - nanopb (0.3.901):
     - nanopb/decode (= 0.3.901)
     - nanopb/encode (= 0.3.901)
@@ -124,6 +128,8 @@ DEPENDENCIES:
   - flutter_facebook_login (from `.symlinks/plugins/flutter_facebook_login/ios`)
   - flutter_full_pdf_viewer (from `.symlinks/plugins/flutter_full_pdf_viewer/ios`)
   - flutter_money_formatter (from `.symlinks/plugins/flutter_money_formatter/ios`)
+  - momo (from `.symlinks/plugins/momo/ios`)
+  - MomoiOSSwiftSdk (from `https://github.com/momodevelopment/MomoiOSSwiftSdk.git`, branch `master`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
@@ -162,12 +168,22 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_full_pdf_viewer/ios"
   flutter_money_formatter:
     :path: ".symlinks/plugins/flutter_money_formatter/ios"
+  momo:
+    :path: ".symlinks/plugins/momo/ios"
+  MomoiOSSwiftSdk:
+    :branch: master
+    :git: https://github.com/momodevelopment/MomoiOSSwiftSdk.git
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
   shared_preferences:
     :path: ".symlinks/plugins/shared_preferences/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
+
+CHECKOUT OPTIONS:
+  MomoiOSSwiftSdk:
+    :commit: 3f3b2f930b7507c6730eaf1b45bbd5f3506cf9cd
+    :git: https://github.com/momodevelopment/MomoiOSSwiftSdk.git
 
 SPEC CHECKSUMS:
   connectivity: c72716e202a1225ec4810740d5cb56b8ae3bf4cc
@@ -191,6 +207,8 @@ SPEC CHECKSUMS:
   GoogleDataTransport: c8617c00e4f3eb9418e42ac0e8ac5241a9d555dd
   GoogleDataTransportCCTSupport: 9f352523e8785a71f6754f51eeff09f49ec19268
   GoogleUtilities: 9c2c544202301110b29f7974a82e77fdcf12bf51
+  momo: e27e0941ea117a2944d4562ee3cb40a766735fd1
+  MomoiOSSwiftSdk: 12088f0e307a537c199f8301c56d81925687ccb5
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   path_provider: f96fff6166a8867510d2c25fdcc346327cc4b259
   Protobuf: 67fb42ba613def994e61854de2b3164f13790cc4
@@ -198,6 +216,6 @@ SPEC CHECKSUMS:
   shared_preferences: 1feebfa37bb57264736e16865e7ffae7fc99b523
   sqflite: ff1d9da63c06588cc8d1faf7256d741f16989d5a
 
-PODFILE CHECKSUM: f0622c9d135bd035fedb67d6ef72fe4fe342a9be
+PODFILE CHECKSUM: f0a427391990d704c5a0abbdb315e06fa8e5237a
 
 COCOAPODS: 1.7.4

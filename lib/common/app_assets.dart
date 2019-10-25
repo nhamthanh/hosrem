@@ -76,5 +76,29 @@ class AppAssets {
 
   /// Conference placeholder.
   static const String conferencePlaceholder = 'assets/images/conference_placeholder.png';
+
+  /// Zalo icon.
+  static const String zaloIcon = 'assets/images/zalo.png';
+
+  /// Momo icon.
+  static const String momoIcon = 'assets/images/momo.png';
+
+  /// Onepay icon.
+  static const String onepayIcon = 'assets/images/onepay.png';
+
+  /// Momo icon.
+  static const String atmIcon = 'assets/images/atm.png';
+
+  /// Onepay icon.
+  static const String visaIcon = 'assets/images/visa.png';
+
+  /// Onepay icon.
+  static const String mastercardIcon = 'assets/images/mastercard.png';
+
+  /// Card green background.
+  static const String cardGreenBg = 'assets/images/card_green.png';
+
+  /// Card purple background.
+  static const String cardPurpleBg = 'assets/images/card_purple.png';
 }
 

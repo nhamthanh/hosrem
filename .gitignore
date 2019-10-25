@@ -43,6 +43,7 @@ captures/
 .idea/gradle.xml
 .idea/dictionaries
 .idea/libraries
+android/.idea
 
 # External native build folder generated in Android Studio 2.2 and later
 .externalNativeBuild
@@ -347,6 +348,8 @@ playground.xcworkspace
 # Build files
 build/
 
+### Dart ###
 .dart_tool
+.flutter-plugins
 
 # End of https://www.gitignore.io/api/dart,swift,xcode,android,intellij,cocoapods,objective-c,androidstudio

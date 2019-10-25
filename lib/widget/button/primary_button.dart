@@ -4,18 +4,20 @@ import 'package:hosrem_app/common/app_colors.dart';
 /// Primary button.
 @immutable
 class PrimaryButton extends StatelessWidget {
-  const PrimaryButton({this.backgroundColor, this.text, this.onPressed});
+  const PrimaryButton({this.backgroundColor, this.text, this.onPressed, this.height = 50.0, this.hasShadow = true});
 
   final Color backgroundColor;
   final String text;
   final Function onPressed;
+  final double height;
+  final bool hasShadow;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50.0,
+      height: height,
       decoration: BoxDecoration(
-        boxShadow: <BoxShadow>[
+        boxShadow: hasShadow ? <BoxShadow>[
           BoxShadow(
             color: AppColors.buttonShadowColor1,
             offset: const Offset(0.0, 2.0),
@@ -34,14 +36,14 @@ class PrimaryButton extends StatelessWidget {
             blurRadius: 5.0,
             spreadRadius: 1.0
           )
-        ],
+        ] : <BoxShadow>[],
         color: AppColors.lightPrimaryColor,
         borderRadius: BorderRadius.circular(5.0),
       ),
       child: FlatButton(
         child: Text(text),
         textColor: Colors.white,
-        onPressed: onPressed,
+        onPressed: onPressed
       )
     );
   }
