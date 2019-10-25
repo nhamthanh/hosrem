@@ -60,7 +60,7 @@ class _MembershipRegistrationState extends BaseState<MembershipRegistration> {
       child: BlocListener<MembershipBloc, MembershipState>(
         listener: (BuildContext context, MembershipState state) {
           if (state is MembershipFailure) {
-            Scaffold.of(context).showSnackBar(
+            _scaffoldKey.currentState.showSnackBar(
               SnackBar(
                 content: Text('${state.error}'),
                 backgroundColor: Colors.red,

@@ -13,6 +13,10 @@ void main() {
     appName: 'Build flavors DEV',
     flavorName: 'dev',
     apiBaseUrl: 'https://api.hosrem-dev.zamo.io/api/',
+    momoMerchantName: 'Zamo LLC',
+    momoMerchantCode: 'ZM123',
+    momoPartnerCode: 'MOMOS9HI20191019',
+    momoAppScheme: 'momos9hi20191019'
   );
 
   runApp(EasyLocalization(child: const App(apiConfig: apiConfig)));
