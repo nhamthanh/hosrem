@@ -42,6 +42,9 @@ dependencies:
   firebase_messaging: ^5.1.6
   collection: ^1.14.11
   flutter_money_formatter: ^0.8.3
+  webview_flutter: ^0.3.15+1
+  momo:
+    path: ../momo
 
 dev_dependencies:
   flutter_test:
@@ -49,9 +52,6 @@ dev_dependencies:
   retrofit_generator: ^1.0.1+1
   build_runner: ^1.7.1
   json_serializable: ^3.2.2
-  momo:
-    path: ../momo
-
 
 flutter:
   uses-material-design: true

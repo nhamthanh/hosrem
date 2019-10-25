@@ -173,28 +173,31 @@ class _MembershipRegistrationState extends BaseState<MembershipRegistration> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        Container(
-          height: 139.0,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5.0),
-            image: DecorationImage(
-              image: AssetImage(memberships.indexOf(membership) % 2 == 0 ? AppAssets.cardGreenBg : AppAssets.cardPurpleBg),
-              fit: BoxFit.cover,
+        InkWell(
+          child: Container(
+            height: 139.0,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5.0),
+              image: DecorationImage(
+                image: AssetImage(memberships.indexOf(membership) % 2 == 0 ? AppAssets.cardGreenBg : AppAssets.cardPurpleBg),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  'Đăng ký ${membership.duration} năm',
+                  style: TextStyles.textStyle22PrimaryWhiteBold),
+                Text(
+                  '${CurrencyUtils.formatAsCurrency(membership.fee)} VND',
+                  style: TextStyles.textStyle22PrimaryWhite
+                ),
+              ],
             ),
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                'Đăng ký ${membership.duration} năm',
-                style: TextStyles.textStyle22PrimaryWhiteBold),
-              Text(
-                '${CurrencyUtils.formatAsCurrency(membership.fee)} VND',
-                style: TextStyles.textStyle22PrimaryWhite
-              ),
-            ],
-          ),
+          onTap: () => _handleOptionChanged(membership, memberships)
         ),
         Container(
           transform: Matrix4.translationValues(-17.0, 0.0, 0.0),
@@ -206,8 +209,11 @@ class _MembershipRegistrationState extends BaseState<MembershipRegistration> {
                 onChanged: (Membership membership) => _handleOptionChanged(membership, memberships),
               ),
               Expanded(
-                child: Text('Lựa chọn đăng ký ${membership.duration} năm', style: TextStyles.textStyle16PrimaryBlack),
-              ),
+                child: InkWell(
+                  child: Text('Lựa chọn đăng ký ${membership.duration} năm', style: TextStyles.textStyle16PrimaryBlack),
+                  onTap: () => _handleOptionChanged(membership, memberships)
+                )
+              )
             ],
           )
         ),

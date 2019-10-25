@@ -19,6 +19,7 @@ import 'bloc/membership_payment_event.dart';
 import 'bloc/membership_payment_state.dart';
 import 'bloc/membership_state.dart';
 import 'payment_methods.dart';
+import 'payment_webview.dart';
 
 /// Membership payment page.
 @immutable
@@ -50,7 +51,7 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
     _streamSubscription = _momo.onMomoCallback().listen((Map<String, dynamic> result) async {
       print('onMomoCallback()...');
       print(result);
-      _membershipPaymentBloc.dispatch(MomoPaymentEvent());
+      _membershipPaymentBloc.dispatch(MomoPaymentEvent(token: ''));
     });
   }
 
@@ -117,7 +118,11 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
                                                     onChanged: _handleOptionChanged,
                                                   ),
                                                   Expanded(
-                                                    child: Text('ATM Card', style: TextStyles.textStyle16PrimaryBlack),
+                                                    child: InkWell(
+                                                      child: Text('ATM Card', style: TextStyles.textStyle16PrimaryBlack),
+                                                      onTap: () => _handleOptionChanged(PaymentMethods.atm)
+                                                    )
+
                                                   ),
                                                   Image.asset(AppAssets.atmIcon, width: 46.0, height: 30.0)
                                                 ],
@@ -134,7 +139,10 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
                                                     onChanged: _handleOptionChanged,
                                                   ),
                                                   Expanded(
-                                                    child: Text('Thẻ quốc tế (Visa, Master)', style: TextStyles.textStyle16PrimaryBlack),
+                                                    child: InkWell(
+                                                      child: Text('Thẻ quốc tế (Visa, Master)', style: TextStyles.textStyle16PrimaryBlack),
+                                                      onTap: () => _handleOptionChanged(PaymentMethods.creditCards)
+                                                    )
                                                   ),
                                                   Image.asset(AppAssets.visaIcon, width: 55.0, height: 17.0),
                                                   const SizedBox(width: 5.0),
@@ -153,7 +161,10 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
                                                     onChanged: _handleOptionChanged,
                                                   ),
                                                   Expanded(
-                                                    child: Text('Momo', style: TextStyles.textStyle16PrimaryBlack),
+                                                    child: InkWell(
+                                                      child: Text('Momo', style: TextStyles.textStyle16PrimaryBlack),
+                                                      onTap: () => _handleOptionChanged(PaymentMethods.momo)
+                                                    )
                                                   ),
                                                   Image.asset(AppAssets.momoIcon, width: 80.0, height: 52.0)
                                                 ],
@@ -238,12 +249,13 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
         'extra': '',
         'appScheme': 'momos9hi20191019'
       });
+    } else if (_selectedPayment == PaymentMethods.creditCards) {
+      await Navigator.push(context, MaterialPageRoute<bool>(
+        builder: (BuildContext context) => const PaymentWebview(atm: false))
+      );
     } else {
-      _scaffoldKey.currentState.showSnackBar(
-        SnackBar(
-          content: const Text('This payment method has not been supported yet'),
-          backgroundColor: Colors.red,
-        ),
+      await Navigator.push(context, MaterialPageRoute<bool>(
+        builder: (BuildContext context) => const PaymentWebview(atm: true))
       );
     }
   }

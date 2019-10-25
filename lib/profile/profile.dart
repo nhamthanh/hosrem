@@ -14,6 +14,7 @@ import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/login/login.dart';
 import 'package:hosrem_app/membership/membership_registration.dart';
 import 'package:hosrem_app/membership/membership_service.dart';
+import 'package:hosrem_app/membership/membership_status_widget.dart';
 import 'package:hosrem_app/profile/profile_details.dart';
 import 'package:hosrem_app/widget/button/default_button.dart';
 import 'package:hosrem_app/widget/navigator/navigator_item.dart';
@@ -23,8 +24,6 @@ import 'package:page_transition/page_transition.dart';
 import 'bloc/profile_bloc.dart';
 import 'bloc/profile_event.dart';
 import 'bloc/profile_state.dart';
-
-import 'package:hosrem_app/membership/membership_status_widget.dart';
 
 /// Profile page.
 @immutable

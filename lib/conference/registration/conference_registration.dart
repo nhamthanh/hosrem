@@ -35,7 +35,7 @@ class _ConferenceRegistrationState extends BaseState<ConferenceRegistration> {
           appBar: AppBar(
             title: Row(
               children: <Widget>[
-                Expanded(
+                const Expanded(
                   child: Text(
                     'Thanh toán',
                     maxLines: 2,
