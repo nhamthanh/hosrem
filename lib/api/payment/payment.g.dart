@@ -9,7 +9,7 @@ part of 'payment.dart';
 Payment _$PaymentFromJson(Map<String, dynamic> json) {
   return Payment(
     json['id'] as String,
-    json['detail'] as String,
+    json['detail'] as Map<String, dynamic>,
     json['payFor'] as String,
     json['payRef'] as String,
     json['paymentTypeId'] as String,

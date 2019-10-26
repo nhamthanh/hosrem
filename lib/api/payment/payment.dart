@@ -13,7 +13,7 @@ class Payment {
   final String id;
 
   @JsonKey(name: 'detail')
-  final String detail;
+  final Map<String, dynamic> detail;
 
   @JsonKey(name: 'payFor')
   final String payFor;

@@ -30,6 +30,7 @@ class MomoPayment {
       'merchantName': apiConfig.momoMerchantName,
       'merchantCode': apiConfig.momoMerchantCode,
       'amount': amount,
+      'fee': 0.0,
       'description': description,
       'merchantNameLabel': apiConfig.momoMerchantName,
       'requestId': '1',
