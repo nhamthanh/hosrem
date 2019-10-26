@@ -71,102 +71,107 @@ class _MembershipRegistrationState extends BaseState<MembershipRegistration> {
         child: BlocBuilder<MembershipBloc, MembershipState>(
           bloc: _membershipBloc,
           builder: (BuildContext context, MembershipState state) {
-            if (state is MembershipSuccess) {
-              return Scaffold(
-                key: _scaffoldKey,
-                appBar: AppBar(
-                  title: Text(_title),
-                  automaticallyImplyLeading: false,
-                  actions: <Widget>[
-                    IconButton(
-                      icon: Icon(Icons.clear),
-                      color: Colors.white,
-                      onPressed: () => Navigator.pop(context)
-                    )
-                  ],
-                  centerTitle: true
-                ),
-                body: LoadingOverlay(
-                  isLoading: state is MembershipLoading,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      Expanded(
-                        child: SingleChildScrollView(
-                          child: Container(
-                            color: Colors.white,
-                            child: Column(
-                              children: <Widget>[
-                                Container(
-                                  padding: const EdgeInsets.all(28.0),
-                                  child: Text(
-                                    'Sẵn sàng nâng cấp tài khoản của bạn thành hội viên HOSREM?',
-                                    style: TextStyles.textStyle20PrimaryBlack,
-                                    textAlign: TextAlign.center,
-                                  )
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 12.0),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: state.memberships.map(
-                                        (Membership membership) => _buildMembershipCardWidget(membership, state.memberships)).toList()
-                                  )
-                                ),
-                                const Divider(),
-                                Promotion(),
-                                const SizedBox(height: 24.0)
-                              ]
-                            )
-                          )
-                        ),
-                      ),
-                      Container(
-                        height: 10.0,
-                        color: AppColors.backgroundConferenceColor
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 24.0),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Text(
-                                'Thành Tiền',
-                                style: TextStyles.textStyle14PrimaryBlackBold
-                              )
-                            ),
-                            Text(
-                              state.selectedMembership == null ? '0 VND' : '${CurrencyUtils.formatAsCurrency(state.selectedMembership.fee)} VND',
-                              style: TextStyles.textStyle22PrimaryBlueBold
-                            )
-                          ],
-                        )
-                      ),
-                      Container(
-                        height: 10.0,
-                        color: AppColors.backgroundConferenceColor,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          border: Border(top: BorderSide(width: 1.0, color: AppColors.editTextFieldBorderColor)),
-                          color: Colors.white,
-                        ),
-                        padding: const EdgeInsets.only(left: 25.0, top: 28.5, bottom: 28.5, right: 25.0),
-                        child: PrimaryButton(
-                          text: 'Tiếp tục',
-                          onPressed: state.selectedMembership == null ? null : _handleProcessPayment
-                        )
-                      )
-                    ]
+            return Scaffold(
+              key: _scaffoldKey,
+              appBar: AppBar(
+                title: Text(_title),
+                automaticallyImplyLeading: false,
+                actions: <Widget>[
+                  IconButton(
+                    icon: Icon(Icons.clear),
+                    color: Colors.white,
+                    onPressed: () => Navigator.pop(context)
                   )
-                )
-              );
-            }
-            return Container();
+                ],
+                centerTitle: true
+              ),
+              body: LoadingOverlay(
+                isLoading: state is MembershipLoading,
+                child: _buildMembershipsContentWidget(state)
+              )
+            );
           }
         )
       )
     );
+  }
+
+  Widget _buildMembershipsContentWidget(MembershipState state) {
+    if (state is MembershipSuccess) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Expanded(
+            child: SingleChildScrollView(
+              child: Container(
+                color: Colors.white,
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      padding: const EdgeInsets.all(28.0),
+                      child: Text(
+                        'Sẵn sàng nâng cấp tài khoản của bạn thành hội viên HOSREM?',
+                        style: TextStyles.textStyle20PrimaryBlack,
+                        textAlign: TextAlign.center,
+                      )
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 12.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: state.memberships.map(
+                            (Membership membership) => _buildMembershipCardWidget(membership, state.memberships)).toList()
+                      )
+                    ),
+                    const Divider(),
+                    Promotion(),
+                    const SizedBox(height: 24.0)
+                  ]
+                )
+              )
+            ),
+          ),
+          Container(
+            height: 10.0,
+            color: AppColors.backgroundConferenceColor
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 24.0),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: Text(
+                    'Thành Tiền',
+                    style: TextStyles.textStyle14PrimaryBlackBold
+                  )
+                ),
+                Text(
+                  state.selectedMembership == null ? '0 VND' : '${CurrencyUtils.formatAsCurrency(state.selectedMembership.fee)} VND',
+                  style: TextStyles.textStyle22PrimaryBlueBold
+                )
+              ],
+            )
+          ),
+          Container(
+            height: 10.0,
+            color: AppColors.backgroundConferenceColor,
+          ),
+          Container(
+            decoration: BoxDecoration(
+              border: Border(top: BorderSide(width: 1.0, color: AppColors.editTextFieldBorderColor)),
+              color: Colors.white,
+            ),
+            padding: const EdgeInsets.only(left: 25.0, top: 28.5, bottom: 28.5, right: 25.0),
+            child: PrimaryButton(
+              text: 'Tiếp tục',
+              onPressed: state.selectedMembership == null ? null : _handleProcessPayment
+            )
+          )
+        ]
+      );
+    }
+
+    return Container();
   }
 
   Widget _buildMembershipCardWidget(Membership membership, List<Membership> memberships) {

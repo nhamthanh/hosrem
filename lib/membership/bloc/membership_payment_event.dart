@@ -9,9 +9,9 @@ abstract class MembershipPaymentEvent extends Equatable {
   const MembershipPaymentEvent([List<dynamic> props = const <dynamic>[]]) : super(props);
 }
 
-/// MomoPaymentEvent event.
-class MomoPaymentEvent extends MembershipPaymentEvent {
-  MomoPaymentEvent({@required this.detail, @required this.membership, @required this.paymentType}) :
+/// ProcessMomoPaymentEvent event.
+class ProcessMomoPaymentEvent extends MembershipPaymentEvent {
+  ProcessMomoPaymentEvent({@required this.detail, @required this.membership, @required this.paymentType}) :
       super(<dynamic>[detail, membership, paymentType]);
 
   final Map<String, dynamic> detail;
@@ -19,13 +19,25 @@ class MomoPaymentEvent extends MembershipPaymentEvent {
   final PaymentType paymentType;
 
   @override
-  String toString() => 'MomoPaymentEvent { }';
+  String toString() => 'ProcessMomoPaymentEvent { }';
 }
 
 /// LoadPaymentDataEvent event.
 class LoadPaymentDataEvent extends MembershipPaymentEvent {
   @override
   String toString() => 'LoadPaymentDataEvent { }';
+}
+
+/// ChangePaymentMethodEvent event.
+class ChangePaymentMethodEvent extends MembershipPaymentEvent {
+  ChangePaymentMethodEvent({@required this.paymentTypes, @required this.selectedPayment}) :
+      super(<dynamic>[paymentTypes, selectedPayment]);
+
+  final List<PaymentType> paymentTypes;
+  final String selectedPayment;
+
+  @override
+  String toString() => 'ChangePaymentMethodEvent { }';
 }
 
 
