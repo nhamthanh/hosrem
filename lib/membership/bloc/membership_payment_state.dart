@@ -32,9 +32,11 @@ class MembershipPaymentSuccess extends MembershipPaymentState {
 
 /// LoadedPaymentData state.
 class LoadedPaymentData extends MembershipPaymentState {
-  LoadedPaymentData({@required this.paymentTypes}) : super(<dynamic>[paymentTypes]);
+  LoadedPaymentData({@required this.paymentTypes, this.selectedPayment}) :
+      super(<dynamic>[paymentTypes, selectedPayment]);
 
   final List<PaymentType> paymentTypes;
+  final String selectedPayment;
 
   @override
   String toString() => 'LoadedPaymentData';

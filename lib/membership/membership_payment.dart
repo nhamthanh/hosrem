@@ -56,7 +56,7 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
   void _handleMomoCallback(Map<String, dynamic> result) {
     result.putIfAbsent('amount', () => widget.membership.fee);
     print(json.encode(result));
-    _membershipPaymentBloc.dispatch(MomoPaymentEvent(
+    _membershipPaymentBloc.dispatch(ProcessMomoPaymentEvent(
       membership: widget.membership,
       detail: result,
       paymentType: _paymentTypes.firstWhere((PaymentType paymentType) => paymentType.type == PaymentMethods.momo,
@@ -82,10 +82,6 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
           if (state is MembershipPaymentSuccess) {
             _showPaymentSuccessDialog();
           }
-
-          if (state is LoadedPaymentData) {
-            _paymentTypes = state.paymentTypes;
-          }
         },
         child: BlocBuilder<MembershipPaymentBloc, MembershipPaymentState>(
           bloc: _membershipPaymentBloc,
@@ -98,141 +94,7 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
               ),
               body: LoadingOverlay(
                 isLoading: state is MembershipLoading,
-                child: Container(
-                  color: Colors.white,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      Expanded(
-                        child: SingleChildScrollView(
-                          child: Container(
-                            color: Colors.white,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Container(
-                                      padding: const EdgeInsets.only(top: 28.0, left: 28.0, right: 28.0, bottom: 16.0),
-                                      child: Text('Hình thức thanh toán', style: TextStyles.textStyle14PrimaryGrey)
-                                    ),
-                                    Container(
-                                      padding: const EdgeInsets.only(left: 15.0, right: 28.0, bottom: 28.0),
-                                      child: Column(
-                                        children: <Widget>[
-                                          Column(
-                                            children: <Widget>[
-                                              Row(
-                                                children: <Widget>[
-                                                  Radio<String>(
-                                                    value: PaymentMethods.atm,
-                                                    groupValue: _selectedPayment,
-                                                    onChanged: _handleOptionChanged,
-                                                  ),
-                                                  Expanded(
-                                                    child: InkWell(
-                                                      child: Text('ATM Card', style: TextStyles.textStyle16PrimaryBlack),
-                                                      onTap: () => _handleOptionChanged(PaymentMethods.atm)
-                                                    )
-
-                                                  ),
-                                                  Image.asset(AppAssets.atmIcon, width: 46.0, height: 30.0)
-                                                ],
-                                              )
-                                            ]
-                                          ),
-                                          Column(
-                                            children: <Widget>[
-                                              Row(
-                                                children: <Widget>[
-                                                  Radio<String>(
-                                                    value: PaymentMethods.creditCards,
-                                                    groupValue: _selectedPayment,
-                                                    onChanged: _handleOptionChanged,
-                                                  ),
-                                                  Expanded(
-                                                    child: InkWell(
-                                                      child: Text('Thẻ quốc tế (Visa, Master)', style: TextStyles.textStyle16PrimaryBlack),
-                                                      onTap: () => _handleOptionChanged(PaymentMethods.creditCards)
-                                                    )
-                                                  ),
-                                                  Image.asset(AppAssets.visaIcon, width: 55.0, height: 17.0),
-                                                  const SizedBox(width: 5.0),
-                                                  Image.asset(AppAssets.mastercardIcon, width: 49.0, height: 30.0)
-                                                ],
-                                              )
-                                            ]
-                                          ),
-                                          Column(
-                                            children: <Widget>[
-                                              Row(
-                                                children: <Widget>[
-                                                  Radio<String>(
-                                                    value: PaymentMethods.momo,
-                                                    groupValue: _selectedPayment,
-                                                    onChanged: _handleOptionChanged,
-                                                  ),
-                                                  Expanded(
-                                                    child: InkWell(
-                                                      child: Text('Momo', style: TextStyles.textStyle16PrimaryBlack),
-                                                      onTap: () => _handleOptionChanged(PaymentMethods.momo)
-                                                    )
-                                                  ),
-                                                  Image.asset(AppAssets.momoIcon, width: 80.0, height: 52.0)
-                                                ],
-                                              )
-                                            ]
-                                          )
-                                        ],
-                                      )
-                                    )
-                                  ],
-                                ),
-                              ]
-                            )
-                          )
-                        ),
-                      ),
-                      Container(
-                        height: 10.0,
-                        color: AppColors.backgroundConferenceColor,
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 24.0),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Text(
-                                'Thành Tiền',
-                                style: TextStyles.textStyle14PrimaryBlackBold
-                              )
-                            ),
-                            Text(
-                              '${CurrencyUtils.formatAsCurrency(widget.membership.fee)} VND',
-                              style: TextStyles.textStyle22PrimaryBlueBold
-                            )
-                          ],
-                        )
-                      ),
-                      Container(
-                        height: 10.0,
-                        color: AppColors.backgroundConferenceColor,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          border: Border(top: BorderSide(width: 1.0, color: AppColors.editTextFieldBorderColor)),
-                          color: Colors.white,
-                        ),
-                        padding: const EdgeInsets.only(left: 25.0, top: 28.5, bottom: 28.5, right: 25.0),
-                        child: PrimaryButton(
-                          text: 'Tiến hành thanh toán',
-                          onPressed: _handleProcessPayment,
-                        )
-                      )
-                    ]
-                  )
-                )
+                child: _buildMembershipPaymentWidget(state)
               )
             );
           }
@@ -241,8 +103,152 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
     );
   }
 
+  Widget _buildMembershipPaymentWidget(MembershipPaymentState state) {
+    if (state is LoadedPaymentData) {
+      _selectedPayment = state.selectedPayment;
+      _paymentTypes = state.paymentTypes;
+      return Container(
+        color: Colors.white,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Expanded(
+              child: SingleChildScrollView(
+                child: Container(
+                  color: Colors.white,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            padding: const EdgeInsets.only(top: 28.0, left: 28.0, right: 28.0, bottom: 16.0),
+                            child: Text('Hình thức thanh toán', style: TextStyles.textStyle14PrimaryGrey)
+                          ),
+                          Container(
+                            padding: const EdgeInsets.only(left: 15.0, right: 28.0, bottom: 28.0),
+                            child: Column(
+                              children: <Widget>[
+                                Column(
+                                  children: <Widget>[
+                                    Row(
+                                      children: <Widget>[
+                                        Radio<String>(
+                                          value: PaymentMethods.atm,
+                                          groupValue: _selectedPayment,
+                                          onChanged: _handleOptionChanged,
+                                        ),
+                                        Expanded(
+                                          child: InkWell(
+                                            child: Text('ATM Card', style: TextStyles.textStyle16PrimaryBlack),
+                                            onTap: () => _handleOptionChanged(PaymentMethods.atm)
+                                          )
+
+                                        ),
+                                        Image.asset(AppAssets.atmIcon, width: 46.0, height: 30.0)
+                                      ],
+                                    )
+                                  ]
+                                ),
+                                Column(
+                                  children: <Widget>[
+                                    Row(
+                                      children: <Widget>[
+                                        Radio<String>(
+                                          value: PaymentMethods.creditCards,
+                                          groupValue: _selectedPayment,
+                                          onChanged: _handleOptionChanged,
+                                        ),
+                                        Expanded(
+                                          child: InkWell(
+                                            child: Text('Thẻ quốc tế (Visa, Master)', style: TextStyles.textStyle16PrimaryBlack),
+                                            onTap: () => _handleOptionChanged(PaymentMethods.creditCards)
+                                          )
+                                        ),
+                                        Image.asset(AppAssets.visaIcon, width: 55.0, height: 17.0),
+                                        const SizedBox(width: 5.0),
+                                        Image.asset(AppAssets.mastercardIcon, width: 49.0, height: 30.0)
+                                      ],
+                                    )
+                                  ]
+                                ),
+                                Column(
+                                  children: <Widget>[
+                                    Row(
+                                      children: <Widget>[
+                                        Radio<String>(
+                                          value: PaymentMethods.momo,
+                                          groupValue: _selectedPayment,
+                                          onChanged: _handleOptionChanged,
+                                        ),
+                                        Expanded(
+                                          child: InkWell(
+                                            child: Text('Momo', style: TextStyles.textStyle16PrimaryBlack),
+                                            onTap: () => _handleOptionChanged(PaymentMethods.momo)
+                                          )
+                                        ),
+                                        Image.asset(AppAssets.momoIcon, width: 80.0, height: 52.0)
+                                      ],
+                                    )
+                                  ]
+                                )
+                              ],
+                            )
+                          )
+                        ],
+                      ),
+                    ]
+                  )
+                )
+              ),
+            ),
+            Container(
+              height: 10.0,
+              color: AppColors.backgroundConferenceColor,
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 24.0),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Text(
+                      'Thành Tiền',
+                      style: TextStyles.textStyle14PrimaryBlackBold
+                    )
+                  ),
+                  Text(
+                    '${CurrencyUtils.formatAsCurrency(widget.membership.fee)} VND',
+                    style: TextStyles.textStyle22PrimaryBlueBold
+                  )
+                ],
+              )
+            ),
+            Container(
+              height: 10.0,
+              color: AppColors.backgroundConferenceColor,
+            ),
+            Container(
+              decoration: BoxDecoration(
+                border: Border(top: BorderSide(width: 1.0, color: AppColors.editTextFieldBorderColor)),
+                color: Colors.white,
+              ),
+              padding: const EdgeInsets.only(left: 25.0, top: 28.5, bottom: 28.5, right: 25.0),
+              child: PrimaryButton(
+                text: 'Tiến hành thanh toán',
+                onPressed: _handleProcessPayment,
+              )
+            )
+          ]
+        )
+      );
+    }
+    return Container();
+  }
+
   void _handleOptionChanged(String payment) {
-    setState(() => _selectedPayment = payment);
+    _membershipPaymentBloc.dispatch(ChangePaymentMethodEvent(paymentTypes: _paymentTypes,
+      selectedPayment: payment));
   }
 
   Future<void> _handleProcessPayment() async {

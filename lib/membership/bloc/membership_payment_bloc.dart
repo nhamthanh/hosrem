@@ -21,7 +21,7 @@ class MembershipPaymentBloc extends Bloc<MembershipPaymentEvent, MembershipPayme
 
   @override
   Stream<MembershipPaymentState> mapEventToState(MembershipPaymentEvent event) async* {
-    if (event is MomoPaymentEvent) {
+    if (event is ProcessMomoPaymentEvent) {
       yield MembershipPaymentLoading();
       try {
         await paymentService.createPayment(event.membership, event.paymentType, event.detail);
@@ -35,6 +35,15 @@ class MembershipPaymentBloc extends Bloc<MembershipPaymentEvent, MembershipPayme
       yield MembershipPaymentLoading();
       try {
         yield LoadedPaymentData(paymentTypes: await paymentService.getPaymentTypes());
+      } catch (error) {
+        yield MembershipPaymentFailure(error: ErrorHandler.extractErrorMessage(error));
+      }
+    }
+
+    if (event is ChangePaymentMethodEvent) {
+      try {
+        yield LoadedPaymentData(paymentTypes: await paymentService.getPaymentTypes(),
+          selectedPayment: event.selectedPayment);
       } catch (error) {
         yield MembershipPaymentFailure(error: ErrorHandler.extractErrorMessage(error));
       }
