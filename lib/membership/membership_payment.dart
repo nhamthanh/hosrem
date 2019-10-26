@@ -54,9 +54,11 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
   }
 
   void _handleMomoCallback(Map<String, dynamic> result) {
+    result.putIfAbsent('amount', () => widget.membership.fee);
+    print(json.encode(result));
     _membershipPaymentBloc.dispatch(MomoPaymentEvent(
       membership: widget.membership,
-      detail: json.encode(result),
+      detail: result,
       paymentType: _paymentTypes.firstWhere((PaymentType paymentType) => paymentType.type == PaymentMethods.momo,
         orElse: () => PaymentType.fromJson(<String, dynamic>{}))
     ));

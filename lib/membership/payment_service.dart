@@ -30,7 +30,7 @@ class PaymentService {
   }
 
   /// Get memberships.
-  Future<Payment> createPayment(Membership membership, PaymentType paymentType, String detail) async {
+  Future<Payment> createPayment(Membership membership, PaymentType paymentType, Map<String, dynamic> detail) async {
     final User user = await authService.currentUser();
     final UserMembership userMembership = await membershipService.createUserMembership(
       UserMembership.fromJson(<String, dynamic>{

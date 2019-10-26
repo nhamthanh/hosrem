@@ -14,7 +14,7 @@ class MomoPaymentEvent extends MembershipPaymentEvent {
   MomoPaymentEvent({@required this.detail, @required this.membership, @required this.paymentType}) :
       super(<dynamic>[detail, membership, paymentType]);
 
-  final String detail;
+  final Map<String, dynamic> detail;
   final Membership membership;
   final PaymentType paymentType;
 
