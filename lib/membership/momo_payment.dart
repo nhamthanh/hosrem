@@ -26,13 +26,16 @@ class MomoPayment {
 
   /// Request a payment with [amount], [description] to Momo to get payment token.
   Future<void> requestPayment(double amount, String description) async {
+    final String orderId = DateTime.now().millisecondsSinceEpoch.toString();
     await _momo.requestPayment(<String, dynamic>{
       'merchantName': apiConfig.momoMerchantName,
-      'merchantCode': apiConfig.momoMerchantCode,
+      'merchantCode': apiConfig.momoPartnerCode,
       'amount': amount,
+      'orderId': orderId,
+      'orderLabel': 'Mã đơn hàng',
       'fee': 0.0,
       'description': description,
-      'merchantNameLabel': apiConfig.momoMerchantName,
+      'merchantNameLabel': 'Nhà cung cấp',
       'requestId': '1',
       'partnerCode': apiConfig.momoPartnerCode,
       'extraData': '',

@@ -7,6 +7,8 @@ class AppColors {
   /// Primary light color.
   static const Color lightPrimaryColor = Color(0xFF69C0FF);
 
+  static const Color lightOpacityPrimaryColor = Color.fromRGBO(105, 192, 255, 0.2);
+
   /// Accent light color.
   static const Color lightAccentColor = Color(0xFF808080);
 
@@ -66,5 +68,8 @@ class AppColors {
 
   /// Background conference color.
   static const Color backgroundConferenceColor = Color(0xFFF5F8FA);
+
+  /// Standard member background color.
+  static const Color backgroundStandardMember = Color(0xFFEEEEEE);
 }
 

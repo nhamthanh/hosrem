@@ -106,7 +106,7 @@ class _ProfileState extends BaseState<Profile> {
                                 style: TextStyles.textStyle20PrimaryBlack
                               ),
                               Text(
-                                user?.degrees?.map((Degree degree) => degree.name)?.join(',') ?? '',
+                                user?.degrees?.map((Degree degree) => degree.name)?.join(', ') ?? '',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyles.textStyle12PrimaryGrey
@@ -194,6 +194,7 @@ class _ProfileState extends BaseState<Profile> {
   Future<void> _navigateToMemberRegistration(User user, UserMembership userMembership) async {
     await Navigator.push<dynamic>(context, PageTransition<dynamic>(
       type: PageTransitionType.downToUp, child: MembershipRegistration(user: user, userMembership: userMembership)));
+    _profileBloc.dispatch(ReloadProfileEvent());
   }
 
   @override
