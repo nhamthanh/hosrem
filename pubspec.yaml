@@ -43,6 +43,7 @@ dependencies:
   collection: ^1.14.11
   flutter_money_formatter: ^0.8.3
   flutter_webview_plugin: ^0.3.8
+  pretty_qr_code: ^0.0.8
   momo:
     path: ../momo
 
