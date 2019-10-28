@@ -53,6 +53,6 @@ class PaymentService {
       })
     );
 
-    return apiProvider.paymentApi.createPayment(payment);
+    return payment;
   }
 }

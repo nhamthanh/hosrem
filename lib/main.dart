@@ -14,7 +14,7 @@ void main() {
     flavorName: 'dev',
     apiBaseUrl: 'https://api.hosrem-dev.zamo.io/api/',
     momoMerchantName: 'Zamo LLC',
-    momoMerchantCode: 'ZM123',
+    momoMerchantCode: 'MOMOS9HI20191019',
     momoPartnerCode: 'MOMOS9HI20191019',
     momoAppScheme: 'momos9hi20191019'
   );

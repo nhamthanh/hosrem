@@ -1,3 +1,4 @@
+import 'package:hosrem_app/api/conference/conference_fee.dart';
 import 'package:hosrem_app/api/conference/conference_fees.dart';
 import 'package:meta/meta.dart';
 
@@ -24,9 +25,11 @@ class ConferenceFeesFailure extends ConferenceFeesState {
 
 /// LoadedConferenceFees state.
 class LoadedConferenceFees extends ConferenceFeesState {
-  LoadedConferenceFees({@required this.conferenceFees});
+  LoadedConferenceFees(this.conferenceFees, this.selectedConferenceFee, { this.allowRegistration = false });
 
   final ConferenceFees conferenceFees;
+  final List<ConferenceFee> selectedConferenceFee;
+  final bool allowRegistration;
 
   @override
   String toString() => 'LoadedConferenceFees';

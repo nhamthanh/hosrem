@@ -67,6 +67,12 @@ class TextStyles {
     color: AppColors.primaryGreyColor
   );
 
+  static const TextStyle textStyle16PrimaryGreyBold = TextStyle(
+    fontSize: 16.0,
+    color: AppColors.primaryGreyColor,
+    fontWeight: FontWeight.w600
+  );
+
   static const TextStyle textStyle16SecondaryGreyBold = TextStyle(
     fontSize: 16.0,
     color: AppColors.secondaryGreyColor,

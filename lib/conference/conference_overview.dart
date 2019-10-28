@@ -3,6 +3,8 @@ import 'package:easy_localization/easy_localization_delegate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosrem_app/api/conference/conference.dart';
+import 'package:hosrem_app/api/conference/conference_fee.dart';
+import 'package:hosrem_app/auth/auth_service.dart';
 import 'package:hosrem_app/common/app_assets.dart';
 import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/base_state.dart';
@@ -37,149 +39,17 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
   @override
   void initState() {
     super.initState();
-    _conferenceFeesBloc = ConferenceFeesBloc(conferenceService: ConferenceService(apiProvider));
+
+    _conferenceFeesBloc = ConferenceFeesBloc(
+      conferenceService: ConferenceService(apiProvider),
+      authService: AuthService(apiProvider)
+    );
     _conferenceFeesBloc.dispatch(LoadConferenceFeesByConferenceIdEvent(conferenceId: widget.conference.id));
   }
 
   @override
   Widget build(BuildContext context) {
     final Conference conference = widget.conference;
-    return Container(
-      color: Colors.white,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    padding: const EdgeInsets.all(28.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                conference.title ?? '',
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyles.textStyle18PrimaryBlack
-                              ),
-                              const SizedBox(height: 8.0),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Container(
-                                    padding: const EdgeInsets.only(top: 4.0),
-                                    child: SvgIcon(AppAssets.locationIcon, size: 16.0, color: AppColors.secondaryGreyColor)
-                                  ),
-                                  const SizedBox(width: 5.0),
-                                  Expanded(
-                                    child: Text(
-                                      conference.location,
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyles.textStyle14SecondaryGrey
-                                    )
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: <Widget>[
-                            const SizedBox(height: 7.0),
-                            Row(
-                              children: <Widget>[
-                                Container(
-                                  padding: const EdgeInsets.only(top: 4.0),
-                                  child: SvgIcon(AppAssets.calendarIcon, size: 16.0, color: AppColors.secondaryGreyColor)
-                                ),
-                                const SizedBox(width: 5.0),
-                                Text(
-                                  conference.startTime == null ? '' : DateTimeUtils.format(conference.startTime),
-                                  style: TextStyles.textStyle10PrimaryRed
-                                ),
-                              ],
-                            )
-                          ],
-                        )
-                      ],
-                    )
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(28.0),
-                    child: CachedNetworkImage(
-                      imageUrl: conference.banner != null ? '${apiConfig.apiBaseUrl}conferences/${conference.id}/banner?fileName=${conference.banner}' : 'https://',
-                      placeholder: (BuildContext context, String url) => Center(child: const CircularProgressIndicator()),
-                      errorWidget: (BuildContext context, String url, Object error) =>
-                        Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
-                          Container(
-                            height: 168.0,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0),
-                              color: const Color.fromRGBO(52, 169, 255, 0.1)
-                            ),
-                            child: Image.asset(AppAssets.conferencePlaceholder))
-                        ])),
-                  ),
-                  Container(
-                    height: 20.0,
-                    color: const Color(0xFFF5F8FA),
-                  ),
-                  const SizedBox(height: 9.0),
-                  Container(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        Text(
-                          AppLocalizations.of(context).tr('conferences.about_event'),
-                          style: TextStyles.textStyle16PrimaryBlackBold
-                        ),
-                        const SizedBox(height: 10.0),
-                        Text(
-                          conference.description ?? '',
-                          style: TextStyles.textStyle16PrimaryBlack
-                        )
-                      ],
-                    )
-                  ),
-                  Container(
-                    height: 20.0,
-                    color: const Color(0xFFF5F8FA),
-                  ),
-                  const SizedBox(height: 17.0),
-                  Container(
-                    padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 0.0, top: 0.0),
-                    child: _buildConferenceFee()
-                  ),
-                  const SizedBox(height: 20.0),
-                ],
-              )
-            )
-          ),
-          const Divider(),
-          widget.registeredConference ? Container() : Container(
-            padding: const EdgeInsets.only(left: 25.0, top: 28.5, bottom: 28.5, right: 25.0),
-            color: Colors.white,
-            child: PrimaryButton(
-              text: AppLocalizations.of(context).tr('conferences.register_for_event'),
-              onPressed: _navigateToRegistration,
-            )
-          )
-        ],
-      )
-    );
-  }
-
-  Widget _buildConferenceFee() {
     return BlocProvider<ConferenceFeesBloc>(
       builder: (BuildContext context) => _conferenceFeesBloc,
       child: BlocListener<ConferenceFeesBloc, ConferenceFeesState>(
@@ -197,11 +67,139 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
           bloc: _conferenceFeesBloc,
           builder: (BuildContext context, ConferenceFeesState state) {
             if (state is LoadedConferenceFees) {
-              return ConferenceRegistrationFees(state.conferenceFees);
-            }
-
-            if (state is ConferenceFeesFailure) {
-              return Container();
+              return Container(
+                color: Colors.white,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              padding: const EdgeInsets.all(28.0),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          conference.title ?? '',
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyles.textStyle18PrimaryBlack
+                                        ),
+                                        const SizedBox(height: 8.0),
+                                        Row(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Container(
+                                              padding: const EdgeInsets.only(top: 4.0),
+                                              child: SvgIcon(AppAssets.locationIcon, size: 16.0, color: AppColors.secondaryGreyColor)
+                                            ),
+                                            const SizedBox(width: 5.0),
+                                            Expanded(
+                                              child: Text(
+                                                conference.location,
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyles.textStyle14SecondaryGrey
+                                              )
+                                            )
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: <Widget>[
+                                      const SizedBox(height: 7.0),
+                                      Row(
+                                        children: <Widget>[
+                                          Container(
+                                            padding: const EdgeInsets.only(top: 4.0),
+                                            child: SvgIcon(AppAssets.calendarIcon, size: 16.0, color: AppColors.secondaryGreyColor)
+                                          ),
+                                          const SizedBox(width: 5.0),
+                                          Text(
+                                            conference.startTime == null ? '' : DateTimeUtils.format(conference.startTime),
+                                            style: TextStyles.textStyle10PrimaryRed
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  )
+                                ],
+                              )
+                            ),
+                            Container(
+                              padding: const EdgeInsets.all(28.0),
+                              child: CachedNetworkImage(
+                                imageUrl: conference.banner != null ? '${apiConfig.apiBaseUrl}conferences/${conference.id}/banner?fileName=${conference.banner}' : 'https://',
+                                placeholder: (BuildContext context, String url) => Center(child: const CircularProgressIndicator()),
+                                errorWidget: (BuildContext context, String url, Object error) =>
+                                  Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
+                                    Container(
+                                      height: 168.0,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10.0),
+                                        color: const Color.fromRGBO(52, 169, 255, 0.1)
+                                      ),
+                                      child: Image.asset(AppAssets.conferencePlaceholder))
+                                  ])),
+                            ),
+                            Container(
+                              height: 20.0,
+                              color: const Color(0xFFF5F8FA),
+                            ),
+                            const SizedBox(height: 9.0),
+                            Container(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: <Widget>[
+                                  Text(
+                                    AppLocalizations.of(context).tr('conferences.about_event'),
+                                    style: TextStyles.textStyle16PrimaryBlackBold
+                                  ),
+                                  const SizedBox(height: 10.0),
+                                  Text(
+                                    conference.description ?? '',
+                                    style: TextStyles.textStyle16PrimaryBlack
+                                  )
+                                ],
+                              )
+                            ),
+                            Container(
+                              height: 20.0,
+                              color: const Color(0xFFF5F8FA),
+                            ),
+                            const SizedBox(height: 17.0),
+                            Container(
+                              padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 0.0, top: 0.0),
+                              child: ConferenceRegistrationFees(state.conferenceFees)
+                            ),
+                            const SizedBox(height: 20.0),
+                          ],
+                        )
+                      )
+                    ),
+                    const Divider(),
+                    state.allowRegistration ? Container(
+                      padding: const EdgeInsets.only(left: 25.0, top: 28.5, bottom: 28.5, right: 25.0),
+                      color: Colors.white,
+                      child: PrimaryButton(
+                        text: AppLocalizations.of(context).tr('conferences.register_for_event'),
+                        onPressed: () => _navigateToRegistration(state.selectedConferenceFee),
+                      )
+                    ) : Container()
+                  ],
+                )
+              );
             }
 
             return Container();
@@ -211,10 +209,10 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
     );
   }
 
-  void _navigateToRegistration() {
+  void _navigateToRegistration(List<ConferenceFee> selectedConferenceFees) {
     Navigator.push<dynamic>(context, PageTransition<dynamic>(
       type: PageTransitionType.downToUp,
-      child: ConferenceRegistration()
+      child: ConferenceRegistration(conference: widget.conference, conferenceFees: selectedConferenceFees)
     ));
   }
 }

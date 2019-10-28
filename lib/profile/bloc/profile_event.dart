@@ -24,3 +24,9 @@ class SaveProfileEvent extends ProfileEvent {
   @override
   String toString() => 'SaveProfileEvent { }';
 }
+
+/// ReloadProfileEvent event.
+class ReloadProfileEvent extends ProfileEvent {
+  @override
+  String toString() => 'ReloadProfileEvent { }';
+}

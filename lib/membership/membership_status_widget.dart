@@ -24,8 +24,8 @@ class MembershipStatusWidget extends StatelessWidget {
       return _standardMemberWidget();
     }
 
-    if (userMembership.status == 'Canceled') {
-      return _standardMemberWidget();
+    if (userMembership.status != 'Valid') {
+      return _standardMemberWidget(expiredTime: userMembership.expiredTime);
     }
 
     return _premiumMemberWidget(userMembership);
@@ -86,7 +86,7 @@ class MembershipStatusWidget extends StatelessWidget {
     );
   }
 
-  Widget _standardMemberWidget() {
+  Widget _standardMemberWidget({ DateTime expiredTime }) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 19.5, horizontal: 28.0),
       child: Column(
@@ -98,13 +98,38 @@ class MembershipStatusWidget extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyles.textStyle16SecondaryGreyBold
           ),
-          Text(
+          expiredTime == null ? Text(
             'Nâng Cấp Thành Hội Viên HOSREM',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyles.textStyle13PrimaryBlue
-          )
-        ],
+          ) : Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                'Đã hết hạn ngày ',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyles.textStyle13PrimaryGrey
+              ),
+              Text(
+                '${DateTimeUtils.formatAsStandard(userMembership.expiredTime)}.',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyles.textStyle13PrimaryRed
+              ),
+              const SizedBox(width: 5.0),
+              Expanded(
+                child: Text(
+                  'Gia hạn ngay',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyles.textStyle13PrimaryBlue
+                ),
+              )
+            ],
+          ),
+        ]
       )
     );
   }

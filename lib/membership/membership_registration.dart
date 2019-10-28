@@ -43,8 +43,7 @@ class _MembershipRegistrationState extends BaseState<MembershipRegistration> {
 
     _title = 'Đăng ký hội viên';
     if (widget.userMembership != null) {
-      final DateTime current = DateTime.now().add(Duration(days: 30));
-      if (current.isAfter(widget.userMembership.expiredTime)) {
+      if (widget.userMembership.expiredTime != null) {
         _title = 'Gia hạn hội viên';
       }
     }

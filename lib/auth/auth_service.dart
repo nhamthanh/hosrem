@@ -102,6 +102,13 @@ class AuthService {
     return currentUserMembership == null ? null : UserMembership.fromJson(jsonDecode(currentUserMembership));
   }
 
+  /// Check if current user is premium membership.
+  Future<bool> isPremiumMembership() async {
+    final UserMembership userMembership = await currentUserMembership();
+    final bool premiumMembership = userMembership?.status == 'Valid' ?? false;
+    return premiumMembership;
+  }
+
   /// Get current user.
   Future<User> currentUser() async {
     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
