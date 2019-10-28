@@ -19,6 +19,7 @@ import 'bloc/conference_fees_bloc.dart';
 import 'bloc/conference_fees_event.dart';
 import 'bloc/conference_fees_state.dart';
 import 'conference_service.dart';
+import 'registration/conference_qr_code.dart';
 import 'registration/conference_registration_fees.dart';
 
 /// Conference detail page.
@@ -196,7 +197,14 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
                         text: AppLocalizations.of(context).tr('conferences.register_for_event'),
                         onPressed: () => _navigateToRegistration(state.selectedConferenceFee),
                       )
-                    ) : Container()
+                    ) : Container(
+                      padding: const EdgeInsets.only(left: 25.0, top: 28.5, bottom: 28.5, right: 25.0),
+                      color: Colors.white,
+                      child: PrimaryButton(
+                        text: 'Quét Mã Tham Dự Hội Nghị',
+                        onPressed: _navigateToViewQrCode,
+                      )
+                    )
                   ],
                 )
               );
@@ -206,6 +214,15 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
           }
         )
       )
+    );
+  }
+
+  void _navigateToViewQrCode() {
+    Navigator.push(
+      context,
+      MaterialPageRoute<bool>(builder:
+        (BuildContext context) => const ConferenceQrCode(qrCode: 'ZM123')
+      ),
     );
   }
 
