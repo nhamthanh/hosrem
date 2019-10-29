@@ -44,6 +44,7 @@ dependencies:
   flutter_money_formatter: ^0.8.3
   flutter_webview_plugin: ^0.3.8
   pretty_qr_code: ^0.0.8
+  flutter_html: ^0.11.0
   momo:
     path: ../momo
 
@@ -91,6 +92,7 @@ flutter:
   - assets/images/mastercard.png
   - assets/images/visa.png
   - assets/images/confirm.svg
+  - assets/images/article_placeholder.png
   - assets/langs/vi-VN.json
   - assets/langs/en-US.json
 

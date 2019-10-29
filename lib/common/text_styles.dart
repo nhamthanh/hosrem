@@ -22,6 +22,12 @@ class TextStyles {
     fontWeight: FontWeight.normal,
   );
 
+  static const TextStyle textStyle24PrimaryBlack = TextStyle(
+    fontSize: 24.0,
+    height: 1.33,
+    color: AppColors.primaryBlackColor
+  );
+
   static const TextStyle textStyle22PrimaryBlueBold = TextStyle(
     fontSize: 22.0,
     fontWeight: FontWeight.w600,
@@ -39,15 +45,20 @@ class TextStyles {
     color: Colors.white
   );
 
-  static const TextStyle textStyle20PrimaryBlack = TextStyle(
-    fontSize: 20.0,
-    height: 1.6,
+  static const TextStyle textStyle22PrimaryBlack = TextStyle(
+    fontSize: 22.0,
     color: AppColors.primaryBlackColor
   );
 
   static const TextStyle textStyle22PrimaryBlackBold = TextStyle(
     fontSize: 22.0,
     fontWeight: FontWeight.bold,
+    color: AppColors.primaryBlackColor
+  );
+
+  static const TextStyle textStyle20PrimaryBlack = TextStyle(
+    fontSize: 20.0,
+    height: 1.6,
     color: AppColors.primaryBlackColor
   );
 
@@ -148,8 +159,13 @@ class TextStyles {
   static const TextStyle textStyle14PrimaryRed = TextStyle(
     color: AppColors.primaryRedColor,
     fontSize: 14.0,
-    letterSpacing: 0.23,
-    fontWeight: FontWeight.w600
+    letterSpacing: 0.23
+  );
+
+  static const TextStyle textStyle14PrimaryBlue = TextStyle(
+    color: AppColors.unselectLabelColor,
+    fontSize: 14.0,
+    letterSpacing: 0.23
   );
 
   static const TextStyle textStyle13PrimaryGrey = TextStyle(

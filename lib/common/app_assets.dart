@@ -103,5 +103,8 @@ class AppAssets {
 
   /// Confirm icon.
   static const String confirmIcon = 'assets/images/confirm.svg';
+
+  /// Article placeholder.
+  static const String articlePlaceholder = 'assets/images/article_placeholder.png';
 }
 
