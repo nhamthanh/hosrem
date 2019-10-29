@@ -11,6 +11,7 @@ import 'package:hosrem_app/common/app_assets.dart';
 import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/common/text_styles.dart';
+import 'package:hosrem_app/conference/my_registered_conferences.dart';
 import 'package:hosrem_app/login/login.dart';
 import 'package:hosrem_app/membership/membership_registration.dart';
 import 'package:hosrem_app/membership/membership_service.dart';
@@ -141,9 +142,9 @@ class _ProfileState extends BaseState<Profile> {
                   ),
                   NavigatorItem(
                     text: AppLocalizations.of(context).tr('profile.my_registered_events'),
-                    icon: Icons.event
+                    icon: Icons.event,
+                    onTap: () => _navigateToMyRegsiteredConferences(user),
                   ),
-                  NavigatorItem(text: AppLocalizations.of(context).tr('profile.my_favorites_domains')),
                   const SizedBox(height: 40.0),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -195,6 +196,10 @@ class _ProfileState extends BaseState<Profile> {
     await Navigator.push<dynamic>(context, PageTransition<dynamic>(
       type: PageTransitionType.downToUp, child: MembershipRegistration(user: user, userMembership: userMembership)));
     _profileBloc.dispatch(ReloadProfileEvent());
+  }
+
+  Future<void> _navigateToMyRegsiteredConferences(User user) async {
+    await Navigator.push(context, MaterialPageRoute<bool>(builder: (BuildContext context) => MyRegisteredConferences()));
   }
 
   @override
