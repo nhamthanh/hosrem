@@ -25,8 +25,7 @@ class MembershipPaymentBloc extends Bloc<MembershipPaymentEvent, MembershipPayme
       yield MembershipPaymentLoading();
       try {
         await paymentService.createPayment(event.membership, event.paymentType, event.detail);
-//        yield MembershipPaymentSuccess();
-        yield MembershipPaymentFailure(error: 'Failed to process payment');
+        yield MembershipPaymentSuccess();
       } catch (error) {
         yield MembershipPaymentFailure(error: ErrorHandler.extractErrorMessage(error));
       }

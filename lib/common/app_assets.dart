@@ -100,5 +100,8 @@ class AppAssets {
 
   /// Card purple background.
   static const String cardPurpleBg = 'assets/images/card_purple.png';
+
+  /// Article placeholder.
+  static const String articlePlaceholder = 'assets/images/article_placeholder.png';
 }
 
