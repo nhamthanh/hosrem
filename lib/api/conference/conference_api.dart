@@ -6,6 +6,7 @@ import 'conference.dart';
 import 'conference_fees.dart';
 import 'conference_member_pagination.dart';
 import 'conference_pagination.dart';
+import 'conference_registration.dart';
 
 part 'conference_api.g.dart';
 
@@ -33,5 +34,13 @@ abstract class ConferenceApi {
   /// Get conference by id.
   @GET('conferences/{id}')
   Future<Conference> getConferenceById(@Path() String id);
+
+  /// Register to join the conference [id].
+  @POST('conferences/{id}/registrations')
+  Future<ConferenceRegistration> registerConferenceById(@Path() String id, @Body() ConferenceRegistration user);
+
+  /// Check if user [userId] has registered the conference [id].
+  @GET('conferences/{id}/registrations/{userId}')
+  Future<bool> checkRegistrationStatusOfMember(@Path() String id, @Path() String userId);
 }
 

@@ -2,6 +2,7 @@ import 'package:hosrem_app/api/conference/conference.dart';
 import 'package:hosrem_app/api/conference/conference_fees.dart';
 import 'package:hosrem_app/api/conference/conference_member_pagination.dart';
 import 'package:hosrem_app/api/conference/conference_pagination.dart';
+import 'package:hosrem_app/api/conference/conference_registration.dart';
 import 'package:hosrem_app/network/api_provider.dart';
 
 /// Conference service.
@@ -23,14 +24,17 @@ class ConferenceService {
 
   /// Check if user [userId] registered the conference.
   Future<bool> checkIfUserRegisterConference(String conferenceId, String userId) async {
-    final ConferenceMemberPagination conferenceMemberPagination = await apiProvider.conferenceApi.getConferenceMembers(
-      conferenceId, <String, String>{ 'id': userId });
-
-    return conferenceMemberPagination.totalItems > 0;
+    return apiProvider.conferenceApi.checkRegistrationStatusOfMember(conferenceId, userId);
   }
 
   /// Get conference by id.
   Future<Conference> getConferenceById(String id) async {
     return apiProvider.conferenceApi.getConferenceById(id);
+  }
+
+  /// Register to take part in the conference.
+  Future<ConferenceRegistration> registerConference(String conferenceId,
+      ConferenceRegistration conferenceRegistration) async {
+    return apiProvider.conferenceApi.registerConferenceById(conferenceId, conferenceRegistration);
   }
 }

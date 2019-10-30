@@ -25,11 +25,14 @@ class ConferenceFeesFailure extends ConferenceFeesState {
 
 /// LoadedConferenceFees state.
 class LoadedConferenceFees extends ConferenceFeesState {
-  LoadedConferenceFees(this.conferenceFees, this.selectedConferenceFee, { this.allowRegistration = false });
+  LoadedConferenceFees(this.conferenceFees, this.selectedConferenceFee,
+      { this.allowRegistration = false, this.registeredConference = false, this.hasToken = false });
 
   final ConferenceFees conferenceFees;
   final List<ConferenceFee> selectedConferenceFee;
   final bool allowRegistration;
+  final bool registeredConference;
+  final bool hasToken;
 
   @override
   String toString() => 'LoadedConferenceFees';

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/widgets.dart';
+import 'package:hosrem_app/api/auth/user.dart';
 import 'package:hosrem_app/api/conference/conference_fee.dart';
 import 'package:hosrem_app/api/conference/conference_fees.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
@@ -31,11 +32,16 @@ class ConferenceFeesBloc extends Bloc<ConferenceFeesEvent, ConferenceFeesState> 
     if (event is LoadConferenceFeesByConferenceIdEvent) {
       try {
         final bool premiumMembership = await authService.isPremiumMembership();
+        final bool hasToken = await authService.hasToken();
+        final User user = await authService.currentUser();
         final ConferenceFees conferenceFees = await conferenceService.getConferenceFees(event.conferenceId);
+        final bool registeredConference =
+            hasToken ? await conferenceService.checkIfUserRegisterConference(event.conferenceId, user.id) : false;
         final List<ConferenceFee> selectedConferenceFees = _filterConferenceFeesByNowAndMembership(premiumMembership,
             conferenceFees);
         final bool allowRegistration = selectedConferenceFees.any((ConferenceFee conferenceFee) => conferenceFee.onlineRegistration);
-        yield LoadedConferenceFees(conferenceFees, selectedConferenceFees, allowRegistration: allowRegistration);
+        yield LoadedConferenceFees(conferenceFees, selectedConferenceFees,
+            allowRegistration: allowRegistration, registeredConference: registeredConference, hasToken: hasToken);
       } catch (error) {
         yield ConferenceFeesFailure(error: ErrorHandler.extractErrorMessage(error));
       }
