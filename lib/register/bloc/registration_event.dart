@@ -11,25 +11,21 @@ abstract class RegistrationEvent extends Equatable {
 /// RegisterButtonPressed event.
 class RegisterButtonPressed extends RegistrationEvent {
   RegisterButtonPressed({
-    @required this.firstName,
-    @required this.lastName,
+    @required this.fullName,
     @required this.email,
+    @required this.phone,
     @required this.password,
-    @required this.jobTitle,
-    @required this.workingPlace
-  }) : super(<String>[firstName, lastName, email, password, jobTitle, workingPlace]);
+  }) : super(<String>[fullName, email, phone, password]);
 
-  final String firstName;
-  final String lastName;
+  final String fullName;
   final String email;
+  final String phone;
   final String password;
-  final String jobTitle;
-  final String workingPlace;
 
-  User toUser() => User(null, 'Member', firstName, lastName, null, null, workingPlace, jobTitle, null, null, null,
-      email, '$firstName $lastName', null, null, 'Register', password, null);
+  User toUser() => User(null, 'Member', null, null, null, null, null, null, null, phone, null,
+      email, fullName, null, null, 'Register', password, null);
 
   @override
   String toString() =>
-      'RegisterButtonPressed { firstName: $firstName, lastName: $lastName, email: $email }';
+      'RegisterButtonPressed { fullName: $fullName, phone: $phone, email: $email }';
 }

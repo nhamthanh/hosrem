@@ -29,17 +29,17 @@ class EditTextField extends StatelessWidget {
         ) : Container(),
         hasLabel ? const SizedBox(height: 10) : Container(),
         Container(
-          height: 40.0,
+          height: 50.0,
           child: TextField(
             decoration: InputDecoration(
               hintText: hint,
               contentPadding: const EdgeInsets.fromLTRB(13.0, 11.0, 5.0, 11.0),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.0),
+                borderRadius: BorderRadius.circular(16.0),
                 borderSide: const BorderSide(color: AppColors.editTextFieldBorderColor, width: 1.0),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.0),
+                borderRadius: BorderRadius.circular(16.0),
                 borderSide: const BorderSide(color: AppColors.editTextFieldBorderColor, width: 1.0),
               ),
               prefixIcon: prefixIcon == null ? null : prefixIcon,

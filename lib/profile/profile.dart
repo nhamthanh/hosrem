@@ -12,7 +12,8 @@ import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/conference/my_registered_conferences.dart';
-import 'package:hosrem_app/login/login.dart';
+import 'package:hosrem_app/login/login_registration.dart';
+
 import 'package:hosrem_app/membership/membership_registration.dart';
 import 'package:hosrem_app/membership/membership_service.dart';
 import 'package:hosrem_app/membership/membership_status_widget.dart';
@@ -179,7 +180,7 @@ class _ProfileState extends BaseState<Profile> {
   Future<void> _navigateToProfile(User user) async {
     if (user == null) {
       await Navigator.push<dynamic>(context, PageTransition<dynamic>(
-        type: PageTransitionType.downToUp, child: Login()));
+        type: PageTransitionType.downToUp, child: const LoginRegister()));
     } else {
       await Navigator.push(context, MaterialPageRoute<bool>(builder: (BuildContext context) => ProfileDetails()));
     }

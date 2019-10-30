@@ -90,6 +90,7 @@ flutter:
   - assets/images/atm.png
   - assets/images/mastercard.png
   - assets/images/visa.png
+  - assets/images/confirm.svg
   - assets/langs/vi-VN.json
   - assets/langs/en-US.json
 

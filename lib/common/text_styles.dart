@@ -10,6 +10,18 @@ class TextStyles {
     fontWeight: FontWeight.w600
   );
 
+  static const TextStyle textStyle40PrimaryBlueBold = TextStyle(
+    fontSize: 40.0,
+    color: AppColors.lightPrimaryColor,
+    fontWeight: FontWeight.bold,
+  );
+
+  static const TextStyle textStyle32SecondaryGrey = TextStyle(
+    fontSize: 32.0,
+    color: AppColors.secondaryGreyColor,
+    fontWeight: FontWeight.normal,
+  );
+
   static const TextStyle textStyle22PrimaryBlueBold = TextStyle(
     fontSize: 22.0,
     fontWeight: FontWeight.w600,
@@ -30,6 +42,12 @@ class TextStyles {
   static const TextStyle textStyle20PrimaryBlack = TextStyle(
     fontSize: 20.0,
     height: 1.6,
+    color: AppColors.primaryBlackColor
+  );
+
+  static const TextStyle textStyle22PrimaryBlackBold = TextStyle(
+    fontSize: 22.0,
+    fontWeight: FontWeight.bold,
     color: AppColors.primaryBlackColor
   );
 
