@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hosrem_app/common/app_assets.dart';
+import 'package:hosrem_app/common/text_styles.dart';
 import 'package:pretty_qr_code/pretty_qr_code.dart';
 
 /// Conference QR Code.
@@ -16,12 +17,19 @@ class ConferenceQrCode extends StatelessWidget {
         title: const Text('Mã Tham Dự Hội Nghị')
       ),
       body: Center(
-        child: PrettyQr(
-          image: AssetImage(AppAssets.imageLogo),
-          typeNumber: 3,
-          size: 300,
-          data: qrCode,
-          roundEdges: true
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            PrettyQr(
+              image: AssetImage(AppAssets.imageLogo),
+              typeNumber: 3,
+              size: 250,
+              data: qrCode,
+              roundEdges: true
+            ),
+            const SizedBox(height: 15.0),
+            Text(qrCode, style: TextStyles.textStyle14PrimaryBlack)
+          ],
         )
       )
     );

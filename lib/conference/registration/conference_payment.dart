@@ -59,8 +59,18 @@ class _ConferencePaymentState extends BaseState<ConferencePayment> {
   void _handleMomoCallback(Map<String, dynamic> result) {
     result.putIfAbsent('amount', () => widget.registrationFee);
     print(json.encode(result));
-    if (result['status'] == 0) {
-      _conferencePaymentBloc.dispatch(ProcessMomoPaymentEvent());
+    if (result['status'] == '0') {
+      final PaymentType paymentType = _paymentTypes.firstWhere((PaymentType paymentType) => paymentType.type == PaymentMethods.momo,
+        orElse: () => PaymentType.fromJson(<String, dynamic>{}));
+
+      _conferencePaymentBloc.dispatch(ProcessMomoPaymentEvent(
+        result,
+        widget.conference.id,
+        widget.registrationFee,
+        '71D Lac Long Quan',
+        'Email',
+        paymentType
+      ));
     } else {
       _showPaymentFailDialog();
     }

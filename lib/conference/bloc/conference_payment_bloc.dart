@@ -38,6 +38,8 @@ class ConferencePaymentBloc extends Bloc<ConferencePaymentEvent, ConferencePayme
     if (event is ProcessMomoPaymentEvent) {
       yield ConferencePaymentLoading();
       try {
+        await paymentService.createConferencePayment(event.conferenceId, event.fee, event.letterAddress,
+            event.letterType, event.paymentType, event.detail);
         yield ConferencePaymentSuccess();
       } catch (error) {
         yield ConferencePaymentFailure(error: ErrorHandler.extractErrorMessage(error));

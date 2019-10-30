@@ -146,7 +146,7 @@ class _ConferenceDetailState extends BaseState<ConferenceDetail> with SingleTick
             child: TabBarView(
               controller: _tabController,
               children: <Widget>[
-                ConferenceOverview(conference: conference, registeredConference: widget.registeredConference),
+                ConferenceOverview(conference: conference),
                 _buildPdfWidget(documents, context),
                 ConferenceResources(conference)
               ]

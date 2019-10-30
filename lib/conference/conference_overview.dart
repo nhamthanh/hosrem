@@ -11,6 +11,7 @@ import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/common/date_time_utils.dart';
 import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/conference/registration/conference_registration.dart';
+import 'package:hosrem_app/login/login.dart';
 import 'package:hosrem_app/widget/button/primary_button.dart';
 import 'package:hosrem_app/widget/svg/svg_icon.dart';
 import 'package:page_transition/page_transition.dart';
@@ -24,10 +25,9 @@ import 'registration/conference_registration_fees.dart';
 
 /// Conference detail page.
 class ConferenceOverview extends StatefulWidget {
-  const ConferenceOverview({Key key, this.conference, this.registeredConference}) : super(key: key);
+  const ConferenceOverview({Key key, this.conference}) : super(key: key);
 
   final Conference conference;
-  final bool registeredConference;
 
   @override
   State<ConferenceOverview> createState() => _ConferenceOverviewState();
@@ -190,21 +190,7 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
                       )
                     ),
                     const Divider(),
-                    state.allowRegistration ? Container(
-                      padding: const EdgeInsets.only(left: 25.0, top: 28.5, bottom: 28.5, right: 25.0),
-                      color: Colors.white,
-                      child: PrimaryButton(
-                        text: AppLocalizations.of(context).tr('conferences.register_for_event'),
-                        onPressed: () => _navigateToRegistration(state.selectedConferenceFee),
-                      )
-                    ) : Container(
-                      padding: const EdgeInsets.only(left: 25.0, top: 28.5, bottom: 28.5, right: 25.0),
-                      color: Colors.white,
-                      child: PrimaryButton(
-                        text: 'Quét Mã Tham Dự Hội Nghị',
-                        onPressed: _navigateToViewQrCode,
-                      )
-                    )
+                    _buildButtonRegistrationWidget(state)
                   ],
                 )
               );
@@ -217,19 +203,56 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
     );
   }
 
+  Widget _buildButtonRegistrationWidget(LoadedConferenceFees state) {
+    if (state.registeredConference) {
+      return Container(
+        padding: const EdgeInsets.only(left: 25.0, top: 28.5, bottom: 28.5, right: 25.0),
+        color: Colors.white,
+        child: PrimaryButton(
+          text: 'Quét Mã Tham Dự Hội Nghị',
+          onPressed: _navigateToViewQrCode,
+        )
+      );
+    }
+
+    if (state.allowRegistration) {
+      return Container(
+        padding: const EdgeInsets.only(left: 25.0, top: 28.5, bottom: 28.5, right: 25.0),
+        color: Colors.white,
+        child: PrimaryButton(
+          text: AppLocalizations.of(context).tr('conferences.register_for_event'),
+          onPressed: () => _navigateToRegistration(state.selectedConferenceFee, state.hasToken),
+        )
+      );
+    }
+
+    return Container();
+  }
+
   void _navigateToViewQrCode() {
     Navigator.push(
       context,
       MaterialPageRoute<bool>(builder:
-        (BuildContext context) => const ConferenceQrCode(qrCode: 'ZM123')
+        (BuildContext context) => const ConferenceQrCode(qrCode: 'ZM1230291232132321320')
       ),
     );
   }
 
-  void _navigateToRegistration(List<ConferenceFee> selectedConferenceFees) {
-    Navigator.push<dynamic>(context, PageTransition<dynamic>(
+  Future<void> _navigateToRegistration(List<ConferenceFee> selectedConferenceFees, bool hasToken) async {
+    if (!hasToken) {
+      await Navigator.push<dynamic>(context, PageTransition<dynamic>(
+        type: PageTransitionType.downToUp,
+        child: Login()
+      ));
+
+      return;
+    }
+
+    await Navigator.push<dynamic>(context, PageTransition<dynamic>(
       type: PageTransitionType.downToUp,
       child: ConferenceRegistration(conference: widget.conference, conferenceFees: selectedConferenceFees)
     ));
+
+    _conferenceFeesBloc.dispatch(LoadConferenceFeesByConferenceIdEvent(conferenceId: widget.conference.id));
   }
 }
