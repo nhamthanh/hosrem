@@ -97,4 +97,39 @@ class _ConferenceApi implements ConferenceApi {
     final value = Conference.fromJson(_result.data);
     return Future.value(value);
   }
+
+  @override
+  registerConferenceById(id, user) async {
+    ArgumentError.checkNotNull(id, 'id');
+    ArgumentError.checkNotNull(user, 'user');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(user.toJson() ?? <String, dynamic>{});
+    final Response<Map<String, dynamic>> _result = await _dio.request(
+        'conferences/$id/registrations',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST', headers: <String, dynamic>{}, extra: _extra),
+        data: _data);
+    final value = ConferenceRegistration.fromJson(_result.data);
+    return Future.value(value);
+  }
+
+  @override
+  checkRegistrationStatusOfMember(id, userId) async {
+    ArgumentError.checkNotNull(id, 'id');
+    ArgumentError.checkNotNull(userId, 'userId');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final Response<bool> _result = await _dio.request(
+        'conferences/$id/registrations/$userId',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET', headers: <String, dynamic>{}, extra: _extra),
+        data: _data);
+    final value = _result.data;
+    return Future.value(value);
+  }
 }
