@@ -8,6 +8,7 @@ import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/config/api_config.dart';
+import 'package:hosrem_app/image/image_viewer.dart';
 import 'package:hosrem_app/pdf/pdf_viewer.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 
@@ -160,12 +161,16 @@ class _ConferenceDetailState extends BaseState<ConferenceDetail> with SingleTick
   Widget _buildPdfWidget(List<Document> documents, BuildContext context) {
     final List<String> files = documents.map(_constructDocumentUrl).toList();
     if (files.isNotEmpty) {
-      return PdfViewer(
-        url: files.isNotEmpty ? files[0] : 'http://',
-        top: _appBar.preferredSize.height + MediaQuery.of(context).padding.top + _tabBar.preferredSize.height + 55.0,
-        width: _calculatePdfWidth(context),
-        height: _calculatePdfHeight(context),
-      );
+      if ((files[0]?.toLowerCase() ?? '').endsWith('pdf')) {
+        return PdfViewer(
+          url: files[0],
+          top: _appBar.preferredSize.height + MediaQuery.of(context).padding.top + _tabBar.preferredSize.height + 55.0,
+          width: _calculatePdfWidth(context),
+          height: _calculatePdfHeight(context),
+        );
+      } else {
+        return ImageViewer(url: files[0]);
+      }
     }
 
     return Center(

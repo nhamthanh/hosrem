@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hosrem_app/common/app_colors.dart';
@@ -16,7 +18,7 @@ class ImageViewer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: title != null ? AppBar(
           title: Row(
             children: <Widget>[
               Expanded(
@@ -35,17 +37,22 @@ class ImageViewer extends StatelessWidget {
             ],
           ),
           automaticallyImplyLeading: false
-        ),
-      body: Center(
-        child: PhotoView(
-          imageProvider: NetworkImage(url),
-          backgroundDecoration: BoxDecoration(
+        ) : null,
+      body: Center (
+        child: CachedNetworkImage(
+          imageUrl: url,
+          imageBuilder: (BuildContext context, ImageProvider imageProvider) => PhotoView(
+            imageProvider: imageProvider,
+            backgroundDecoration: BoxDecoration(
             color: AppColors.backgroundConferenceColor,
+            ),
           ),
-          loadingChild: Center(
-            child: const CircularProgressIndicator(),
+          placeholder: (BuildContext context, String url) => const CircularProgressIndicator(),
+          errorWidget: (BuildContext context, String url, Object error) => Text(
+            AppLocalizations.of(context).tr('conferences.details.no_document_found'),
+            style: TextStyles.textStyle16PrimaryBlack
           ),
-        )
+        ),
       )
     );
   }
