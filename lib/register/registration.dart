@@ -1,15 +1,13 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
 import 'package:hosrem_app/register/bloc/registration_bloc.dart';
-import 'package:loading_overlay/loading_overlay.dart';
 
+import 'package:loading_overlay/loading_overlay.dart';
 import 'bloc/registration_state.dart';
 import 'registration_form.dart';
 
 /// Register page.
-@immutable
 class Registration extends StatefulWidget {
   const Registration({Key key, @required this.authService})
       : assert(authService != null),
@@ -33,10 +31,6 @@ class _RegistrationState extends State<Registration> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context).tr('registration.register')),
-        centerTitle: true
-      ),
       body: BlocProvider<RegistrationBloc>(
         builder: (BuildContext context) => _registrationBloc,
         child: BlocBuilder<RegistrationBloc, RegistrationState>(

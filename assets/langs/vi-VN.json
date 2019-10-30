@@ -1,24 +1,33 @@
 {
   "login": {
     "email": "Email",
+    "email_phone": "Email/phone",
     "email_hint": "Enter your email",
+    "email_phone_hint": "Enter your email or phone",
     "password": "Password",
     "password_hint": "Enter your password",
     "login": "LOGIN",
     "login_with_facebook": "LOGIN WITH FACEBOOK",
+    "back_login": "Back to login",
     "or": "OR",
     "register": "REGISTER",
     "email_is_required": "Email is required",
-    "password_is_required": "Password is required"
+    "phone_is_required": "Phone is required",
+    "email_phone_is_required": "Email or phone is required",
+    "password_is_required": "Password is required",
+    "welcome_to": "Welcome to",
+    "hosrem": "HOSREM"
   },
   "registration": {
     "register": "Register",
-    "first_name": "First Name",
-    "first_name_hint": "Enter your first name",
+    "full_name": "Full Name",
+    "full_name_hint": "Enter your full name",
     "last_name": "Last Name",
     "last_name_hint": "Enter your last name",
     "email": "Email",
     "email_hint": "Enter your email",
+    "phone": "Phone",
+    "phone_hint": "Enter your phone",
     "password": "Password",
     "password_hint": "Enter your password",
     "confirm_password": "Confirm Password",
@@ -36,7 +45,9 @@
     "password_not_match": "Password not match",
     "job_title_is_required": "Job Title is required",
     "working_place_is_required": "Working Place is required",
-    "registration_success": "You have been registered successfully"
+    "registration_success": "You have been registered successfully",
+    "confirm": "By signing up,I agree to the terms and conditions",
+    "verification_send_to_email": "Your verification has been sent to your email"
   },
   "home": {
     "home": "Home",

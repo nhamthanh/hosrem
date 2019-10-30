@@ -38,7 +38,7 @@ class PrimaryButton extends StatelessWidget {
           )
         ] : <BoxShadow>[],
         color: AppColors.lightPrimaryColor,
-        borderRadius: BorderRadius.circular(5.0),
+        borderRadius: BorderRadius.circular(16.0),
       ),
       child: FlatButton(
         child: Text(text),

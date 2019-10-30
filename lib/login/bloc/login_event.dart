@@ -19,11 +19,5 @@ class LoginButtonPressed extends LoginEvent {
 
   @override
   String toString() =>
-      'LoginButtonPressed { email: $email }';
-}
-
-/// LoginFacebookButtonPressed event.
-class LoginFacebookButtonPressed extends LoginEvent {
-  @override
-  String toString() => 'LoginFacebookButtonPressed { }';
+      'LoginButtonPressed { email/phone: $email }';
 }

@@ -45,20 +45,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         yield LoginFailure(error: ErrorHandler.extractErrorMessage(error));
       }
     }
-
-    if (event is LoginFacebookButtonPressed) {
-      yield LoginLoading();
-
-      try {
-        final String token = await authService.loginWithFacebook();
-        await authService.persistToken(token);
-        final User user = await authService.loadCurrentUser();
-        await authService.persistCurrentUser(user);
-        yield LoginSuccess();
-      } catch (error) {
-        yield LoginFailure(error: ErrorHandler.extractErrorMessage(error));
-      }
-    }
   }
 
   Future<UserMembership> _getUserMembership(User user) async {

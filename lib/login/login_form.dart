@@ -4,26 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosrem_app/app/app_routes.dart';
 import 'package:hosrem_app/app/bloc/app_bloc.dart';
-import 'package:hosrem_app/common/app_assets.dart';
-import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/login/bloc/login_bloc.dart';
 import 'package:hosrem_app/login/bloc/login_event.dart';
 import 'package:hosrem_app/login/bloc/login_state.dart';
-import 'package:hosrem_app/register/registration.dart';
-import 'package:hosrem_app/widget/button/default_button.dart';
-import 'package:hosrem_app/widget/button/facebook_button.dart';
 import 'package:hosrem_app/widget/button/primary_button.dart';
 import 'package:hosrem_app/widget/text/edit_text_field.dart';
 
 /// Login form.
 @immutable
-class LoginForm extends StatefulWidget {
+class LoginForm extends StatefulWidget{
   @override
   State<LoginForm> createState() => _LoginFormState();
 }
 
 class _LoginFormState extends State<LoginForm> {
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _emailPhoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   LoginBloc _loginBloc;
@@ -39,6 +34,8 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
+    final double height = MediaQuery.of(context).size.height;
+    final double spacerHeight = height > 580 ? height - 580 : 0;
     return BlocProvider<LoginBloc>(
       builder: (BuildContext context) => _loginBloc,
       child: BlocListener<LoginBloc, LoginState>(
@@ -58,107 +55,83 @@ class _LoginFormState extends State<LoginForm> {
         child: BlocBuilder<LoginBloc, LoginState>(
           bloc: _loginBloc,
           builder: (BuildContext context, LoginState state) {
-            return SingleChildScrollView(
-              child: Container(
-                padding: const EdgeInsets.only(left: 21.0, right: 21.0),
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    const SizedBox(height: 70.0),
-                    Container(
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Container(
                       decoration: const BoxDecoration(
                         color: Colors.white,
                       ),
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
-                      child: Image.asset(AppAssets.imageLogo),
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: EditTextField(
-                            hasLabel: false,
-                            title: AppLocalizations.of(context).tr('login.email'),
-                            hint: AppLocalizations.of(context).tr('login.email_hint'),
-                            onTextChanged: (String value) => print(value),
-                            controller: _emailController,
-                          )
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20.0),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: EditTextField(
-                            hasLabel: false,
-                            title: AppLocalizations.of(context).tr('login.password'),
-                            hint: AppLocalizations.of(context).tr('login.password_hint'),
-                            obscureText: true,
-                            onTextChanged: (String value) => print(value),
-                            controller: _passwordController,
-                          )
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20.0),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: PrimaryButton(
-                            text: AppLocalizations.of(context).tr('login.login'),
-                            onPressed: _onLoginButtonPressed,
-                          )
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20.0),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: FacebookButton(
-                            text: AppLocalizations.of(context).tr('login.login_with_facebook'),
-                            onPressed: _onLoginFacebookButtonPressed,
-                          )
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20.0),
-                    Row(
-                      children: <Widget>[
-                        const SizedBox(width: 40.0),
-                        const Expanded(
-                          child: Divider()
-                        ),
-                        const SizedBox(width: 5.0),
-                        Text(AppLocalizations.of(context).tr('login.or')),
-                        const SizedBox(width: 5.0),
-                        const Expanded(
-                          child: Divider()
-                        ),
-                        const SizedBox(width: 40.0),
-                      ]
-                    ),
-                    const SizedBox(height: 20.0),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: DefaultButton(
-                            backgroundColor: AppColors.lightPrimaryColor,
-                            text: AppLocalizations.of(context).tr('login.register'),
-                            onPressed: _onRegisterButtonPressed,
-                          )
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20.0)
-                  ],
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          Container(
+                            padding: const EdgeInsets.only(left: 28.0, right: 27.0),
+                            child: Column(
+                              children: <Widget>[
+                                const SizedBox(height: 25),
+                                Row(
+                                  children: <Widget>[
+                                    const SizedBox(height: 20),
+                                    Expanded(
+                                      child: EditTextField(
+                                        hasLabel: false,
+                                        title: AppLocalizations.of(context).tr('login.email_phone'),
+                                        hint: AppLocalizations.of(context).tr('login.email_phone_hint'),
+                                        onTextChanged: (String value) => print(value),
+                                        controller: _emailPhoneController,
+                                      )
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 20.0),
+                                Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: EditTextField(
+                                        hasLabel: false,
+                                        title: AppLocalizations.of(context).tr('login.password'),
+                                        hint: AppLocalizations.of(context).tr('login.password_hint'),
+                                        obscureText: true,
+                                        onTextChanged: (String value) => print(value),
+                                        controller: _passwordController,
+                                      )
+                                    ),
+                                  ],
+                                ),
+                              ]
+                            )
+                          ),
+                          SizedBox(height: spacerHeight),
+                          const Divider(),
+                          const SizedBox(height: 20.0),
+                          Container(
+                            padding: const EdgeInsets.only(left: 28.0, right: 27.0),
+                            child: Column(
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: PrimaryButton(
+                                        text: AppLocalizations.of(context).tr('login.login'),
+                                        onPressed: _onLoginButtonPressed,
+                                      )
+                                    )
+                                  ]
+                                ),
+                                const SizedBox(height: 34.0),
+                              ]
+                            )
+                          ),                   
+                        ],
+                      ),
+                    )
+                  ),
                 ),
-              )
+              ]
             );
           },
         )
@@ -167,8 +140,8 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   bool _validateLoginForm() {
-    if (_emailController.text.isEmpty) {
-      _showErrorMessage(AppLocalizations.of(context).tr('login.email_is_required'));
+    if (_emailPhoneController.text.isEmpty) {
+      _showErrorMessage(AppLocalizations.of(context).tr('login.email_phone_is_required'));
       return false;
     }
 
@@ -192,28 +165,15 @@ class _LoginFormState extends State<LoginForm> {
   void _onLoginButtonPressed() {
     if (_validateLoginForm()) {
       _loginBloc.dispatch(LoginButtonPressed(
-        email: _emailController.text,
+        email: _emailPhoneController.text,
         password: _passwordController.text,
       ));
     }
   }
 
-  void _onRegisterButtonPressed() {
-    Navigator.push(
-      context,
-      MaterialPageRoute<bool>(builder:
-        (BuildContext context) => Registration(authService: _loginBloc.authService)
-      ),
-    );
-  }
-
-  void _onLoginFacebookButtonPressed() {
-    _loginBloc.dispatch(LoginFacebookButtonPressed());
-  }
-
   @override
   void dispose() {
-    _emailController.dispose();
+    _emailPhoneController.dispose();
     _passwordController.dispose();
     super.dispose();
   }

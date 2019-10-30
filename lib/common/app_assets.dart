@@ -100,5 +100,8 @@ class AppAssets {
 
   /// Card purple background.
   static const String cardPurpleBg = 'assets/images/card_purple.png';
+
+  /// Confirm icon.
+  static const String confirmIcon = 'assets/images/confirm.svg';
 }
 
