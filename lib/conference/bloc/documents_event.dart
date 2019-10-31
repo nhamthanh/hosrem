@@ -1,20 +1,21 @@
 import 'package:equatable/equatable.dart';
+import 'package:hosrem_app/api/conference/conference.dart';
 import 'package:meta/meta.dart';
 
 /// Documents event.
 @immutable
 abstract class DocumentsEvent extends Equatable {
-  const DocumentsEvent([List<String> props = const <String>[]]) : super(props);
+  const DocumentsEvent([List<dynamic> props = const <dynamic>[]]) : super(props);
 }
 
 /// LoadDocumentByConferenceIdEvent event.
 class LoadDocumentByConferenceIdEvent extends DocumentsEvent {
   LoadDocumentByConferenceIdEvent({
-    @required this.conferenceId,
+    @required this.conference,
     @required this.supplementDocs,
-  }) : super(<String>[conferenceId]);
+  }) : super(<Conference>[conference]);
 
-  final String conferenceId;
+  final Conference conference;
   final List<String> supplementDocs;
 
   @override

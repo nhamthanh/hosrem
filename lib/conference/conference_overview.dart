@@ -209,7 +209,7 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
         padding: const EdgeInsets.only(left: 25.0, top: 28.5, bottom: 28.5, right: 25.0),
         color: Colors.white,
         child: PrimaryButton(
-          text: 'Quét Mã Tham Dự Hội Nghị',
+          text: 'Mã Tham Dự Hội Nghị',
           onPressed: _navigateToViewQrCode,
         )
       );

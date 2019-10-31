@@ -10,7 +10,6 @@ import 'package:hosrem_app/image/image_viewer.dart';
 import 'package:hosrem_app/loading/loading_indicator.dart';
 import 'package:hosrem_app/pdf/pdf_page.dart';
 import 'package:hosrem_app/widget/text/search_text_field.dart';
-import 'package:logging/logging.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 
@@ -18,6 +17,7 @@ import 'bloc/documents_bloc.dart';
 import 'bloc/documents_event.dart';
 import 'bloc/documents_state.dart';
 import 'conference_resource_item.dart';
+import 'conference_service.dart';
 import 'document_service.dart';
 
 /// Conference resources page.
@@ -33,16 +33,15 @@ class ConferenceResources extends StatefulWidget {
 class _ConferenceResourcesState extends BaseState<ConferenceResources> {
   DocumentsBloc _documentsBloc;
 
-  final Logger _logger = Logger('ConferenceResourcesState');
-
   @override
   void initState() {
     super.initState();
 
-    _documentsBloc = DocumentsBloc(documentService: DocumentService(apiProvider), authService: AuthService(apiProvider));
+    _documentsBloc = DocumentsBloc(DocumentService(apiProvider), AuthService(apiProvider),
+          ConferenceService(apiProvider));
     _documentsBloc.dispatch(
       LoadDocumentByConferenceIdEvent(
-        conferenceId: widget.conference.id,
+        conference: widget.conference,
         supplementDocs: widget.conference.files
       )
     );
@@ -67,24 +66,33 @@ class _ConferenceResourcesState extends BaseState<ConferenceResources> {
           bloc: _documentsBloc,
           builder: (BuildContext context, DocumentsState state) {
             if (state is LoadedDocumentsState) {
-              return Column(
-                children: <Widget>[
-                  Container(
-                    padding: const EdgeInsets.only(left: 28.0, right: 28.0, top: 19.0, bottom: 0.0),
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: SearchTextField(
-                            executeSearch: _searchDocuments
-                          )
-                        ),
-                      ],
+              if (state.canViewDocuments) {
+                return Column(
+                  children: <Widget>[
+                    Container(
+                      padding: const EdgeInsets.only(left: 28.0, right: 28.0, top: 19.0, bottom: 0.0),
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: SearchTextField(
+                              executeSearch: _searchDocuments
+                            )
+                          ),
+                        ],
+                      )
+                    ),
+                    Expanded(
+                      child: _buildDocumentsWidget(state)
                     )
-                  ),
-                  Expanded(
-                    child: _buildDocumentsWidget(state)
-                  )
-                ]
+                  ]
+                );
+              }
+
+              return Center(
+                child: Text(
+                  AppLocalizations.of(context).tr('conferences.documents.upgrade_to_view_documents'),
+                  style: TextStyles.textStyle16PrimaryBlack
+                )
               );
             }
 
@@ -137,7 +145,7 @@ class _ConferenceResourcesState extends BaseState<ConferenceResources> {
                   const Divider()
                 ],
               ),
-              onTap: () => _navigateToViewer(document.title, document.content, state.token)
+              onTap: () => _navigateToViewer(document.title, document.content)
             )).toList()
           )
         ),
@@ -163,7 +171,7 @@ class _ConferenceResourcesState extends BaseState<ConferenceResources> {
                   const Divider()
                 ],
               ),
-              onTap: () => _navigateToViewer(document.title, document.content, state.token)
+              onTap: () => _navigateToViewer(document.title, document.content)
             )).toList()
           )
         )
@@ -175,22 +183,20 @@ class _ConferenceResourcesState extends BaseState<ConferenceResources> {
     _documentsBloc.dispatch(FilterDocumentsEvent(filterText: value));
   }
 
-  void _navigateToViewer(String title, String content, String token) {
-    (content?.toLowerCase() ?? '').endsWith('pdf') ? _navigateToPdfViewer(title, content, token) : _navigateToImageViewer(title, content, token); 
+  void _navigateToViewer(String title, String content) {
+    (content?.toLowerCase() ?? '').endsWith('pdf') ? _navigateToPdfViewer(title, content) : _navigateToImageViewer(title, content);
   }
 
-  void _navigateToPdfViewer(String title, String content, String token) {
+  void _navigateToPdfViewer(String title, String content) {
     final String pdfUrl = content != null && content.isNotEmpty ? '${apiConfig.apiBaseUrl}conferences/${widget.conference.id}/document?fileName=$content' : 'http://';
-    _logger.info(pdfUrl);
     Navigator.push<dynamic>(context, PageTransition<dynamic>(
       type: PageTransitionType.downToUp,
       child: PdfPage(url: pdfUrl, name: title ?? 'Tài liệu tham khảo')
     ));
   }
 
-  void _navigateToImageViewer(String title, String content, String token) {
+  void _navigateToImageViewer(String title, String content) {
     final String imageUrl = content != null && content.isNotEmpty ? '${apiConfig.apiBaseUrl}conferences/${widget.conference.id}/document?fileName=$content' : 'http://';
-    _logger.info(imageUrl);
     Navigator.push<dynamic>(context, PageTransition<dynamic>(
       type: PageTransitionType.downToUp,
       child: ImageViewer(url: imageUrl, title: title ?? 'Tài liệu tham khảo')
