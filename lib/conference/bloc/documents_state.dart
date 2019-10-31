@@ -24,11 +24,12 @@ class DocumentsFailure extends DocumentsState {
 
 /// LoadedDocumentsState state.
 class LoadedDocumentsState extends DocumentsState {
-  LoadedDocumentsState({@required this.documents, @required this.supplementDocs, @required this.token});
+  LoadedDocumentsState({this.canViewDocuments = false, this.documents = const <Document>[],
+      this.supplementDocs = const <Document>[]});
 
+  final bool canViewDocuments;
   final List<Document> documents;
   final List<Document> supplementDocs;
-  final String token;
 
   @override
   String toString() => 'LoadedDocumentsState';
