@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
+import 'package:hosrem_app/api/payment/payment.dart';
 import 'package:hosrem_app/common/error_handler.dart';
 
 import '../payment_service.dart';
@@ -43,6 +44,26 @@ class MembershipPaymentBloc extends Bloc<MembershipPaymentEvent, MembershipPayme
     if (event is ChangePaymentMethodEvent) {
       try {
         yield LoadedPaymentData(paymentTypes: event.paymentTypes, selectedPayment: event.selectedPayment);
+      } catch (error) {
+        yield MembershipPaymentFailure(error: ErrorHandler.extractErrorMessage(error));
+      }
+    }
+
+    if (event is ProcessCreditCardPaymentEvent) {
+      yield MembershipPaymentLoading();
+      try {
+        final Payment payment = await paymentService.createPayment(event.membership, event.paymentType, event.detail);
+        yield MembershipCreditCardPaymentSuccess(payment);
+      } catch (error) {
+        yield MembershipPaymentFailure(error: ErrorHandler.extractErrorMessage(error));
+      }
+    }
+
+    if (event is ProcessAtmPaymentEvent) {
+      yield MembershipPaymentLoading();
+      try {
+        final Payment payment = await paymentService.createPayment(event.membership, event.paymentType, event.detail);
+        yield MembershipAtmPaymentSuccess(payment);
       } catch (error) {
         yield MembershipPaymentFailure(error: ErrorHandler.extractErrorMessage(error));
       }

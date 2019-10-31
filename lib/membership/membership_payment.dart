@@ -81,6 +81,14 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
           if (state is MembershipPaymentSuccess) {
             _showPaymentSuccessDialog();
           }
+
+          if (state is MembershipCreditCardPaymentSuccess) {
+            _navigateToPaymentWebview(state.payment.payRef);
+          }
+
+          if (state is MembershipAtmPaymentSuccess) {
+            _navigateToPaymentWebview(state.payment.payRef);
+          }
         },
         child: BlocBuilder<MembershipPaymentBloc, MembershipPaymentState>(
           bloc: _membershipPaymentBloc,
@@ -254,14 +262,28 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
     if (_selectedPayment == PaymentMethods.momo) {
       await _momoPayment.requestPayment(widget.membership.fee, 'Đăng ký hội viên HOSREM');
     } else if (_selectedPayment == PaymentMethods.creditCards) {
-      await Navigator.push(context, MaterialPageRoute<bool>(
-        builder: (BuildContext context) => const PaymentWebview(atm: false))
-      );
+      _payViaCreditCardsUsingOnePay();
     } else {
-      await Navigator.push(context, MaterialPageRoute<bool>(
-        builder: (BuildContext context) => const PaymentWebview(atm: true))
-      );
+      _payViaAtmsUsingOnePay();
     }
+  }
+
+  void _payViaCreditCardsUsingOnePay() {
+    _membershipPaymentBloc.dispatch(ProcessCreditCardPaymentEvent(
+      membership: widget.membership,
+      detail: const <String, dynamic>{},
+      paymentType: _paymentTypes.firstWhere((PaymentType paymentType) => paymentType.type == PaymentMethods.creditCards,
+        orElse: () => PaymentType.fromJson(<String, dynamic>{}))
+    ));
+  }
+
+  void _payViaAtmsUsingOnePay() {
+    _membershipPaymentBloc.dispatch(ProcessAtmPaymentEvent(
+      membership: widget.membership,
+      detail: const <String, dynamic>{},
+      paymentType: _paymentTypes.firstWhere((PaymentType paymentType) => paymentType.type == PaymentMethods.creditCards,
+        orElse: () => PaymentType.fromJson(<String, dynamic>{}))
+    ));
   }
 
   void _showPaymentFailDialog() {
@@ -295,5 +317,11 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
     _membershipPaymentBloc.dispose();
     _momoPayment.dispose();
     super.dispose();
+  }
+
+  void _navigateToPaymentWebview(String url) {
+    Navigator.push(context, MaterialPageRoute<bool>(
+      builder: (BuildContext context) => PaymentWebview(true, url))
+    ).then((bool result) => _showPaymentSuccessDialog(), onError: _showPaymentFailDialog);
   }
 }

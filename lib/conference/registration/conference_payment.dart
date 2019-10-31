@@ -89,6 +89,14 @@ class _ConferencePaymentState extends BaseState<ConferencePayment> {
           if (state is ConferencePaymentSuccess) {
             _showPaymentSuccessDialog();
           }
+
+          if (state is ConferenceCreditCardPaymentSuccess) {
+            _navigateToPaymentWebview(state.payment.payRef);
+          }
+
+          if (state is ConferenceAtmPaymentSuccess) {
+            _navigateToPaymentWebview(state.payment.payRef);
+          }
         },
         child: BlocBuilder<ConferencePaymentBloc, ConferencePaymentState>(
           bloc: _conferencePaymentBloc,
@@ -285,14 +293,36 @@ class _ConferencePaymentState extends BaseState<ConferencePayment> {
     if (_selectedPaymentMethod == PaymentMethods.momo) {
       await _momoPayment.requestPayment(widget.registrationFee, 'Đăng ký tham gia hội nghị');
     } else if (_selectedPaymentMethod == PaymentMethods.creditCards) {
-      await Navigator.push(context, MaterialPageRoute<bool>(
-        builder: (BuildContext context) => const PaymentWebview(atm: false))
-      );
+      _payViaCreditCardsUsingOnePay();
     } else {
-      await Navigator.push(context, MaterialPageRoute<bool>(
-        builder: (BuildContext context) => const PaymentWebview(atm: true))
-      );
+      _payViaAtmsUsingOnePay();
     }
+  }
+
+  void _payViaCreditCardsUsingOnePay() {
+    final PaymentType paymentType = _paymentTypes.firstWhere((PaymentType paymentType) => paymentType.type == PaymentMethods.momo,
+      orElse: () => PaymentType.fromJson(<String, dynamic>{}));
+    _conferencePaymentBloc.dispatch(ProcessCreditCardPaymentEvent(
+      <String, dynamic>{},
+      widget.conference.id,
+      widget.registrationFee,
+      '71D Lac Long Quan',
+      'Email',
+      paymentType
+    ));
+  }
+
+  void _payViaAtmsUsingOnePay() {
+    final PaymentType paymentType = _paymentTypes.firstWhere((PaymentType paymentType) => paymentType.type == PaymentMethods.momo,
+      orElse: () => PaymentType.fromJson(<String, dynamic>{}));
+    _conferencePaymentBloc.dispatch(ProcessAtmPaymentEvent(
+      <String, dynamic>{},
+      widget.conference.id,
+      widget.registrationFee,
+      '71D Lac Long Quan',
+      'Email',
+      paymentType
+    ));
   }
 
   void _handleOptionChanged(String paymentMethod) {
@@ -332,6 +362,12 @@ class _ConferencePaymentState extends BaseState<ConferencePayment> {
         ]
       )
     );
+  }
+
+  void _navigateToPaymentWebview(String url) {
+    Navigator.push(context, MaterialPageRoute<bool>(
+      builder: (BuildContext context) => PaymentWebview(true, url))
+    ).then((bool result) => _showPaymentSuccessDialog(), onError: _showPaymentFailDialog);
   }
 
   @override

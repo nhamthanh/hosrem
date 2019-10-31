@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:hosrem_app/api/payment/payment.dart';
 import 'package:hosrem_app/api/payment/payment_type.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
 import 'package:hosrem_app/common/error_handler.dart';
@@ -51,6 +52,28 @@ class ConferencePaymentBloc extends Bloc<ConferencePaymentEvent, ConferencePayme
         yield ConferencePaymentDataSuccess(event.paymentTypes, event.premiumMembership, event.registrationFee,
           selectedPaymentMethod: event.selectedPaymentMethod
         );
+      } catch (error) {
+        yield ConferencePaymentFailure(error: ErrorHandler.extractErrorMessage(error));
+      }
+    }
+
+    if (event is ProcessCreditCardPaymentEvent) {
+      yield ConferencePaymentLoading();
+      try {
+        final Payment payment = await paymentService.createConferencePayment(event.conferenceId, event.fee, event.letterAddress,
+          event.letterType, event.paymentType, event.detail);
+        yield ConferenceCreditCardPaymentSuccess(payment);
+      } catch (error) {
+        yield ConferencePaymentFailure(error: ErrorHandler.extractErrorMessage(error));
+      }
+    }
+
+    if (event is ProcessAtmPaymentEvent) {
+      yield ConferencePaymentLoading();
+      try {
+        final Payment payment = await paymentService.createConferencePayment(event.conferenceId, event.fee, event.letterAddress,
+          event.letterType, event.paymentType, event.detail);
+        yield ConferenceAtmPaymentSuccess(payment);
       } catch (error) {
         yield ConferencePaymentFailure(error: ErrorHandler.extractErrorMessage(error));
       }

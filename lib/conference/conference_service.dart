@@ -1,6 +1,5 @@
 import 'package:hosrem_app/api/conference/conference.dart';
 import 'package:hosrem_app/api/conference/conference_fees.dart';
-import 'package:hosrem_app/api/conference/conference_member_pagination.dart';
 import 'package:hosrem_app/api/conference/conference_pagination.dart';
 import 'package:hosrem_app/api/conference/conference_registration.dart';
 import 'package:hosrem_app/network/api_provider.dart';
