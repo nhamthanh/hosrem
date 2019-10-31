@@ -98,7 +98,7 @@ class MembershipStatusWidget extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyles.textStyle16SecondaryGreyBold
           ),
-          expiredTime == null ? Text(
+          expiredTime == null ? const Text(
             'Nâng Cấp Thành Hội Viên HOSREM',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -119,7 +119,7 @@ class MembershipStatusWidget extends StatelessWidget {
                 style: TextStyles.textStyle13PrimaryRed
               ),
               const SizedBox(width: 5.0),
-              Expanded(
+              const Expanded(
                 child: Text(
                   'Gia hạn ngay',
                   maxLines: 1,

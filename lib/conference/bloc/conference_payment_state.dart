@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:hosrem_app/api/payment/payment.dart';
 import 'package:hosrem_app/api/payment/payment_type.dart';
 
 /// Conference payment state.
@@ -26,6 +27,26 @@ class ConferencePaymentFailure extends ConferencePaymentState {
 class ConferencePaymentSuccess extends ConferencePaymentState {
   @override
   String toString() => 'ConferencePaymentSuccess';
+}
+
+/// ConferenceCreditCardPaymentSuccess state.
+class ConferenceCreditCardPaymentSuccess extends ConferencePaymentState {
+  ConferenceCreditCardPaymentSuccess(this.payment);
+
+  final Payment payment;
+
+  @override
+  String toString() => 'ConferenceCreditCardPaymentSuccess';
+}
+
+/// ConferencePaymentSuccess state.
+class ConferenceAtmPaymentSuccess extends ConferencePaymentState {
+  ConferenceAtmPaymentSuccess(this.payment);
+
+  final Payment payment;
+
+  @override
+  String toString() => 'ConferenceAtmPaymentSuccess';
 }
 
 /// ConferencePaymentDataSuccess state.

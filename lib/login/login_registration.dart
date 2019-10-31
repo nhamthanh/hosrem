@@ -25,8 +25,8 @@ class LoginRegister extends StatefulWidget {
 class _LoginRegisterState extends BaseState<LoginRegister> with SingleTickerProviderStateMixin {
 
   final List<Widget> tabs = <Widget>[
-    Container(child: const Tab(text: 'Đăng nhập'), width: 130.0, height: 36,),
-    Container(child: const Tab(text: 'Đăng ký'), width: 130.0, height: 36,),
+    Container(child: const Tab(text: 'Đăng Nhập'), width: 130.0, height: 36,),
+    Container(child: const Tab(text: 'Đăng Ký'), width: 130.0, height: 36,),
   ];
 
   TabController _tabController;

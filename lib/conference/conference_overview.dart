@@ -11,7 +11,6 @@ import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/common/date_time_utils.dart';
 import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/conference/registration/conference_registration.dart';
-import 'package:hosrem_app/login/login.dart';
 import 'package:hosrem_app/login/login_registration.dart';
 import 'package:hosrem_app/widget/button/primary_button.dart';
 import 'package:hosrem_app/widget/svg/svg_icon.dart';
@@ -243,7 +242,7 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
     if (!hasToken) {
       await Navigator.push<dynamic>(context, PageTransition<dynamic>(
         type: PageTransitionType.downToUp,
-        child: LoginRegister()
+        child: const LoginRegister()
       ));
 
       return;
