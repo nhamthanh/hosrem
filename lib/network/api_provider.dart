@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:hosrem_app/api/article/article_api.dart';
 import 'package:hosrem_app/api/auth/auth_api.dart';
 import 'package:hosrem_app/api/auth/user_api.dart';
 import 'package:hosrem_app/api/conference/conference_api.dart';
@@ -28,6 +29,7 @@ class ApiProvider {
   UserMembershipApi _userMembershipApi;
   PaymentApi _paymentApi;
   PaymentTypeApi _paymentTypeApi;
+  ArticleApi _articleApi;
   DefaultCacheManager _cacheManager;
   Function() _onUnauthorized;
 
@@ -103,5 +105,11 @@ class ApiProvider {
   PaymentTypeApi get paymentTypeApi {
     _paymentTypeApi ??= PaymentTypeApi(dio);
     return _paymentTypeApi;
+  }
+
+  /// Get article api.
+  ArticleApi get articleApi {
+    _articleApi ??= ArticleApi(dio);
+    return _articleApi;
   }
 }

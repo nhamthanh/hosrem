@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization_delegate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hosrem_app/article/articles.dart';
 import 'package:hosrem_app/common/app_assets.dart';
 import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/conference/conferences.dart';
@@ -124,8 +125,6 @@ class _HomeState extends State<Home> {
       );
     }
 
-    return Center(
-      child: Text(AppLocalizations.of(context).tr('home.under_construction')),
-    );
+    return const Articles();
   }
 }
