@@ -58,10 +58,11 @@ class ConferenceFeesBloc extends Bloc<ConferenceFeesEvent, ConferenceFeesState> 
 
   List<ConferenceFee> _filterConferenceFeesByNow(List<ConferenceFee> conferenceFees) {
     final DateTime now = DateTime.now();
+    final DateTime beginOfDay = DateTime(now.year, now.month, now.day, 0, 0, 0);
     final Map<DateTime, List<ConferenceFee>> groupByMilestoneFees =
         groupBy(conferenceFees, (ConferenceFee conferenceFee) => conferenceFee.milestone);
     final ConferenceFee conferenceFee = conferenceFees.firstWhere(
-        (ConferenceFee conferenceFee) => !now.isAfter(conferenceFee.milestone), orElse: () => null);
+        (ConferenceFee conferenceFee) => !beginOfDay.isAfter(conferenceFee.milestone), orElse: () => null);
     return conferenceFee == null ? <ConferenceFee>[] : groupByMilestoneFees[conferenceFee.milestone];
   }
 }

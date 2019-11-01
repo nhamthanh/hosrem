@@ -76,6 +76,7 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
                     Expanded(
                       child: SingleChildScrollView(
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
                             Container(
                               padding: const EdgeInsets.all(28.0),
@@ -97,7 +98,7 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: <Widget>[
                                             Container(
-                                              padding: const EdgeInsets.only(top: 4.0),
+                                              padding: const EdgeInsets.only(top: 7.0),
                                               child: SvgIcon(AppAssets.locationIcon, size: 16.0, color: AppColors.secondaryGreyColor)
                                             ),
                                             const SizedBox(width: 5.0),
@@ -122,7 +123,6 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
                                       Row(
                                         children: <Widget>[
                                           Container(
-                                            padding: const EdgeInsets.only(top: 4.0),
                                             child: SvgIcon(AppAssets.calendarIcon, size: 16.0, color: AppColors.secondaryGreyColor)
                                           ),
                                           const SizedBox(width: 5.0),

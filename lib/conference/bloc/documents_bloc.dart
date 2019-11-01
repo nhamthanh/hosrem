@@ -36,8 +36,8 @@ class DocumentsBloc extends Bloc<DocumentsEvent, DocumentsState> {
     if (event is LoadDocumentByConferenceIdEvent) {
       try {
         final User currentUser = await authService.currentUser();
-        final bool registeredConference = await conferenceService.checkIfUserRegisterConference(
-            event.conference.id, currentUser?.id) ?? false;
+        final bool registeredConference = currentUser == null ? false :
+            await conferenceService.checkIfUserRegisterConference(event.conference.id, currentUser.id);
         final bool canViewDocuments = event.conference.status == 'Done' || registeredConference;
         if (canViewDocuments) {
           final DocumentPagination documentPagination =
