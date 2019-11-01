@@ -328,6 +328,10 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
   void _navigateToPaymentWebview(String url) {
     Navigator.push(context, MaterialPageRoute<bool>(
       builder: (BuildContext context) => PaymentWebview(true, url))
-    ).then((bool result) => _showPaymentSuccessDialog(), onError: _showPaymentFailDialog);
+    ).then((bool result) {
+      if (result) {
+        _showPaymentSuccessDialog();
+      }
+    }, onError: _showPaymentFailDialog);
   }
 }
