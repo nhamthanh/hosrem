@@ -51,12 +51,12 @@ class ConferenceItem extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyles.textStyle18PrimaryBlack
                       ),
-                      const SizedBox(height: 8.0),
+                      const SizedBox(height: 20.0),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Container(
-                            padding: const EdgeInsets.only(top: 4.0),
+                            padding: const EdgeInsets.only(top: 5.0),
                             child: SvgIcon(AppAssets.locationIcon, size: 16.0, color: AppColors.secondaryGreyColor)
                           ),
                           const SizedBox(width: 5.0),
@@ -81,7 +81,6 @@ class ConferenceItem extends StatelessWidget {
                     Row(
                       children: <Widget>[
                         Container(
-                          padding: const EdgeInsets.only(top: 4.0),
                           child: SvgIcon(AppAssets.calendarIcon, size: 16.0, color: AppColors.secondaryGreyColor)
                         ),
                         const SizedBox(width: 5.0),

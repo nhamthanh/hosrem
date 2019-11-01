@@ -64,7 +64,7 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
           orElse: () => PaymentType.fromJson(<String, dynamic>{}))
       ));
     } else {
-      _showPaymentFailDialog();
+      _showPaymentFailDialog('');
     }
   }
 
@@ -75,7 +75,7 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
       child: BlocListener<MembershipPaymentBloc, MembershipPaymentState>(
         listener: (BuildContext context, MembershipPaymentState state) {
           if (state is MembershipPaymentFailure) {
-            _showPaymentFailDialog();
+            _showPaymentFailDialog(state.error);
           }
 
           if (state is MembershipPaymentSuccess) {
@@ -83,11 +83,11 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
           }
 
           if (state is MembershipCreditCardPaymentSuccess) {
-            _navigateToPaymentWebview(state.payment.payRef);
+            _navigateToPaymentWebview(state.payment.detail['requestUrl']);
           }
 
           if (state is MembershipAtmPaymentSuccess) {
-            _navigateToPaymentWebview(state.payment.payRef);
+            _navigateToPaymentWebview(state.payment.detail['requestUrl']);
           }
         },
         child: BlocBuilder<MembershipPaymentBloc, MembershipPaymentState>(
@@ -271,8 +271,11 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
   void _payViaCreditCardsUsingOnePay() {
     _membershipPaymentBloc.dispatch(ProcessCreditCardPaymentEvent(
       membership: widget.membership,
-      detail: const <String, dynamic>{},
-      paymentType: _paymentTypes.firstWhere((PaymentType paymentType) => paymentType.type == PaymentMethods.creditCards,
+      detail: <String, dynamic>{
+        'amount': widget.membership.fee,
+        'type': 'external'
+      },
+      paymentType: _paymentTypes.firstWhere((PaymentType paymentType) => paymentType.type == PaymentMethods.onepay,
         orElse: () => PaymentType.fromJson(<String, dynamic>{}))
     ));
   }
@@ -280,13 +283,16 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
   void _payViaAtmsUsingOnePay() {
     _membershipPaymentBloc.dispatch(ProcessAtmPaymentEvent(
       membership: widget.membership,
-      detail: const <String, dynamic>{},
-      paymentType: _paymentTypes.firstWhere((PaymentType paymentType) => paymentType.type == PaymentMethods.creditCards,
+      detail: <String, dynamic>{
+        'amount': widget.membership.fee,
+        'type': 'internal'
+      },
+      paymentType: _paymentTypes.firstWhere((PaymentType paymentType) => paymentType.type == PaymentMethods.onepay,
         orElse: () => PaymentType.fromJson(<String, dynamic>{}))
     ));
   }
 
-  void _showPaymentFailDialog() {
+  void _showPaymentFailDialog(dynamic e) {
     showAlert(
       context: context,
       body: 'Thanh toán không thành công. Vui lòng lòng thử lại.',
