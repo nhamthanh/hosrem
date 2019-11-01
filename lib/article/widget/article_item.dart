@@ -77,7 +77,6 @@ class ArticleItem extends StatelessWidget {
                   Row(
                     children: <Widget>[
                       Container(
-                        padding: const EdgeInsets.only(top: 4.0),
                         child: SvgIcon(AppAssets.calendarIcon, size: 16.0, color: AppColors.secondaryGreyColor)
                       ),
                       const SizedBox(width: 5.0),
