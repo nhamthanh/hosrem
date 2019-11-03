@@ -12,11 +12,11 @@ abstract class ArticleApi {
   factory ArticleApi(Dio dio) = _ArticleApi;
 
   /// Get all articles.
-  @GET('conferences')
+  @GET('news')
   Future<ArticlePagination> getAll(@Queries() Map<String, dynamic> query);
 
   /// Get article by id.
-  @GET('conferences/{id}')
+  @GET('news/{id}')
   Future<Article> getArticleById(@Path() String id);
 }
 

@@ -27,6 +27,8 @@ class ArticleDetail extends StatefulWidget {
 }
 
 class _ArticleDetailState extends BaseState<ArticleDetail> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   ArticlesBloc _articlesBloc;
 
   @override
@@ -43,7 +45,7 @@ class _ArticleDetailState extends BaseState<ArticleDetail> {
       child: BlocListener<ArticlesBloc, ArticlesState>(
         listener: (BuildContext context, ArticlesState state) {
           if (state is ArticlesFailure) {
-            Scaffold.of(context).showSnackBar(
+            _scaffoldKey.currentState.showSnackBar(
               SnackBar(
                 content: Text('${state.error}'),
                 backgroundColor: Colors.red,
@@ -55,6 +57,7 @@ class _ArticleDetailState extends BaseState<ArticleDetail> {
           bloc: _articlesBloc,
           builder: (BuildContext context, ArticlesState state) {
             return Scaffold(
+              key: _scaffoldKey,
               appBar: AppBar(
                 title: Text(widget.title),
                 centerTitle: true
@@ -78,7 +81,7 @@ class _ArticleDetailState extends BaseState<ArticleDetail> {
           child: Column(
             children: <Widget>[
               Text(
-                'Sự phân mảnh dna tinh trùng và thụ tinh ống phân mảnh dna',
+                state.article.title,
                 style: TextStyles.textStyle24PrimaryBlack
               ),
               const SizedBox(height: 13.0),
@@ -89,16 +92,25 @@ class _ArticleDetailState extends BaseState<ArticleDetail> {
                   ),
                   const SizedBox(width: 12.0),
                   Text(
-                    DateTimeUtils.format(DateTime.now()),
+                    DateTimeUtils.format(state.article.publishTime),
                     style: TextStyles.textStyle14PrimaryRed
                   ),
                 ],
               ),
-              const SizedBox(height: 13.0),
+              const SizedBox(height: 24.0),
               Container(
-                padding: const EdgeInsets.all(28.0),
+                height: 168.0,
                 child: CachedNetworkImage(
-                  imageUrl: 'https://',
+                  imageUrl: state.article.avatar ?? 'https://',
+                  imageBuilder: (BuildContext context, ImageProvider imageProvider) => Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      color: const Color.fromRGBO(52, 169, 255, 0.1),
+                      image: DecorationImage(
+                        image: imageProvider, fit: BoxFit.cover
+                      ),
+                    )
+                  ),
                   placeholder: (BuildContext context, String url) => Center(child: const CircularProgressIndicator()),
                   errorWidget: (BuildContext context, String url, Object error) =>
                     Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
@@ -108,20 +120,14 @@ class _ArticleDetailState extends BaseState<ArticleDetail> {
                           borderRadius: BorderRadius.circular(10.0),
                           color: const Color.fromRGBO(52, 169, 255, 0.1)
                         ),
-                        child: Image.asset(AppAssets.articlePlaceholder))
+                        child: Image.asset(AppAssets.articlePlaceholder)
+                      )
                     ])),
               ),
-              const SizedBox(height: 13.0),
+              const SizedBox(height: 24.0),
               Html(
-                data: """
-                    <div>Follow<a class='sup'><sup>pl</sup></a> 
-                      Below hr
-                        <b>Bold</b>
-                    <h1>what was sent down to you from your Lord</h1>, 
-                    and do not follow other guardians apart from Him. Little do 
-                    <span class='h'>you remind yourselves</span><a class='f'><sup f=2437>1</sup></a></div>
-                    """,
-                padding: EdgeInsets.all(8.0),
+                data: state.article.content,
+                padding: const EdgeInsets.all(8.0),
               ),
             ],
           )

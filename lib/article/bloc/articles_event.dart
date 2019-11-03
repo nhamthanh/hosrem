@@ -7,11 +7,10 @@ abstract class ArticlesEvent {
 
 /// LoadMoreArticlesEvent event.
 class LoadMoreArticlesEvent extends ArticlesEvent {
-  LoadMoreArticlesEvent({
-    @required this.searchCriteria,
-  });
+  LoadMoreArticlesEvent({ this.categoryName, this.searchCriteria });
 
   final Map<String, dynamic> searchCriteria;
+  final String categoryName;
 
   @override
   String toString() => 'LoadMoreArticlesEvent { }';
@@ -19,11 +18,10 @@ class LoadMoreArticlesEvent extends ArticlesEvent {
 
 /// RefreshArticlesEvent event.
 class RefreshArticlesEvent extends ArticlesEvent {
-  RefreshArticlesEvent({
-    @required this.searchCriteria,
-  });
+  RefreshArticlesEvent({ this.categoryName, this.searchCriteria });
 
   final Map<String, dynamic> searchCriteria;
+  final String categoryName;
 
   @override
   String toString() => 'RefreshArticlesEvent { }';

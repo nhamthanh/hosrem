@@ -300,10 +300,13 @@ class _ConferencePaymentState extends BaseState<ConferencePayment> {
   }
 
   void _payViaCreditCardsUsingOnePay() {
-    final PaymentType paymentType = _paymentTypes.firstWhere((PaymentType paymentType) => paymentType.type == PaymentMethods.momo,
+    final PaymentType paymentType = _paymentTypes.firstWhere((PaymentType paymentType) => paymentType.type == PaymentMethods.onepay,
       orElse: () => PaymentType.fromJson(<String, dynamic>{}));
     _conferencePaymentBloc.dispatch(ProcessCreditCardPaymentEvent(
-      <String, dynamic>{},
+      <String, dynamic>{
+        'amount': widget.registrationFee,
+        'type': 'internal'
+      },
       widget.conference.id,
       widget.registrationFee,
       '71D Lac Long Quan',
@@ -313,10 +316,13 @@ class _ConferencePaymentState extends BaseState<ConferencePayment> {
   }
 
   void _payViaAtmsUsingOnePay() {
-    final PaymentType paymentType = _paymentTypes.firstWhere((PaymentType paymentType) => paymentType.type == PaymentMethods.momo,
+    final PaymentType paymentType = _paymentTypes.firstWhere((PaymentType paymentType) => paymentType.type == PaymentMethods.onepay,
       orElse: () => PaymentType.fromJson(<String, dynamic>{}));
     _conferencePaymentBloc.dispatch(ProcessAtmPaymentEvent(
-      <String, dynamic>{},
+      <String, dynamic>{
+        'amount': widget.registrationFee,
+        'type': 'internal'
+      },
       widget.conference.id,
       widget.registrationFee,
       '71D Lac Long Quan',
@@ -367,7 +373,11 @@ class _ConferencePaymentState extends BaseState<ConferencePayment> {
   void _navigateToPaymentWebview(String url) {
     Navigator.push(context, MaterialPageRoute<bool>(
       builder: (BuildContext context) => PaymentWebview(true, url))
-    ).then((bool result) => _showPaymentSuccessDialog(), onError: _showPaymentFailDialog);
+    ).then((bool result) {
+      if (result) {
+        _showPaymentSuccessDialog();
+      }
+    }, onError: _showPaymentFailDialog);
   }
 
   @override

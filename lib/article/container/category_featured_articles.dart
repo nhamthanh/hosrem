@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosrem_app/api/article/article.dart';
@@ -7,6 +8,7 @@ import 'package:hosrem_app/article/bloc/articles_state.dart';
 import 'package:hosrem_app/article/widget/article_category_header.dart';
 import 'package:hosrem_app/article/widget/article_item.dart';
 import 'package:hosrem_app/common/base_state.dart';
+import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/loading/loading_indicator.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 
@@ -16,10 +18,10 @@ import '../article_service.dart';
 
 /// Category featured articles widget.
 class CategoryFeaturedArticles extends StatefulWidget {
-  const CategoryFeaturedArticles(this.title, this.onTapSeeAll, { Key key, this.criteria = const <String, dynamic>{}})
-      : super(key: key);
+  const CategoryFeaturedArticles(this.categoryName, this.onTapSeeAll,
+    { Key key, this.criteria = const <String, dynamic>{}}) : super(key: key);
 
-  final String title;
+  final String categoryName;
   final Function() onTapSeeAll;
   final Map<String, dynamic> criteria;
 
@@ -34,7 +36,7 @@ class _CategoryFeaturedArticlesState extends BaseState<CategoryFeaturedArticles>
   void initState() {
     super.initState();
     _articlesBloc = ArticlesBloc(articleService: ArticleService(apiProvider));
-    _articlesBloc.dispatch(RefreshArticlesEvent(searchCriteria: widget.criteria));
+    _articlesBloc.dispatch(RefreshArticlesEvent(categoryName: widget.categoryName, searchCriteria: widget.criteria));
   }
 
   @override
@@ -43,14 +45,6 @@ class _CategoryFeaturedArticlesState extends BaseState<CategoryFeaturedArticles>
       builder: (BuildContext context) => _articlesBloc,
       child: BlocListener<ArticlesBloc, ArticlesState>(
         listener: (BuildContext context, ArticlesState state) {
-          if (state is ArticlesFailure) {
-            Scaffold.of(context).showSnackBar(
-              SnackBar(
-                content: Text('${state.error}'),
-                backgroundColor: Colors.red,
-              ),
-            );
-          }
         },
         child: BlocBuilder<ArticlesBloc, ArticlesState>(
           bloc: _articlesBloc,
@@ -61,7 +55,9 @@ class _CategoryFeaturedArticlesState extends BaseState<CategoryFeaturedArticles>
 
             if (state is ArticlesFailure) {
               return Center(
-                child: const Text('No article found')
+                child: Text(
+                  AppLocalizations.of(context).tr('articles.no_article_found'),
+                  style: TextStyles.textStyle16PrimaryBlack)
               );
             }
 
@@ -74,15 +70,15 @@ class _CategoryFeaturedArticlesState extends BaseState<CategoryFeaturedArticles>
 
   Widget _buildRefreshWidget(List<Article> articles) {
     return StickyHeader(
-      header: ArticleCategoryHeader(title: widget.title, onTapSeeAll: widget.onTapSeeAll),
-      content: Container(
+      header: ArticleCategoryHeader(title: widget.categoryName, onTapSeeAll: widget.onTapSeeAll),
+      content: articles.isNotEmpty ? Container(
         child: Column(
           children: articles.map((Article article) => InkWell(
             child: ArticleItem(article),
             onTap: () => _navigateToArticleDetail(article),
           )).toList()
         )
-      )
+      ) : Container()
     );
   }
 
@@ -90,7 +86,7 @@ class _CategoryFeaturedArticlesState extends BaseState<CategoryFeaturedArticles>
     Navigator.push(
       context,
       MaterialPageRoute<bool>(
-        builder: (BuildContext context) => ArticleDetail(article.id, title: widget.title)
+        builder: (BuildContext context) => ArticleDetail(article.id, title: widget.categoryName)
       )
     );
   }

@@ -20,8 +20,7 @@ class _ArticleApi implements ArticleApi {
     final queryParameters = <String, dynamic>{};
     queryParameters.addAll(query ?? <String, dynamic>{});
     final _data = <String, dynamic>{};
-    final Response<Map<String, dynamic>> _result = await _dio.request(
-        'conferences',
+    final Response<Map<String, dynamic>> _result = await _dio.request('news',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET', headers: <String, dynamic>{}, extra: _extra),
@@ -37,7 +36,7 @@ class _ArticleApi implements ArticleApi {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final Response<Map<String, dynamic>> _result = await _dio.request(
-        'conferences/$id',
+        'news/$id',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET', headers: <String, dynamic>{}, extra: _extra),

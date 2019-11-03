@@ -1,13 +1,16 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosrem_app/api/article/article.dart';
 import 'package:hosrem_app/common/base_state.dart';
+import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/loading/loading_indicator.dart';
 import 'package:hosrem_app/widget/refresher/refresh_widget.dart';
 import 'package:hosrem_app/widget/text/search_text_field.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:hosrem_app/article/widget/article_item.dart';
+import 'article_detail.dart';
 import 'article_service.dart';
 import 'bloc/articles_bloc.dart';
 import 'bloc/articles_event.dart';
@@ -15,9 +18,9 @@ import 'bloc/articles_state.dart';
 
 /// Articles of category page.
 class CategoryArticles extends StatefulWidget {
-  const CategoryArticles(this.title, { Key key, this.criteria = const <String, dynamic>{} }) : super(key: key);
+  const CategoryArticles(this.categoryName, { Key key, this.criteria = const <String, dynamic>{} }) : super(key: key);
 
-  final String title;
+  final String categoryName;
   final Map<String, dynamic> criteria;
 
   @override
@@ -57,7 +60,7 @@ class _CategoryArticlesState extends BaseState<CategoryArticles> {
           builder: (BuildContext context, ArticlesState state) {
             return Scaffold(
               appBar: AppBar(
-                title: Text(widget.title),
+                title: Text(widget.categoryName),
                 centerTitle: true
               ),
               body: _buildPageContent(state)
@@ -79,7 +82,7 @@ class _CategoryArticlesState extends BaseState<CategoryArticles> {
 
     if (state is ArticlesFailure) {
       return Center(
-        child: const Text('No news found')
+        child: Text(AppLocalizations.of(context).tr('articles.no_article_found'), style: TextStyles.textStyle16PrimaryBlack)
       );
     }
 
@@ -87,6 +90,11 @@ class _CategoryArticlesState extends BaseState<CategoryArticles> {
   }
 
   Widget _buildRefreshWidget(List<Article> articles) {
+    if (articles.isEmpty) {
+      return Center(
+        child: Text(AppLocalizations.of(context).tr('articles.no_article_found'), style: TextStyles.textStyle16PrimaryBlack)
+      );
+    }
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: Column(
@@ -111,8 +119,7 @@ class _CategoryArticlesState extends BaseState<CategoryArticles> {
                   final Article article = articles[index];
                   return InkWell(
                     child: ArticleItem(article),
-                    onTap: () {
-                    }
+                    onTap: () => _navigateToArticleDetail(article)
                   );
                 },
               ),
@@ -126,12 +133,21 @@ class _CategoryArticlesState extends BaseState<CategoryArticles> {
     );
   }
 
+  void _navigateToArticleDetail(Article article) {
+    Navigator.push(
+      context,
+      MaterialPageRoute<bool>(
+        builder: (BuildContext context) => ArticleDetail(article.id, title: widget.categoryName)
+      )
+    );
+  }
+
   void _onLoading() {
-    _articlesBloc.dispatch(LoadMoreArticlesEvent(searchCriteria: widget.criteria));
+    _articlesBloc.dispatch(LoadMoreArticlesEvent(categoryName: widget.categoryName, searchCriteria: widget.criteria));
   }
 
   void _onRefresh() {
-    _articlesBloc.dispatch(RefreshArticlesEvent(searchCriteria: widget.criteria));
+    _articlesBloc.dispatch(RefreshArticlesEvent(categoryName: widget.categoryName, searchCriteria: widget.criteria));
   }
 
   void _searchConferences(String value) {

@@ -38,7 +38,7 @@ class FeaturedArticleItem extends StatelessWidget {
             width: 130.0,
             margin: const EdgeInsets.all(8.0),
             child: CachedNetworkImage(
-              imageUrl: 'https://',
+              imageUrl: article.avatar ?? 'https://',
               imageBuilder: (BuildContext context, ImageProvider imageProvider) => Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8.0),
@@ -68,7 +68,7 @@ class FeaturedArticleItem extends StatelessWidget {
                 children: <Widget>[
                   Expanded(
                     child: Text(
-                      'Sự phân mảnh dna tinh trùng và thụ tinh ống klskdfklsd kldfskf ldsklf ksdlkf lsdkf dsf sdf sdfs fsd fsd fsd fsd fsdf dsf dsf dsf',
+                      article.title,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 3,
                       style: TextStyles.textStyle18PrimaryBlack
@@ -82,7 +82,7 @@ class FeaturedArticleItem extends StatelessWidget {
                       ),
                       const SizedBox(width: 5.0),
                       Text(
-                        DateTimeUtils.format(DateTime.now()),
+                        DateTimeUtils.format(article.publishTime),
                         style: TextStyles.textStyle10PrimaryRed
                       ),
                     ],

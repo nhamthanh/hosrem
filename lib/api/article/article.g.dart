@@ -9,30 +9,27 @@ part of 'article.dart';
 Article _$ArticleFromJson(Map<String, dynamic> json) {
   return Article(
     json['id'] as String,
+    json['avatar'] as String,
+    json['author'] as String,
+    json['content'] as String,
+    json['category'] == null
+        ? null
+        : Category.fromJson(json['category'] as Map<String, dynamic>),
     json['title'] as String,
-    json['description'] as String,
-    json['location'] as String,
-    json['mode'] as String,
-    DateTime.parse(json['startTime'] as String),
-    json['banner'] as String,
+    json['source'] as String,
+    DateTime.parse(json['publishTime'] as String),
     json['status'] as String,
-    (json['files'] as List)?.map((e) => e as String)?.toList(),
-    (json['documents'] as List)
-        ?.map((e) =>
-            e == null ? null : Document.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
   );
 }
 
 Map<String, dynamic> _$ArticleToJson(Article instance) => <String, dynamic>{
       'id': instance.id,
+      'avatar': instance.avatar,
+      'author': instance.author,
+      'content': instance.content,
+      'category': instance.category,
       'title': instance.title,
-      'description': instance.description,
-      'location': instance.location,
-      'mode': instance.mode,
-      'startTime': instance.startTime.toIso8601String(),
-      'banner': instance.banner,
+      'source': instance.source,
+      'publishTime': instance.publishTime.toIso8601String(),
       'status': instance.status,
-      'files': instance.files,
-      'documents': instance.documents,
     };

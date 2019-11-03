@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
@@ -34,11 +35,15 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
           'size': DEFAULT_PAGE_SIZE
         };
         queryParams.addAll(event.searchCriteria);
-        _articlePagination = await articleService.getArticles(queryParams);
+
+        _articlePagination = await articleService.getArticles(event.categoryName, queryParams);
         _articles = _articlePagination.items;
 
         yield RefreshArticlesCompleted();
-        yield LoadedArticlesState(articles: _articles);
+        yield LoadedArticlesState(
+          articles: _articles,
+          selectedArticle: _articles.isEmpty ? null : _articles[Random().nextInt(_articles.length)]
+        );
       } catch (error) {
         print(error);
         yield ArticlesFailure(error: ErrorHandler.extractErrorMessage(error));
@@ -54,7 +59,7 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
           };
           queryParams.addAll(event.searchCriteria);
 
-          _articlePagination = await articleService.getArticles(queryParams);
+          _articlePagination = await articleService.getArticles(event.categoryName, queryParams);
           _articles.addAll(_articlePagination.items);
         }
         yield LoadedArticlesState(articles: _articles);
