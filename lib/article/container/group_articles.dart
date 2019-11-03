@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosrem_app/api/article/article.dart';
@@ -14,20 +15,21 @@ import 'package:hosrem_app/widget/refresher/refresh_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 
+import '../article_detail.dart';
 import '../article_service.dart';
 import '../category_articles.dart';
 
 /// Public articles page.
-class PublicArticles extends StatefulWidget {
-  const PublicArticles({Key key, this.criteria = const <String, dynamic>{}}) : super(key: key);
+class GroupArticles extends StatefulWidget {
+  const GroupArticles({Key key, this.categories = const <String>[]}) : super(key: key);
 
-  final Map<String, dynamic> criteria;
+  final List<String> categories;
 
   @override
-  State<PublicArticles> createState() => _PublicArticlesState();
+  State<GroupArticles> createState() => _GroupArticlesState();
 }
 
-class _PublicArticlesState extends BaseState<PublicArticles> {
+class _GroupArticlesState extends BaseState<GroupArticles> {
   RefreshController _refreshController;
   ArticlesBloc _articlesBloc;
 
@@ -62,12 +64,14 @@ class _PublicArticlesState extends BaseState<PublicArticles> {
             _refreshController.loadComplete();
 
             if (state is LoadedArticlesState) {
-              return _buildRefreshWidget(state.articles);
+              return _buildRefreshWidget(state);
             }
 
             if (state is ArticlesFailure) {
               return Center(
-                child: const Text('No article found')
+                child: Text(
+                  AppLocalizations.of(context).tr('articles.no_article_found'),
+                  style: TextStyles.textStyle16PrimaryBlack)
               );
             }
 
@@ -78,40 +82,27 @@ class _PublicArticlesState extends BaseState<PublicArticles> {
     );
   }
 
-  Widget _buildRefreshWidget(List<Article> articles) {
+  Widget _buildRefreshWidget(LoadedArticlesState state) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: RefreshWidget(
         child: ListView(
           children: <Widget>[
-            _buildFeaturedSection(articles),
+            _buildFeaturedSection(state.selectedArticle),
             const SizedBox(height: 15.0),
-            const Divider(),
-            CategoryFeaturedArticles('Tin cộng đồng', () => _navigateToCategoryArticles('Tin cộng đồng'),
-              criteria: const <String, dynamic>{
-                'status': 'Published',
-                'sort': 'startTime:desc',
-                'size': 3
-              }
-            ),
-            const SizedBox(height: 15.0),
-            const Divider(),
-            CategoryFeaturedArticles('Tin trong nước', () => _navigateToCategoryArticles('Tin trong nước'),
-              criteria: const<String, dynamic>{
-                'status': 'Published',
-                'sort': 'startTime:desc',
-                'size': 3
-              }
-            ),
-            const SizedBox(height: 15.0),
-            const Divider(),
-            CategoryFeaturedArticles('Tin quốc tế', () => _navigateToCategoryArticles('Tin quốc tế'),
-              criteria: const <String, dynamic>{
-                'status': 'Published',
-                'sort': 'startTime:desc',
-                'size': 3
-              }
-            ),
+            Column(
+              children: widget.categories.map((String categoryName) => Column(
+                children: <Widget>[
+                  const Divider(),
+                  CategoryFeaturedArticles(categoryName, () => _navigateToCategoryArticles(categoryName),
+                    criteria: const <String, dynamic>{
+                      'size': 3
+                    }
+                  ),
+                  const SizedBox(height: 15.0)
+                ],
+              )).toList(),
+            )
           ]
         ),
         onRefresh: _onRefresh,
@@ -121,8 +112,8 @@ class _PublicArticlesState extends BaseState<PublicArticles> {
     );
   }
 
-  Widget _buildFeaturedSection(List<Article> articles) {
-    if (articles?.isEmpty ?? true) {
+  Widget _buildFeaturedSection(Article selectedArticle) {
+    if (selectedArticle == null) {
       return Container();
     }
 
@@ -137,7 +128,7 @@ class _PublicArticlesState extends BaseState<PublicArticles> {
               children: <Widget>[
                 Expanded(
                   child: Text(
-                    'Tin nổi bật',
+                    AppLocalizations.of(context).tr('articles.hot_news'),
                     style: TextStyles.textStyle22PrimaryBlack
                   )
                 )
@@ -148,8 +139,22 @@ class _PublicArticlesState extends BaseState<PublicArticles> {
       ),
       content: Column(
         children: <Widget>[
-          FeaturedArticleItem(articles[0])
+          InkWell(
+            child: FeaturedArticleItem(selectedArticle),
+            onTap: () => _navigateToArticleDetail(selectedArticle)
+          )
         ]
+      )
+    );
+  }
+
+  void _navigateToArticleDetail(Article article) {
+    Navigator.push(
+      context,
+      MaterialPageRoute<bool>(
+        builder: (BuildContext context) => ArticleDetail(article.id,
+          title: AppLocalizations.of(context).tr('articles.hot_news')
+        )
       )
     );
   }
@@ -159,7 +164,7 @@ class _PublicArticlesState extends BaseState<PublicArticles> {
   }
 
   void _onRefresh() {
-    _articlesBloc.dispatch(RefreshArticlesEvent(searchCriteria: widget.criteria));
+    _articlesBloc.dispatch(RefreshArticlesEvent(categoryName: '', searchCriteria: const <String, dynamic>{}));
   }
 
   void _navigateToCategoryArticles(String title) {

@@ -1,45 +1,42 @@
-import 'package:hosrem_app/api/document/document.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import 'category.dart';
 
 part 'article.g.dart';
 
-/// Conference response model.
+/// Article response model.
 @JsonSerializable(nullable: false)
 class Article {
-  Article(this.id, this.title, this.description, this.location, this.mode, this.startTime, this.banner,
-    this.status, this.files, this.documents);
+  Article(this.id, this.avatar, this.author, this.content, this.category, this.title, this.source, this.publishTime, this.status);
 
   factory Article.fromJson(Map<String, dynamic> json) => _$ArticleFromJson(json);
 
   @JsonKey(name: 'id')
   final String id;
 
+  @JsonKey(name: 'avatar')
+  final String avatar;
+
+  @JsonKey(name: 'author')
+  final String author;
+
+  @JsonKey(name: 'content')
+  final String content;
+
+  @JsonKey(name: 'category', nullable: true)
+  final Category category;
+
   @JsonKey(name: 'title')
   final String title;
 
-  @JsonKey(name: 'description')
-  final String description;
+  @JsonKey(name: 'source')
+  final String source;
 
-  @JsonKey(name: 'location')
-  final String location;
-
-  @JsonKey(name: 'mode')
-  final String mode;
-
-  @JsonKey(name: 'startTime')
-  final DateTime startTime;
-
-  @JsonKey(name: 'banner')
-  final String banner;
+  @JsonKey(name: 'publishTime')
+  final DateTime publishTime;
 
   @JsonKey(name: 'status')
   final String status;
-
-  @JsonKey(name: 'files', nullable: true)
-  final List<String> files;
-
-  @JsonKey(name: 'documents', nullable: true)
-  final List<Document> documents;
 
   Map<String, dynamic> toJson() => _$ArticleToJson(this);
 }

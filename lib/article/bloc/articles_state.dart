@@ -30,9 +30,11 @@ class ArticlesFailure extends ArticlesState {
 
 /// LoadedArticlesState state.
 class LoadedArticlesState extends ArticlesState {
-  LoadedArticlesState({@required this.articles}) : assert(articles != null);
+  LoadedArticlesState({@required this.articles, this.selectedArticle}) :
+        assert(articles != null);
 
   final List<Article> articles;
+  final Article selectedArticle;
 
   @override
   String toString() => 'LoadedArticlesState';

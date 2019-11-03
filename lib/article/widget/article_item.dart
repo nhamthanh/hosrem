@@ -38,7 +38,7 @@ class ArticleItem extends StatelessWidget {
             width: 80.0,
             margin: const EdgeInsets.all(8.0),
             child: CachedNetworkImage(
-              imageUrl: 'https://',
+              imageUrl: article.avatar ?? 'https://',
               imageBuilder: (BuildContext context, ImageProvider imageProvider) => Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8.0),
@@ -81,7 +81,7 @@ class ArticleItem extends StatelessWidget {
                       ),
                       const SizedBox(width: 5.0),
                       Text(
-                        DateTimeUtils.format(DateTime.now()),
+                        DateTimeUtils.format(article.publishTime),
                         style: TextStyles.textStyle10PrimaryRed
                       ),
                     ],

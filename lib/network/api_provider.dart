@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:hosrem_app/api/article/article_api.dart';
 import 'package:hosrem_app/api/auth/auth_api.dart';
+import 'package:hosrem_app/api/auth/field_api.dart';
 import 'package:hosrem_app/api/auth/user_api.dart';
 import 'package:hosrem_app/api/conference/conference_api.dart';
 import 'package:hosrem_app/api/document/document_api.dart';
@@ -30,6 +31,7 @@ class ApiProvider {
   PaymentApi _paymentApi;
   PaymentTypeApi _paymentTypeApi;
   ArticleApi _articleApi;
+  FieldApi _fieldApi;
   DefaultCacheManager _cacheManager;
   Function() _onUnauthorized;
 
@@ -111,5 +113,11 @@ class ApiProvider {
   ArticleApi get articleApi {
     _articleApi ??= ArticleApi(dio);
     return _articleApi;
+  }
+
+  /// Get field api.
+  FieldApi get fieldApi {
+    _fieldApi ??= FieldApi(dio);
+    return _fieldApi;
   }
 }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/text_styles.dart';
 
-import 'package:hosrem_app/article/container/public_articles.dart';
+import 'container/group_articles.dart';
 
 /// Articles page.
 @immutable
@@ -67,16 +67,19 @@ class _ArticlesState extends State<Articles> with SingleTickerProviderStateMixin
         child: TabBarView(
           controller: _tabController,
           children: const <Widget>[
-            PublicArticles(criteria: <String, dynamic>{
-              'status': 'Published',
-              'sort': 'startTime:asc',
-              'size': 1
-            }),
-            PublicArticles(criteria: <String, dynamic>{
-              'status': 'Done',
-              'sort': 'startTime:desc',
-              'size': 1
-            }),
+            GroupArticles(categories: <String>[
+              'Tin cộng đồng',
+              'Tin trong nước',
+              'Tin quốc tế']
+            ),
+            GroupArticles(categories: <String>[
+              'Sản khoa & nhi sơ sinh',
+              'Phụ khoa',
+              'Mãn kinh',
+              'Nam khoa',
+              'Vô sinh & hỗ trợ sinh sản',
+              'Khác']
+            )
           ]
         )
       )
