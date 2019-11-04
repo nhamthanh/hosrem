@@ -1,4 +1,3 @@
-import 'package:hosrem_app/api/notification/notification.dart';
 import 'package:meta/meta.dart';
 
 /// Surveys state.
