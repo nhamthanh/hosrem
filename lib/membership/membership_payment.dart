@@ -331,6 +331,8 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
     ).then((bool result) {
       if (result) {
         _showPaymentSuccessDialog();
+      } else {
+        _showPaymentFailDialog('');
       }
     }, onError: _showPaymentFailDialog);
   }

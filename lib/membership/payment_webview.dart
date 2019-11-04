@@ -30,7 +30,9 @@ class _PaymentWebviewState extends State<PaymentWebview> {
     flutterWebviewPlugin.onUrlChanged.listen((String url) {
       _logger.info(url);
       if (url.startsWith(_callbackUrl)) {
-        Navigator.pop(context, true);
+        final Uri callbackUri = Uri.parse(url);
+        final String responseCode = callbackUri.queryParameters['vpc_TxnResponseCode'];
+        Navigator.pop(context, responseCode == '0');
       }
     });
   }

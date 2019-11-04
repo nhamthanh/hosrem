@@ -377,6 +377,8 @@ class _ConferencePaymentState extends BaseState<ConferencePayment> {
     ).then((bool result) {
       if (result) {
         _showPaymentSuccessDialog();
+      } else {
+        _showPaymentFailDialog('');
       }
     }, onError: _showPaymentFailDialog);
   }
