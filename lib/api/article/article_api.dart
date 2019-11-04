@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:hosrem_app/api/auth/field_pagination.dart';
 import 'package:retrofit/retrofit.dart';
 
 import 'article.dart';
@@ -18,5 +19,9 @@ abstract class ArticleApi {
   /// Get article by id.
   @GET('news/{id}')
   Future<Article> getArticleById(@Path() String id);
+
+  /// Get all news categories.
+  @GET('news/categories')
+  Future<FieldPagination> getAllCategories(@Queries() Map<String, dynamic> query);
 }
 

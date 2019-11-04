@@ -1,16 +1,34 @@
 import 'package:meta/meta.dart';
-import 'package:equatable/equatable.dart';
 
 /// Registration state.
 @immutable
-abstract class RegistrationState extends Equatable {
-  const RegistrationState([List<String> props = const <String>[]]) : super(props);
-}
+abstract class RegistrationState {}
 
 /// RegistrationInitial state.
 class RegistrationInitial extends RegistrationState {
   @override
   String toString() => 'RegisterInitial';
+}
+
+/// RegistrationValidationState state.
+@immutable
+class RegistrationValidationState extends RegistrationState {
+  RegistrationValidationState({
+    this.validPhone = false,
+    this.validFullName = false,
+    this.validEmail = false,
+    this.validPassword = false,
+    this.checked = false
+  });
+
+  final bool validPhone;
+  final bool validFullName;
+  final bool validEmail;
+  final bool validPassword;
+  final bool checked;
+
+  @override
+  String toString() => 'RegistrationValidationState { validEmail = $validEmail, validPassword = $validPassword } ';
 }
 
 /// RegistrationLoading state.
@@ -27,10 +45,16 @@ class RegistrationSuccess extends RegistrationState {
 
 /// RegistrationFailure state.
 class RegistrationFailure extends RegistrationState {
-  RegistrationFailure({@required this.error}) : super(<String>[error]);
+  RegistrationFailure({@required this.error});
 
   final String error;
 
   @override
   String toString() => 'RegistrationFailure { error: $error }';
+}
+
+/// RegistrationCleanState state.
+class RegistrationCleanState extends RegistrationState {
+  @override
+  String toString() => 'RegistrationCleanState';
 }

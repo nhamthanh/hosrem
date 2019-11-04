@@ -21,6 +21,19 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
   @override
   Stream<RegistrationState> mapEventToState(RegistrationEvent event) async* {
     if (event is RegisterButtonPressed) {
+      /// 1. Validate login form.
+      if (event.email.isEmpty || event.password.isEmpty || event.fullName.isEmpty || event.phone.isEmpty || !event.checked) {
+        yield RegistrationValidationState(
+          validFullName: event.fullName.isNotEmpty,
+          validPhone: event.phone.isNotEmpty,
+          validEmail: event.email.isNotEmpty,
+          validPassword: event.password.isNotEmpty,
+          checked: event.checked
+        );
+        return;
+      }
+
+      /// 2. Submit registration form.
       yield RegistrationLoading();
 
       try {
@@ -29,6 +42,10 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
       } catch (error) {
         yield RegistrationFailure(error: ErrorHandler.extractErrorMessage(error));
       }
+    }
+
+    if (event is CleanRegistrationEvent) {
+      yield RegistrationCleanState();
     }
   }
 }

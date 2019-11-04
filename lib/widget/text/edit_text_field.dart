@@ -52,7 +52,10 @@ class EditTextField extends StatelessWidget {
             style: TextStyles.textStyle16PrimaryGrey
           )
         ),
-        error != null ? Text(error, style: TextStyles.textStyle14PrimaryRed) : Container()
+        error != null && error.isNotEmpty ? Container(
+          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+          child: Text(error, style: TextStyles.textStyle14PrimaryRed)
+        ) : Container()
       ]
     );
   }

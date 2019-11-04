@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_alert/flutter_alert.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosrem_app/api/conference/conference.dart';
+import 'package:hosrem_app/api/conference/conference_fee.dart';
 import 'package:hosrem_app/api/payment/payment_type.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
 import 'package:hosrem_app/common/app_assets.dart';
@@ -28,10 +29,10 @@ import '../conference_service.dart';
 /// Conference registration page.
 @immutable
 class ConferencePayment extends StatefulWidget {
-  const ConferencePayment({Key key, this.conference, this.registrationFee}) : super(key: key);
+  const ConferencePayment({Key key, this.conference, this.conferenceFee}) : super(key: key);
 
   final Conference conference;
-  final double registrationFee;
+  final ConferenceFee conferenceFee;
 
   @override
   State<ConferencePayment> createState() => _ConferencePaymentState();
@@ -53,11 +54,11 @@ class _ConferencePaymentState extends BaseState<ConferencePayment> {
     _momoPayment = MomoPayment(apiConfig, apiProvider, _handleMomoCallback);
     _conferencePaymentBloc = ConferencePaymentBloc(ConferenceService(apiProvider), AuthService(apiProvider),
         PaymentService(apiProvider));
-    _conferencePaymentBloc.dispatch(LoadConferencePaymentDataEvent(widget.conference, widget.registrationFee));
+    _conferencePaymentBloc.dispatch(LoadConferencePaymentDataEvent(widget.conference, widget.conferenceFee.fee));
   }
 
   void _handleMomoCallback(Map<String, dynamic> result) {
-    result.putIfAbsent('amount', () => widget.registrationFee);
+    result.putIfAbsent('amount', () => widget.conferenceFee.fee);
     print(json.encode(result));
     if (result['status'] == '0') {
       final PaymentType paymentType = _paymentTypes.firstWhere((PaymentType paymentType) => paymentType.type == PaymentMethods.momo,
@@ -66,13 +67,13 @@ class _ConferencePaymentState extends BaseState<ConferencePayment> {
       _conferencePaymentBloc.dispatch(ProcessMomoPaymentEvent(
         result,
         widget.conference.id,
-        widget.registrationFee,
+        widget.conferenceFee.fee,
         '71D Lac Long Quan',
-        'Email',
+        widget.conferenceFee.letterType,
         paymentType
       ));
     } else {
-      _showPaymentFailDialog();
+      _showPaymentFailDialog('');
     }
   }
 
@@ -83,7 +84,7 @@ class _ConferencePaymentState extends BaseState<ConferencePayment> {
       child: BlocListener<ConferencePaymentBloc, ConferencePaymentState>(
         listener: (BuildContext context, ConferencePaymentState state) {
           if (state is ConferencePaymentFailure) {
-            _showPaymentFailDialog();
+            _showPaymentFailDialog('');
           }
 
           if (state is ConferencePaymentSuccess) {
@@ -91,11 +92,11 @@ class _ConferencePaymentState extends BaseState<ConferencePayment> {
           }
 
           if (state is ConferenceCreditCardPaymentSuccess) {
-            _navigateToPaymentWebview(state.payment.payRef);
+            _navigateToPaymentWebview(state.payment.detail['requestUrl']);
           }
 
           if (state is ConferenceAtmPaymentSuccess) {
-            _navigateToPaymentWebview(state.payment.payRef);
+            _navigateToPaymentWebview(state.payment.detail['requestUrl']);
           }
         },
         child: BlocBuilder<ConferencePaymentBloc, ConferencePaymentState>(
@@ -238,7 +239,7 @@ class _ConferencePaymentState extends BaseState<ConferencePayment> {
                 )
               ),
               Text(
-                '${CurrencyUtils.formatAsCurrency(widget.registrationFee)} VND',
+                '${CurrencyUtils.formatAsCurrency(widget.conferenceFee.fee)} VND',
                 style: TextStyles.textStyle22PrimaryBlueBold
               )
             ],
@@ -276,7 +277,7 @@ class _ConferencePaymentState extends BaseState<ConferencePayment> {
     );
   }
 
-  void _showPaymentFailDialog() {
+  void _showPaymentFailDialog(dynamic e) {
     showAlert(
       context: context,
       body: 'Thanh toán không thành công. Vui lòng lòng thử lại.',
@@ -291,7 +292,7 @@ class _ConferencePaymentState extends BaseState<ConferencePayment> {
 
   Future<void> _handleProcessPayment() async {
     if (_selectedPaymentMethod == PaymentMethods.momo) {
-      await _momoPayment.requestPayment(widget.registrationFee, 'Đăng ký tham gia hội nghị');
+      await _momoPayment.requestPayment(widget.conferenceFee.fee, 'Đăng ký tham gia hội nghị');
     } else if (_selectedPaymentMethod == PaymentMethods.creditCards) {
       _payViaCreditCardsUsingOnePay();
     } else {
@@ -304,13 +305,13 @@ class _ConferencePaymentState extends BaseState<ConferencePayment> {
       orElse: () => PaymentType.fromJson(<String, dynamic>{}));
     _conferencePaymentBloc.dispatch(ProcessCreditCardPaymentEvent(
       <String, dynamic>{
-        'amount': widget.registrationFee,
-        'type': 'internal'
+        'amount': widget.conferenceFee.fee,
+        'type': 'external'
       },
       widget.conference.id,
-      widget.registrationFee,
-      '71D Lac Long Quan',
-      'Email',
+      widget.conferenceFee.fee,
+      '',
+      widget.conferenceFee.letterType,
       paymentType
     ));
   }
@@ -320,19 +321,19 @@ class _ConferencePaymentState extends BaseState<ConferencePayment> {
       orElse: () => PaymentType.fromJson(<String, dynamic>{}));
     _conferencePaymentBloc.dispatch(ProcessAtmPaymentEvent(
       <String, dynamic>{
-        'amount': widget.registrationFee,
+        'amount': widget.conferenceFee.fee,
         'type': 'internal'
       },
       widget.conference.id,
-      widget.registrationFee,
-      '71D Lac Long Quan',
-      'Email',
+      widget.conferenceFee.fee,
+      '',
+      widget.conferenceFee.letterType,
       paymentType
     ));
   }
 
   void _handleOptionChanged(String paymentMethod) {
-    _conferencePaymentBloc.dispatch(ChangePaymentMethodEvent(_paymentTypes, widget.registrationFee, _premiumMembership,
+    _conferencePaymentBloc.dispatch(ChangePaymentMethodEvent(_paymentTypes, widget.conferenceFee.fee, _premiumMembership,
       selectedPaymentMethod: paymentMethod));
   }
 

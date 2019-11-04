@@ -71,6 +71,7 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
 
     if (event is LoadArticleEvent) {
       try {
+        yield ArticlesLoading();
         yield LoadedArticleState(article: await articleService.getArticle(event.id));
       } catch (error) {
         print(error);

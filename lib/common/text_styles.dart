@@ -13,13 +13,12 @@ class TextStyles {
   static const TextStyle textStyle40PrimaryBlueBold = TextStyle(
     fontSize: 40.0,
     color: AppColors.lightPrimaryColor,
-    fontWeight: FontWeight.bold,
+    fontWeight: FontWeight.bold
   );
 
   static const TextStyle textStyle32SecondaryGrey = TextStyle(
     fontSize: 32.0,
-    color: AppColors.secondaryGreyColor,
-    fontWeight: FontWeight.normal,
+    color: AppColors.secondaryGreyColor
   );
 
   static const TextStyle textStyle24PrimaryBlack = TextStyle(
