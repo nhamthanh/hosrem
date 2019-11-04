@@ -31,6 +31,11 @@ class ConferencesBloc extends Bloc<ConferencesEvent, ConferencesState> {
   @override
   ConferencesState get initialState => ConferenceInitial();
 
+  /// Search conferences by query parameters [queryParams].
+  Future<ConferencePagination> queryConferences(Map<String, dynamic> queryParams) async {
+    return conferenceService.getConferences(queryParams);
+  }
+
   @override
   Stream<ConferencesState> mapEventToState(ConferencesEvent event) async* {
     if (event is RefreshConferencesEvent) {
@@ -40,7 +45,7 @@ class ConferencesBloc extends Bloc<ConferencesEvent, ConferencesState> {
           'size': DEFAULT_PAGE_SIZE
         };
         queryParams.addAll(event.searchCriteria);
-        _conferencePagination = await conferenceService.getConferences(queryParams);
+        _conferencePagination = await queryConferences(queryParams);
         _conferences = _conferencePagination.items;
 
         _dispatchCheckRegistrationEvents(_conferences);
@@ -62,7 +67,7 @@ class ConferencesBloc extends Bloc<ConferencesEvent, ConferencesState> {
           };
           queryParams.addAll(event.searchCriteria);
 
-          _conferencePagination = await conferenceService.getConferences(queryParams);
+          _conferencePagination = await queryConferences(queryParams);
           _conferences.addAll(_conferencePagination.items);
 
           _dispatchCheckRegistrationEvents(_conferencePagination.items);

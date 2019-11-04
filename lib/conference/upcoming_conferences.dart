@@ -17,8 +17,9 @@ import 'conference_service.dart';
 
 /// Upcoming conferences page.
 class UpcomingConferences extends StatefulWidget {
-  const UpcomingConferences({Key key, this.criteria = const <String, dynamic>{}}) : super(key: key);
+  const UpcomingConferences({Key key, this.conferenceBloc, this.criteria = const <String, dynamic>{}}) : super(key: key);
 
+  final ConferencesBloc conferenceBloc;
   final Map<String, dynamic> criteria;
 
   @override
@@ -32,7 +33,7 @@ class _UpcomingConferencesState extends BaseState<UpcomingConferences> {
   @override
   void initState() {
     super.initState();
-    _conferenceBloc = ConferencesBloc(
+    _conferenceBloc = widget.conferenceBloc ?? ConferencesBloc(
       conferenceService: ConferenceService(apiProvider),
       authService: AuthService(apiProvider)
     );
@@ -136,7 +137,7 @@ class _UpcomingConferencesState extends BaseState<UpcomingConferences> {
   void _searchConferences(String value) {
     final Map<String, dynamic> searchCriteria = <String, dynamic>{};
     searchCriteria.addAll(widget.criteria);
-    searchCriteria['title'] = value;
+    searchCriteria['title'] = value.toLowerCase();
     _conferenceBloc.dispatch(RefreshConferencesEvent(searchCriteria: searchCriteria));
   }
 
