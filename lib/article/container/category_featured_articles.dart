@@ -9,7 +9,6 @@ import 'package:hosrem_app/article/widget/article_category_header.dart';
 import 'package:hosrem_app/article/widget/article_item.dart';
 import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/common/text_styles.dart';
-import 'package:hosrem_app/loading/loading_indicator.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 
 import '../article_detail.dart';
@@ -61,7 +60,7 @@ class _CategoryFeaturedArticlesState extends BaseState<CategoryFeaturedArticles>
               );
             }
 
-            return LoadingIndicator();
+            return Container();
           }
         )
       )

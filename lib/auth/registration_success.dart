@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hosrem_app/common/app_assets.dart';
 import 'package:hosrem_app/common/text_styles.dart';
-import 'package:hosrem_app/login/login_registration.dart';
 import 'package:hosrem_app/widget/button/primary_button.dart';
-import 'package:page_transition/page_transition.dart';
 
 /// Register success page.
 class RegistrationSuccess extends StatelessWidget {
@@ -56,12 +54,12 @@ class RegistrationSuccess extends StatelessWidget {
           padding: const EdgeInsets.only(left: 27.0, right: 28.0, bottom: 34.0),
           child : PrimaryButton(
             text: AppLocalizations.of(context).tr('login.back_login'),
-            onPressed: () async => await Navigator.push<dynamic>(context, PageTransition<dynamic>(
-              type: PageTransitionType.downToUp, child: const LoginRegister()))
+            onPressed: () {
+              Navigator.pop(context, true);
+            }
           )
-        ),
-     ),
+        )
+      )
     );
   }
- 
 }

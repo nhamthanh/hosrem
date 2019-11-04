@@ -212,7 +212,7 @@ class _ConferenceRegistrationState extends BaseState<ConferenceRegistration> {
             padding: const EdgeInsets.only(left: 25.0, top: 28.5, bottom: 28.5, right: 25.0),
             child: PrimaryButton(
               text: 'Tiếp tục',
-              onPressed: () => _handleProcessPayment(state.selectedConferenceFee.fee)
+              onPressed: () => _handleProcessPayment(state.selectedConferenceFee)
             )
           )
         ],
@@ -261,10 +261,10 @@ class _ConferenceRegistrationState extends BaseState<ConferenceRegistration> {
     );
   }
 
-  Future<void> _handleProcessPayment(double registrationFee) async {
+  Future<void> _handleProcessPayment(ConferenceFee conferenceFee) async {
     await Navigator.push(context, MaterialPageRoute<bool>(
       builder: (BuildContext context) =>
-        ConferencePayment(conference: widget.conference, registrationFee: registrationFee))
+        ConferencePayment(conference: widget.conference, conferenceFee: conferenceFee))
     );
   }
 

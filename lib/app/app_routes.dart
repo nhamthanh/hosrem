@@ -1,7 +1,7 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:hosrem_app/home/home.dart';
-import 'package:hosrem_app/login/login.dart';
+import 'package:hosrem_app/auth/login_registration.dart';
 
 /// Application routes to define all routes in the applications.
 class AppRoutes {
@@ -28,7 +28,7 @@ Handler _rootHandler = Handler(
 
 Handler _loginHandler = Handler(
   handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-    return Login();
+    return LoginRegistration();
   },
 );
 

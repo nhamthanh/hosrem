@@ -27,7 +27,7 @@ class ArticleCategoryHeader extends StatelessWidget {
                 )
               ),
               InkWell(
-                child: Text(
+                child: const Text(
                   'See All',
                   style: TextStyles.textStyle14PrimaryBlue
                 ),
