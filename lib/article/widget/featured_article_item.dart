@@ -82,7 +82,7 @@ class FeaturedArticleItem extends StatelessWidget {
                       ),
                       const SizedBox(width: 5.0),
                       Text(
-                        DateTimeUtils.format(article.publishTime),
+                        DateTimeUtils.format(article.publishTime.toLocal()),
                         style: TextStyles.textStyle10PrimaryRed
                       ),
                     ],

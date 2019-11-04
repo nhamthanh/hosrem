@@ -92,7 +92,7 @@ class _ArticleDetailState extends BaseState<ArticleDetail> {
                   ),
                   const SizedBox(width: 12.0),
                   Text(
-                    DateTimeUtils.format(state.article.publishTime),
+                    DateTimeUtils.format(state.article.publishTime.toLocal()),
                     style: TextStyles.textStyle14PrimaryRed
                   ),
                 ],

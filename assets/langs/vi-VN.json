@@ -39,6 +39,7 @@
     "sign_up": "SIGN UP",
     "first_name_is_required": "First Name is required",
     "last_name_is_required": "Last Name is required",
+    "full_name_is_required": "Full Name is required",
     "email_is_required": "Email is required",
     "password_is_required": "Password is required",
     "confirm_password_is_required": "Confirm Password is required",
@@ -70,7 +71,8 @@
     "documents": {
       "main_documents": "Main Documents",
       "supplement_documents": "Supplement Documents",
-      "no_document_found": "No Document Found"
+      "no_document_found": "No Document Found",
+      "upgrade_to_view_documents": "You need to register the conference to view documents"
     }
   },
   "profile": {
@@ -93,5 +95,9 @@
   "notifications": {
     "notification": "Notifications",
     "no_notification_found": "No notification found"
+  },
+  "articles": {
+    "no_article_found": "No news found",
+    "hot_news": "Featured News"
   }
 }

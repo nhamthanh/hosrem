@@ -127,7 +127,7 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
                                           ),
                                           const SizedBox(width: 5.0),
                                           Text(
-                                            conference.startTime == null ? '' : DateTimeUtils.format(conference.startTime),
+                                            conference.startTime == null ? '' : DateTimeUtils.format(conference.startTime.toLocal()),
                                             style: TextStyles.textStyle10PrimaryRed
                                           ),
                                         ],
