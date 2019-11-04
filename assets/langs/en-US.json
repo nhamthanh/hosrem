@@ -15,7 +15,7 @@
     "phone_is_required": "Vui lòng nhập phone",
     "email_phone_is_required": "Vui lòng nhập email hay phone",
     "password_is_required": "Vui lòng nhập mật khẩu",
-    "welcome": "chào mừng đến",
+    "welcome": "Chào mừng đến",
     "hosrem": "HOSREM"
   },
   "registration": {
@@ -41,6 +41,7 @@
     "sign_up": "Đăng Ký",
     "first_name_is_required": "Vui lòng nhập tên",
     "last_name_is_required": "Vui lòng nhập họ",
+    "full_name_is_required": "Vui lòng nhập họ và tên",
     "email_is_required": "Vui lòng nhập email",
     "phone_is_required": "Vui lòng nhập phone",
     "password_is_required": "Vui lòng nhập mật khẩu",
@@ -73,7 +74,8 @@
     "documents": {
       "main_documents": "Tài Liệu Chính",
       "supplement_documents": "Tài Liệu Bổ Sung",
-      "no_document_found": "Không Tìm Thấy Tài Liệu"
+      "no_document_found": "Không Tìm Thấy Tài Liệu",
+      "upgrade_to_view_documents": "Bạn cần phải đăng ký để xem tài liệu"
     }
   },
   "profile": {
@@ -96,5 +98,9 @@
   "notifications": {
     "notification": "Thông báo",
     "no_notification_found": "Không Tìm Thấy Thông Báo"
+  },
+  "articles": {
+    "no_article_found": "Không tìm thấy bản tin",
+    "hot_news": "Tin nổi bật"
   }
 }

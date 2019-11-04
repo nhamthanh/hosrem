@@ -85,7 +85,7 @@ class ConferenceItem extends StatelessWidget {
                         ),
                         const SizedBox(width: 5.0),
                         Text(
-                          DateTimeUtils.format(conference.startTime),
+                          DateTimeUtils.format(conference.startTime.toLocal()),
                           style: TextStyles.textStyle10PrimaryRed
                         ),
                       ],
