@@ -60,17 +60,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       }
     }
 
-    if (event is SaveProfileEvent) {
-      yield ProfileLoading();
-
-      try {
-        await authService.updateProfile(event.user);
-        await authService.persistCurrentUser(event.user);
-        yield UpdateProfileSuccess();
-      } catch (error) {
-        yield ProfileFailure(error: ErrorHandler.extractErrorMessage(error));
-      }
-    }
   }
 
   Future<UserMembership> _getUserMembership(User user) async {

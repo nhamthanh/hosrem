@@ -14,12 +14,12 @@ class StaticTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
+        label.isNotEmpty ? Text(
           label,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: TextStyles.textStyle14PrimaryGrey,
-        ),
+        ) : Container(),
         Text(
           value ?? '',
           maxLines: 2,

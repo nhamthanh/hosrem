@@ -4,13 +4,15 @@ import 'package:hosrem_app/common/app_colors.dart';
 /// Primary button.
 @immutable
 class PrimaryButton extends StatelessWidget {
-  const PrimaryButton({this.backgroundColor, this.text, this.onPressed, this.height = 50.0, this.hasShadow = true});
+  const PrimaryButton({this.backgroundColor, this.text, this.onPressed, this.height = 50.0, this.hasShadow = true, this.fontSize = 16, this.fontWeight = FontWeight.normal});
 
   final Color backgroundColor;
   final String text;
   final Function onPressed;
   final double height;
   final bool hasShadow;
+  final double fontSize;
+  final FontWeight fontWeight;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +43,10 @@ class PrimaryButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.0),
       ),
       child: FlatButton(
-        child: Text(text),
+        child: Text(
+          text,
+          style: TextStyle(fontSize: fontSize, fontWeight: fontWeight),
+        ),
         textColor: Colors.white,
         onPressed: onPressed
       )

@@ -75,7 +75,7 @@ class User {
     String userType,
     String firstName,
     String lastName,
-    String dob,
+    DateTime dob,
     String sex,
     String company,
     String department,
