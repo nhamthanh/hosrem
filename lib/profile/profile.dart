@@ -7,17 +7,17 @@ import 'package:hosrem_app/api/auth/user.dart';
 import 'package:hosrem_app/api/membership/user_membership.dart';
 import 'package:hosrem_app/app/app_routes.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
+import 'package:hosrem_app/auth/login_registration.dart';
 import 'package:hosrem_app/common/app_assets.dart';
 import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/conference/my_registered_conferences.dart';
-import 'package:hosrem_app/auth/login_registration.dart';
-
 import 'package:hosrem_app/membership/membership_registration.dart';
 import 'package:hosrem_app/membership/membership_service.dart';
 import 'package:hosrem_app/membership/membership_status_widget.dart';
 import 'package:hosrem_app/profile/profile_details.dart';
+import 'package:hosrem_app/survey/survey_introduction.dart';
 import 'package:hosrem_app/widget/button/default_button.dart';
 import 'package:hosrem_app/widget/navigator/navigator_item.dart';
 import 'package:hosrem_app/widget/svg/svg_icon.dart';
@@ -140,6 +140,7 @@ class _ProfileState extends BaseState<Profile> {
                   NavigatorItem(
                     text: AppLocalizations.of(context).tr('profile.change_your_password'),
                     icon: Icons.lock_outline,
+                    onTap: _navigateToChangePassword,
                   ),
                   NavigatorItem(
                     text: AppLocalizations.of(context).tr('profile.my_registered_events'),
@@ -175,6 +176,10 @@ class _ProfileState extends BaseState<Profile> {
       child: MembershipStatusWidget(user: user, userMembership: userMembership),
       onTap: () => _navigateToMemberRegistration(user, userMembership)
     );
+  }
+
+  Future<void> _navigateToChangePassword() async {
+    await Navigator.push(context, MaterialPageRoute<bool>(builder: (BuildContext context) => SurveyIntroduction()));
   }
 
   Future<void> _navigateToProfile(User user) async {

@@ -106,5 +106,38 @@ class AppAssets {
 
   /// Article placeholder.
   static const String articlePlaceholder = 'assets/images/article_placeholder.png';
+
+  /// Survey image.
+  static const String surveyImage = 'assets/images/survey.png';
+
+  /// Emote 1 normal icon.
+  static const String emote1Normal = 'assets/images/emote_1_normal.svg';
+
+  /// Emote 1 selected icon.
+  static const String emote1Selected = 'assets/images/emote_1_selected.svg';
+
+  /// Emote 2 normal icon.
+  static const String emote2Normal = 'assets/images/emote_2_normal.svg';
+
+  /// Emote 2 selected icon.
+  static const String emote2Selected = 'assets/images/emote_2_selected.svg';
+
+  /// Emote 3 normal icon.
+  static const String emote3Normal = 'assets/images/emote_3_normal.svg';
+
+  /// Emote 3 selected icon.
+  static const String emote3Selected = 'assets/images/emote_3_selected.svg';
+
+  /// Emote 4 normal icon.
+  static const String emote4Normal = 'assets/images/emote_4_normal.svg';
+
+  /// Emote 4 selected icon.
+  static const String emote4Selected = 'assets/images/emote_4_selected.svg';
+
+  /// Emote 5 normal icon.
+  static const String emote5Normal = 'assets/images/emote_5_normal.svg';
+
+  /// Emote 5 selected icon.
+  static const String emote5Selected = 'assets/images/emote_5_selected.svg';
 }
 

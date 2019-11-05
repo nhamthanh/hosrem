@@ -150,7 +150,7 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
                                       ),
                                       Expanded(
                                         child: InkWell(
-                                          child: Text('ATM Card', style: TextStyles.textStyle16PrimaryBlack),
+                                          child: const Text('ATM Card', style: TextStyles.textStyle16PrimaryBlack),
                                           onTap: () => _handleOptionChanged(PaymentMethods.atm)
                                         )
 
@@ -171,7 +171,7 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
                                       ),
                                       Expanded(
                                         child: InkWell(
-                                          child: Text('Thẻ quốc tế (Visa, Master)', style: TextStyles.textStyle16PrimaryBlack),
+                                          child: const Text('Thẻ quốc tế (Visa, Master)', style: TextStyles.textStyle16PrimaryBlack),
                                           onTap: () => _handleOptionChanged(PaymentMethods.creditCards)
                                         )
                                       ),
@@ -193,7 +193,7 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
                                       ),
                                       Expanded(
                                         child: InkWell(
-                                          child: Text('Momo', style: TextStyles.textStyle16PrimaryBlack),
+                                          child: const Text('Momo', style: TextStyles.textStyle16PrimaryBlack),
                                           onTap: () => _handleOptionChanged(PaymentMethods.momo)
                                         )
                                       ),

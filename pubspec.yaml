@@ -93,6 +93,17 @@ flutter:
   - assets/images/visa.png
   - assets/images/confirm.svg
   - assets/images/article_placeholder.png
+  - assets/images/survey.png
+  - assets/images/emote_1_normal.svg
+  - assets/images/emote_1_selected.svg
+  - assets/images/emote_2_normal.svg
+  - assets/images/emote_2_selected.svg
+  - assets/images/emote_3_normal.svg
+  - assets/images/emote_3_selected.svg
+  - assets/images/emote_4_normal.svg
+  - assets/images/emote_4_selected.svg
+  - assets/images/emote_5_normal.svg
+  - assets/images/emote_5_selected.svg
   - assets/langs/vi-VN.json
   - assets/langs/en-US.json
 
