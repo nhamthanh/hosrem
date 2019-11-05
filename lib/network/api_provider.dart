@@ -2,10 +2,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:hosrem_app/api/article/article_api.dart';
 import 'package:hosrem_app/api/auth/auth_api.dart';
-import 'package:hosrem_app/api/auth/field_api.dart';
 import 'package:hosrem_app/api/auth/user_api.dart';
 import 'package:hosrem_app/api/conference/conference_api.dart';
+import 'package:hosrem_app/api/degree/degree_api.dart';
 import 'package:hosrem_app/api/document/document_api.dart';
+import 'package:hosrem_app/api/field/field_api.dart';
 import 'package:hosrem_app/api/membership/membership_api.dart';
 import 'package:hosrem_app/api/membership/user_membership_api.dart';
 import 'package:hosrem_app/api/notification/notification_api.dart';
@@ -31,9 +32,10 @@ class ApiProvider {
   PaymentApi _paymentApi;
   PaymentTypeApi _paymentTypeApi;
   ArticleApi _articleApi;
-  FieldApi _fieldApi;
   DefaultCacheManager _cacheManager;
   Function() _onUnauthorized;
+  DegreeApi _degreeApi;
+  FieldApi _fieldApi;
 
   void _initDio(String baseUrl) {
     final BaseOptions dioOptions = BaseOptions()..baseUrl = baseUrl;
@@ -115,7 +117,13 @@ class ApiProvider {
     return _articleApi;
   }
 
-  /// Get field api.
+  /// Get degree api.
+  DegreeApi get degreeApi {
+    _degreeApi ??= DegreeApi(dio);
+    return _degreeApi;
+  }
+
+  /// Get payment type api.
   FieldApi get fieldApi {
     _fieldApi ??= FieldApi(dio);
     return _fieldApi;

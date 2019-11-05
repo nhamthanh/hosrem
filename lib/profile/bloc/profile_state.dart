@@ -37,13 +37,6 @@ class ProfileSuccess extends ProfileState {
 
   final User user;
   final UserMembership userMembership;
-
   @override
   String toString() => 'ProfileSuccess';
-}
-
-/// UpdateProfileSuccess state.
-class UpdateProfileSuccess extends ProfileState {
-  @override
-  String toString() => 'UpdateProfileSuccess';
 }

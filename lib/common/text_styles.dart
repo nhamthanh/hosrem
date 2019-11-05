@@ -202,6 +202,17 @@ class TextStyles {
     height: 1.64
   );
 
+  static const TextStyle textStyle11PrimaryBlue = TextStyle(
+    fontSize: 11.0,
+    color: AppColors.lightPrimaryColor,
+  );
+
+  static const TextStyle textStyle11PrimaryBlueBold = TextStyle(
+    fontSize: 11.0,
+    color: AppColors.lightPrimaryColor,
+    fontWeight: FontWeight.bold,
+  );
+
 
   static const TextStyle textStyle10PrimaryRed = TextStyle(
     fontSize: 10.0,

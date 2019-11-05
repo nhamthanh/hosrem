@@ -6,7 +6,7 @@ import 'package:hosrem_app/common/text_styles.dart';
 @immutable
 class EditTextField extends StatelessWidget {
   const EditTextField({this.title, this.hint, this.obscureText = false, this.prefixIcon, this.hasLabel = true,
-    this.controller, this.onTextChanged, this.error});
+    this.controller, this.onTextChanged, this.error, this.line = 1});
 
   final String title;
   final String hint;
@@ -16,6 +16,7 @@ class EditTextField extends StatelessWidget {
   final Widget prefixIcon;
   final Function onTextChanged;
   final TextEditingController controller;
+  final int line;
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +26,11 @@ class EditTextField extends StatelessWidget {
       children: <Widget>[
         hasLabel ? Text(
           title,
-          style: TextStyles.textStyle16PrimaryBlack,
+          style: TextStyles.textStyle16PrimaryGrey,
         ) : Container(),
         hasLabel ? const SizedBox(height: 10) : Container(),
         Container(
-          height: 50.0,
+          height: line * 50.0,
           child: TextField(
             decoration: InputDecoration(
               hintText: hint,
@@ -49,7 +50,8 @@ class EditTextField extends StatelessWidget {
             obscureText: obscureText,
             onChanged: onTextChanged,
             controller: controller,
-            style: TextStyles.textStyle16PrimaryGrey
+            style: TextStyles.textStyle16PrimaryGrey,
+            maxLines: line,
           )
         ),
         error != null && error.isNotEmpty ? Container(
