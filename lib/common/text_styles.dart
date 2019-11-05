@@ -33,6 +33,11 @@ class TextStyles {
     color: AppColors.unselectLabelColor
   );
 
+  static const TextStyle textStyle22PrimaryBlue = TextStyle(
+    fontSize: 22.0,
+    color: AppColors.unselectLabelColor
+  );
+
   static const TextStyle textStyle22PrimaryWhiteBold = TextStyle(
     fontSize: 22.0,
     fontWeight: FontWeight.w600,

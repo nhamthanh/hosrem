@@ -46,7 +46,7 @@ class MembershipStatusWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
+                const Text(
                   'Hội Viên HOSREM',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -55,7 +55,7 @@ class MembershipStatusWidget extends StatelessWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(
+                    const Text(
                       'Ngày hết hạn ',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -106,7 +106,7 @@ class MembershipStatusWidget extends StatelessWidget {
           ) : Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(
+              const Text(
                 'Đã hết hạn ngày ',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,

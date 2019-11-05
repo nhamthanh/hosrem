@@ -12,6 +12,7 @@ import 'package:hosrem_app/api/membership/user_membership_api.dart';
 import 'package:hosrem_app/api/notification/notification_api.dart';
 import 'package:hosrem_app/api/payment/payment_api.dart';
 import 'package:hosrem_app/api/payment/payment_type_api.dart';
+import 'package:hosrem_app/api/survey/survey_api.dart';
 
 import 'auth_interceptor.dart';
 
@@ -32,10 +33,13 @@ class ApiProvider {
   PaymentApi _paymentApi;
   PaymentTypeApi _paymentTypeApi;
   ArticleApi _articleApi;
-  DefaultCacheManager _cacheManager;
-  Function() _onUnauthorized;
   DegreeApi _degreeApi;
   FieldApi _fieldApi;
+  SurveyApi _surveyApi;
+
+  DefaultCacheManager _cacheManager;
+  Function() _onUnauthorized;
+
 
   void _initDio(String baseUrl) {
     final BaseOptions dioOptions = BaseOptions()..baseUrl = baseUrl;
@@ -127,5 +131,11 @@ class ApiProvider {
   FieldApi get fieldApi {
     _fieldApi ??= FieldApi(dio);
     return _fieldApi;
+  }
+
+  /// Get survey api.
+  SurveyApi get surveyApi {
+    _surveyApi ??= SurveyApi(dio);
+    return _surveyApi;
   }
 }
