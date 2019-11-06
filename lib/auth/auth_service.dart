@@ -6,6 +6,7 @@ import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:hosrem_app/api/auth/token.dart';
 import 'package:hosrem_app/api/auth/token_payload.dart';
 import 'package:hosrem_app/api/auth/user.dart';
+import 'package:hosrem_app/api/auth/user_password.dart';
 import 'package:hosrem_app/api/membership/user_membership.dart';
 import 'package:hosrem_app/network/api_provider.dart';
 import 'package:meta/meta.dart';
@@ -127,6 +128,12 @@ class AuthService {
     return true;
   }
 
+
+  /// Update user password via [userPassword].
+  Future<bool> updateUserPassword(String id, UserPassword userPassword) async {
+    return apiProvider.userApi.updateUserPassword(id, userPassword);
+  }
+
   /// Clear authentication.
   Future<void> clearUser() async {
     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
@@ -135,5 +142,11 @@ class AuthService {
     await _sharedPreferences.remove('userMembership');
     await _sharedPreferences.remove('email');
     await _sharedPreferences.remove('password');
+  }
+
+    /// Get user password.
+  Future<String> getUserPassword() async {
+    final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+    return _sharedPreferences.get('password');
   }
 }

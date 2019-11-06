@@ -48,6 +48,23 @@ class _UserApi implements UserApi {
   }
 
   @override
+  updateUserPassword(id, userPassword) async {
+    ArgumentError.checkNotNull(id, 'id');
+    ArgumentError.checkNotNull(userPassword, 'userPassword');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(userPassword.toJson() ?? <String, dynamic>{});
+    final Response<bool> _result = await _dio.request('users/$id/password',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'PUT', headers: <String, dynamic>{}, extra: _extra),
+        data: _data);
+    final value = _result.data;
+    return Future.value(value);
+  }
+
+  @override
   getRegisteredConferences(id, query) async {
     ArgumentError.checkNotNull(id, 'id');
     ArgumentError.checkNotNull(query, 'query');

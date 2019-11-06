@@ -16,6 +16,7 @@ import 'package:hosrem_app/conference/my_registered_conferences.dart';
 import 'package:hosrem_app/membership/membership_registration.dart';
 import 'package:hosrem_app/membership/membership_service.dart';
 import 'package:hosrem_app/membership/membership_status_widget.dart';
+import 'package:hosrem_app/profile/profile_change_password.dart';
 import 'package:hosrem_app/profile/profile_details.dart';
 import 'package:hosrem_app/survey/survey_introduction.dart';
 import 'package:hosrem_app/widget/button/default_button.dart';
@@ -136,10 +137,10 @@ class _ProfileState extends BaseState<Profile> {
                     icon: Icons.person_outline,
                     onTap: () => _navigateToProfile(user),
                   ),
-                  NavigatorItem(
+                  user == null ? Container() :NavigatorItem(
                     text: AppLocalizations.of(context).tr('profile.change_your_password'),
                     icon: Icons.lock_outline,
-                    onTap: _navigateToChangePassword,
+                    onTap: () => _navigateToChangePassword(user),
                   ),
                   NavigatorItem(
                     text: AppLocalizations.of(context).tr('profile.my_registered_events'),
@@ -147,20 +148,21 @@ class _ProfileState extends BaseState<Profile> {
                     onTap: () => _navigateToMyRegsiteredConferences(user),
                   ),
                   const SizedBox(height: 40.0),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      user == null ? Container() : Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 28.0),
-                        child: DefaultButton(
-                          backgroundColor: AppColors.lightPrimaryColor,
-                          text: AppLocalizations.of(context).tr('profile.logout'),
-                          onPressed: _onLogoutButtonPressed,
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: user == null ? Container() : Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 28.0),
+                      child: Row(children: <Widget>[
+                        Expanded(
+                          child: DefaultButton(
+                            backgroundColor: AppColors.lightPrimaryColor,
+                            text: AppLocalizations.of(context).tr('profile.logout'),
+                            onPressed: _onLogoutButtonPressed,
+                          ),
                         )
-                      )
-                    ],
-                  ),
-                  const SizedBox(height: 40.0)
+                      ],)
+                    )
+                  )
                 ],
               ),
             );
@@ -177,10 +179,6 @@ class _ProfileState extends BaseState<Profile> {
     );
   }
 
-  Future<void> _navigateToChangePassword() async {
-    await Navigator.push(context, MaterialPageRoute<bool>(builder: (BuildContext context) => SurveyIntroduction()));
-  }
-
   Future<void> _navigateToProfile(User user) async {
     if (user == null) {
       await Navigator.push<dynamic>(context, PageTransition<dynamic>(
@@ -188,6 +186,11 @@ class _ProfileState extends BaseState<Profile> {
     } else {
       await Navigator.push(context, MaterialPageRoute<bool>(builder: (BuildContext context) => ProfileDetails()));
     }
+    _profileBloc.dispatch(LoadProfileEvent());
+  }
+
+  Future<void> _navigateToChangePassword(User user) async {
+    await Navigator.push(context, MaterialPageRoute<bool>(builder: (BuildContext context) => ChangePasswordForm(user)));
     _profileBloc.dispatch(LoadProfileEvent());
   }
 
