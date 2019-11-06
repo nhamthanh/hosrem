@@ -34,6 +34,8 @@
     "password_hint": "Enter your password",
     "confirm_password": "Confirm Password",
     "confirm_password_hint": "Enter your confirm password",
+    "birthday": "Birthday",
+    "birthday_hint": "Enter your birthday",
     "job_title": "Job Title",
     "job_title_hint": "Enter your job title",
     "position": "Position",

@@ -37,6 +37,8 @@
     "password_hint": "Nhập mật khẩu",
     "confirm_password": "Nhập lại mật khẩu",
     "confirm_password_hint": "Nhập lại mật khẩu",
+    "birthday": "Ngày sinh",
+    "birthday_hint": "Nhập ngày sinh",
     "job_title": "Chức vụ",
     "job_title_hint": "Nhập chức vụ",
     "position": "Chức vụ",

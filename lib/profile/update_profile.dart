@@ -46,13 +46,15 @@ class _UpdateProfileState extends BaseState<UpdateProfile> {
   DateTime selectedDate = DateTime.now();
   final Set<String> _selectedDegrees = {};
   final Set<String> _selectedFields = {};
-  List<Degree> lstDegrees = [];
-  List<Field> lstFields = [];
+  List<Degree> lstDegrees = <Degree>[];
+  List<Field> lstFields = <Field>[];
   String degrees = '';
-  List<String> fields = [];
+  List<String> fields = <String>[];
   ProfileUpdateBloc _profileUpdateBloc;
   int _index = 0;
   bool inited = false;
+  bool _validFullName = true;
+  bool _validEmail = true;
   User _user;
   @override
   void initState() {
@@ -88,25 +90,13 @@ class _UpdateProfileState extends BaseState<UpdateProfile> {
               _user = state.user;
               if (!inited) {
                 _emailController.text = state.user.email;
-              }
-              if (!inited) {
                 _fullNameController.text = state.user.fullName;
-              }
-              if (!inited) {
                 _addressController.text = state.user.address;
-              }
-              _birthdayController.text = DateTimeUtils.formatAsStandard(_user?.dob);
-
-              if (!inited) {
                 _workingPlaceController.text = state.user.company;
-              }
-              if (!inited) {
                 _positionController.text = state.user.position;
-              }
-              if (!inited) {
                 _departmentController.text = state.user.department;
               }
-
+              _birthdayController.text = _user.dob != null ? DateTimeUtils.formatAsStandard(_user.dob) : '';
               if (state.degrees != null && state.degrees.isNotEmpty && _degreeItems.isEmpty) {
                   for(int i = 0; i < state.degrees.length; i++){
                     _degreeItems.add(MultiSelectDialogItem<String>(state.degrees[i].id, state.degrees[i].name));
@@ -154,7 +144,7 @@ class _UpdateProfileState extends BaseState<UpdateProfile> {
                   children: <Widget>[
                     Stepper(
                       type: StepperType.horizontal,
-                      steps: [
+                      steps: <Step>[
                         Step(
                           title: const Text(''),
                           isActive: _index == 0,
@@ -245,6 +235,8 @@ class _UpdateProfileState extends BaseState<UpdateProfile> {
               child: EditTextField(
                 title: AppLocalizations.of(context).tr('registration.member_name'),
                 hint: AppLocalizations.of(context).tr('registration.full_name_hint'),
+                error: _validFullName ? null : AppLocalizations.of(context).tr('registration.full_name_is_required'),
+                onTextChanged: (String value) => setState(() => _validFullName = value.isNotEmpty),
                 controller: _fullNameController,
               )
             ),
@@ -282,6 +274,8 @@ class _UpdateProfileState extends BaseState<UpdateProfile> {
               child: EditTextField(
                 title: AppLocalizations.of(context).tr('registration.email'),
                 hint: AppLocalizations.of(context).tr('registration.email_hint'),
+                error: _validEmail ? null : AppLocalizations.of(context).tr('registration.email_is_required'),
+                onTextChanged: (String value) => setState(() => _validEmail = value.isNotEmpty),
                 controller: _emailController,
               )
             ),
@@ -388,7 +382,7 @@ class _UpdateProfileState extends BaseState<UpdateProfile> {
   Future<Null> _selectDate(ProfileDataUpdate state) async {
       final DateTime picked = await showDatePicker(
           context: context,
-          initialDate: state.user.dob,
+          initialDate: state.user.dob ?? DateTime.now(),
           firstDate: DateTime(1900),
           lastDate: DateTime.now()
       );
@@ -396,11 +390,11 @@ class _UpdateProfileState extends BaseState<UpdateProfile> {
       _profileUpdateBloc.dispatch(ChangeProfileEvent(state.user.copyWith(dob: picked)));
   }
 
-  Future<Null> _showDegreeSelect(BuildContext context, List<MultiSelectDialogItem<String>> items, ProfileDataUpdate state) async {
-    final selectedDegrees = await showDialog<Set<String>>(
+  Future<void> _showDegreeSelect(BuildContext context, List<MultiSelectDialogItem<String>> items, ProfileDataUpdate state) async {
+    final Set<String> selectedDegrees = await showDialog<Set<String>>(
       context: context,
       builder: (BuildContext context) {
-        return MultiSelectDialog(
+        return MultiSelectDialog<String> (
           items: items,
           initialSelectedValues: _selectedDegrees,
         );
@@ -418,11 +412,11 @@ class _UpdateProfileState extends BaseState<UpdateProfile> {
     }
   }
 
-  Future<Null> _showFieldSelect(BuildContext context, List<MultiSelectDialogItem<String>> items, ProfileDataUpdate state) async {
-    final selectedFields = await showDialog<Set<String>>(
+  Future<void> _showFieldSelect(BuildContext context, List<MultiSelectDialogItem<String>> items, ProfileDataUpdate state) async {
+    final Set<String> selectedFields = await showDialog<Set<String>>(
       context: context,
       builder: (BuildContext context) {
-        return MultiSelectDialog(
+        return  MultiSelectDialog<String> (
           items: items,
           initialSelectedValues: _selectedFields,
         );
@@ -443,11 +437,9 @@ class _UpdateProfileState extends BaseState<UpdateProfile> {
   bool _validateRegisterForm() {
     if (_index ==  0 || _index ==  3) {
       if (_fullNameController.text.isEmpty) {
-        _showErrorMessage(AppLocalizations.of(context).tr('registration.full_name_is_required'));
         return false;
       }
       if (_emailController.text.isEmpty) {
-        _showErrorMessage(AppLocalizations.of(context).tr('registration.email_is_required'));
         return false;
       }
     }
@@ -478,7 +470,7 @@ class _UpdateProfileState extends BaseState<UpdateProfile> {
     if (_validateRegisterForm()) {
       final String email = _emailController.text;
       final String fullName = _fullNameController.text;
-      final DateTime birthday = DateTimeUtils.parseDate(_birthdayController.text);
+      final DateTime birthday = _birthdayController.text.isNotEmpty ? DateTimeUtils.parseDate(_birthdayController.text) : null;
       final String address = _addressController.text;
       final String department = _departmentController.text;
       final String workingPlace = _workingPlaceController.text;
@@ -509,15 +501,6 @@ class _UpdateProfileState extends BaseState<UpdateProfile> {
 
       _profileUpdateBloc.dispatch(SaveProfileEvent(user));
     }
-  }
-
-  void _showErrorMessage(String message) {
-    _scaffoldKey.currentState.showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: Colors.red,
-      ),
-    );
   }
 
   @override
