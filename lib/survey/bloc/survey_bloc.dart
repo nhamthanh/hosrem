@@ -51,7 +51,9 @@ class SurveyBloc extends Bloc<SurveyEvent, SurveyState> {
     if (event is RatingEvent) {
       try {
         _values[event.question] = event.value;
-        yield LoadedSurvey(_survey, _sections, values: _values, selectedSectionIndex: _selectedSectionIndex);
+        if (event.question.type != 'text') {
+          yield LoadedSurvey(_survey, _sections, values: _values, selectedSectionIndex: _selectedSectionIndex);
+        }
       } catch (error) {
         yield SurveyFailure(error: ErrorHandler.extractErrorMessage(error));
       }

@@ -33,7 +33,7 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
         final Map<String, dynamic> queryParams = <String, dynamic>{
           'page': DEFAULT_PAGE,
           'size': DEFAULT_PAGE_SIZE,
-          'sort': 'publishTime:asc'
+          'sort': 'publishTime:desc'
         };
         queryParams.addAll(event.searchCriteria);
 
@@ -57,7 +57,7 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
           final Map<String, dynamic> queryParams = <String, dynamic>{
             'page': _articlePagination.page + 1,
             'size': DEFAULT_PAGE_SIZE,
-            'sort': 'publishTime:asc'
+            'sort': 'publishTime:desc'
           };
           queryParams.addAll(event.searchCriteria);
 

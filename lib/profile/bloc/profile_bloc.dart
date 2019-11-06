@@ -34,9 +34,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       try {
         final User user = await authService.currentUser();
         final UserMembership userMembership = await authService.currentUserMembership();
-        if (user == null) {
-
-        }
         yield ProfileSuccess(user: user, userMembership: userMembership);
       } catch (error) {
         yield ProfileFailure(error: ErrorHandler.extractErrorMessage(error));

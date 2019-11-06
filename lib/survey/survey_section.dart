@@ -38,7 +38,8 @@ class SurveySection extends StatelessWidget {
     if (question.type == 'text') {
       return SurveyTextQuestion(
         question,
-        value: values[question]
+        value: values[question],
+        textChanged: (String value) => rateChanged == null ? null : rateChanged(question, value)
       );
     }
 
