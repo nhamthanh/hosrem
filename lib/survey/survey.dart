@@ -5,6 +5,7 @@ import 'package:hosrem_app/api/survey/question.dart';
 import 'package:hosrem_app/api/survey/section.dart';
 import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/base_state.dart';
+import 'package:hosrem_app/widget/button/default_button.dart';
 import 'package:hosrem_app/widget/button/primary_button.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 
@@ -78,7 +79,7 @@ class _SurveyState extends BaseState<Survey> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
                           Expanded(
-                            child: PrimaryButton(
+                            child: DefaultButton(
                               text: 'Quay Lại',
                               onPressed: selectedSectionIndex == 0 ? null : () => _goBack(selectedSectionIndex)
                             )
