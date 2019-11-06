@@ -96,7 +96,19 @@
     "my_registered_events": "My Registered Events",
     "my_favorites_domains": "My Favorites Domains",
     "logout": "Logout",
-    "next": "Next"
+    "next": "Next",
+    "back": "Back",
+    "password": "Password",
+    "password_hint": "Enter your password",
+    "confirm_password": "Confirm Password",
+    "confirm_password_hint": "Enter your confirm password",
+    "new_password": "Enter new Password",
+    "new_password_hint": "Enter your new password",
+    "password_is_required": "Password is required",
+    "confirm_password_is_required": "Confirm Password is required",
+    "new_password_is_required": "New Password is required",
+    "password_is_wrong": "Wrong password",
+    "password_not_match": "Confirm password is not match"
   },
   "my_profile": {
     "my_profile": "My Profile",
@@ -106,9 +118,11 @@
     "working_place": "Working Place",
     "update_profile": "Update Profile",
     "your_profile_updated": "Your profile has been updated successfully.",
+    "your_password_updated": "Your password has been updated successfully.",
     "save": "Save",
     "back": "Back",
-    "next": "Next"
+    "next": "Next",
+    "selected": "selected"
   },
   "notifications": {
     "notification": "Notifications",

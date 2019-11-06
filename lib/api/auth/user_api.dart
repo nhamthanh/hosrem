@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:hosrem_app/api/auth/user.dart';
+import 'package:hosrem_app/api/auth/user_password.dart';
 import 'package:hosrem_app/api/conference/user_conference_pagination.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -18,6 +19,9 @@ abstract class UserApi {
   @PUT('users/{id}')
   Future<User> updateUser(@Path() String id, @Body() User user);
 
+    /// Update user password.
+  @PUT('users/{id}/password')
+  Future<bool> updateUserPassword(@Path() String id, @Body() UserPassword userPassword);
 
   /// Get conferences which user registered to join.
   @GET('users/{id}/registrations')
