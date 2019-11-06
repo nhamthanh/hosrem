@@ -24,7 +24,7 @@ class MembershipStatusWidget extends StatelessWidget {
       return _premiumMemberWidget(userMembership);
     }
 
-    if (userMembership.status == 'Expired') {
+    if (userMembership != null && userMembership.status == 'Expired') {
       return _standardMemberWidget(expiredTime: userMembership.expiredTime);
     }
 

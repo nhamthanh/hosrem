@@ -1,42 +1,73 @@
 {
   "login": {
     "email": "Email",
+    "email_phone": "Email/phone",
     "email_hint": "Nhập địa chỉ email",
+    "email_phone_hint": "Nhập địa chỉ email hay phone",
     "password": "Mật khẩu",
     "password_hint": "Nhập mật khẩu",
     "login": "Đăng Nhập",
     "login_with_facebook": "Đăng Nhập với Facebook",
+    "back_login": "Quay về  Đăng Nhập",
     "or": "Hoặc",
     "register": "Đăng Ký",
     "email_is_required": "Vui lòng nhập email",
-    "password_is_required": "Vui lòng nhập mật khẩu"
+    "phone_is_required": "Vui lòng nhập phone",
+    "email_phone_is_required": "Vui lòng nhập email hay phone",
+    "password_is_required": "Vui lòng nhập mật khẩu",
+    "welcome": "Chào mừng đến",
+    "hosrem": "HOSREM"
   },
   "registration": {
     "register": "Đăng Ký",
+    "member_name": "Tên hội viên",
+    "full_name": "Họ tên",
+    "full_name_hint": "Nhập họ tên",
     "first_name": "Tên",
     "first_name_hint": "Nhập tên",
     "last_name": "Họ",
     "last_name_hint": "Nhập họ",
     "email": "Email",
     "email_hint": "Nhập địa chỉ email",
+    "phone": "Phone",
+    "phone_hint": "Nhập phone",
+    "address": "Địa chỉ",
+    "address_hint": "Nhập địa chỉ",
     "password": "Mật khẩu",
     "password_hint": "Nhập mật khẩu",
     "confirm_password": "Nhập lại mật khẩu",
     "confirm_password_hint": "Nhập lại mật khẩu",
-    "job_title": "Chức danh",
-    "job_title_hint": "Nhập chức danh",
-    "working_place": "Nơi làm việc",
-    "working_place_hint": "Nhập nơi làm việc",
+    "birthday": "Ngày sinh",
+    "birthday_hint": "Nhập ngày sinh",
+    "job_title": "Chức vụ",
+    "job_title_hint": "Nhập chức vụ",
+    "position": "Chức vụ",
+    "position_hint": "Nhập chức vụ",
+    "working_place": "Đơn vị công tác",
+    "working_place_hint": "Nhập đơn vị công tác",
+    "department": "Khoa phòng công tác",
+    "department_hint": "Nhập khoa phòng công tác",
+    "degree": "Bằng cấp",
+    "degree_hint": "Nhập bằng cấp",
+    "field": "Lãnh vực quan tâm",
+    "field_hint": "Nhập lãnh vực quan tâm",
     "sign_up": "Đăng Ký",
+    "full_name_is_required": "Vui lòng nhập họ tên",
     "first_name_is_required": "Vui lòng nhập tên",
     "last_name_is_required": "Vui lòng nhập họ",
+    "birthday_is_required": "Vui lòng nhập ngày sinh",
     "email_is_required": "Vui lòng nhập email",
+    "phone_is_required": "Vui lòng nhập phone",
+    "address_is_required": "Vui lòng nhập địa chỉ",
     "password_is_required": "Vui lòng nhập mật khẩu",
     "confirm_password_is_required": "Vui lòng nhập lại mật khẩu",
     "password_not_match": "Mật khẩu không giống nhau",
     "job_title_is_required": "Vui lòng nhập chức vụ",
+    "position_is_required": "Vui lòng nhập chức vụ",
     "working_place_is_required": "Vui lòng nhập nơi làm việc",
-    "registration_success": "Bạn đã đăng ký thành công"
+    "registration_success": "Đăng ký thành công",
+    "confirm": "Bằng việc đăng ký, tôi đồng ý với các điều khoản sử dụng",
+    "verification_send_to_email": "Thông báo xác nhận đã được gửi email cho bạn"
   },
   "home": {
     "home": "Tin Tức",
@@ -59,7 +90,8 @@
     "documents": {
       "main_documents": "Tài Liệu Chính",
       "supplement_documents": "Tài Liệu Bổ Sung",
-      "no_document_found": "Không Tìm Thấy Tài Liệu"
+      "no_document_found": "Không Tìm Thấy Tài Liệu",
+      "upgrade_to_view_documents": "Bạn cần phải đăng ký để xem tài liệu"
     }
   },
   "profile": {
@@ -67,7 +99,9 @@
     "change_your_password": "Thay đổi mật khẩu",
     "my_registered_events": "Hội nghị đã đăng ký",
     "my_favorites_domains": "Lĩnh vực quan tâm",
-    "logout": "Đăng Xuất"
+    "logout": "Đăng Xuất",
+    "next": "Tiếp tục",
+    "back": "Quay về"
   },
   "my_profile": {
     "my_profile": "Thông tin tài khoản",
@@ -77,10 +111,16 @@
     "working_place": "Nơi làm việc",
     "update_profile": "Cập nhật tài khoản",
     "your_profile_updated": "Tài khoản đã được cập nhật.",
-    "save": "Cập Nhật"
+    "save": "Cập Nhật",
+    "back": "Quay về",
+    "next": "Tiếp tục"
   },
   "notifications": {
     "notification": "Thông báo",
     "no_notification_found": "Không Tìm Thấy Thông Báo"
+  },
+  "articles": {
+    "no_article_found": "Không tìm thấy bản tin",
+    "hot_news": "Tin nổi bật"
   }
 }

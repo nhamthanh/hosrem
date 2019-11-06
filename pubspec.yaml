@@ -45,6 +45,7 @@ dependencies:
   flutter_webview_plugin: ^0.3.8
   pretty_qr_code: ^0.0.8
   flutter_html: ^0.11.0
+  firebase_crashlytics: ^0.1.0+3
   momo:
     path: ../momo
 

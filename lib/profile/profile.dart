@@ -41,7 +41,6 @@ class _ProfileState extends BaseState<Profile> {
   @override
   void initState() {
     super.initState();
-
     _authService = AuthService(apiProvider);
     _profileBloc = ProfileBloc(authService: AuthService(apiProvider), membershipService: MembershipService(apiProvider));
     _profileBloc.dispatch(LoadProfileEvent());
