@@ -80,6 +80,7 @@
     "profile": "Profile",
     "register_for_event": "Register For Event",
     "about_event": "About Event",
+    "join_code": "Conference participation code",
     "details": {
       "no_document_found": "No Document Found"
     },
@@ -87,7 +88,8 @@
       "main_documents": "Main Documents",
       "supplement_documents": "Supplement Documents",
       "no_document_found": "No Document Found",
-      "upgrade_to_view_documents": "You need to register the conference to view documents"
+      "upgrade_to_view_documents": "You need to register the conference to view documents",
+      "reference_documents": "Reference documents"
     }
   },
   "profile": {

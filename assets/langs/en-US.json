@@ -84,6 +84,7 @@
     "profile": "Cá Nhân",
     "register_for_event": "Đăng Ký Tham Dự",
     "about_event": "Thông Tin Hội Nghị",
+    "join_code": "Mã tham dự hội nghị",
     "details": {
       "no_document_found": "Không Tìm Thấy Tài Liệu"
     },
@@ -91,7 +92,8 @@
       "main_documents": "Tài Liệu Chính",
       "supplement_documents": "Tài Liệu Bổ Sung",
       "no_document_found": "Không Tìm Thấy Tài Liệu",
-      "upgrade_to_view_documents": "Bạn cần phải đăng ký để xem tài liệu"
+      "upgrade_to_view_documents": "Bạn cần phải đăng ký để xem tài liệu",
+      "reference_documents": "Tài liệu tham khảo"
     }
   },
   "profile": {
