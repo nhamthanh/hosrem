@@ -71,6 +71,7 @@ class DocumentsBloc extends Bloc<DocumentsEvent, DocumentsState> {
         final List<Document> filteredSupplementDocs =
             _supplementDocs.where((Document d) => _filterText(d, event.filterText)).toList();
         yield LoadedDocumentsState(
+          canViewDocuments: true,
           documents: filteredDocuments,
           supplementDocs: filteredSupplementDocs
         );

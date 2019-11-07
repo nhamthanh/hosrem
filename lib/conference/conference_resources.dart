@@ -191,7 +191,7 @@ class _ConferenceResourcesState extends BaseState<ConferenceResources> {
     final String pdfUrl = content != null && content.isNotEmpty ? '${apiConfig.apiBaseUrl}conferences/${widget.conference.id}/document?fileName=$content' : 'http://';
     Navigator.push<dynamic>(context, PageTransition<dynamic>(
       type: PageTransitionType.downToUp,
-      child: PdfPage(url: pdfUrl, name: title ?? 'Tài liệu tham khảo')
+      child: PdfPage(url: pdfUrl, name: title ?? AppLocalizations.of(context).tr('conferences.documents.reference_documents'),)
     ));
   }
 
@@ -199,7 +199,7 @@ class _ConferenceResourcesState extends BaseState<ConferenceResources> {
     final String imageUrl = content != null && content.isNotEmpty ? '${apiConfig.apiBaseUrl}conferences/${widget.conference.id}/document?fileName=$content' : 'http://';
     Navigator.push<dynamic>(context, PageTransition<dynamic>(
       type: PageTransitionType.downToUp,
-      child: ImageViewer(url: imageUrl, title: title ?? 'Tài liệu tham khảo')
+      child: ImageViewer(url: imageUrl, title: title ?? AppLocalizations.of(context).tr('conferences.documents.reference_documents'),)
     ));
   }
 
