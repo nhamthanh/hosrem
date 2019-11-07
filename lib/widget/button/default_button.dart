@@ -23,7 +23,7 @@ class DefaultButton extends StatelessWidget {
           style: BorderStyle.solid,
           width: 1.5,
         ),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0))
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0))
       )
     );
   }
