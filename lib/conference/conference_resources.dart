@@ -122,6 +122,7 @@ class _ConferenceResourcesState extends BaseState<ConferenceResources> {
       );
     }
     return ListView(
+      key: ObjectKey(state.documents.hashCode + state.supplementDocs.hashCode),
       children: <Widget>[
         state.documents.isEmpty ? Container() : StickyHeader(
           header: Container(
