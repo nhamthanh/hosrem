@@ -16,7 +16,6 @@ import 'package:hosrem_app/membership/membership_service.dart';
 import 'package:hosrem_app/membership/membership_status_widget.dart';
 import 'package:hosrem_app/profile/profile_change_password.dart';
 import 'package:hosrem_app/profile/profile_details.dart';
-import 'package:hosrem_app/survey/survey_introduction.dart';
 import 'package:hosrem_app/widget/button/default_button.dart';
 import 'package:hosrem_app/widget/navigator/navigator_item.dart';
 import 'package:hosrem_app/widget/svg/svg_icon.dart';
@@ -133,9 +132,9 @@ class _ProfileState extends BaseState<Profile> {
                 ],
               ),
             ),
-            const Divider(),
+            user == null ? Container() : const Divider(),
             _buildMembershipStatusWidget(user, userMembership),
-            user == null ? Container() : Container(
+            Container(
               height: 20.0,
               color: AppColors.backgroundConferenceColor,
             ),
@@ -144,7 +143,7 @@ class _ProfileState extends BaseState<Profile> {
               icon: Icons.person_outline,
               onTap: () => _navigateToProfile(user),
             ),
-            NavigatorItem(
+            user == null ? Container() : NavigatorItem(
               text: AppLocalizations.of(context).tr('profile.change_your_password'),
               icon: Icons.lock_outline,
               onTap: () => _navigateToChangePassword(user),
