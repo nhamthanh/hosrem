@@ -204,7 +204,13 @@ class _ProfileState extends BaseState<Profile> {
   }
 
   Future<void> _navigateToMyRegsiteredConferences(User user) async {
-    await Navigator.push(context, MaterialPageRoute<bool>(builder: (BuildContext context) => MyRegisteredConferences()));
+    if (user == null) {
+      await Navigator.push<dynamic>(context, PageTransition<dynamic>(
+        type: PageTransitionType.downToUp, child: LoginRegistration()));
+    } else {
+      await Navigator.push(context, MaterialPageRoute<bool>(builder: (BuildContext context) => MyRegisteredConferences()));
+    }
+    _profileBloc.dispatch(ReloadProfileEvent());
   }
 
   @override
