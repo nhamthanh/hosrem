@@ -209,7 +209,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/momodevelopment/MomoiOSSwiftSdk.git
 
 SPEC CHECKSUMS:
-  connectivity: c72716e202a1225ec4810740d5cb56b8ae3bf4cc
+  connectivity: 6e94255659cc86dcbef1d452ad3e0491bb1b3e75
   Crashlytics: 540b7e5f5da5a042647227a5e3ac51d85eed06df
   Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
   FBSDKCoreKit: d6655a343868d4bb5c29a60859bab07c3be14a0b

@@ -16,6 +16,7 @@ import 'package:hosrem_app/conference/bloc/conference_payment_bloc.dart';
 import 'package:hosrem_app/conference/bloc/conference_payment_event.dart';
 import 'package:hosrem_app/conference/bloc/conference_payment_state.dart';
 import 'package:hosrem_app/conference/bloc/conference_registration_state.dart';
+import 'package:hosrem_app/connection/connection_provider.dart';
 import 'package:hosrem_app/membership/momo_payment.dart';
 import 'package:hosrem_app/membership/payment_methods.dart';
 import 'package:hosrem_app/membership/payment_service.dart';
@@ -108,11 +109,13 @@ class _ConferencePaymentState extends BaseState<ConferencePayment> {
                 title: const Text('Thanh Toán'),
                 centerTitle: true
               ),
-              body: LoadingOverlay(
-                isLoading: state is ConferenceRegistrationLoading,
-                child: Container(
-                  color: Colors.white,
-                  child: _buildContentWidget(state)
+              body: ConnectionProvider(
+                child: LoadingOverlay(
+                  isLoading: state is ConferenceRegistrationLoading,
+                  child: Container(
+                    color: Colors.white,
+                    child: _buildContentWidget(state)
+                  )
                 )
               )
             );

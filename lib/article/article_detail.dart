@@ -9,6 +9,7 @@ import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/common/date_time_utils.dart';
 import 'package:hosrem_app/common/text_styles.dart';
+import 'package:hosrem_app/connection/connection_provider.dart';
 import 'package:hosrem_app/widget/svg/svg_icon.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 
@@ -62,9 +63,11 @@ class _ArticleDetailState extends BaseState<ArticleDetail> {
                 title: Text(widget.title),
                 centerTitle: true
               ),
-              body: LoadingOverlay(
-                child: _buildPageContent(state),
-                isLoading: state is ArticlesLoading
+              body: ConnectionProvider(
+                child: LoadingOverlay(
+                  child: _buildPageContent(state),
+                  isLoading: state is ArticlesLoading
+                )
               )
             );
           }

@@ -6,6 +6,7 @@ import 'package:hosrem_app/auth/auth_service.dart';
 import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/common/text_styles.dart';
+import 'package:hosrem_app/connection/connection_provider.dart';
 import 'package:hosrem_app/membership/membership_service.dart';
 import 'package:hosrem_app/notification/notification_service.dart';
 import 'package:hosrem_app/register/registration_form.dart';
@@ -133,72 +134,74 @@ class _LoginRegistrationState extends BaseState<LoginRegistration> with SingleTi
                   ],
                   centerTitle: true
                 ),
-                body: Container(
-                  color: Colors.white,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      Expanded(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: <Widget>[
-                              const SizedBox(height: 10.5),
-                              Row(
-                                children: <Widget> [
-                                  Expanded(child : Text(
-                                    AppLocalizations.of(context).tr('login.welcome'),
-                                    textAlign: TextAlign.center,
-                                    style: TextStyles.textStyle32SecondaryGrey
-                                  )),
-                                ]
-                              ),
-                              Row(
-                                children: <Widget> [
-                                  Expanded(child : Text(
-                                    AppLocalizations.of(context).tr('login.hosrem'),
-                                    textAlign: TextAlign.center,
-                                    style: TextStyles.textStyle40PrimaryBlueBold
-                                  )),
-                                ]
-                              ),
-                              const SizedBox(height: 20.5),
-                              const Divider(),
-                              const SizedBox(height: 20.0),
-                              _buildTabBar(),
-                              const SizedBox(height: 20.0),
-                              Container(
-                                height: 500.0,
-                                color: Colors.white,
-                                child: TabBarView(
-                                  controller: _tabController,
-                                  children: <Widget>[
-                                    _buildLoginForm(state),
-                                    _buildRegistrationForm(state)
+                body: ConnectionProvider(
+                  child: Container(
+                    color: Colors.white,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        Expanded(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: <Widget>[
+                                const SizedBox(height: 10.5),
+                                Row(
+                                  children: <Widget> [
+                                    Expanded(child : Text(
+                                      AppLocalizations.of(context).tr('login.welcome'),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyles.textStyle32SecondaryGrey
+                                    )),
                                   ]
+                                ),
+                                Row(
+                                  children: <Widget> [
+                                    Expanded(child : Text(
+                                      AppLocalizations.of(context).tr('login.hosrem'),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyles.textStyle40PrimaryBlueBold
+                                    )),
+                                  ]
+                                ),
+                                const SizedBox(height: 20.5),
+                                const Divider(),
+                                const SizedBox(height: 20.0),
+                                _buildTabBar(),
+                                const SizedBox(height: 20.0),
+                                Container(
+                                  height: 500.0,
+                                  color: Colors.white,
+                                  child: TabBarView(
+                                    controller: _tabController,
+                                    children: <Widget>[
+                                      _buildLoginForm(state),
+                                      _buildRegistrationForm(state)
+                                    ]
+                                  )
                                 )
-                              )
-                            ],
+                              ],
+                            )
+                          )
+                        ),
+                        Container(
+                          height: 10.0,
+                          color: AppColors.backgroundConferenceColor,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border(top: const BorderSide(width: 1.0, color: AppColors.editTextFieldBorderColor)),
+                            color: Colors.white,
+                          ),
+                          padding: const EdgeInsets.only(left: 25.0, top: 28.5, bottom: 28.5, right: 25.0),
+                          child: PrimaryButton(
+                            text: _selectedTabIndex == 0 ? AppLocalizations.of(context).tr('login.login')
+                              : AppLocalizations.of(context).tr('registration.register'),
+                            onPressed: _handleLoginRegisterClick,
                           )
                         )
-                      ),
-                      Container(
-                        height: 10.0,
-                        color: AppColors.backgroundConferenceColor,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          border: Border(top: const BorderSide(width: 1.0, color: AppColors.editTextFieldBorderColor)),
-                          color: Colors.white,
-                        ),
-                        padding: const EdgeInsets.only(left: 25.0, top: 28.5, bottom: 28.5, right: 25.0),
-                        child: PrimaryButton(
-                          text: _selectedTabIndex == 0 ? AppLocalizations.of(context).tr('login.login')
-                            : AppLocalizations.of(context).tr('registration.register'),
-                          onPressed: _handleLoginRegisterClick,
-                        )
-                      )
-                    ]
-                  ),
+                      ]
+                    ),
+                  )
                 )
               )
             );

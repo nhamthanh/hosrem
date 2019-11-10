@@ -2,6 +2,7 @@ import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/text_styles.dart';
+import 'package:hosrem_app/connection/connection_provider.dart';
 
 import 'upcoming_conferences.dart';
 
@@ -62,20 +63,22 @@ class _ConferencesState extends State<Conferences> with SingleTickerProviderStat
         elevation: 0.0,
         centerTitle: true
       ),
-      body: Container(
-        color: AppColors.backgroundConferenceColor,
-        child: TabBarView(
-          controller: _tabController,
-          children: const <Widget>[
-            UpcomingConferences(criteria: <String, dynamic>{
-              'status': 'Published',
-              'sort': 'startTime:asc'
-            }),
-            UpcomingConferences(criteria: <String, dynamic>{
-              'status': 'Done',
-              'sort': 'startTime:desc'
-            }),
-          ]
+      body: ConnectionProvider(
+        child: Container(
+          color: AppColors.backgroundConferenceColor,
+          child: TabBarView(
+            controller: _tabController,
+            children: const <Widget>[
+              UpcomingConferences(criteria: <String, dynamic>{
+                'status': 'Published',
+                'sort': 'startTime:asc'
+              }),
+              UpcomingConferences(criteria: <String, dynamic>{
+                'status': 'Done',
+                'sort': 'startTime:desc'
+              }),
+            ]
+          )
         )
       )
     );

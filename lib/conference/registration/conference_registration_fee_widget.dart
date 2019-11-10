@@ -96,7 +96,7 @@ class ConferenceRegistrationFeeWidget extends StatelessWidget {
                 Text(
                   conferenceFee.letterType == 'Email' ? '(thư điện tử)' : '(thư in đẹp)',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: AppColors.tertiaryGreyColor,
                     fontSize: 9.0
                   )

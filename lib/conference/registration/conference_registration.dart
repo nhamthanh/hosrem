@@ -11,6 +11,7 @@ import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/conference/bloc/conference_registration_bloc.dart';
 import 'package:hosrem_app/conference/bloc/conference_registration_event.dart';
 import 'package:hosrem_app/conference/bloc/conference_registration_state.dart';
+import 'package:hosrem_app/connection/connection_provider.dart';
 import 'package:hosrem_app/membership/promotion.dart';
 import 'package:hosrem_app/widget/button/primary_button.dart';
 import 'package:hosrem_app/widget/svg/svg_icon.dart';
@@ -79,11 +80,13 @@ class _ConferenceRegistrationState extends BaseState<ConferenceRegistration> {
                 ],
                 centerTitle: true
               ),
-              body: LoadingOverlay(
-                isLoading: state is ConferenceRegistrationLoading,
-                child: Container(
-                  color: Colors.white,
-                  child: _buildContentWidget(state)
+              body: ConnectionProvider(
+                child: LoadingOverlay(
+                  isLoading: state is ConferenceRegistrationLoading,
+                  child: Container(
+                    color: Colors.white,
+                    child: _buildContentWidget(state)
+                  )
                 )
               )
             );

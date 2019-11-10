@@ -19,7 +19,7 @@ class ErrorHandler {
         _logger.fine(error.toString());
       }
     }
-    return exception.toString();
+    return 'Có lỗi hệ thống. Vui lòng liên hệ admin để được hỗ trợ.';
   }
 }
 

@@ -7,6 +7,7 @@ import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/common/currency_utils.dart';
 import 'package:hosrem_app/common/text_styles.dart';
+import 'package:hosrem_app/connection/connection_provider.dart';
 import 'package:hosrem_app/widget/button/primary_button.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 
@@ -82,9 +83,11 @@ class _MembershipRegistrationState extends BaseState<MembershipRegistration> {
                 ],
                 centerTitle: true
               ),
-              body: LoadingOverlay(
-                isLoading: state is MembershipLoading,
-                child: _buildMembershipsContentWidget(state)
+              body: ConnectionProvider(
+                child: LoadingOverlay(
+                  isLoading: state is MembershipLoading,
+                  child: _buildMembershipsContentWidget(state)
+                )
               )
             );
           }

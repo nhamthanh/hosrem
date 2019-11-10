@@ -60,6 +60,9 @@ class AppColors {
   /// Box shadow color.
   static const Color boxShadowColor = Color.fromRGBO(17, 98, 157, 0.16);
 
+  /// No internet connection background.
+  static const Color noInternetBgColor = Color.fromRGBO(201, 0, 0, 0.6);
+
   /// Unselect label color.
   static const Color unselectLabelColor = Color(0xFF34A9FF);
 
