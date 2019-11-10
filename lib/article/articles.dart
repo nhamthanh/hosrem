@@ -2,6 +2,7 @@ import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/text_styles.dart';
+import 'package:hosrem_app/connection/connection_provider.dart';
 
 import 'container/group_articles.dart';
 
@@ -62,25 +63,27 @@ class _ArticlesState extends State<Articles> with SingleTickerProviderStateMixin
         elevation: 0.0,
         centerTitle: true
       ),
-      body: Container(
-        color: AppColors.backgroundConferenceColor,
-        child: TabBarView(
-          controller: _tabController,
-          children: const <Widget>[
-            GroupArticles(categories: <String>[
-              'Tin cộng đồng',
-              'Tin trong nước',
-              'Tin quốc tế']
-            ),
-            GroupArticles(categories: <String>[
-              'Sản khoa & nhi sơ sinh',
-              'Phụ khoa',
-              'Mãn kinh',
-              'Nam khoa',
-              'Vô sinh & hỗ trợ sinh sản',
-              'Khác']
-            )
-          ]
+      body: ConnectionProvider(
+        child: Container(
+          color: AppColors.backgroundConferenceColor,
+          child: TabBarView(
+            controller: _tabController,
+            children: const <Widget>[
+              GroupArticles(categories: <String>[
+                'Tin cộng đồng',
+                'Tin trong nước',
+                'Tin quốc tế']
+              ),
+              GroupArticles(categories: <String>[
+                'Sản khoa & nhi sơ sinh',
+                'Phụ khoa',
+                'Mãn kinh',
+                'Nam khoa',
+                'Vô sinh & hỗ trợ sinh sản',
+                'Khác']
+              )
+            ]
+          )
         )
       )
     );

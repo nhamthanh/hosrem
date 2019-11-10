@@ -18,7 +18,7 @@ class DefaultButton extends StatelessWidget {
         child: Text(text),
         textColor: AppColors.lightPrimaryColor,
         onPressed: onPressed,
-        borderSide: BorderSide(
+        borderSide: const BorderSide(
           color: AppColors.lightPrimaryColor,
           style: BorderStyle.solid,
           width: 1.5,

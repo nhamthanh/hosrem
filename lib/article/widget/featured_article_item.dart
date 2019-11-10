@@ -20,10 +20,10 @@ class FeaturedArticleItem extends StatelessWidget {
       margin: const EdgeInsets.all(10.0),
       height: 146.0,
       decoration: BoxDecoration(
-        boxShadow: <BoxShadow>[
+        boxShadow: const <BoxShadow>[
           BoxShadow(
             color: AppColors.boxShadowColor,
-            offset: const Offset(0.0, 2.0),
+            offset: Offset(0.0, 2.0),
             blurRadius: 4.0,
             spreadRadius: 0.0
           )

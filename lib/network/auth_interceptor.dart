@@ -17,7 +17,7 @@ class AuthInterceptor extends Interceptor {
   final Logger _logger = Logger('ApiProvider');
 
   ApiError _parseApiError(DioError error) {
-    ApiError apiError = ApiError(message: 'Failed to process data from backend');
+    ApiError apiError = ApiError(message: 'Có lỗi hệ thống. Vui lòng liên hệ admin để được hỗ trợ.');
     try {
       apiError = ApiError.fromJson(error.response?.data);
     } catch (error) {

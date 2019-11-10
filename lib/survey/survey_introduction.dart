@@ -45,7 +45,7 @@ class SurveyIntroduction extends StatelessWidget {
             ),
             Container(
               decoration: BoxDecoration(
-                border: Border(top: BorderSide(width: 1.0, color: AppColors.editTextFieldBorderColor)),
+                border: Border(top: const BorderSide(width: 1.0, color: AppColors.editTextFieldBorderColor)),
                 color: Colors.white,
               ),
               padding: const EdgeInsets.only(left: 25.0, top: 28.5, bottom: 28.5, right: 25.0),

@@ -19,22 +19,22 @@ class PrimaryButton extends StatelessWidget {
     return Container(
       height: height,
       decoration: BoxDecoration(
-        boxShadow: hasShadow ? <BoxShadow>[
+        boxShadow: hasShadow ? const <BoxShadow>[
           BoxShadow(
             color: AppColors.buttonShadowColor1,
-            offset: const Offset(0.0, 2.0),
+            offset: Offset(0.0, 2.0),
             blurRadius: 4.0,
             spreadRadius: -1.0
           ),
           BoxShadow(
             color: AppColors.buttonShadowColor2,
-            offset: const Offset(0.0, 1.0),
+            offset: Offset(0.0, 1.0),
             blurRadius: 10.0,
             spreadRadius: 1.0
           ),
           BoxShadow(
             color: AppColors.buttonShadowColor3,
-            offset: const Offset(0.0, 4.0),
+            offset: Offset(0.0, 4.0),
             blurRadius: 5.0,
             spreadRadius: 1.0
           )

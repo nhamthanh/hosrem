@@ -8,6 +8,7 @@ import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/config/api_config.dart';
+import 'package:hosrem_app/connection/connection_provider.dart';
 import 'package:hosrem_app/image/image_viewer.dart';
 import 'package:hosrem_app/pdf/pdf_viewer.dart';
 import 'package:loading_overlay/loading_overlay.dart';
@@ -98,11 +99,13 @@ class _ConferenceDetailState extends BaseState<ConferenceDetail> with SingleTick
                     child: BlocBuilder<ConferenceBloc, ConferenceState>(
                       bloc: _conferenceBloc,
                       builder: (BuildContext context, ConferenceState state) {
-                        return LoadingOverlay(
-                          isLoading: state is ConferenceLoading,
-                          child: state is LoadedConferenceState
-                            ? _buildConferenceWidget(context, state.conference, state.documents)
-                            : Container()
+                        return ConnectionProvider(
+                          child: LoadingOverlay(
+                            isLoading: state is ConferenceLoading,
+                            child: state is LoadedConferenceState
+                              ? _buildConferenceWidget(context, state.conference, state.documents)
+                              : Container()
+                          )
                         );
                       }
                     )

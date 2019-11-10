@@ -5,6 +5,7 @@ import 'package:hosrem_app/api/survey/question.dart';
 import 'package:hosrem_app/api/survey/section.dart';
 import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/base_state.dart';
+import 'package:hosrem_app/connection/connection_provider.dart';
 import 'package:hosrem_app/widget/button/default_button.dart';
 import 'package:hosrem_app/widget/button/primary_button.dart';
 import 'package:loading_overlay/loading_overlay.dart';
@@ -47,57 +48,59 @@ class _SurveyState extends BaseState<Survey> {
         centerTitle: true,
         automaticallyImplyLeading: false
       ),
-      body: BlocProvider<SurveyBloc>(
-        builder: (BuildContext context) => _surveyBloc,
-        child: BlocListener<SurveyBloc, SurveyState>(
-          listener: (BuildContext context, SurveyState state) {
-          },
-          child: BlocBuilder<SurveyBloc, SurveyState>(
-            bloc: _surveyBloc,
-            builder: (BuildContext context, SurveyState state) {
-              final List<Section> sections = state is LoadedSurvey ? state.sections : <Section>[];
-              final Map<Question, String> values = state is LoadedSurvey ? state.values : <Question, String>{};
-              final int selectedSectionIndex = state is LoadedSurvey ? state.selectedSectionIndex : 0;
-              return LoadingOverlay(
-                isLoading: state is SurveyLoading,
-                child: Column(
-                  children: <Widget>[
-                    Expanded(
-                      child: _buildPageView(sections, values),
-                    ),
-                    Container(
-                      height: 10.0,
-                      color: AppColors.backgroundConferenceColor,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border(top: const BorderSide(width: 1.0, color: AppColors.editTextFieldBorderColor)),
-                        color: Colors.white,
+      body: ConnectionProvider(
+        child: BlocProvider<SurveyBloc>(
+          builder: (BuildContext context) => _surveyBloc,
+          child: BlocListener<SurveyBloc, SurveyState>(
+            listener: (BuildContext context, SurveyState state) {
+            },
+            child: BlocBuilder<SurveyBloc, SurveyState>(
+              bloc: _surveyBloc,
+              builder: (BuildContext context, SurveyState state) {
+                final List<Section> sections = state is LoadedSurvey ? state.sections : <Section>[];
+                final Map<Question, String> values = state is LoadedSurvey ? state.values : <Question, String>{};
+                final int selectedSectionIndex = state is LoadedSurvey ? state.selectedSectionIndex : 0;
+                return LoadingOverlay(
+                  isLoading: state is SurveyLoading,
+                  child: Column(
+                    children: <Widget>[
+                      Expanded(
+                        child: _buildPageView(sections, values),
                       ),
-                      padding: const EdgeInsets.only(left: 25.0, top: 28.5, bottom: 28.5, right: 25.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          Expanded(
-                            child: DefaultButton(
-                              text: 'Quay Lại',
-                              onPressed: selectedSectionIndex == 0 ? null : () => _goBack(selectedSectionIndex)
+                      Container(
+                        height: 10.0,
+                        color: AppColors.backgroundConferenceColor,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border(top: const BorderSide(width: 1.0, color: AppColors.editTextFieldBorderColor)),
+                          color: Colors.white,
+                        ),
+                        padding: const EdgeInsets.only(left: 25.0, top: 28.5, bottom: 28.5, right: 25.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            Expanded(
+                              child: DefaultButton(
+                                text: 'Quay Lại',
+                                onPressed: selectedSectionIndex == 0 ? null : () => _goBack(selectedSectionIndex)
+                              )
+                            ),
+                            const SizedBox(width: 17.0),
+                            Expanded(
+                              child: PrimaryButton(
+                                text: selectedSectionIndex >= sections.length - 1 ? 'Gởi Đi' : 'Tiếp Tục',
+                                onPressed: selectedSectionIndex >= sections.length - 1 ? _submitRating : () => _goForward(sections, selectedSectionIndex)
+                              )
                             )
-                          ),
-                          const SizedBox(width: 17.0),
-                          Expanded(
-                            child: PrimaryButton(
-                              text: selectedSectionIndex >= sections.length - 1 ? 'Gởi Đi' : 'Tiếp Tục',
-                              onPressed: selectedSectionIndex >= sections.length - 1 ? _submitRating : () => _goForward(sections, selectedSectionIndex)
-                            )
-                          )
-                        ],
+                          ],
+                        )
                       )
-                    )
-                  ],
-                )
-              );
-            }
+                    ],
+                  )
+                );
+              }
+            )
           )
         )
       )

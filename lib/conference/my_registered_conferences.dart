@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
 import 'package:hosrem_app/common/base_state.dart';
+import 'package:hosrem_app/connection/connection_provider.dart';
 import 'package:hosrem_app/profile/user_service.dart';
 
 import 'bloc/my_registered_conferences_bloc.dart';
@@ -34,7 +35,9 @@ class _MyRegisteredConferencesState extends BaseState<MyRegisteredConferences> {
         title: const Text('Hội Nghị Đã Đăng Ký'),
         centerTitle: true
       ),
-      body: UpcomingConferences(conferenceBloc: _myRegisteredConferencesBloc, criteria: const <String, dynamic>{}),
+      body: ConnectionProvider(
+        child: UpcomingConferences(conferenceBloc: _myRegisteredConferencesBloc, criteria: const <String, dynamic>{})
+      )
     );
   }
 }

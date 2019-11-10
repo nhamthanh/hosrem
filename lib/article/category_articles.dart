@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosrem_app/api/article/article.dart';
 import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/common/text_styles.dart';
+import 'package:hosrem_app/connection/connection_provider.dart';
 import 'package:hosrem_app/loading/loading_indicator.dart';
 import 'package:hosrem_app/widget/refresher/refresh_widget.dart';
 import 'package:hosrem_app/widget/text/search_text_field.dart';
@@ -63,7 +64,9 @@ class _CategoryArticlesState extends BaseState<CategoryArticles> {
                 title: Text(widget.categoryName),
                 centerTitle: true
               ),
-              body: _buildPageContent(state)
+              body: ConnectionProvider(
+                child: _buildPageContent(state)
+              )
             );
 
           }

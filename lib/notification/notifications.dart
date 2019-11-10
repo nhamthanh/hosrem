@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosrem_app/api/notification/notification.dart' as alert;
 import 'package:hosrem_app/common/base_state.dart';
+import 'package:hosrem_app/connection/connection_provider.dart';
 import 'package:hosrem_app/loading/loading_indicator.dart';
 import 'package:hosrem_app/widget/refresher/refresh_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -42,37 +43,39 @@ class _NotificationsState extends BaseState<Notifications> {
         title: Text(AppLocalizations.of(context).tr('notifications.notification')),
         centerTitle: true
       ),
-      body: BlocProvider<NotificationsBloc>(
-        builder: (BuildContext context) => _notificationsBloc,
-        child: BlocListener<NotificationsBloc, NotificationsState>(
-          listener: (BuildContext context, NotificationsState state) {
-            if (state is NotificationsFailure) {
-              Scaffold.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('${state.error}'),
-                  backgroundColor: Colors.red,
-                ),
-              );
-            }
-          },
-          child: BlocBuilder<NotificationsBloc, NotificationsState>(
-            bloc: _notificationsBloc,
-            builder: (BuildContext context, NotificationsState state) {
-              _refreshController.refreshCompleted();
-              _refreshController.loadComplete();
-
-              if (state is LoadedNotifications) {
-                return _buildRefreshWidget(state.notifications);
-              }
-
+      body: ConnectionProvider(
+        child: BlocProvider<NotificationsBloc>(
+          builder: (BuildContext context) => _notificationsBloc,
+          child: BlocListener<NotificationsBloc, NotificationsState>(
+            listener: (BuildContext context, NotificationsState state) {
               if (state is NotificationsFailure) {
-                return Center(
-                  child: Text(AppLocalizations.of(context).tr('notifications.no_notification_found'))
+                Scaffold.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('${state.error}'),
+                    backgroundColor: Colors.red,
+                  ),
                 );
               }
+            },
+            child: BlocBuilder<NotificationsBloc, NotificationsState>(
+              bloc: _notificationsBloc,
+              builder: (BuildContext context, NotificationsState state) {
+                _refreshController.refreshCompleted();
+                _refreshController.loadComplete();
 
-              return LoadingIndicator();
-            }
+                if (state is LoadedNotifications) {
+                  return _buildRefreshWidget(state.notifications);
+                }
+
+                if (state is NotificationsFailure) {
+                  return Center(
+                    child: Text(AppLocalizations.of(context).tr('notifications.no_notification_found'))
+                  );
+                }
+
+                return LoadingIndicator();
+              }
+            )
           )
         )
       )
