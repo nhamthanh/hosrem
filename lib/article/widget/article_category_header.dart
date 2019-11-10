@@ -28,7 +28,7 @@ class ArticleCategoryHeader extends StatelessWidget {
               ),
               InkWell(
                 child: const Text(
-                  'See All',
+                  'Xem Thêm',
                   style: TextStyles.textStyle14PrimaryBlue
                 ),
                 onTap: onTapSeeAll,

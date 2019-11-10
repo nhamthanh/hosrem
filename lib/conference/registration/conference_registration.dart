@@ -110,11 +110,11 @@ class _ConferenceRegistrationState extends BaseState<ConferenceRegistration> {
                       child: Column(
                         children: <Widget>[
                           Row(
-                            children: <Widget>[
+                            children: const <Widget>[
                               Expanded(
                                 child: Text('Đăng ký cho', style: TextStyles.textStyle14PrimaryBlack),
                               ),
-                              const SizedBox(width: 5.0),
+                              SizedBox(width: 5.0),
                               Text('Giá', style: TextStyles.textStyle14PrimaryBlack),
                             ],
                           ),
@@ -240,7 +240,7 @@ class _ConferenceRegistrationState extends BaseState<ConferenceRegistration> {
               children: <Widget>[
                 SvgIcon(AppAssets.diamondIcon, size: 28.0),
                 const SizedBox(width: 10.0),
-                Text('Hội viên HOSREM', style: TextStyles.textStyle16PrimaryBlue),
+                const Text('Hội viên HOSREM', style: TextStyles.textStyle16PrimaryBlue),
               ],
             )
 
@@ -254,7 +254,7 @@ class _ConferenceRegistrationState extends BaseState<ConferenceRegistration> {
       color: AppColors.backgroundStandardMember,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
+        children: const <Widget>[
           Text('Thành viên bình thường', style: TextStyles.textStyle16PrimaryGreyBold)
         ]
       )

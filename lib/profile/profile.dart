@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosrem_app/api/auth/degree.dart';
 import 'package:hosrem_app/api/auth/user.dart';
-import 'package:hosrem_app/api/membership/user_membership.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
 import 'package:hosrem_app/auth/login_registration.dart';
 import 'package:hosrem_app/common/app_assets.dart';
@@ -12,7 +11,6 @@ import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/conference/my_registered_conferences.dart';
 import 'package:hosrem_app/membership/membership_registration.dart';
-import 'package:hosrem_app/membership/membership_service.dart';
 import 'package:hosrem_app/membership/membership_status_widget.dart';
 import 'package:hosrem_app/profile/profile_change_password.dart';
 import 'package:hosrem_app/profile/profile_details.dart';
@@ -40,7 +38,7 @@ class _ProfileState extends BaseState<Profile> {
   void initState() {
     super.initState();
     _authService = AuthService(apiProvider);
-    _profileBloc = ProfileBloc(authService: AuthService(apiProvider), membershipService: MembershipService(apiProvider));
+    _profileBloc = ProfileBloc(authService: AuthService(apiProvider));
     _profileBloc.dispatch(LoadProfileEvent());
   }
 
@@ -55,15 +53,14 @@ class _ProfileState extends BaseState<Profile> {
           bloc: _profileBloc,
           builder: (BuildContext context, ProfileState state) {
             final User user = state is ProfileSuccess ? state.user : null;
-            final UserMembership userMembership = state is ProfileSuccess ? state.userMembership : null;
-            return buildContent(user, userMembership);
+            return buildContent(user);
           }
         )
       )
     );
   }
 
-  Widget buildContent(User user, UserMembership userMembership) {
+  Widget buildContent(User user) {
     return Column(children: <Widget>[
       Expanded(
         child: ListView(
@@ -133,7 +130,7 @@ class _ProfileState extends BaseState<Profile> {
               ),
             ),
             user == null ? Container() : const Divider(),
-            _buildMembershipStatusWidget(user, userMembership),
+            _buildMembershipStatusWidget(user),
             Container(
               height: 20.0,
               color: AppColors.backgroundConferenceColor,
@@ -169,13 +166,13 @@ class _ProfileState extends BaseState<Profile> {
           )
         ],)
       ) : Container(),
-    ],);  
+    ],);
   }
 
-  Widget _buildMembershipStatusWidget(User user, UserMembership userMembership) {
+  Widget _buildMembershipStatusWidget(User user) {
     return InkWell(
-      child: MembershipStatusWidget(user: user, userMembership: userMembership),
-      onTap: () => _navigateToMemberRegistration(user, userMembership)
+      child: MembershipStatusWidget(user: user),
+      onTap: () => _navigateToMemberRegistration(user)
     );
   }
 
@@ -200,9 +197,9 @@ class _ProfileState extends BaseState<Profile> {
     _profileBloc.dispatch(ReloadProfileEvent());
   }
 
-  Future<void> _navigateToMemberRegistration(User user, UserMembership userMembership) async {
+  Future<void> _navigateToMemberRegistration(User user) async {
     await Navigator.push<dynamic>(context, PageTransition<dynamic>(
-      type: PageTransitionType.downToUp, child: MembershipRegistration(user: user, userMembership: userMembership)));
+      type: PageTransitionType.downToUp, child: MembershipRegistration(user: user)));
     _profileBloc.dispatch(ReloadProfileEvent());
   }
 

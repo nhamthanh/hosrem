@@ -84,6 +84,7 @@
     "profile": "Cá Nhân",
     "register_for_event": "Đăng Ký Tham Dự",
     "about_event": "Thông Tin Hội Nghị",
+    "join_code": "Mã tham dự hội nghị",
     "details": {
       "no_document_found": "Không Tìm Thấy Tài Liệu"
     },
@@ -91,7 +92,8 @@
       "main_documents": "Tài Liệu Chính",
       "supplement_documents": "Tài Liệu Bổ Sung",
       "no_document_found": "Không Tìm Thấy Tài Liệu",
-      "upgrade_to_view_documents": "Bạn cần phải đăng ký để xem tài liệu"
+      "upgrade_to_view_documents": "Bạn cần phải đăng ký để xem tài liệu",
+      "reference_documents": "Tài liệu tham khảo"
     }
   },
   "profile": {
@@ -101,7 +103,18 @@
     "my_favorites_domains": "Lĩnh vực quan tâm",
     "logout": "Đăng Xuất",
     "next": "Tiếp tục",
-    "back": "Quay về"
+    "back": "Quay về",
+    "password": "Mật khẩu",
+    "password_hint": "Nhập mật khẩu",
+    "confirm_password": "Nhập lại mật khẩu",
+    "confirm_password_hint": "Nhập lại mật khẩu",
+    "new_password": "Mật khẩu mới",
+    "new_password_hint": "Nhập mật khẩu mới",
+    "password_is_required": "Vui lòng nhập mật khẩu",
+    "confirm_password_is_required": "Vui lòng nhập lại mật khẩu",
+    "new_password_is_required": "Vui lòng nhập mật khẩu mới",
+    "password_is_wrong": "Sai mật khẩu",
+    "password_not_match": "Mật khẩu không giống nhau"
   },
   "my_profile": {
     "my_profile": "Thông tin tài khoản",
@@ -111,9 +124,11 @@
     "working_place": "Nơi làm việc",
     "update_profile": "Cập nhật tài khoản",
     "your_profile_updated": "Tài khoản đã được cập nhật.",
+    "your_password_updated": "Mật khẩu đã được cập nhật.",
     "save": "Cập Nhật",
     "back": "Quay về",
-    "next": "Tiếp tục"
+    "next": "Tiếp tục",
+    "selected": "lựa chọn"
   },
   "notifications": {
     "notification": "Thông báo",

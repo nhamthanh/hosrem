@@ -133,7 +133,7 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
                       children: <Widget>[
                         Container(
                           padding: const EdgeInsets.only(top: 28.0, left: 28.0, right: 28.0, bottom: 16.0),
-                          child: Text('Hình thức thanh toán', style: TextStyles.textStyle14PrimaryGrey)
+                          child: const Text('Hình thức thanh toán', style: TextStyles.textStyle14PrimaryGrey)
                         ),
                         Container(
                           padding: const EdgeInsets.only(left: 15.0, right: 28.0, bottom: 28.0),

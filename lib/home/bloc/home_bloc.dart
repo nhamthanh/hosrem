@@ -1,12 +1,17 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:hosrem_app/auth/auth_service.dart';
 
 import 'home_event.dart';
 import 'home_state.dart';
 
 /// Home bloc to handle switching bottom navigation bar.
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
+  HomeBloc(this.authService);
+
+  final AuthService authService;
+
   @override
   HomeState get initialState => const ShowNews();
 
@@ -18,7 +23,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         break;
 
       case HomeEvent.Notifications:
-        yield const ShowNotifications();
+        yield ShowNotifications(hasToken: await authService.hasToken());
         break;
 
       case HomeEvent.Profile:

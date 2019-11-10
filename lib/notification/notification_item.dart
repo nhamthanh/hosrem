@@ -14,7 +14,7 @@ class NotificationItem extends StatelessWidget {
   const NotificationItem({this.notification, this.onTap});
 
   final alert.Notification notification;
-  final Function onTap;
+  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -26,16 +26,33 @@ class NotificationItem extends StatelessWidget {
           children: <Widget>[
             Row(
               children: <Widget>[
-                SvgIcon(AppAssets.calendarIcon, size: 26.3, color: AppColors.tertiaryGreyColor),
+                SvgIcon(
+                  _getNotificationIcon(notification.notificationType),
+                  size: 26.3,
+                  color: notification.unread ? AppColors.primaryBlackColor : AppColors.tertiaryGreyColor
+                ),
                 const SizedBox(width: 28.0),
                 Expanded(
-                  child: Container(
-                    child: Text(
-                      notification.message,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyles.textStyle14PrimaryBlack
-                    )
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        child: Text(
+                          notification.title,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: notification.unread ? TextStyles.textStyle14PrimaryBlackBold : TextStyles.textStyle14PrimaryBlack
+                        )
+                      ),
+                      Container(
+                        child: Text(
+                          notification.message,
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyles.textStyle14PrimaryBlack
+                        )
+                      )
+                    ],
                   )
                 )
               ]
@@ -46,7 +63,7 @@ class NotificationItem extends StatelessWidget {
               children: <Widget>[
                 Text(
                   timeago.format(notification.createdTime, locale: 'vi'),
-                  style: TextStyles.textStyle11PrimaryBlack
+                  style: notification.unread ? TextStyles.textStyle11PrimaryBlackBold : TextStyles.textStyle11PrimaryBlack
                 )
               ]
             )
@@ -55,5 +72,13 @@ class NotificationItem extends StatelessWidget {
       ),
       onTap: onTap
     );
+  }
+
+  String _getNotificationIcon(String notificationType) {
+    if (notificationType == 'Conference') {
+      return AppAssets.pencil;
+    }
+
+    return AppAssets.calendarIcon;
   }
 }

@@ -10,7 +10,7 @@ part 'user.g.dart';
 class User {
   User(this.id, this.userType, this.firstName, this.lastName, this.dob, this.sex, this.company, this.department,
       this.address, this.phone, this.fax, this.email, this.fullName, this.degrees, this.fields, this.status,
-      this.password, this.position);
+      this.password, this.position, this.expiredTime, this.membershipStatus);
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
@@ -68,6 +68,12 @@ class User {
   @JsonKey(name: 'position')
   final String position;
 
+  @JsonKey(name: 'expiredTime')
+  final DateTime expiredTime;
+
+  @JsonKey(name: 'membershipStatus')
+  final String membershipStatus;
+
   Map<String, dynamic> toJson() => _$UserToJson(this);
 
   User copyWith({
@@ -88,7 +94,9 @@ class User {
     List<Field> fields,
     String status,
     String password,
-    String position
+    String position,
+    String expiredTime,
+    String membershipStatus
   }) {
     return User(
       id ?? this.id,
@@ -108,7 +116,10 @@ class User {
       fields ?? this.fields,
       status ?? this.status,
       password ?? this.password,
-      position ?? this.position
+      position ?? this.position,
+      expiredTime ?? this.expiredTime,
+      membershipStatus ?? this.membershipStatus
+
     );
   }
 }

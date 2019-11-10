@@ -105,7 +105,7 @@ class _CategoryArticlesState extends BaseState<CategoryArticles> {
               children: <Widget>[
                 Expanded(
                   child: SearchTextField(
-                    executeSearch: _searchConferences
+                    executeSearch: _searchArticles
                   )
                 ),
               ],
@@ -150,7 +150,11 @@ class _CategoryArticlesState extends BaseState<CategoryArticles> {
     _articlesBloc.dispatch(RefreshArticlesEvent(categoryName: widget.categoryName, searchCriteria: widget.criteria));
   }
 
-  void _searchConferences(String value) {
+  void _searchArticles(String value) {
+    final Map<String, dynamic> searchCriteria = <String, dynamic>{};
+    searchCriteria.addAll(widget.criteria);
+    searchCriteria['title'] = value.toLowerCase();
+    _articlesBloc.dispatch(RefreshArticlesEvent(categoryName: widget.categoryName, searchCriteria: widget.criteria));
   }
 
   @override

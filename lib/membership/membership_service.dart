@@ -20,12 +20,6 @@ class MembershipService {
     return membershipPagination;
   }
 
-  /// Get user membership by [userId].
-  Future<UserMembership> getMembershipStatusOfUser(String userId) async {
-    final UserMembership userMembership = await apiProvider.userMembershipApi.getMembershipStatusByUserId(userId);
-    return userMembership;
-  }
-
   /// Create user membership.
   Future<UserMembership> createUserMembership(UserMembership userMembership) async {
     return apiProvider.userMembershipApi.createUserMembership(userMembership);

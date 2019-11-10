@@ -61,10 +61,6 @@ class _NotificationsState extends BaseState<Notifications> {
               _refreshController.refreshCompleted();
               _refreshController.loadComplete();
 
-              if (state is RefreshNotificationsCompleted) {
-                return _buildRefreshWidget(state.notifications);
-              }
-
               if (state is LoadedNotifications) {
                 return _buildRefreshWidget(state.notifications);
               }
@@ -84,28 +80,33 @@ class _NotificationsState extends BaseState<Notifications> {
   }
 
   Widget _buildRefreshWidget(List<alert.Notification> notifications) {
-    return Container(
-      child: RefreshWidget(
-        child: ListView.separated(
-          separatorBuilder: (BuildContext context, int index) => const Divider(),
-          itemCount: notifications.length,
-          itemBuilder: (BuildContext context, int index) {
-            final alert.Notification notification = notifications[index];
-            return InkWell(
-              child: NotificationItem(
+    if (notifications.isNotEmpty) {
+      return Container(
+        child: RefreshWidget(
+          child: ListView.separated(
+            separatorBuilder: (BuildContext context, int index) => const Divider(),
+            itemCount: notifications.length,
+            itemBuilder: (BuildContext context, int index) {
+              final alert.Notification notification = notifications[index];
+              return NotificationItem(
                 notification: notification,
-                onTap: () {}
-              ),
-              onTap: () {
-              }
-            );
-          },
-        ),
-        onRefresh: _onRefresh,
-        onLoading: _onLoading,
-        refreshController: _refreshController
-      )
+                onTap: () => _markAsRead(notification)
+              );
+            },
+          ),
+          onRefresh: _onRefresh,
+          onLoading: _onLoading,
+          refreshController: _refreshController
+        )
+      );
+    }
+    return Center(
+      child: Text(AppLocalizations.of(context).tr('notifications.no_notification_found'))
     );
+  }
+
+  void _markAsRead(alert.Notification notification) {
+    _notificationsBloc.dispatch(MarkAsReadEvent(notification.id));
   }
 
   void _onLoading() {

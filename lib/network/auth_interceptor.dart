@@ -69,7 +69,7 @@ class AuthInterceptor extends Interceptor {
       await authService.clearUser();
       onUnauthorized();
     }
-    err.response.extra['apiError'] = _parseApiError(err);
+    err.response?.extra['apiError'] = _parseApiError(err);
     return err;
   }
 

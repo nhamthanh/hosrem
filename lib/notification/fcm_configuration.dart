@@ -1,10 +1,16 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:hosrem_app/network/api_provider.dart';
 import 'package:logging/logging.dart';
+
+import 'notification_service.dart';
 
 /// FCM configuration.
 class FcmConfiguration {
+  FcmConfiguration(this.apiProvider);
+
+  final ApiProvider apiProvider;
   final Logger _logger = Logger('FcmConfiguration');
 
   void initFcm(BuildContext context) {
@@ -21,8 +27,11 @@ class FcmConfiguration {
     firebaseMessaging.getToken().then(_onToken);
   }
 
-  void _onToken(String token) {
+  Future<void> _onToken(String token) async {
     _logger.info('FCM Token: $token');
+    final NotificationService notificationService = NotificationService(apiProvider);
+    await notificationService.persistFcmToken(token);
+    await notificationService.registerToken(token);
   }
 
   void _onIosSettingsRegistered(IosNotificationSettings settings) {

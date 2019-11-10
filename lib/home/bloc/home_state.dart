@@ -1,10 +1,9 @@
 import 'package:meta/meta.dart';
-import 'package:equatable/equatable.dart';
 
 /// Home state.
 @immutable
-abstract class HomeState extends Equatable {
-  const HomeState(this.itemIndex, this.title, [List<String> props = const <String>[]]) : super(props);
+abstract class HomeState {
+  const HomeState(this.itemIndex, this.title);
 
   final String title;
   final int itemIndex;
@@ -31,7 +30,9 @@ class ShowEvents extends HomeState {
 /// ShowNotifications state.
 @immutable
 class ShowNotifications extends HomeState {
-  const ShowNotifications() : super(2, 'Notifications');
+  const ShowNotifications({ this.hasToken = false }) : super(2, 'Notifications');
+
+  final bool hasToken;
 
   @override
   String toString() => 'ShowNotifications';

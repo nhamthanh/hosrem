@@ -25,8 +25,8 @@ class _SearchTextFieldState extends State<SearchTextField> {
       hasLabel: false,
 //      prefixIcon: const SvgIcon('assets/images/search.svg', size: 17.5),
       prefixIcon: Icon(Icons.search),
-      title: 'Search',
-      hint: 'Search',
+      title: 'Tìm kiếm',
+      hint: 'Tìm kiếm',
       onTextChanged: _onSearchChanged,
       controller: _searchController,
     );

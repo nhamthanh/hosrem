@@ -7,7 +7,6 @@ import 'package:hosrem_app/api/auth/token.dart';
 import 'package:hosrem_app/api/auth/token_payload.dart';
 import 'package:hosrem_app/api/auth/user.dart';
 import 'package:hosrem_app/api/auth/user_password.dart';
-import 'package:hosrem_app/api/membership/user_membership.dart';
 import 'package:hosrem_app/network/api_provider.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -90,23 +89,10 @@ class AuthService {
     await _sharedPreferences.setString('currentUser', jsonEncode(user.toJson()));
   }
 
-  /// Persist [userMembership] into shared preferences.
-  Future<void> persistUserMembership(UserMembership userMembership) async {
-    final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
-    await _sharedPreferences.setString('userMembership', jsonEncode(userMembership.toJson()));
-  }
-
-  /// Get current user membership.
-  Future<UserMembership> currentUserMembership() async {
-    final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
-    final String currentUserMembership = _sharedPreferences.getString('userMembership');
-    return currentUserMembership == null ? null : UserMembership.fromJson(jsonDecode(currentUserMembership));
-  }
-
   /// Check if current user is premium membership.
   Future<bool> isPremiumMembership() async {
-    final UserMembership userMembership = await currentUserMembership();
-    final bool premiumMembership = userMembership?.status == 'Valid' ?? false;
+    final User user = await currentUser();
+    final bool premiumMembership = user?.membershipStatus == 'Valid' ?? false;
     return premiumMembership;
   }
 
@@ -137,14 +123,10 @@ class AuthService {
   /// Clear authentication.
   Future<void> clearUser() async {
     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
-    await _sharedPreferences.remove('token');
-    await _sharedPreferences.remove('currentUser');
-    await _sharedPreferences.remove('userMembership');
-    await _sharedPreferences.remove('email');
-    await _sharedPreferences.remove('password');
+    await _sharedPreferences.clear();
   }
 
-    /// Get user password.
+  /// Get user password.
   Future<String> getUserPassword() async {
     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
     return _sharedPreferences.get('password');
