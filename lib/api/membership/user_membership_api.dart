@@ -10,10 +10,6 @@ part 'user_membership_api.g.dart';
 abstract class UserMembershipApi {
   factory UserMembershipApi(Dio dio) = _UserMembershipApi;
 
-  /// Get user membership of [userId].
-  @GET('user-memberships/{userId}')
-  Future<UserMembership> getMembershipStatusByUserId(@Path() String userId);
-
   /// Create user membership via [userMembership].
   @POST('user-memberships')
   Future<UserMembership> createUserMembership(@Body() UserMembership userMembership);

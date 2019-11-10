@@ -5,7 +5,7 @@ part 'notification.g.dart';
 /// Notification response model.
 @JsonSerializable(nullable: false)
 class Notification {
-  Notification(this.id, this.message, this.type, this.createdTime);
+  Notification(this.id, this.title, this.message, this.unread, this.notificationType, this.createdTime);
 
   factory Notification.fromJson(Map<String, dynamic> json) => _$NotificationFromJson(json);
 
@@ -13,13 +13,19 @@ class Notification {
   final String id;
 
   @JsonKey(name: 'title')
+  final String title;
+
+  @JsonKey(name: 'message')
   final String message;
 
-  @JsonKey(name: 'startTime')
+  @JsonKey(name: 'unread')
+  final bool unread;
+
+  @JsonKey(name: 'createdTime')
   final DateTime createdTime;
 
-  @JsonKey(name: 'type')
-  final String type;
+  @JsonKey(name: 'notificationType')
+  final String notificationType;
 
   Map<String, dynamic> toJson() => _$NotificationToJson(this);
 }

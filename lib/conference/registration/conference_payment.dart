@@ -145,7 +145,7 @@ class _ConferencePaymentState extends BaseState<ConferencePayment> {
                     children: <Widget>[
                       Container(
                         padding: const EdgeInsets.only(top: 28.0, left: 28.0, right: 28.0, bottom: 16.0),
-                        child: Text('Hình thức thanh toán', style: TextStyles.textStyle14PrimaryGrey)
+                        child: const Text('Hình thức thanh toán', style: TextStyles.textStyle14PrimaryGrey)
                       ),
                       Container(
                         padding: const EdgeInsets.only(left: 15.0, right: 28.0, bottom: 28.0),
@@ -162,7 +162,7 @@ class _ConferencePaymentState extends BaseState<ConferencePayment> {
                                     ),
                                     Expanded(
                                       child: InkWell(
-                                        child: Text('ATM Card', style: TextStyles.textStyle16PrimaryBlack),
+                                        child: const Text('ATM Card', style: TextStyles.textStyle16PrimaryBlack),
                                         onTap: () => _handleOptionChanged(PaymentMethods.atm)
                                       )
 
@@ -183,7 +183,7 @@ class _ConferencePaymentState extends BaseState<ConferencePayment> {
                                     ),
                                     Expanded(
                                       child: InkWell(
-                                        child: Text('Thẻ quốc tế (Visa, Master)', style: TextStyles.textStyle16PrimaryBlack),
+                                        child: const Text('Thẻ quốc tế (Visa, Master)', style: TextStyles.textStyle16PrimaryBlack),
                                         onTap: () => _handleOptionChanged(PaymentMethods.creditCards)
                                       )
                                     ),
@@ -205,7 +205,7 @@ class _ConferencePaymentState extends BaseState<ConferencePayment> {
                                     ),
                                     Expanded(
                                       child: InkWell(
-                                        child: Text('Momo', style: TextStyles.textStyle16PrimaryBlack),
+                                        child: const Text('Momo', style: TextStyles.textStyle16PrimaryBlack),
                                         onTap: () => _handleOptionChanged(PaymentMethods.momo)
                                       )
                                     ),

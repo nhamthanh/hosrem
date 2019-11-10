@@ -9,6 +9,7 @@
 #import <flutter_facebook_login/FacebookLoginPlugin.h>
 #import <flutter_full_pdf_viewer/FlutterFullPdfViewerPlugin.h>
 #import <flutter_money_formatter/FlutterMoneyFormatterPlugin.h>
+#import <flutter_user_agent/FlutterUserAgentPlugin.h>
 #import <flutter_webview_plugin/FlutterWebviewPlugin.h>
 #import <momo/MomoPlugin.h>
 #import <path_provider/PathProviderPlugin.h>
@@ -24,6 +25,7 @@
   [FacebookLoginPlugin registerWithRegistrar:[registry registrarForPlugin:@"FacebookLoginPlugin"]];
   [FlutterFullPdfViewerPlugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterFullPdfViewerPlugin"]];
   [FlutterMoneyFormatterPlugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterMoneyFormatterPlugin"]];
+  [FlutterUserAgentPlugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterUserAgentPlugin"]];
   [FlutterWebviewPlugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterWebviewPlugin"]];
   [MomoPlugin registerWithRegistrar:[registry registrarForPlugin:@"MomoPlugin"]];
   [FLTPathProviderPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTPathProviderPlugin"]];

@@ -42,15 +42,16 @@ class _AppState extends State<App> {
     final Router router = Router();
     AppRoutes.configureRoutes(router);
 
+    final ApiProvider apiProvider = ApiProvider(widget.apiConfig.apiBaseUrl);
     _appBloc = AppBloc(AppContext(
       router: router,
       appDatabase: AppDatabase(),
       apiConfig: widget.apiConfig,
-      apiProvider: ApiProvider(widget.apiConfig.apiBaseUrl))
+      apiProvider: apiProvider)
     );
 
-    timeago.setLocaleMessages('vi', timeago.ViShortMessages());
-    _configureFcm();
+    timeago.setLocaleMessages('vi', timeago.ViMessages());
+    _configureFcm(apiProvider);
   }
 
   @override
@@ -125,8 +126,8 @@ class _AppState extends State<App> {
     );
   }
 
-  void _configureFcm() {
-    final FcmConfiguration fcmConfiguration = FcmConfiguration();
+  void _configureFcm(ApiProvider apiProvider) {
+    final FcmConfiguration fcmConfiguration = FcmConfiguration(apiProvider);
     fcmConfiguration.initFcm(context);
   }
 }

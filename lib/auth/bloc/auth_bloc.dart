@@ -2,11 +2,10 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:hosrem_app/api/auth/user.dart';
-import 'package:hosrem_app/api/membership/user_membership.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
 import 'package:hosrem_app/common/error_handler.dart';
 import 'package:hosrem_app/membership/membership_service.dart';
-import 'package:logging/logging.dart';
+import 'package:hosrem_app/notification/notification_service.dart';
 import 'package:meta/meta.dart';
 
 import 'auth_event.dart';
@@ -14,12 +13,12 @@ import 'auth_state.dart';
 
 /// Auth bloc to handle login, login with facebook and register a new account.
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  AuthBloc({@required this.authService, @required this.membershipService})
+  AuthBloc({ @required this.authService, @required this.membershipService, this.notificationService })
       : assert(authService != null), assert(membershipService != null);
 
   final AuthService authService;
   final MembershipService membershipService;
-  final Logger _logger = Logger('LoginBloc');
+  final NotificationService notificationService;
 
   @override
   AuthState get initialState => LoginInitial();
@@ -42,12 +41,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         );
         await authService.persistToken(token, email: event.email, password: event.password);
         final User user = await authService.loadCurrentUser();
-        final UserMembership userMembership = await _getUserMembership(user);
         await authService.persistCurrentUser(user);
-
-        if (userMembership != null) {
-          await authService.persistUserMembership(userMembership);
-        }
+        await _registerPushNotification();
         yield LoginSuccess();
       } catch (error) {
         yield LoginFailure(error: ErrorHandler.extractErrorMessage(error));
@@ -83,13 +78,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Future<UserMembership> _getUserMembership(User user) async {
-    try {
-      return await membershipService.getMembershipStatusOfUser(user?.id);
-    } catch (error) {
-      _logger.fine(error);
+  Future<void> _registerPushNotification() async {
+    final String fcmToken = await notificationService.getFcmToken();
+    if (fcmToken != null) {
+      await notificationService.registerToken(fcmToken);
     }
-
-    return null;
   }
 }

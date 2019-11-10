@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hosrem_app/api/auth/user.dart';
-import 'package:hosrem_app/api/membership/user_membership.dart';
 import 'package:hosrem_app/common/app_assets.dart';
 import 'package:hosrem_app/common/date_time_utils.dart';
 import 'package:hosrem_app/common/text_styles.dart';
@@ -9,10 +8,9 @@ import 'package:hosrem_app/widget/svg/svg_icon.dart';
 /// Membership status widget.
 @immutable
 class MembershipStatusWidget extends StatelessWidget {
-  const MembershipStatusWidget({this.user, this.userMembership});
+  const MembershipStatusWidget({ this.user });
 
   final User user;
-  final UserMembership userMembership;
 
   @override
   Widget build(BuildContext context) {
@@ -20,18 +18,18 @@ class MembershipStatusWidget extends StatelessWidget {
       return Container();
     }
 
-    if (userMembership != null && userMembership.status == 'Valid') {
-      return _premiumMemberWidget(userMembership);
+    if (user.membershipStatus == 'Valid') {
+      return _premiumMemberWidget(user.expiredTime);
     }
 
-    if (userMembership != null && userMembership.status == 'Expired') {
-      return _standardMemberWidget(expiredTime: userMembership.expiredTime);
+    if (user.membershipStatus == 'Expired') {
+      return _standardMemberWidget(expiredTime: user.expiredTime);
     }
 
     return _standardMemberWidget();
   }
 
-  Widget _premiumMemberWidget(UserMembership userMembership) {
+  Widget _premiumMemberWidget(DateTime expiredTime) {
     final DateTime current = DateTime.now().add(Duration(days: 30));
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 19.5, horizontal: 28.0),
@@ -62,15 +60,15 @@ class MembershipStatusWidget extends StatelessWidget {
                       style: TextStyles.textStyle13PrimaryGrey
                     ),
                     Text(
-                      '${DateTimeUtils.formatAsStandard(userMembership.expiredTime)}.',
+                      '${DateTimeUtils.formatAsStandard(expiredTime)}.',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: current.isAfter(userMembership.expiredTime) ? TextStyles.textStyle13PrimaryRed : TextStyles.textStyle13PrimaryGrey
+                      style: current.isAfter(expiredTime) ? TextStyles.textStyle13PrimaryRed : TextStyles.textStyle13PrimaryGrey
                     ),
                     const SizedBox(width: 5.0),
                     Expanded(
                       child: Text(
-                        current.isAfter(userMembership.expiredTime) ? 'Gia hạn ngay' : '',
+                        current.isAfter(expiredTime) ? 'Gia hạn ngay' : '',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyles.textStyle13PrimaryBlue
@@ -92,7 +90,7 @@ class MembershipStatusWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
+          const Text(
             'Thành Viên Bình Thường',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -113,7 +111,7 @@ class MembershipStatusWidget extends StatelessWidget {
                 style: TextStyles.textStyle13PrimaryGrey
               ),
               Text(
-                '${DateTimeUtils.formatAsStandard(userMembership.expiredTime)}.',
+                '${DateTimeUtils.formatAsStandard(expiredTime)}.',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyles.textStyle13PrimaryRed

@@ -27,7 +27,7 @@ class SurveyQuestion extends StatelessWidget {
             style: TextStyles.textStyle20PrimaryBlack
           ),
           const SizedBox(height: 24.0),
-          Text(
+          const Text(
             'Vui lòng đánh giá từ 1 (tệ nhất) đến 5 (tốt nhất).',
             style: TextStyles.textStyle14PrimaryBlack
           ),

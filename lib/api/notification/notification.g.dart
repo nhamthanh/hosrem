@@ -10,15 +10,19 @@ Notification _$NotificationFromJson(Map<String, dynamic> json) {
   return Notification(
     json['id'] as String,
     json['title'] as String,
-    json['type'] as String,
-    DateTime.parse(json['startTime'] as String),
+    json['message'] as String,
+    json['unread'] as bool,
+    json['notificationType'] as String,
+    DateTime.parse(json['createdTime'] as String),
   );
 }
 
 Map<String, dynamic> _$NotificationToJson(Notification instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'title': instance.message,
-      'startTime': instance.createdTime.toIso8601String(),
-      'type': instance.type,
+      'title': instance.title,
+      'message': instance.message,
+      'unread': instance.unread,
+      'createdTime': instance.createdTime.toIso8601String(),
+      'notificationType': instance.notificationType,
     };

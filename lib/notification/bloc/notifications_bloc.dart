@@ -52,5 +52,15 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
         yield NotificationsFailure(error: ErrorHandler.extractErrorMessage(error));
       }
     }
+
+    if (event is MarkAsReadEvent) {
+      try {
+        await notificationService.markNotificationAsRead(event.notificationId);
+        yield LoadedNotifications(notifications: notifications);
+      } catch (error) {
+        print(error);
+        yield NotificationsFailure(error: ErrorHandler.extractErrorMessage(error));
+      }
+    }
   }
 }

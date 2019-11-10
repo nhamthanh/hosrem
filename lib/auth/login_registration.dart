@@ -7,6 +7,7 @@ import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/membership/membership_service.dart';
+import 'package:hosrem_app/notification/notification_service.dart';
 import 'package:hosrem_app/register/registration_form.dart';
 import 'package:hosrem_app/widget/button/primary_button.dart';
 import 'package:hosrem_app/auth/registration_success.dart' as registration_success_page;
@@ -58,7 +59,9 @@ class _LoginRegistrationState extends BaseState<LoginRegistration> with SingleTi
 
     final AuthService authService = AuthService(apiProvider);
     final MembershipService membershipService = MembershipService(apiProvider);
-    _authBloc = AuthBloc(authService: authService, membershipService: membershipService);
+    final NotificationService notificationService = NotificationService(apiProvider);
+    _authBloc = AuthBloc(authService: authService, membershipService: membershipService,
+        notificationService: notificationService);
   }
 
   @override
@@ -184,7 +187,7 @@ class _LoginRegistrationState extends BaseState<LoginRegistration> with SingleTi
                       ),
                       Container(
                         decoration: BoxDecoration(
-                          border: Border(top: BorderSide(width: 1.0, color: AppColors.editTextFieldBorderColor)),
+                          border: Border(top: const BorderSide(width: 1.0, color: AppColors.editTextFieldBorderColor)),
                           color: Colors.white,
                         ),
                         padding: const EdgeInsets.only(left: 25.0, top: 28.5, bottom: 28.5, right: 25.0),

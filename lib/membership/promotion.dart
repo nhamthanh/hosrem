@@ -36,7 +36,7 @@ class _PromotionState extends BaseState<Promotion> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text('Mã khuyến mãi', style: TextStyles.textStyle14PrimaryGrey),
+                  const Text('Mã khuyến mãi', style: TextStyles.textStyle14PrimaryGrey),
                   const SizedBox(height: 16.0),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,

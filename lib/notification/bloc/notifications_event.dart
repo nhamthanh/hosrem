@@ -16,3 +16,13 @@ class RefreshNotificationsEvent extends NotificationsEvent {
   @override
   String toString() => 'RefreshNotificationsEvent { }';
 }
+
+/// MarkAsReadEvent event.
+class MarkAsReadEvent extends NotificationsEvent {
+  MarkAsReadEvent(this.notificationId);
+
+  final String notificationId;
+
+  @override
+  String toString() => 'MarkAsReadEvent { }';
+}

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosrem_app/api/auth/user.dart';
 import 'package:hosrem_app/api/membership/membership.dart';
-import 'package:hosrem_app/api/membership/user_membership.dart';
 import 'package:hosrem_app/common/app_assets.dart';
 import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/base_state.dart';
@@ -21,10 +20,9 @@ import 'promotion.dart';
 /// Membership registration page.
 @immutable
 class MembershipRegistration extends StatefulWidget {
-  const MembershipRegistration({this.user, this.userMembership});
+  const MembershipRegistration({this.user});
 
   final User user;
-  final UserMembership userMembership;
 
   @override
   State<MembershipRegistration> createState() => _MembershipRegistrationState();
@@ -42,8 +40,8 @@ class _MembershipRegistrationState extends BaseState<MembershipRegistration> {
     super.initState();
 
     _title = 'Đăng ký hội viên';
-    if (widget.userMembership != null) {
-      if (widget.userMembership.expiredTime != null) {
+    if (widget.user != null) {
+      if (widget.user.expiredTime != null) {
         _title = 'Gia hạn hội viên';
       }
     }
@@ -108,7 +106,7 @@ class _MembershipRegistrationState extends BaseState<MembershipRegistration> {
                   children: <Widget>[
                     Container(
                       padding: const EdgeInsets.all(28.0),
-                      child: Text(
+                      child: const Text(
                         'Sẵn sàng nâng cấp tài khoản của bạn thành hội viên HOSREM?',
                         style: TextStyles.textStyle20PrimaryBlack,
                         textAlign: TextAlign.center,
