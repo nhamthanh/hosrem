@@ -52,7 +52,7 @@ class _ConnectionProviderState extends State<ConnectionProvider> with SingleTick
           height: 70.0,
           color: AppColors.noInternetBgColor,
           child: Center(
-            child: Text(
+            child: const Text(
               'Vui lòng kiểm tra kết nối internet',
               style: TextStyles.textStyle14PrimaryWhite
             )

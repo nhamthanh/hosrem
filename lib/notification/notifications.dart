@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosrem_app/api/notification/notification.dart' as alert;
-import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/conference/conference_detail.dart';
 import 'package:hosrem_app/connection/connection_provider.dart';
-import 'package:hosrem_app/home/bloc/home_bloc.dart';
 import 'package:hosrem_app/loading/loading_indicator.dart';
 import 'package:hosrem_app/widget/refresher/refresh_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -26,7 +24,6 @@ class Notifications extends StatefulWidget {
 
 class _NotificationsState extends BaseState<Notifications> {
 
-  HomeBloc _homeBloc;
   RefreshController _refreshController;
   NotificationsBloc _notificationsBloc;
 
@@ -34,7 +31,6 @@ class _NotificationsState extends BaseState<Notifications> {
   void initState() {
     super.initState();
 
-    _homeBloc = BlocProvider.of<HomeBloc>(context);
     _notificationsBloc = NotificationsBloc(
       notificationService: NotificationService(apiProvider)
     );

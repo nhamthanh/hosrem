@@ -13,6 +13,7 @@ import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/conference/conference_info.dart';
 import 'package:hosrem_app/conference/registration/conference_registration.dart';
 import 'package:hosrem_app/auth/login_registration.dart';
+import 'package:hosrem_app/survey/survey.dart';
 import 'package:hosrem_app/widget/button/primary_button.dart';
 import 'package:hosrem_app/widget/svg/svg_icon.dart';
 import 'package:page_transition/page_transition.dart';
@@ -191,27 +192,62 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
   Widget _buildButtonRegistrationWidget(LoadedConferenceFees state) {
     if (state.registeredConference) {
       return Container(
-        padding: const EdgeInsets.only(left: 25.0, top: 28.5, bottom: 28.5, right: 25.0),
+        padding: const EdgeInsets.only(left: 25.0, top: 21.5, bottom: 28.5, right: 25.0),
         color: Colors.white,
-        child: PrimaryButton(
-          text: AppLocalizations.of(context).tr('conferences.join_code'),
-          onPressed: _navigateToViewQrCode,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            PrimaryButton(
+              text: AppLocalizations.of(context).tr('conferences.join_code'),
+              onPressed: _navigateToViewQrCode,
+            ),
+            const SizedBox(height: 8.0),
+            InkWell(
+              child: Text(
+                'Đánh giá',
+                textAlign: TextAlign.center,
+                style: TextStyles.textStyle11SecondaryGrey
+              ),
+              onTap: () => _navigateToSurvey(widget.conference.id)
+            )
+          ],
         )
       );
     }
 
     if (state.allowRegistration) {
       return Container(
-        padding: const EdgeInsets.only(left: 25.0, top: 28.5, bottom: 28.5, right: 25.0),
+        padding: const EdgeInsets.only(left: 25.0, top: 21.5, bottom: 28.5, right: 25.0),
         color: Colors.white,
-        child: PrimaryButton(
-          text: AppLocalizations.of(context).tr('conferences.register_for_event'),
-          onPressed: () => _navigateToRegistration(state.selectedConferenceFee, state.hasToken),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            PrimaryButton(
+              text: AppLocalizations.of(context).tr('conferences.register_for_event'),
+              onPressed: () => _navigateToRegistration(state.selectedConferenceFee, state.hasToken),
+            ),
+            const SizedBox(height: 8.0),
+            InkWell(
+              child: Text(
+                'Đánh giá',
+                textAlign: TextAlign.center,
+                style: TextStyles.textStyle11SecondaryGrey
+              ),
+              onTap: () => _navigateToSurvey(widget.conference.id)
+            )
+          ],
         )
       );
     }
 
     return Container();
+  }
+
+  void _navigateToSurvey(String conferenceId) {
+    Navigator.push(
+      context,
+      MaterialPageRoute<bool>(builder: (BuildContext context) => Survey(conferenceId))
+    );
   }
 
   void _navigateToViewQrCode() {

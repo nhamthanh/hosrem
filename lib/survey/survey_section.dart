@@ -35,7 +35,7 @@ class SurveySection extends StatelessWidget {
   }
 
   Widget _buildSurveyQuestion(Question question) {
-    if (question.type == 'text') {
+    if (question.answerType == 'FreeText') {
       return SurveyTextQuestion(
         question,
         value: values[question],

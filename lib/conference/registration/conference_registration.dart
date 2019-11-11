@@ -147,7 +147,7 @@ class _ConferenceRegistrationState extends BaseState<ConferenceRegistration> {
                       padding: const EdgeInsets.symmetric(horizontal: 28.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
+                        children: const <Widget>[
                           Text('Chọn loại thư mời', style: TextStyles.textStyle14PrimaryGrey)
                         ],
                       )
@@ -209,7 +209,7 @@ class _ConferenceRegistrationState extends BaseState<ConferenceRegistration> {
           ),
           Container(
             decoration: BoxDecoration(
-              border: Border(top: BorderSide(width: 1.0, color: AppColors.editTextFieldBorderColor)),
+              border: Border(top: const BorderSide(width: 1.0, color: AppColors.editTextFieldBorderColor)),
               color: Colors.white,
             ),
             padding: const EdgeInsets.only(left: 25.0, top: 28.5, bottom: 28.5, right: 25.0),

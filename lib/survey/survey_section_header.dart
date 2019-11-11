@@ -17,11 +17,6 @@ class SurveySectionHeader extends StatelessWidget {
         Text(
           section.name ?? '',
           style: TextStyles.textStyle22PrimaryBlueBold
-        ),
-        const SizedBox(height: 6.0),
-        Text(
-          section.description ?? '',
-          style: TextStyles.textStyle22PrimaryBlue
         )
       ],
     );

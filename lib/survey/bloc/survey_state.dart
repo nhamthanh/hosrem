@@ -1,5 +1,4 @@
 import 'package:hosrem_app/api/survey/question.dart';
-import 'package:hosrem_app/api/survey/section.dart';
 import 'package:hosrem_app/api/survey/survey.dart';
 import 'package:meta/meta.dart';
 
@@ -32,13 +31,20 @@ class SurveyFailure extends SurveyState {
 
 /// LoadedSurvey state.
 class LoadedSurvey extends SurveyState {
-  LoadedSurvey(this.survey, this.sections, { this.values, this.selectedSectionIndex = 0 });
+  LoadedSurvey(this.survey, { this.values, this.selectedSectionIndex = 0 });
 
   final Survey survey;
-  final List<Section> sections;
   final Map<Question, String> values;
   final int selectedSectionIndex;
 
   @override
   String toString() => 'LoadedSurvey';
+}
+
+/// LoadedSurvey state.
+class SubmitSurveySuccess extends SurveyState {
+  SubmitSurveySuccess();
+
+  @override
+  String toString() => 'SubmitSurveySuccess';
 }

@@ -9,7 +9,8 @@ part of 'survey.dart';
 Survey _$SurveyFromJson(Map<String, dynamic> json) {
   return Survey(
     json['id'] as String,
-    (json['memberFees'] as List)
+    json['conferenceId'] as String,
+    (json['sections'] as List)
         ?.map((e) =>
             e == null ? null : Section.fromJson(e as Map<String, dynamic>))
         ?.toList(),
@@ -18,5 +19,6 @@ Survey _$SurveyFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$SurveyToJson(Survey instance) => <String, dynamic>{
       'id': instance.id,
-      'memberFees': instance.sections,
+      'conferenceId': instance.conferenceId,
+      'sections': instance.sections,
     };

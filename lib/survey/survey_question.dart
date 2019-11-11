@@ -23,7 +23,7 @@ class SurveyQuestion extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            question.content,
+            question.title,
             style: TextStyles.textStyle20PrimaryBlack
           ),
           const SizedBox(height: 24.0),

@@ -14,13 +14,13 @@ class _SurveyApi implements SurveyApi {
   final Dio _dio;
 
   @override
-  getSurvey(id) async {
-    ArgumentError.checkNotNull(id, 'id');
+  getSurvey(query) async {
+    ArgumentError.checkNotNull(query, 'query');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(query ?? <String, dynamic>{});
     final _data = <String, dynamic>{};
-    final Response<Map<String, dynamic>> _result = await _dio.request(
-        'conferences/c0a8e004-6dc3-1f74-816d-c4342d770000/fees',
+    final Response<Map<String, dynamic>> _result = await _dio.request('surveys',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET', headers: <String, dynamic>{}, extra: _extra),
@@ -30,19 +30,37 @@ class _SurveyApi implements SurveyApi {
   }
 
   @override
-  getAllQuestions(query) async {
+  getQuestionsBySectionId(sectionId, query) async {
+    ArgumentError.checkNotNull(sectionId, 'sectionId');
     ArgumentError.checkNotNull(query, 'query');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.addAll(query ?? <String, dynamic>{});
     final _data = <String, dynamic>{};
     final Response<Map<String, dynamic>> _result = await _dio.request(
-        'conferences',
+        'surveys/$sectionId/questions',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET', headers: <String, dynamic>{}, extra: _extra),
         data: _data);
     final value = QuestionPagination.fromJson(_result.data);
+    return Future.value(value);
+  }
+
+  @override
+  submitSurveyResult(surveyResult) async {
+    ArgumentError.checkNotNull(surveyResult, 'surveyResult');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(surveyResult.toJson() ?? <String, dynamic>{});
+    final Response<Map<String, dynamic>> _result = await _dio.request(
+        'survey-results',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST', headers: <String, dynamic>{}, extra: _extra),
+        data: _data);
+    final value = SurveyResult.fromJson(_result.data);
     return Future.value(value);
   }
 }

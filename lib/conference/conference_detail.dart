@@ -7,7 +7,6 @@ import 'package:hosrem_app/api/document/document.dart';
 import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/common/text_styles.dart';
-import 'package:hosrem_app/config/api_config.dart';
 import 'package:hosrem_app/connection/connection_provider.dart';
 import 'package:hosrem_app/image/image_viewer.dart';
 import 'package:hosrem_app/pdf/pdf_viewer.dart';
