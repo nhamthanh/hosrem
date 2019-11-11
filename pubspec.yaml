@@ -96,6 +96,7 @@ flutter:
   - assets/images/confirm.svg
   - assets/images/article_placeholder.png
   - assets/images/survey.png
+  - assets/images/password.png
   - assets/images/emote_1_normal.svg
   - assets/images/emote_1_selected.svg
   - assets/images/emote_2_normal.svg

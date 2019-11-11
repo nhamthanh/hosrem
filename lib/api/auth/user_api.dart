@@ -21,7 +21,7 @@ abstract class UserApi {
   Future<User> updateUser(@Path() String id, @Body() User user);
 
     /// Update user password.
-  @PUT('users/{id}/password')
+  @PUT('security/passwords/{id}')
   Future<bool> updateUserPassword(@Path() String id, @Body() UserPassword userPassword);
 
   /// Get conferences which user registered to join.

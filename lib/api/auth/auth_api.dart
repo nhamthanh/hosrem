@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:hosrem_app/api/auth/forgot_password.dart';
 import 'package:hosrem_app/api/auth/user.dart';
+import 'package:hosrem_app/api/auth/user_password.dart';
 import 'package:retrofit/retrofit.dart';
 
 import 'package:hosrem_app/api/auth/token.dart';
@@ -22,5 +24,17 @@ abstract class AuthApi {
   /// Get current user profile.
   @GET('auth/current')
   Future<User> currentUser();
+
+  /// Generate varify code by email.
+  @POST('security/passwords/gen-validation-code')
+  Future<void> forgotPassword(@Body() ForgotPassword forgotPassword);
+
+  /// Verify reset password code.
+  @POST('security/checking-validation-code/{vc}')
+  Future<bool> verifyResetPasswordCode(@Path() String vc);
+
+  /// Change user password when forgot .
+  @POST('security/passwords/reset-forgot')
+  Future<bool> resetUserPassword(@Body() UserPassword userPassword);
 }
 

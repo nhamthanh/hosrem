@@ -110,6 +110,9 @@ class AppAssets {
   /// Survey image.
   static const String surveyImage = 'assets/images/survey.png';
 
+  /// Password image.
+  static const String passwordImage = 'assets/images/password.png';
+
   /// Emote 1 normal icon.
   static const String emote1Normal = 'assets/images/emote_1_normal.svg';
 
