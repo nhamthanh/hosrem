@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:hosrem_app/api/auth/user.dart';
 import 'package:hosrem_app/api/survey/question.dart';
+import 'package:hosrem_app/api/survey/section.dart';
 import 'package:hosrem_app/api/survey/survey.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
 import 'package:hosrem_app/common/error_handler.dart';
@@ -38,6 +39,9 @@ class SurveyBloc extends Bloc<SurveyEvent, SurveyState> {
       try {
         _values = <Question, String>{};
         _survey = await surveyService.getSurveyById(event.id);
+        for (Section section in _survey.sections) {
+          section.questions.sort((Question q1, Question q2) => q1.ordinalNumber.compareTo(q2.ordinalNumber));
+        }
         yield LoadedSurvey(_survey, values: _values, selectedSectionIndex: _selectedSectionIndex);
       } catch (error) {
         yield SurveyFailure(error: ErrorHandler.extractErrorMessage(error));
