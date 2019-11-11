@@ -10,6 +10,7 @@ import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/common/date_time_utils.dart';
 import 'package:hosrem_app/common/text_styles.dart';
+import 'package:hosrem_app/conference/conference_info.dart';
 import 'package:hosrem_app/conference/registration/conference_registration.dart';
 import 'package:hosrem_app/auth/login_registration.dart';
 import 'package:hosrem_app/widget/button/primary_button.dart';
@@ -40,7 +41,6 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
   @override
   void initState() {
     super.initState();
-
     _conferenceFeesBloc = ConferenceFeesBloc(
       conferenceService: ConferenceService(apiProvider),
       authService: AuthService(apiProvider)
@@ -157,24 +157,9 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
                               height: 20.0,
                               color: const Color(0xFFF5F8FA),
                             ),
-                            const SizedBox(height: 9.0),
-                            Container(
-                              padding: const EdgeInsets.all(20.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: <Widget>[
-                                  Text(
-                                    AppLocalizations.of(context).tr('conferences.about_event'),
-                                    style: TextStyles.textStyle16PrimaryBlackBold
-                                  ),
-                                  const SizedBox(height: 10.0),
-                                  Text(
-                                    conference.description ?? '',
-                                    style: TextStyles.textStyle16PrimaryBlack
-                                  )
-                                ],
-                              )
-                            ),
+                            const SizedBox(height: 20.0),
+                            // Info, address and time of conference
+                            ConferenceInfo(conference),
                             Container(
                               height: 20.0,
                               color: const Color(0xFFF5F8FA),

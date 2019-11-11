@@ -6,7 +6,7 @@ part 'conference.g.dart';
 /// Conference response model.
 @JsonSerializable(nullable: false)
 class Conference {
-  Conference(this.id, this.title, this.description, this.location, this.mode, this.startTime, this.banner,
+  Conference(this.id, this.title, this.description, this.location, this.mode, this.startTime, this.endTime, this.banner,
     this.status, this.files, this.documents);
 
   factory Conference.fromJson(Map<String, dynamic> json) => _$ConferenceFromJson(json);
@@ -28,6 +28,9 @@ class Conference {
 
   @JsonKey(name: 'startTime')
   final DateTime startTime;
+
+  @JsonKey(name: 'endTime', nullable: true)
+  final DateTime endTime;
 
   @JsonKey(name: 'banner')
   final String banner;

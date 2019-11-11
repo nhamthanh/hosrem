@@ -39,7 +39,7 @@ class RegisterButtonPressed extends AuthEvent {
   final bool checked;
 
   User toUser() => User(null, 'Member', null, null, null, null, null, null, null, phone, null,
-    email, fullName, null, null, 'Register', password, null, null, null);
+    email, fullName, null, null, 'UnConfirmed', password, null, null, null);
 
   @override
   String toString() =>
