@@ -7,6 +7,7 @@ import 'package:hosrem_app/api/auth/user_password.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
 import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/base_state.dart';
+import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/profile/bloc/profile_passowrd_bloc.dart';
 import 'package:hosrem_app/profile/bloc/profile_password_event.dart';
 import 'package:hosrem_app/profile/bloc/profile_password_state.dart';
@@ -110,55 +111,105 @@ class _ChangePasswordFormState extends BaseState<ChangePasswordForm> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).tr('profile.change_your_password')),
+        backgroundColor: Colors.white,
+        elevation: 0.0,
+        automaticallyImplyLeading: false,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.clear),
+            color: AppColors.primaryGreyColor,
+            onPressed: () => Navigator.pop(context)
+          )
+        ],
         centerTitle: true
       ),
       body: Center ( 
         child: Container(
           color: Colors.white,
-          padding: const EdgeInsets.only(left: 27.0, right: 28.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+          child: ListView(
             children: <Widget>[
-              EditTextField(
-                hasLabel: true,
-                title: AppLocalizations.of(context).tr('profile.password'),
-                hint: AppLocalizations.of(context).tr('profile.password_hint'),
-                error: _validPassword ? null : AppLocalizations.of(context).tr('profile.password_is_required'),
-                onTextChanged: (String value) => setState(() => _validPassword = value.isNotEmpty),
-                obscureText: true,
-                controller: passwordController,
+              const SizedBox(height: 24.0),
+              Row(
+                children: <Widget> [
+                  Expanded(child : Container(
+                    padding: const EdgeInsets.only(left: 46.0, right: 45.0),
+                    child : Text(
+                      AppLocalizations.of(context).tr('login.change_your_password'),
+                      textAlign: TextAlign.center,
+                      style: TextStyles.textStyle22PrimaryBlackBold
+                    )
+                  )),
+                ]
+              ),
+              const SizedBox(height: 12.0),
+              Row(
+                children: <Widget> [
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.only(left: 46.0, right: 45.0),
+                      child : Text(
+                        AppLocalizations.of(context).tr('login.enter_old_pass_new_pass'),
+                        textAlign: TextAlign.center,
+                        style: TextStyles.textStyle18PrimaryBlack,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2
+                      ),
+                    )
+                  ),
+                ]
+              ),
+              const SizedBox(height: 48.0),
+              Container (
+                padding: const EdgeInsets.only(left: 28.0, right: 27.0),
+                child: EditTextField(
+                  hasLabel: true,
+                  title: AppLocalizations.of(context).tr('login.old_password'),
+                  hint: AppLocalizations.of(context).tr('profile.password_hint'),
+                  error: _validPassword ? null : AppLocalizations.of(context).tr('profile.password_is_required'),
+                  onTextChanged: (String value) => setState(() => _validPassword = value.isNotEmpty),
+                  obscureText: true,
+                  controller: passwordController,
+                ),
+              ),
+              const SizedBox(height: 23.0),
+              const Divider(
+                thickness: 1.0,
+              ),
+              const SizedBox(height: 23.0),
+              Container (
+                padding: const EdgeInsets.only(left: 28.0, right: 27.0),
+                child: EditTextField(
+                  hasLabel: true,
+                  title: AppLocalizations.of(context).tr('login.new_password'),
+                  hint: AppLocalizations.of(context).tr('profile.new_password_hint'),
+                  error: _validNewPassword ? null : AppLocalizations.of(context).tr('profile.new_password_is_required'),
+                  onTextChanged: (String value) => setState(() => _validNewPassword = value.isNotEmpty),
+                  obscureText: true,
+                  controller: newPasswordController,
+                ),
               ),
               const SizedBox(height: 20.0),
-              EditTextField(
-                hasLabel: true,
-                title: AppLocalizations.of(context).tr('profile.new_password'),
-                hint: AppLocalizations.of(context).tr('profile.new_password_hint'),
-                error: _validNewPassword ? null : AppLocalizations.of(context).tr('profile.new_password_is_required'),
-                onTextChanged: (String value) => setState(() => _validNewPassword = value.isNotEmpty),
-                obscureText: true,
-                controller: newPasswordController,
-              ),
-              const SizedBox(height: 20.0),
-              EditTextField(
-                hasLabel: true,
-                title: AppLocalizations.of(context).tr('profile.confirm_password'),
-                hint: AppLocalizations.of(context).tr('profile.confirm_password_hint'),
-                error: _validConfirmPassword ? null : passwordConfirmError,
-                onTextChanged: (String value) => setState(() {
-                  if (value.isEmpty) {
-                    _validConfirmPassword = false;
-                    passwordConfirmError = AppLocalizations.of(context).tr('profile.confirm_password_is_required');
-                  } else if (value != newPasswordController.text) {
-                    _validConfirmPassword = false;
-                    passwordConfirmError = AppLocalizations.of(context).tr('profile.password_not_match');
-                  } else {
-                     _validConfirmPassword = true;
-                  }
-                }),
-                obscureText: true,
-                controller: confirmPasswordController,
+              Container (
+                padding: const EdgeInsets.only(left: 28.0, right: 27.0),
+                child: EditTextField(
+                  hasLabel: true,
+                  title: AppLocalizations.of(context).tr('login.re_enter_new_password'),
+                  hint: AppLocalizations.of(context).tr('profile.confirm_password_hint'),
+                  error: _validConfirmPassword ? null : passwordConfirmError,
+                  onTextChanged: (String value) => setState(() {
+                    if (value.isEmpty) {
+                      _validConfirmPassword = false;
+                      passwordConfirmError = AppLocalizations.of(context).tr('profile.confirm_password_is_required');
+                    } else if (value != newPasswordController.text) {
+                      _validConfirmPassword = false;
+                      passwordConfirmError = AppLocalizations.of(context).tr('profile.password_not_match');
+                    } else {
+                      _validConfirmPassword = true;
+                    }
+                  }),
+                  obscureText: true,
+                  controller: confirmPasswordController,
+                ),
               ),
               const SizedBox(height: 22.0),
             ],
@@ -193,7 +244,7 @@ class _ChangePasswordFormState extends BaseState<ChangePasswordForm> {
     if(isValidate(user)) {
       final String oldPassword = passwordController.text;
       final String newPassword = newPasswordController.text;
-      _profilePasswordBloc.dispatch(ChangePasswordButtonPressed(user.id, UserPassword(null, newPassword, oldPassword)));
+      _profilePasswordBloc.dispatch(ChangePasswordButtonPressed(user.id, UserPassword(null, newPassword, oldPassword, user.id, null)));
     }
   }
 

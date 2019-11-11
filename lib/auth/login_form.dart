@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:hosrem_app/auth/forgot_password/forgot_password.dart';
+import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/widget/text/edit_text_field.dart';
 
 /// Login form.
@@ -87,6 +89,18 @@ class _LoginFormState extends State<LoginForm> {
                           ),
                         ],
                       ),
+                      const SizedBox(height: 15.0),
+                      Material(
+                        child: InkWell(
+                          onTap: () {
+                            _onForgetPasswordPress();
+                          },
+                          child: Text(
+                            AppLocalizations.of(context).tr('login.forgot_password'),
+                            style: TextStyles.textStyle11PrimaryBlueBold,
+                          ),
+                        ),
+                      ),
                     ]
                   )
                 ),
@@ -96,5 +110,9 @@ class _LoginFormState extends State<LoginForm> {
         ),
       ]
     );
+  }
+
+  Future<void> _onForgetPasswordPress() async {
+    await Navigator.push(context, MaterialPageRoute<bool>(builder: (BuildContext context) => const ForgotPassword()));
   }
 }

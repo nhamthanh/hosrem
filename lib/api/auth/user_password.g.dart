@@ -11,6 +11,8 @@ UserPassword _$UserPasswordFromJson(Map<String, dynamic> json) {
     json['message'] as String,
     json['newPassword'] as String,
     json['oldPassword'] as String,
+    json['userId'] as String,
+    json['validationCode'] as String,
   );
 }
 
@@ -19,4 +21,6 @@ Map<String, dynamic> _$UserPasswordToJson(UserPassword instance) =>
       'message': instance.message,
       'newPassword': instance.newPassword,
       'oldPassword': instance.oldPassword,
+      'userId': instance.userId,
+      'validationCode': instance.validationCode,
     };

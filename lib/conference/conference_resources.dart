@@ -36,7 +36,6 @@ class _ConferenceResourcesState extends BaseState<ConferenceResources> {
   @override
   void initState() {
     super.initState();
-
     _documentsBloc = DocumentsBloc(DocumentService(apiProvider), AuthService(apiProvider),
           ConferenceService(apiProvider));
     _documentsBloc.dispatch(

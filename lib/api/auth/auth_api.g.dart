@@ -60,4 +60,53 @@ class _AuthApi implements AuthApi {
     final value = User.fromJson(_result.data);
     return Future.value(value);
   }
+
+  @override
+  forgotPassword(forgotPassword) async {
+    ArgumentError.checkNotNull(forgotPassword, 'forgotPassword');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(forgotPassword.toJson() ?? <String, dynamic>{});
+    final Response<void> _result = await _dio.request(
+        'security/passwords/gen-validation-code',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST', headers: <String, dynamic>{}, extra: _extra),
+        data: _data);
+    return Future.value(null);
+  }
+
+  @override
+  verifyResetPasswordCode(vc) async {
+    ArgumentError.checkNotNull(vc, 'vc');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final Response<bool> _result = await _dio.request(
+        'security/checking-validation-code/$vc',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST', headers: <String, dynamic>{}, extra: _extra),
+        data: _data);
+    final value = _result.data;
+    return Future.value(value);
+  }
+
+  @override
+  resetUserPassword(userPassword) async {
+    ArgumentError.checkNotNull(userPassword, 'userPassword');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(userPassword.toJson() ?? <String, dynamic>{});
+    final Response<bool> _result = await _dio.request(
+        'security/passwords/reset-forgot',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST', headers: <String, dynamic>{}, extra: _extra),
+        data: _data);
+    final value = _result.data;
+    return Future.value(value);
+  }
 }

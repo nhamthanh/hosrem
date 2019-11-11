@@ -55,7 +55,7 @@ class _UserApi implements UserApi {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(userPassword.toJson() ?? <String, dynamic>{});
-    final Response<bool> _result = await _dio.request('users/$id/password',
+    final Response<bool> _result = await _dio.request('security/passwords/$id',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'PUT', headers: <String, dynamic>{}, extra: _extra),

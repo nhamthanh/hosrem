@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:corsac_jwt/corsac_jwt.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:hosrem_app/api/auth/forgot_password.dart';
 import 'package:hosrem_app/api/auth/token.dart';
 import 'package:hosrem_app/api/auth/token_payload.dart';
 import 'package:hosrem_app/api/auth/user.dart';
@@ -130,5 +131,20 @@ class AuthService {
   Future<String> getUserPassword() async {
     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
     return _sharedPreferences.get('password');
+  }
+
+  /// Generate verify code by email when forgot password
+  Future<void> forgotPassword(ForgotPassword forgotPassword) async {
+    return apiProvider.authApi.forgotPassword(forgotPassword);
+  }
+
+  /// Verify user code
+  Future<bool> verifyResetPasswordCode(String code) async {
+    return apiProvider.authApi.verifyResetPasswordCode(code);
+  }
+
+  /// Update user password when forgot password via [userPassword].
+  Future<bool> resetUserPassword(UserPassword userPassword) async {
+    return apiProvider.authApi.resetUserPassword(userPassword);
   }
 }
