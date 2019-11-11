@@ -32,28 +32,28 @@ class AppAssets {
   /// Notice icon.
   static const String noticeIcon = 'assets/images/notice.svg';
 
-  /// Notice icon.
+  /// Home normal icon.
   static const String homeNormalIcon = 'assets/images/home_normal.svg';
 
-  /// Notice icon.
+  /// Home selected icon.
   static const String homeSelectedIcon = 'assets/images/home_selected.svg';
 
-  /// Notice icon.
+  /// Event normal icon.
   static const String eventNormalIcon = 'assets/images/event_normal.svg';
 
-  /// Notice icon.
+  /// Event selected icon.
   static const String eventSelectedIcon = 'assets/images/event_selected.svg';
 
-  /// Notice icon.
+  /// Notification normal icon.
   static const String notificationNormalIcon = 'assets/images/notification_normal.svg';
 
-  /// Notice icon.
+  /// Notification selected icon.
   static const String notificationSelectedIcon = 'assets/images/notification_selected.svg';
 
-  /// Notice icon.
+  /// Profile normal icon.
   static const String profileNormalIcon = 'assets/images/profile_normal.svg';
 
-  /// Notice icon.
+  /// Profile selected icon.
   static const String profileSelectedIcon = 'assets/images/profile_selected.svg';
 
   /// Diamond icon.

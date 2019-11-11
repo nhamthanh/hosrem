@@ -56,6 +56,22 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
     if (event is MarkAsReadEvent) {
       try {
         await notificationService.markNotificationAsRead(event.notificationId);
+        notifications = notifications.map(
+            (alert.Notification notification) => notification.id == event.notificationId
+              ? notification.copyWith(unread: false)
+              : notification).toList();
+        yield LoadedNotifications(notifications: notifications);
+      } catch (error) {
+        print(error);
+        yield NotificationsFailure(error: ErrorHandler.extractErrorMessage(error));
+      }
+    }
+
+    if (event is MarkAllAsReadEvent) {
+      try {
+        await notificationService.markAllNotificationAsRead();
+        notifications = notifications.map(
+            (alert.Notification notification) => notification.copyWith(unread: false)).toList();
         yield LoadedNotifications(notifications: notifications);
       } catch (error) {
         print(error);

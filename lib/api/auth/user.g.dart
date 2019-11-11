@@ -32,7 +32,9 @@ User _$UserFromJson(Map<String, dynamic> json) {
     json['status'] as String,
     json['password'] as String,
     json['position'] as String,
-    DateTime.parse(json['expiredTime'] as String),
+    json['expiredTime'] == null
+        ? null
+        : DateTime.parse(json['expiredTime'] as String),
     json['membershipStatus'] as String,
   );
 }
@@ -56,6 +58,6 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'status': instance.status,
       'password': instance.password,
       'position': instance.position,
-      'expiredTime': instance.expiredTime.toIso8601String(),
+      'expiredTime': instance.expiredTime?.toIso8601String(),
       'membershipStatus': instance.membershipStatus,
     };

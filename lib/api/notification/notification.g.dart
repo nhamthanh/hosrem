@@ -14,6 +14,7 @@ Notification _$NotificationFromJson(Map<String, dynamic> json) {
     json['unread'] as bool,
     json['notificationType'] as String,
     DateTime.parse(json['createdTime'] as String),
+    json['payload'] as Map<String, dynamic>,
   );
 }
 
@@ -25,4 +26,5 @@ Map<String, dynamic> _$NotificationToJson(Notification instance) =>
       'unread': instance.unread,
       'createdTime': instance.createdTime.toIso8601String(),
       'notificationType': instance.notificationType,
+      'payload': instance.payload,
     };

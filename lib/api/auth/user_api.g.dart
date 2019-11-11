@@ -115,4 +115,19 @@ class _UserApi implements UserApi {
         data: _data);
     return Future.value(null);
   }
+
+  @override
+  markAllAsRead(id) async {
+    ArgumentError.checkNotNull(id, 'id');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final Response<void> _result = await _dio.request(
+        'users/$id/notifications/read-all',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'PUT', headers: <String, dynamic>{}, extra: _extra),
+        data: _data);
+    return Future.value(null);
+  }
 }

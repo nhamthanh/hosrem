@@ -68,7 +68,7 @@ class User {
   @JsonKey(name: 'position')
   final String position;
 
-  @JsonKey(name: 'expiredTime')
+  @JsonKey(name: 'expiredTime', nullable: true)
   final DateTime expiredTime;
 
   @JsonKey(name: 'membershipStatus')
@@ -119,7 +119,6 @@ class User {
       position ?? this.position,
       expiredTime ?? this.expiredTime,
       membershipStatus ?? this.membershipStatus
-
     );
   }
 }

@@ -26,3 +26,9 @@ class MarkAsReadEvent extends NotificationsEvent {
   @override
   String toString() => 'MarkAsReadEvent { }';
 }
+
+/// MarkAllAsReadEvent event.
+class MarkAllAsReadEvent extends NotificationsEvent {
+  @override
+  String toString() => 'MarkAllAsReadEvent { }';
+}

@@ -51,4 +51,11 @@ class NotificationService {
     final User user = await authService.currentUser();
     return apiProvider.userApi.markAsRead(user.id, notificationId);
   }
+
+  /// Mark notification as read.
+  Future<void> markAllNotificationAsRead() async {
+    final AuthService authService = AuthService(apiProvider);
+    final User user = await authService.currentUser();
+    return apiProvider.userApi.markAllAsRead(user.id);
+  }
 }

@@ -35,5 +35,9 @@ abstract class UserApi {
   /// Mark notification as read.
   @PUT('users/{id}/notifications/{notificationId}/read')
   Future<void> markAsRead(@Path() String id, @Path() String notificationId);
+
+  /// Mark all notification as read.
+  @PUT('users/{id}/notifications/read-all')
+  Future<void> markAllAsRead(@Path() String id);
 }
 
