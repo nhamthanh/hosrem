@@ -75,8 +75,12 @@ class NotificationItem extends StatelessWidget {
   }
 
   String _getNotificationIcon(String notificationType) {
-    if (notificationType == 'Conference') {
+    if (notificationType == 'ConferenceUpdated') {
       return AppAssets.pencil;
+    }
+
+    if (notificationType == 'ConferencePublished') {
+      return AppAssets.eventNormalIcon;
     }
 
     return AppAssets.calendarIcon;

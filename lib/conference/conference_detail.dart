@@ -24,11 +24,10 @@ import 'document_service.dart';
 /// Conference detail page.
 @immutable
 class ConferenceDetail extends StatefulWidget {
-  const ConferenceDetail(this.conferenceId, this.registeredConference, this.apiConfig);
+  const ConferenceDetail(this.conferenceId, { this.selectedIndex = 0 });
 
   final String conferenceId;
-  final ApiConfig apiConfig;
-  final bool registeredConference;
+  final int selectedIndex;
 
   @override
   _ConferenceDetailState createState() => _ConferenceDetailState();
@@ -51,7 +50,7 @@ class _ConferenceDetailState extends BaseState<ConferenceDetail> with SingleTick
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(vsync: this, length: tabs.length);
+    _tabController = TabController(vsync: this, initialIndex: widget.selectedIndex, length: tabs.length);
 
     _documentService = DocumentService(apiProvider);
     _conferenceBloc = ConferenceBloc(conferenceService: ConferenceService(apiProvider),

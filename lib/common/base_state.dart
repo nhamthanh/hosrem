@@ -6,11 +6,19 @@ import 'package:hosrem_app/app/bloc/app_bloc.dart';
 import 'package:hosrem_app/config/api_config.dart';
 import 'package:hosrem_app/db/app_database.dart';
 import 'package:hosrem_app/network/api_provider.dart';
+import 'package:hosrem_app/notification/fcm_configuration.dart';
 
 /// Base state widget.
 abstract class BaseState<T extends StatefulWidget> extends State<T> {
 
   AppContext _appContext;
+
+  @override
+  void initState() {
+    super.initState();
+    final FcmConfiguration fcmConfiguration = FcmConfiguration(apiProvider);
+    fcmConfiguration.initFcm(context);
+  }
 
   /// Get application context.
   AppContext get appContext {

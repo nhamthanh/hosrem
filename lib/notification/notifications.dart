@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosrem_app/api/notification/notification.dart' as alert;
+import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/base_state.dart';
+import 'package:hosrem_app/conference/conference_detail.dart';
 import 'package:hosrem_app/connection/connection_provider.dart';
+import 'package:hosrem_app/home/bloc/home_bloc.dart';
 import 'package:hosrem_app/loading/loading_indicator.dart';
 import 'package:hosrem_app/widget/refresher/refresh_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -22,12 +25,16 @@ class Notifications extends StatefulWidget {
 }
 
 class _NotificationsState extends BaseState<Notifications> {
+
+  HomeBloc _homeBloc;
   RefreshController _refreshController;
   NotificationsBloc _notificationsBloc;
 
   @override
   void initState() {
     super.initState();
+
+    _homeBloc = BlocProvider.of<HomeBloc>(context);
     _notificationsBloc = NotificationsBloc(
       notificationService: NotificationService(apiProvider)
     );
@@ -41,7 +48,14 @@ class _NotificationsState extends BaseState<Notifications> {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).tr('notifications.notification')),
-        centerTitle: true
+        centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.playlist_add_check),
+            color: Colors.white,
+            onPressed: _markAllAsRead
+          )
+        ],
       ),
       body: ConnectionProvider(
         child: BlocProvider<NotificationsBloc>(
@@ -110,6 +124,34 @@ class _NotificationsState extends BaseState<Notifications> {
 
   void _markAsRead(alert.Notification notification) {
     _notificationsBloc.dispatch(MarkAsReadEvent(notification.id));
+
+    if (notification.notificationType == 'ConferenceUpdated') {
+      final String conferenceId = notification.payload['conferenceId'];
+      if (conferenceId != null) {
+        Navigator.push(
+          context,
+          MaterialPageRoute<bool>(
+            builder: (BuildContext context) => ConferenceDetail(conferenceId, selectedIndex: 1)
+          )
+        );
+      }
+    }
+
+    if (notification.notificationType == 'ConferencePublished') {
+      final String conferenceId = notification.payload['conferenceId'];
+      if (conferenceId != null) {
+        Navigator.push(
+          context,
+          MaterialPageRoute<bool>(
+            builder: (BuildContext context) => ConferenceDetail(conferenceId)
+          )
+        );
+      }
+    }
+  }
+
+  void _markAllAsRead() {
+    _notificationsBloc.dispatch(MarkAllAsReadEvent());
   }
 
   void _onLoading() {
