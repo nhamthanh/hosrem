@@ -102,6 +102,9 @@
     "register_for_event": "Đăng Ký Tham Dự",
     "about_event": "Thông Tin Hội Nghị",
     "join_code": "Mã tham dự hội nghị",
+    "address": "Địa chỉ",
+    "date_time": "Ngày và thời gian",
+    "conference": "Hội Nghị",
     "details": {
       "no_document_found": "Không Tìm Thấy Tài Liệu"
     },
