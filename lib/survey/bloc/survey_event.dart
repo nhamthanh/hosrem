@@ -36,3 +36,14 @@ class ChangeSectionEvent extends SurveyEvent {
   @override
   String toString() => 'ChangeSectionEvent {}';
 }
+
+/// Submit rating result event.
+class SubmitRatingEvent extends SurveyEvent {
+  SubmitRatingEvent(this.values, this.conferenceId);
+
+  final Map<Question, String> values;
+  final String conferenceId;
+
+  @override
+  String toString() => 'SubmitRatingEvent {}';
+}

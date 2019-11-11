@@ -7,18 +7,18 @@ part 'section.g.dart';
 /// Section response model.
 @JsonSerializable(nullable: false)
 class Section {
-  Section(this.id, this.name, this.description, this.questions);
+  Section(this.id, this.name, this.ordinalNumber, this.questions);
 
   factory Section.fromJson(Map<String, dynamic> json) => _$SectionFromJson(json);
 
   @JsonKey(name: 'id')
   final String id;
 
-  @JsonKey(name: 'milestone')
+  @JsonKey(name: 'name')
   final String name;
 
-  @JsonKey(name: 'description')
-  final String description;
+  @JsonKey(name: 'ordinalNumber')
+  final int ordinalNumber;
 
   @JsonKey(name: 'questions', nullable: true)
   final List<Question> questions;
@@ -26,13 +26,13 @@ class Section {
   Section copyWith({
     String id,
     String name,
-    String description,
+    int ordinalNumber,
     List<Question> questions
   }) {
     return Section(
       id ?? this.id,
       name ?? this.name,
-      description ?? this.description,
+      ordinalNumber ?? this.ordinalNumber,
       questions ?? this.questions
     );
   }

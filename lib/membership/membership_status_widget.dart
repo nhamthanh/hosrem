@@ -37,7 +37,7 @@ class MembershipStatusWidget extends StatelessWidget {
         children: <Widget>[
           Container(
             padding: const EdgeInsets.only(top: 5.0),
-            child: SvgIcon(AppAssets.diamondIcon, size: 37.0)
+            child: const SvgIcon(AppAssets.diamondIcon, size: 37.0)
           ),
           const SizedBox(width: 16.0),
           Expanded(

@@ -10,12 +10,14 @@ Question _$QuestionFromJson(Map<String, dynamic> json) {
   return Question(
     json['id'] as String,
     json['title'] as String,
-    json['mode'] as String,
+    json['ordinalNumber'] as int,
+    json['answerType'] as String,
   );
 }
 
 Map<String, dynamic> _$QuestionToJson(Question instance) => <String, dynamic>{
       'id': instance.id,
-      'title': instance.content,
-      'mode': instance.type,
+      'title': instance.title,
+      'ordinalNumber': instance.ordinalNumber,
+      'answerType': instance.answerType,
     };

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_alert/flutter_alert.dart';
@@ -56,7 +55,6 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
 
   void _handleMomoCallback(Map<String, dynamic> result) {
     result.putIfAbsent('amount', () => widget.membership.fee);
-    print(json.encode(result));
     if (result['status'] == '0') {
       _membershipPaymentBloc.dispatch(ProcessMomoPaymentEvent(
         membership: widget.membership,
@@ -242,7 +240,7 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
           ),
           Container(
             decoration: BoxDecoration(
-              border: Border(top: BorderSide(width: 1.0, color: AppColors.editTextFieldBorderColor)),
+              border: Border(top: const BorderSide(width: 1.0, color: AppColors.editTextFieldBorderColor)),
               color: Colors.white,
             ),
             padding: const EdgeInsets.only(left: 25.0, top: 28.5, bottom: 28.5, right: 25.0),

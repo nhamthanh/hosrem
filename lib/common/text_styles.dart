@@ -213,6 +213,11 @@ class TextStyles {
     height: 1.64
   );
 
+  static const TextStyle textStyle11SecondaryGrey = TextStyle(
+    fontSize: 11.0,
+    color: AppColors.secondaryGreyColor
+  );
+
   static const TextStyle textStyle11PrimaryBlue = TextStyle(
     fontSize: 11.0,
     color: AppColors.lightPrimaryColor,
