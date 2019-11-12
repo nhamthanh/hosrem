@@ -157,7 +157,7 @@ class _CategoryArticlesState extends BaseState<CategoryArticles> {
     final Map<String, dynamic> searchCriteria = <String, dynamic>{};
     searchCriteria.addAll(widget.criteria);
     searchCriteria['title'] = value.toLowerCase();
-    _articlesBloc.dispatch(RefreshArticlesEvent(categoryName: widget.categoryName, searchCriteria: widget.criteria));
+    _articlesBloc.dispatch(RefreshArticlesEvent(categoryName: widget.categoryName, searchCriteria: searchCriteria));
   }
 
   @override
