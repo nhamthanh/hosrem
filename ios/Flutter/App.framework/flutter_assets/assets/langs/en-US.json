@@ -4,7 +4,12 @@
     "email_phone": "Email/phone",
     "email_hint": "Nhập địa chỉ email",
     "email_phone_hint": "Nhập địa chỉ email hay phone",
+    "email_is_not_exist": "Email không tồn tại",
+    "verification_email_title": "Nhập địa chỉ email của bạn để nhận mã thiết lập lại",
     "password": "Mật khẩu",
+    "old_password": "Mật khẩu cũ",
+    "new_password": "Mật khẩu mới",
+    "re_enter_new_password": "Nhập lại mật khẩu mới",
     "password_hint": "Nhập mật khẩu",
     "login": "Đăng Nhập",
     "login_with_facebook": "Đăng Nhập với Facebook",
@@ -16,7 +21,19 @@
     "email_phone_is_required": "Vui lòng nhập email hay phone",
     "password_is_required": "Vui lòng nhập mật khẩu",
     "welcome": "Chào mừng đến",
-    "hosrem": "HOSREM"
+    "hosrem": "HOSREM",
+    "forgot_password": "Quên Mật khẩu?",
+    "reset_email_sent": "Email Đã Được Gửi",
+    "check_email_inform": "Vui lòng kiểm tra email để nhận mã xác nhận.",
+    "verify_code": "Mã xác nhận",
+    "verify_code_hint": "Vui lòng nhập mã xác nhận",
+    "verify_code_title": "Vui lòng nhập mã xác nhận trong email",
+    "code_is_wrong": "Mã xác nhận không đúng",
+    "code_is_required": "Vui lòng nhập mã xác nhận",
+    "reset_password": "Tạo Lại Mật Khẩu",
+    "change_your_password": "Thay Đổi Mật Khẩu",
+    "enter_old_pass_new_pass": "Vui lòng nhập mật khẩu cũ và mật khẩu mới",
+    "enter_new_pass": "Vui lòng nhập mật khẩu mới"
   },
   "registration": {
     "register": "Đăng Ký",
@@ -85,6 +102,9 @@
     "register_for_event": "Đăng Ký Tham Dự",
     "about_event": "Thông Tin Hội Nghị",
     "join_code": "Mã tham dự hội nghị",
+    "address": "Địa chỉ",
+    "date_time": "Ngày và thời gian",
+    "conference": "Hội Nghị",
     "details": {
       "no_document_found": "Không Tìm Thấy Tài Liệu"
     },
