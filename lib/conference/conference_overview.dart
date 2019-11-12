@@ -202,14 +202,14 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
               onPressed: _navigateToViewQrCode,
             ),
             const SizedBox(height: 8.0),
-            InkWell(
+            state.hasToken ? InkWell(
               child: Text(
                 'Đánh giá',
                 textAlign: TextAlign.center,
                 style: TextStyles.textStyle11SecondaryGrey
               ),
               onTap: () => _navigateToSurvey(widget.conference.id)
-            )
+            ) : Container()
           ],
         )
       );
@@ -225,15 +225,6 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
             PrimaryButton(
               text: AppLocalizations.of(context).tr('conferences.register_for_event'),
               onPressed: () => _navigateToRegistration(state.selectedConferenceFee, state.hasToken),
-            ),
-            const SizedBox(height: 8.0),
-            InkWell(
-              child: Text(
-                'Đánh giá',
-                textAlign: TextAlign.center,
-                style: TextStyles.textStyle11SecondaryGrey
-              ),
-              onTap: () => _navigateToSurvey(widget.conference.id)
             )
           ],
         )
