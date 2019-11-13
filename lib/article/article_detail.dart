@@ -12,6 +12,7 @@ import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/connection/connection_provider.dart';
 import 'package:hosrem_app/widget/svg/svg_icon.dart';
 import 'package:loading_overlay/loading_overlay.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'article_service.dart';
 import 'bloc/articles_event.dart';
@@ -131,6 +132,11 @@ class _ArticleDetailState extends BaseState<ArticleDetail> {
               Html(
                 data: state.article.content,
                 padding: const EdgeInsets.all(8.0),
+                onLinkTap: (String url) async {
+                  if (await canLaunch(url)) {
+                    await launch(url);
+                  }
+                }
               ),
             ],
           )

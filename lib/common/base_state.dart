@@ -17,7 +17,7 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
   void initState() {
     super.initState();
     final FcmConfiguration fcmConfiguration = FcmConfiguration(apiProvider);
-    fcmConfiguration.initFcm(context);
+    fcmConfiguration.initFcm(context, requestToken: false);
   }
 
   /// Get application context.
