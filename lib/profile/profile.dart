@@ -17,6 +17,7 @@ import 'package:hosrem_app/profile/profile_details.dart';
 import 'package:hosrem_app/widget/button/default_button.dart';
 import 'package:hosrem_app/widget/navigator/navigator_item.dart';
 import 'package:hosrem_app/widget/svg/svg_icon.dart';
+import 'package:loading_overlay/loading_overlay.dart';
 import 'package:page_transition/page_transition.dart';
 
 import 'bloc/profile_bloc.dart';
@@ -53,7 +54,10 @@ class _ProfileState extends BaseState<Profile> {
           bloc: _profileBloc,
           builder: (BuildContext context, ProfileState state) {
             final User user = state is ProfileSuccess ? state.user : null;
-            return buildContent(user);
+            return LoadingOverlay(
+              child: buildContent(user),
+              isLoading: state is ProfileLoading
+            );
           }
         )
       )
