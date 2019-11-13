@@ -18,7 +18,6 @@ import 'package:loading_overlay/loading_overlay.dart';
 import 'bloc/membership_payment_bloc.dart';
 import 'bloc/membership_payment_event.dart';
 import 'bloc/membership_payment_state.dart';
-import 'bloc/membership_state.dart';
 import 'momo_payment.dart';
 import 'payment_methods.dart';
 import 'payment_service.dart';
@@ -100,7 +99,7 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
               ),
               body: ConnectionProvider(
                 child: LoadingOverlay(
-                  isLoading: state is MembershipLoading,
+                  isLoading: state is MembershipPaymentLoading,
                   child: _buildMembershipPaymentWidget(state)
                 )
               )
