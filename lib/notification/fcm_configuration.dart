@@ -17,7 +17,7 @@ class FcmConfiguration {
   final Logger _logger = Logger('FcmConfiguration');
   BuildContext _context;
 
-  void initFcm(BuildContext context) {
+  void initFcm(BuildContext context, { bool requestToken = true }) {
     _context = context;
     final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
     firebaseMessaging.configure(
@@ -25,11 +25,13 @@ class FcmConfiguration {
       onLaunch: _onLaunch,
       onResume: _onResume);
 
-    firebaseMessaging
-        .requestNotificationPermissions(const IosNotificationSettings(sound: true, badge: true, alert: true));
+    if (requestToken) {
+      firebaseMessaging
+          .requestNotificationPermissions(const IosNotificationSettings(sound: true, badge: true, alert: true));
 
-    firebaseMessaging.onIosSettingsRegistered.listen(_onIosSettingsRegistered);
-    firebaseMessaging.getToken().then(_onToken);
+      firebaseMessaging.onIosSettingsRegistered.listen(_onIosSettingsRegistered);
+      firebaseMessaging.getToken().then(_onToken);
+    }
   }
 
   Future<void> _onToken(String token) async {
