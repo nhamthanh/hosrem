@@ -22,7 +22,6 @@ class ConferenceBloc extends Bloc<ConferenceEvent, ConferenceState> {
 
   final ConferenceService conferenceService;
   final DocumentService documentService;
-
   final Logger _logger = Logger('ConferenceBloc');
 
   @override
@@ -31,15 +30,17 @@ class ConferenceBloc extends Bloc<ConferenceEvent, ConferenceState> {
   @override
   Stream<ConferenceState> mapEventToState(ConferenceEvent event) async* {
     if (event is LoadConferenceEvent) {
+      
       yield ConferenceLoading();
       try {
         final Conference conference = await conferenceService.getConferenceById(event.conferenceId);
+
         final DocumentPagination documentPagination =
             await documentService.getDocumentsByConferenceId(event.conferenceId, DocumentService.OTHER_DOCUMENT_TYPE,
                 DEFAULT_PAGE, DEFAULT_PAGE_SIZE);
         yield LoadedConferenceState(
           conference: conference,
-          documents: documentPagination.items
+          documents: documentPagination.items,
         );
       } catch (error) {
         _logger.fine(error);

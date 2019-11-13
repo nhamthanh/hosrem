@@ -45,4 +45,5 @@ class Conference {
   final List<Document> documents;
 
   Map<String, dynamic> toJson() => _$ConferenceToJson(this);
+
 }

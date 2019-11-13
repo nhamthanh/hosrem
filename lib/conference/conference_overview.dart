@@ -13,6 +13,7 @@ import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/conference/conference_info.dart';
 import 'package:hosrem_app/conference/registration/conference_registration.dart';
 import 'package:hosrem_app/auth/login_registration.dart';
+import 'package:hosrem_app/profile/user_service.dart';
 import 'package:hosrem_app/survey/survey.dart';
 import 'package:hosrem_app/widget/button/primary_button.dart';
 import 'package:hosrem_app/widget/svg/svg_icon.dart';
@@ -39,12 +40,16 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
 
   ConferenceFeesBloc _conferenceFeesBloc;
 
+  AuthService authService;
+
   @override
   void initState() {
     super.initState();
+    authService = AuthService(apiProvider);
     _conferenceFeesBloc = ConferenceFeesBloc(
       conferenceService: ConferenceService(apiProvider),
-      authService: AuthService(apiProvider)
+      authService: AuthService(apiProvider),
+      userService: UserService(apiProvider, authService),
     );
     _conferenceFeesBloc.dispatch(LoadConferenceFeesByConferenceIdEvent(conferenceId: widget.conference.id));
   }
@@ -199,7 +204,7 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
           children: <Widget>[
             PrimaryButton(
               text: AppLocalizations.of(context).tr('conferences.join_code'),
-              onPressed: _navigateToViewQrCode,
+              onPressed: () => _navigateToViewQrCode(state.registrationCode),
             ),
             const SizedBox(height: 8.0),
             state.hasToken ? InkWell(
@@ -241,11 +246,11 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
     );
   }
 
-  void _navigateToViewQrCode() {
+  void _navigateToViewQrCode(String qrCode) {
     Navigator.push(
       context,
       MaterialPageRoute<bool>(builder:
-        (BuildContext context) => const ConferenceQrCode(qrCode: 'ZM1230291232132321320')
+        (BuildContext context) => ConferenceQrCode(qrCode: qrCode)
       ),
     );
   }

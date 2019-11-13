@@ -83,6 +83,23 @@ class _UserApi implements UserApi {
   }
 
   @override
+  getSpecificRegisteredConference(userId, conferenceId) async {
+    ArgumentError.checkNotNull(userId, 'userId');
+    ArgumentError.checkNotNull(conferenceId, 'conferenceId');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final Response<Map<String, dynamic>> _result = await _dio.request(
+        'users/$userId/registrations/$conferenceId',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET', headers: <String, dynamic>{}, extra: _extra),
+        data: _data);
+    final value = UserConference.fromJson(_result.data);
+    return Future.value(value);
+  }
+
+  @override
   getUserNotifications(id, query) async {
     ArgumentError.checkNotNull(id, 'id');
     ArgumentError.checkNotNull(query, 'query');

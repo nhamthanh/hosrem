@@ -1,4 +1,5 @@
 import 'package:hosrem_app/api/auth/user.dart';
+import 'package:hosrem_app/api/conference/user_conference.dart';
 import 'package:hosrem_app/api/conference/user_conference_pagination.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
 import 'package:hosrem_app/network/api_provider.dart';
@@ -25,5 +26,17 @@ class UserService {
   Future<UserConferencePagination> getRegisteredConferences(Map<String, dynamic> queryParams) async {
     final User user = await authService.currentUser();
     return apiProvider.userApi.getRegisteredConferences(user.id, queryParams);
+  }
+
+  /// Get specific registered conference which current user registers.
+  Future<UserConference> getSpecificRegisteredConference(String conferenceId) async {
+    final User user = await authService.currentUser();
+    try {
+      final UserConference userConference = await apiProvider.userApi.getSpecificRegisteredConference(user.id, conferenceId);
+      return userConference;
+    } catch (error) {
+      return null;
+    }
+
   }
 }
