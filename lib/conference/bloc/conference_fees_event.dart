@@ -10,11 +10,11 @@ abstract class ConferenceFeesEvent extends Equatable {
 /// LoadDocumentByConferenceIdEvent event.
 class LoadConferenceFeesByConferenceIdEvent extends ConferenceFeesEvent {
   LoadConferenceFeesByConferenceIdEvent({
-    @required this.conferenceId,
-  }) : super(<String>[conferenceId]);
+    @required this.conferenceId, this.conferenceStatus
+  }) : super(<String>[conferenceId, conferenceStatus]);
 
   final String conferenceId;
-
+  final String conferenceStatus;
   @override
   String toString() => 'LoadConferenceFeesByConferenceIdEvent { }';
 }
