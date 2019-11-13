@@ -30,7 +30,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>67</string>
+	<string>6</string>
 	<key>FacebookAppID</key>
 	<string>987350384936808</string>
 	<key>FacebookDisplayName</key>
@@ -46,6 +46,10 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Hosrem is using connectivity which requests location access for internet connection check</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Hosrem is using connectivity which requests location access for internet connection check</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
@@ -70,5 +74,7 @@
 	<false/>
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
+	<key>ITSAppUsesNonExemptEncryption</key>
+  	<string>NO</string>
 </dict>
 </plist>
