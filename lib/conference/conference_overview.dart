@@ -51,7 +51,7 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
       authService: AuthService(apiProvider),
       userService: UserService(apiProvider, authService),
     );
-    _conferenceFeesBloc.dispatch(LoadConferenceFeesByConferenceIdEvent(conferenceId: widget.conference.id));
+    _conferenceFeesBloc.dispatch(LoadConferenceFeesByConferenceIdEvent(conferenceId: widget.conference.id, conferenceStatus: widget.conference.status));
   }
 
   @override

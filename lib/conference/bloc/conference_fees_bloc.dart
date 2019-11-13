@@ -42,7 +42,7 @@ class ConferenceFeesBloc extends Bloc<ConferenceFeesEvent, ConferenceFeesState> 
             hasToken ? await conferenceService.checkIfUserRegisterConference(event.conferenceId, user.id) : false;
         final List<ConferenceFee> selectedConferenceFees = _filterConferenceFeesByNowAndMembership(premiumMembership,
             conferenceFees);
-        final bool allowRegistration = selectedConferenceFees.any((ConferenceFee conferenceFee) => conferenceFee.onlineRegistration);
+        final bool allowRegistration = event.conferenceStatus != 'Done' ? selectedConferenceFees.any((ConferenceFee conferenceFee) => conferenceFee.onlineRegistration) : false;
         if (authService.currentUser() != null) {
           final UserConference userConference = await userService.getSpecificRegisteredConference(event.conferenceId);
           if (userConference != null) {
