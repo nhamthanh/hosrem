@@ -11,7 +11,7 @@ void main() {
   initLogger();
 
   const ApiConfig apiConfig = ApiConfig(
-    appName: 'Build flavors DEV',
+    appName: 'Hosrem',
     flavorName: 'dev',
     apiBaseUrl: 'https://api.hosrem-dev.zamo.io/api/',
     momoMerchantName: 'Zamo LLC',
