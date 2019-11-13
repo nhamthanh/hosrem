@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hosrem_app/common/app_assets.dart';
 import 'package:hosrem_app/common/text_styles.dart';
@@ -14,7 +15,7 @@ class ConferenceQrCode extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Mã Tham Dự Hội Nghị')
+        title: Text(AppLocalizations.of(context).tr('conferences.join_code'))
       ),
       body: Center(
         child: Column(
@@ -28,7 +29,7 @@ class ConferenceQrCode extends StatelessWidget {
               roundEdges: true
             ),
             const SizedBox(height: 15.0),
-            Text(qrCode, style: TextStyles.textStyle14PrimaryBlack)
+            //Text(qrCode, style: TextStyles.textStyle14PrimaryBlack)
           ],
         )
       )

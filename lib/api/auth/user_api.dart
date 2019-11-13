@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:hosrem_app/api/auth/user.dart';
 import 'package:hosrem_app/api/auth/user_password.dart';
+import 'package:hosrem_app/api/conference/user_conference.dart';
 import 'package:hosrem_app/api/conference/user_conference_pagination.dart';
 import 'package:hosrem_app/api/notification/notification_pagination.dart';
 import 'package:retrofit/retrofit.dart';
@@ -27,6 +28,10 @@ abstract class UserApi {
   /// Get conferences which user registered to join.
   @GET('users/{id}/registrations')
   Future<UserConferencePagination> getRegisteredConferences(@Path() String id, @Queries() Map<String, dynamic> query);
+
+  /// Get specific conference which user registered to join.
+  @GET('users/{userId}/registrations/{conferenceId}')
+  Future<UserConference> getSpecificRegisteredConference(@Path() String userId, @Path() String conferenceId);
 
   /// Get user notifications.
   @GET('users/{id}/notifications')

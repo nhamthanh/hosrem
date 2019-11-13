@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosrem_app/api/conference/conference.dart';
 import 'package:hosrem_app/api/document/document.dart';
+import 'package:hosrem_app/auth/auth_service.dart';
 import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/connection/connection_provider.dart';
 import 'package:hosrem_app/image/image_viewer.dart';
 import 'package:hosrem_app/pdf/pdf_viewer.dart';
+import 'package:hosrem_app/profile/user_service.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 
 import 'bloc/conference_bloc.dart';
@@ -23,7 +25,7 @@ import 'document_service.dart';
 /// Conference detail page.
 @immutable
 class ConferenceDetail extends StatefulWidget {
-  const ConferenceDetail(this.conferenceId, { this.selectedIndex = 0 });
+  const ConferenceDetail(this.conferenceId, { this.selectedIndex = 0});
 
   final String conferenceId;
   final int selectedIndex;
@@ -41,7 +43,6 @@ class _ConferenceDetailState extends BaseState<ConferenceDetail> with SingleTick
 
   ConferenceBloc _conferenceBloc;
   DocumentService _documentService;
-
   TabController _tabController;
   AppBar _appBar;
   TabBar _tabBar;
@@ -50,7 +51,6 @@ class _ConferenceDetailState extends BaseState<ConferenceDetail> with SingleTick
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this, initialIndex: widget.selectedIndex, length: tabs.length);
-
     _documentService = DocumentService(apiProvider);
     _conferenceBloc = ConferenceBloc(conferenceService: ConferenceService(apiProvider),
         documentService: _documentService);
