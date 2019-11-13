@@ -8,6 +8,7 @@ import 'package:hosrem_app/auth/forgot_password/bloc/forgot_password_event.dart'
 import 'package:hosrem_app/auth/forgot_password/bloc/forgot_password_state.dart';
 import 'package:hosrem_app/auth/forgot_password/change_password_form.dart';
 import 'package:hosrem_app/auth/forgot_password/email_inform.dart';
+import 'package:hosrem_app/auth/forgot_password/reset_password_success.dart';
 import 'package:hosrem_app/auth/forgot_password/verify_code_form.dart';
 import 'package:hosrem_app/auth/forgot_password/verify_email_form.dart';
 
@@ -88,7 +89,7 @@ class _ForgotPasswordState extends BaseState<ForgotPassword> {
           }
 
           if (state is ForgotPasswordSuccess) {
-            _showUpdateSuccessDialog();
+            _pageController.jumpToPage(++_page);
           }
 
           if (state is ForgetPasswordFailure) {
@@ -116,16 +117,16 @@ class _ForgotPasswordState extends BaseState<ForgotPassword> {
   Widget buildContent() {
     return Scaffold(
       key: _scaffoldKey,
-      appBar:  AppBar(
+      appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.0,
         automaticallyImplyLeading: false,
         actions: <Widget>[
-          IconButton(
+          _page != 4 ? IconButton(
             icon: Icon(Icons.clear),
             color: AppColors.primaryGreyColor,
             onPressed: () => Navigator.pop(context)
-          )
+          ) : Container()
         ],
         centerTitle: true
       ),
@@ -136,7 +137,8 @@ class _ForgotPasswordState extends BaseState<ForgotPassword> {
             VerifyEmailForm(emailController, _validEmail, _verifyEmailClick, errorMessage),
             EmailInform(_emailInformClick),
             VerifyCodeForm(codeController, _validCode, _verifyCodeClick),
-            ChangePasswordForm(passwordController, passwordConfirmController, _validPassword, _validConfirmPassword, _changePasswordClick)
+            ChangePasswordForm(passwordController, passwordConfirmController, _validPassword, _validConfirmPassword, _changePasswordClick),
+            ResetPasswordSuccess()
           ]
       ),
     );

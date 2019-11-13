@@ -33,7 +33,9 @@
     "reset_password": "Tạo Lại Mật Khẩu",
     "change_your_password": "Thay Đổi Mật Khẩu",
     "enter_old_pass_new_pass": "Vui lòng nhập mật khẩu cũ và mật khẩu mới",
-    "enter_new_pass": "Vui lòng nhập mật khẩu mới"
+    "enter_new_pass": "Vui lòng nhập mật khẩu mới",
+    "reset_success": "Thay Đổi Mật Khẩu Thành Công",
+    "please_login": "Vui lòng đăng nhập nhập với mật khẩu mới"
   },
   "registration": {
     "register": "Đăng Ký",
