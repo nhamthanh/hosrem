@@ -91,7 +91,10 @@ class _LoginFormState extends State<LoginForm> {
                       ),
                       const SizedBox(height: 15.0),
                       Material(
+                        color: Colors.white,
                         child: InkWell(
+                          highlightColor: Colors.white,
+                          focusColor: Colors.white,
                           onTap: () {
                             _onForgetPasswordPress();
                           },

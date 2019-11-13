@@ -82,7 +82,7 @@ class _ChangePasswordState extends State<ChangePasswordForm> {
                 ),
                 const SizedBox(height: 48.0),
                 EditTextField(
-                  hasLabel: true,
+                  hasLabel: false,
                   title: AppLocalizations.of(context).tr('profile.new_password'),
                   hint: AppLocalizations.of(context).tr('profile.password_hint'),
                   error: _validPassword ? null : AppLocalizations.of(context).tr('registration.password_is_required'),
@@ -92,7 +92,7 @@ class _ChangePasswordState extends State<ChangePasswordForm> {
                 ),
                 const SizedBox(height: 20.0),
                 EditTextField(
-                  hasLabel: true,
+                  hasLabel: false,
                   title: AppLocalizations.of(context).tr('profile.confirm_password'),
                   hint: AppLocalizations.of(context).tr('profile.confirm_password_hint'),
                   error: _validConfirmPassword ? null : AppLocalizations.of(context).tr('registration.password_not_match'),

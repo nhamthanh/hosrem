@@ -162,7 +162,7 @@ class _ChangePasswordFormState extends BaseState<ChangePasswordForm> {
               Container (
                 padding: const EdgeInsets.only(left: 28.0, right: 27.0),
                 child: EditTextField(
-                  hasLabel: true,
+                  hasLabel: false,
                   title: AppLocalizations.of(context).tr('login.old_password'),
                   hint: AppLocalizations.of(context).tr('profile.password_hint'),
                   error: _validPassword ? null : AppLocalizations.of(context).tr('profile.password_is_required'),
@@ -172,14 +172,10 @@ class _ChangePasswordFormState extends BaseState<ChangePasswordForm> {
                 ),
               ),
               const SizedBox(height: 23.0),
-              const Divider(
-                thickness: 1.0,
-              ),
-              const SizedBox(height: 23.0),
               Container (
                 padding: const EdgeInsets.only(left: 28.0, right: 27.0),
                 child: EditTextField(
-                  hasLabel: true,
+                  hasLabel: false,
                   title: AppLocalizations.of(context).tr('login.new_password'),
                   hint: AppLocalizations.of(context).tr('profile.new_password_hint'),
                   error: _validNewPassword ? null : AppLocalizations.of(context).tr('profile.new_password_is_required'),
@@ -188,11 +184,11 @@ class _ChangePasswordFormState extends BaseState<ChangePasswordForm> {
                   controller: newPasswordController,
                 ),
               ),
-              const SizedBox(height: 20.0),
+              const SizedBox(height: 23.0),
               Container (
                 padding: const EdgeInsets.only(left: 28.0, right: 27.0),
                 child: EditTextField(
-                  hasLabel: true,
+                  hasLabel: false,
                   title: AppLocalizations.of(context).tr('login.re_enter_new_password'),
                   hint: AppLocalizations.of(context).tr('profile.confirm_password_hint'),
                   error: _validConfirmPassword ? null : passwordConfirmError,

@@ -21,19 +21,19 @@ class PrimaryButton extends StatelessWidget {
       decoration: BoxDecoration(
         boxShadow: hasShadow ? const <BoxShadow>[
           BoxShadow(
-            color: AppColors.buttonShadowColor1,
+            color: Colors.white,
             offset: Offset(0.0, 2.0),
             blurRadius: 4.0,
             spreadRadius: -1.0
           ),
           BoxShadow(
-            color: AppColors.buttonShadowColor2,
+            color: Colors.white,
             offset: Offset(0.0, 1.0),
             blurRadius: 10.0,
             spreadRadius: 1.0
           ),
           BoxShadow(
-            color: AppColors.buttonShadowColor3,
+            color: Colors.white,
             offset: Offset(0.0, 4.0),
             blurRadius: 5.0,
             spreadRadius: 1.0
@@ -47,8 +47,11 @@ class PrimaryButton extends StatelessWidget {
           text,
           style: TextStyle(fontSize: fontSize, fontWeight: fontWeight),
         ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
         textColor: Colors.white,
-        onPressed: onPressed
+        disabledTextColor: AppColors.secondaryGreyColor,
+        disabledColor: AppColors.backgroundLightGreyColor,
+        onPressed: onPressed,
       )
     );
   }
