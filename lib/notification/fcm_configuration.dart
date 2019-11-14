@@ -18,6 +18,7 @@ class FcmConfiguration {
   BuildContext _context;
 
   void initFcm(BuildContext context, { bool requestToken = true }) {
+    _logger.info('FcmConfiguration intialized...');
     _context = context;
     final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
     firebaseMessaging.configure(
@@ -48,7 +49,12 @@ class FcmConfiguration {
   Future<dynamic> _onMessage(Map<String, dynamic> message) async {
     _logger.info('onMessage: $message');
     try {
-      final Map<String, dynamic> data = json.decode(message['data']);
+      Map<String, dynamic> data;
+      if (message['data'].runtimeType == 'String') {
+        data = json.decode(message['data']);
+      } else {
+        data = json.decode(message['data']['data']);
+      }
       if (data == null) {
         return;
       }
@@ -100,28 +106,38 @@ class FcmConfiguration {
 
   Future<dynamic> _onResume(Map<String, dynamic> message) async {
     _logger.info('_onResume: $message');
-    final Map<String, dynamic> data = json.decode(message['data']);
-    if (data == null) {
-      return;
-    }
-
-    final String notificationType = data['notification_type'];
-    if (notificationType == null) {
-      return;
-    }
-
-    if (notificationType == 'ConferenceUpdated') {
-      final String conferenceId = data['conferenceId'];
-      if (conferenceId != null) {
-        _navigateToConferenceDetail(conferenceId, selectedIndex: 1);
+    try {
+      Map<String, dynamic> data;
+      if (message['data'].runtimeType == 'String') {
+        data = json.decode(message['data']);
+      } else {
+        data = json.decode(message['data']['data']);
       }
-    }
 
-    if (notificationType == 'ConferencePublished') {
-      final String conferenceId = data['conferenceId'];
-      if (conferenceId != null) {
-        _navigateToConferenceDetail(conferenceId);
+      if (data == null) {
+        return;
       }
+
+      final String notificationType = data['notification_type'];
+      if (notificationType == null) {
+        return;
+      }
+
+      if (notificationType == 'ConferenceUpdated') {
+        final String conferenceId = data['conferenceId'];
+        if (conferenceId != null) {
+          _navigateToConferenceDetail(conferenceId, selectedIndex: 1);
+        }
+      }
+
+      if (notificationType == 'ConferencePublished') {
+        final String conferenceId = data['conferenceId'];
+        if (conferenceId != null) {
+          _navigateToConferenceDetail(conferenceId);
+        }
+      }
+    } catch (error) {
+      print(error);
     }
   }
 

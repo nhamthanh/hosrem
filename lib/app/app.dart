@@ -63,6 +63,7 @@ class _AppState extends State<App> {
         builder: (BuildContext context, AppState state) {
           // ignore: always_specify_types
           final data = EasyLocalizationProvider.of(context).data;
+          data.changeLocale(const Locale('en', 'US'));
           return EasyLocalizationProvider(
             data: data,
             child: MaterialApp(

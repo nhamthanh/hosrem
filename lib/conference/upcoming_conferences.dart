@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosrem_app/api/conference/conference.dart';
@@ -69,7 +70,7 @@ class _UpcomingConferencesState extends BaseState<UpcomingConferences> {
 
             if (state is ConferenceFailure) {
               return Center(
-                child: const Text('No conference found')
+                child: Text(AppLocalizations.of(context).tr('conferences.no_conference_found'))
               );
             }
 
