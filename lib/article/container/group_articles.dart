@@ -164,7 +164,10 @@ class _GroupArticlesState extends BaseState<GroupArticles> {
   }
 
   void _onRefresh() {
-    _articlesBloc.dispatch(RefreshArticlesEvent(categoryName: '', searchCriteria: const <String, dynamic>{}));
+    _articlesBloc.dispatch(RefreshArticlesEvent(
+      categoryName: widget.categories.isNotEmpty ? widget.categories[0] : '',
+      searchCriteria: const <String, dynamic>{})
+    );
   }
 
   void _navigateToCategoryArticles(String title) {
