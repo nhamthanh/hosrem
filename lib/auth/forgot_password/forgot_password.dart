@@ -1,6 +1,4 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_alert/flutter_alert.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
 import 'package:hosrem_app/auth/forgot_password/bloc/forgot_passowrd_bloc.dart';
@@ -11,7 +9,6 @@ import 'package:hosrem_app/auth/forgot_password/email_inform.dart';
 import 'package:hosrem_app/auth/forgot_password/reset_password_success.dart';
 import 'package:hosrem_app/auth/forgot_password/verify_code_form.dart';
 import 'package:hosrem_app/auth/forgot_password/verify_email_form.dart';
-
 import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/base_state.dart';
 import 'package:loading_overlay/loading_overlay.dart';
@@ -38,11 +35,11 @@ class _ForgotPasswordState extends BaseState<ForgotPassword> {
   String errorMessage;
   ForgotPasswordBloc _forgotPasswordBloc;
   PageController _pageController;
-  
+
   int _page = 0;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-    
+
   @override
   void didUpdateWidget(ForgotPassword oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -159,15 +156,5 @@ class _ForgotPasswordState extends BaseState<ForgotPassword> {
 
   void _changePasswordClick() {
     _forgotPasswordBloc.dispatch(ChangePasswordEvent(codeController.text, passwordController.text));
-  }
-
-  void _showUpdateSuccessDialog() {
-    showAlert(
-      context: context,
-      body: AppLocalizations.of(context).tr('my_profile.your_password_updated'),
-      actions: <AlertAction>[
-        AlertAction(text: 'OK', onPressed: () => Navigator.pop(context))
-      ]
-    );
   }
 }

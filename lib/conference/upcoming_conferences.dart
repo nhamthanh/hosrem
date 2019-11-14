@@ -65,7 +65,7 @@ class _UpcomingConferencesState extends BaseState<UpcomingConferences> {
             _refreshController.loadComplete();
 
             if (state is LoadedConferences) {
-              return _buildRefreshWidget(state.conferences, state.registeredConferences);
+              return _buildContentPage(state.conferences, state.registeredConferences);
             }
 
             if (state is ConferenceFailure) {
@@ -81,7 +81,7 @@ class _UpcomingConferencesState extends BaseState<UpcomingConferences> {
     );
   }
 
-  Widget _buildRefreshWidget(List<Conference> conferences, Map<String, bool> registeredConferences) {
+  Widget _buildContentPage(List<Conference> conferences, Map<String, bool> registeredConferences) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: Column(
@@ -99,31 +99,38 @@ class _UpcomingConferencesState extends BaseState<UpcomingConferences> {
             )
           ),
           Expanded(
-            child: RefreshWidget(
-              child: ListView.builder(
-                itemCount: conferences.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final Conference conference = conferences[index];
-                  return InkWell(
-                    child: ConferenceItem(conference, apiConfig, registeredConferences[conference.id] ?? false),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute<bool>(
-                          builder: (BuildContext context) => ConferenceDetail(conference.id)
-                        )
-                      );
-                    }
-                  );
-                },
-              ),
-              onRefresh: _onRefresh,
-              onLoading: _onLoading,
-              refreshController: _refreshController
-            )
+            child: _buildRefreshWidget(conferences, registeredConferences)
           )
         ],
       )
+    );
+  }
+
+  Widget _buildRefreshWidget(List<Conference> conferences, Map<String, bool> registeredConferences) {
+    if (conferences.isEmpty) {
+      return Center(child: Text(AppLocalizations.of(context).tr('conferences.no_conference_found')));
+    }
+    return RefreshWidget(
+      child: ListView.builder(
+        itemCount: conferences.length,
+        itemBuilder: (BuildContext context, int index) {
+          final Conference conference = conferences[index];
+          return InkWell(
+            child: ConferenceItem(conference, apiConfig, registeredConferences[conference.id] ?? false),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute<bool>(
+                  builder: (BuildContext context) => ConferenceDetail(conference.id)
+                )
+              );
+            }
+          );
+        },
+      ),
+      onRefresh: _onRefresh,
+      onLoading: _onLoading,
+      refreshController: _refreshController
     );
   }
 

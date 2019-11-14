@@ -112,7 +112,8 @@
       "no_document_found": "No Document Found",
       "upgrade_to_view_documents": "You need to register the conference to view documents",
       "reference_documents": "Reference documents"
-    }
+    },
+    "no_conference_found": "No conference found"
   },
   "profile": {
     "your_profile": "Your Profile",

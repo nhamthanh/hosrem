@@ -116,7 +116,8 @@
       "no_document_found": "Không Tìm Thấy Tài Liệu",
       "upgrade_to_view_documents": "Bạn cần phải đăng ký để xem tài liệu",
       "reference_documents": "Tài liệu tham khảo"
-    }
+    },
+    "no_conference_found": "Không tìm thấy thông tin về hội nghị"
   },
   "profile": {
     "your_profile": "Thông tin tài khoản",
