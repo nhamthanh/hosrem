@@ -43,7 +43,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         final User user = await authService.loadCurrentUser();
         await authService.persistCurrentUser(user);
         await _registerPushNotification();
-        yield LoginSuccess();
+        yield LoginSuccess(user);
       } catch (error) {
         yield LoginFailure(error: ErrorHandler.extractErrorMessage(error));
       }

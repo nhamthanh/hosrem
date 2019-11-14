@@ -79,7 +79,6 @@ class AuthService {
 
   /// Load current user.
   Future<User> loadCurrentUser() async {
-    await Future<String>.delayed(Duration(seconds: 1));
     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
     return apiProvider.userApi.getUser(_sharedPreferences.get('id'));
   }
