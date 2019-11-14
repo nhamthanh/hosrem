@@ -55,4 +55,9 @@ class ArticleService {
   Future<Article> getArticle(String id) async {
     return apiProvider.articleApi.getArticleById(id);
   }
+
+  /// Get articles by category.
+  Future<ArticlePagination> getNewsByCategories(Map<String, dynamic> queryParams) async {
+    return apiProvider.articleApi.getNewsByCategories(queryParams);
+  }
 }

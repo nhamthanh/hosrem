@@ -70,11 +70,20 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
         yield ArticlesFailure(error: ErrorHandler.extractErrorMessage(error));
       }
     }
-
+    // Load Article and relative Articles in detail page
     if (event is LoadArticleEvent) {
       try {
         yield ArticlesLoading();
-        yield LoadedArticleState(article: await articleService.getArticle(event.id));
+        final Article article = await articleService.getArticle(event.id);
+        final Map<String, dynamic> queryParams = <String, dynamic>{
+          'category': article.category.id,
+          'page': DEFAULT_PAGE,
+          'size': DEFAULT_PAGE_SIZE,
+          'sort': 'publishTime:desc'
+        };
+        final ArticlePagination _fieldPagination = await articleService.getNewsByCategories(queryParams);
+        final List<Article> _relativeArticles = _fieldPagination.items;
+        yield LoadedArticleState(article: article, relativeArticles: _relativeArticles);
       } catch (error) {
         print(error);
         yield ArticlesFailure(error: ErrorHandler.extractErrorMessage(error));

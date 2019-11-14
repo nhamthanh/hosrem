@@ -49,9 +49,11 @@ class RefreshArticlesCompleted extends ArticlesState {
 
 /// LoadedArticlesState state.
 class LoadedArticleState extends ArticlesState {
-  LoadedArticleState({@required this.article}) : assert(article != null);
+  LoadedArticleState({@required this.article, this.relativeArticles}) : assert(article != null);
 
   final Article article;
+
+  final List<Article> relativeArticles;
 
   @override
   String toString() => 'LoadedArticleState';

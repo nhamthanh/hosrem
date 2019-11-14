@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -13,6 +14,7 @@ import 'package:hosrem_app/connection/connection_provider.dart';
 import 'package:hosrem_app/widget/svg/svg_icon.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:hosrem_app/api/article/article.dart';
 
 import 'article_service.dart';
 import 'bloc/articles_event.dart';
@@ -138,6 +140,46 @@ class _ArticleDetailState extends BaseState<ArticleDetail> {
                   }
                 }
               ),
+              const SizedBox(height: 16.0),
+              state.relativeArticles.isNotEmpty ? Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Text (
+                      AppLocalizations.of(context).tr('articles.related_news'),
+                      style: TextStyles.textStyle22PrimaryBlackBold,
+                    ),
+                  )
+                ],
+              ) : Container(),
+              const SizedBox(height: 16.0),
+              state.relativeArticles.isNotEmpty ? Column(
+                children: state.relativeArticles.map((Article article) => 
+                  Column(children: <Widget>[
+                    InkWell(
+                        child: Row(children: <Widget>[
+                          Expanded(
+                            child: Text(
+                              article.title,
+                              maxLines: 2,
+                              style: TextStyles.textStyle16PrimaryBlue,
+                              overflow: TextOverflow.ellipsis,
+                            )
+                          ),
+                          IconButton(
+                            icon: Icon(
+                              Icons.keyboard_arrow_right,
+                              color: AppColors.primaryBlackColor,
+                              size: 18.0
+                            ),
+                            onPressed: () {},
+                          ),
+                        ]),
+                        onTap: () => _navigateToArticleDetail(article)
+                      ),
+                      const SizedBox(height: 15.0),
+                  ],)  
+                ).toList(),
+              ) : Container(),
             ],
           )
         )
@@ -152,4 +194,16 @@ class _ArticleDetailState extends BaseState<ArticleDetail> {
     _articlesBloc.dispose();
     super.dispose();
   }
+
+  void _navigateToArticleDetail(Article article) {
+    Navigator.push(
+      context,
+      MaterialPageRoute<bool>(
+        builder: (BuildContext context) => ArticleDetail(article.id,
+          title: AppLocalizations.of(context).tr(article.category.name)
+        )
+      )
+    );
+  }
+
 }
