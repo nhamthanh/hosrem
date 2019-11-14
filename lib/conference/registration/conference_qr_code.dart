@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hosrem_app/common/app_assets.dart';
-import 'package:hosrem_app/common/text_styles.dart';
 import 'package:pretty_qr_code/pretty_qr_code.dart';
 
 /// Conference QR Code.
