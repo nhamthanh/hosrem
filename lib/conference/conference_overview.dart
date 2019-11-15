@@ -261,7 +261,7 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
         type: PageTransitionType.downToUp,
         child: LoginRegistration()
       ));
-
+      _conferenceFeesBloc.dispatch(LoadConferenceFeesByConferenceIdEvent(conferenceId: widget.conference.id));
       return;
     }
 
