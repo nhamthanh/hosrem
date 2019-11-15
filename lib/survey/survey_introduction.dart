@@ -9,6 +9,9 @@ import 'survey.dart';
 
 /// Survey introduction page.
 class SurveyIntroduction extends StatelessWidget {
+  const SurveyIntroduction(this.id, { Key key }) : super(key: key);
+
+  final String id;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +63,7 @@ class SurveyIntroduction extends StatelessWidget {
     );
   }
 
-  void _navigateToSurveySection(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute<bool>(builder: (BuildContext context) => const Survey('123')));
+  Future<void> _navigateToSurveySection(BuildContext context) async {
+    await Navigator.push(context, MaterialPageRoute<bool>(builder: (BuildContext context) => Survey(id)));
   }
 }

@@ -81,13 +81,8 @@ class _CategoryFeaturedArticlesState extends BaseState<CategoryFeaturedArticles>
     );
   }
 
-  void _navigateToArticleDetail(Article article) {
-    Navigator.push(
-      context,
-      MaterialPageRoute<bool>(
-        builder: (BuildContext context) => ArticleDetail(article.id, title: widget.categoryName)
-      )
-    );
+  Future<void> _navigateToArticleDetail(Article article) async {
+    await pushWidget(ArticleDetail(article.id, title: widget.categoryName));
   }
 
   @override

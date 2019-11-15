@@ -265,10 +265,7 @@ class _ConferenceRegistrationState extends BaseState<ConferenceRegistration> {
   }
 
   Future<void> _handleProcessPayment(ConferenceFee conferenceFee) async {
-    await Navigator.push(context, MaterialPageRoute<bool>(
-      builder: (BuildContext context) =>
-        ConferencePayment(conference: widget.conference, conferenceFee: conferenceFee))
-    );
+    await pushWidget(ConferencePayment(conference: widget.conference, conferenceFee: conferenceFee));
   }
 
   @override

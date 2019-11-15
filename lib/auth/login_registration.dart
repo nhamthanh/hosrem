@@ -112,9 +112,7 @@ class _LoginRegistrationState extends BaseState<LoginRegistration> with SingleTi
           }
 
           if (state is RegistrationSuccess) {
-            final bool result = await Navigator.push(context, MaterialPageRoute<bool>(
-              builder: (BuildContext context) => registration_success_page.RegistrationSuccess()
-            ));
+            final bool result = await pushWidgetWithBoolResult(registration_success_page.RegistrationSuccess());
             if (result) {
               _authBloc.dispatch(CleanRegistrationEvent());
               _tabController.animateTo(0);

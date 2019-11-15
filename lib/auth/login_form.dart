@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hosrem_app/auth/forgot_password/forgot_password.dart';
+import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/widget/text/edit_text_field.dart';
 
@@ -18,7 +19,7 @@ class LoginForm extends StatefulWidget {
   State<LoginForm> createState() => _LoginFormState();
 }
 
-class _LoginFormState extends State<LoginForm> {
+class _LoginFormState extends BaseState<LoginForm> {
 
   bool _validEmail;
   bool _validPassword;
@@ -116,6 +117,6 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   Future<void> _onForgetPasswordPress() async {
-    await Navigator.push(context, MaterialPageRoute<bool>(builder: (BuildContext context) => const ForgotPassword()));
+    await pushWidget(const ForgotPassword());
   }
 }

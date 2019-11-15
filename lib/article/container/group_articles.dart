@@ -148,15 +148,8 @@ class _GroupArticlesState extends BaseState<GroupArticles> {
     );
   }
 
-  void _navigateToArticleDetail(Article article) {
-    Navigator.push(
-      context,
-      MaterialPageRoute<bool>(
-        builder: (BuildContext context) => ArticleDetail(article.id,
-          title: AppLocalizations.of(context).tr('articles.hot_news')
-        )
-      )
-    );
+  Future<void> _navigateToArticleDetail(Article article) async {
+    await pushWidget(ArticleDetail(article.id, title: AppLocalizations.of(context).tr('articles.hot_news')));
   }
 
   void _onLoading() {
@@ -170,8 +163,8 @@ class _GroupArticlesState extends BaseState<GroupArticles> {
     );
   }
 
-  void _navigateToCategoryArticles(String title) {
-    Navigator.push(context, MaterialPageRoute<bool>(builder: (BuildContext context) => CategoryArticles(title)));
+  Future<void> _navigateToCategoryArticles(String title) async {
+    await pushWidget(CategoryArticles(title));
   }
 
   @override

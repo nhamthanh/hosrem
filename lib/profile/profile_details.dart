@@ -127,7 +127,7 @@ class _ProfileDetailsState extends BaseState<ProfileDetails> {
   }
 
   Future<void> _navigateToUpdateProfile() async {
-    await Navigator.push(context, MaterialPageRoute<bool>(builder: (BuildContext context) => UpdateProfile()));
+    await pushWidget(UpdateProfile());
     _profileBloc.dispatch(LoadProfileEvent());
   }
 

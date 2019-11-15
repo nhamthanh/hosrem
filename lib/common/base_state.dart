@@ -7,6 +7,7 @@ import 'package:hosrem_app/config/api_config.dart';
 import 'package:hosrem_app/db/app_database.dart';
 import 'package:hosrem_app/network/api_provider.dart';
 import 'package:hosrem_app/notification/fcm_configuration.dart';
+import 'package:page_transition/page_transition.dart';
 
 /// Base state widget.
 abstract class BaseState<T extends StatefulWidget> extends State<T> {
@@ -16,8 +17,50 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
   @override
   void initState() {
     super.initState();
+    onResumeWidget();
+  }
+
+  /// Resume the widget when user the active widget is pop.
+  @protected
+  void onResumeWidget() {
     final FcmConfiguration fcmConfiguration = FcmConfiguration(apiProvider);
     fcmConfiguration.initFcm(context, requestToken: false);
+  }
+
+  /// Navigate to the widget [widget].
+  @protected
+  Future<void> pushWidget(Widget widget) async {
+    await Navigator.push(context, MaterialPageRoute<void>(builder: (BuildContext context) => widget));
+    onResumeWidget();
+  }
+
+  /// Navigate to the widget [widget] and waiting for the result.
+  @protected
+  Future<bool> pushWidgetWithBoolResult(Widget widget) async {
+    final bool result = await Navigator.push(context, MaterialPageRoute<bool>(builder: (BuildContext context) => widget));
+    onResumeWidget();
+    return result;
+  }
+
+  /// Navigate to the widget with transition [type].
+  @protected
+  Future<void> pushWidgetWithTransition(Widget widget, PageTransitionType type) async {
+    await Navigator.push<void>(context, PageTransition<void>(
+      type: type,
+      child: widget
+    ));
+    onResumeWidget();
+  }
+
+  /// Navigate to the widget with transition [type] and waiting for the result.
+  @protected
+  Future<bool> pushWidgetWithTransitionResult(Widget widget, PageTransitionType type) async {
+    final bool result = await Navigator.push<bool>(context, PageTransition<bool>(
+      type: type,
+      child: widget
+    ));
+    onResumeWidget();
+    return result;
   }
 
   /// Get application context.
