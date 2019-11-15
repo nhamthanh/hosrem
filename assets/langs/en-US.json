@@ -159,6 +159,7 @@
   },
   "articles": {
     "no_article_found": "Không tìm thấy bản tin",
-    "hot_news": "Tin nổi bật"
+    "hot_news": "Tin nổi bật",
+    "related_news": "Tin liên quan"
   }
 }

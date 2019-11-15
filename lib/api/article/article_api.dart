@@ -23,5 +23,9 @@ abstract class ArticleApi {
   /// Get all news categories.
   @GET('news/categories')
   Future<FieldPagination> getAllCategories(@Queries() Map<String, dynamic> query);
+
+  /// Get all news by category.
+  @GET('news')
+  Future<ArticlePagination> getNewsByCategories(@Queries() Map<String, dynamic> query);
 }
 

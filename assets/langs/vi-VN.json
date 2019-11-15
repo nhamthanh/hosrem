@@ -155,6 +155,7 @@
   },
   "articles": {
     "no_article_found": "No news found",
-    "hot_news": "Featured News"
+    "hot_news": "Featured News",
+    "related_news": "Related news"
   }
 }
