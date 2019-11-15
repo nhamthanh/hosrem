@@ -3,12 +3,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
+
 import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/connection/connection_provider.dart';
 import 'package:hosrem_app/membership/membership_service.dart';
 import 'package:hosrem_app/notification/notification_service.dart';
+import 'package:hosrem_app/profile/profile_change_password.dart';
 import 'package:hosrem_app/register/registration_form.dart';
 import 'package:hosrem_app/widget/button/primary_button.dart';
 import 'package:hosrem_app/auth/registration_success.dart' as registration_success_page;
@@ -80,7 +82,12 @@ class _LoginRegistrationState extends BaseState<LoginRegistration> with SingleTi
       child: BlocListener<AuthBloc, AuthState>(
         listener: (BuildContext context, AuthState state) async {
           if (state is LoginSuccess) {
-            Navigator.pop(context, true);
+            if (state.user.mustResetPassword) {
+              await Navigator.push(context, MaterialPageRoute<bool>(builder: (BuildContext context) => ChangePasswordForm(state.user)));
+              Navigator.pop(context, true);
+            } else {
+              Navigator.pop(context, true);
+            }
           }
 
           if (state is LoginFailure) {

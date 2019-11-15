@@ -1,3 +1,4 @@
+import 'package:hosrem_app/api/auth/user.dart';
 import 'package:meta/meta.dart';
 
 /// Auth state.
@@ -39,6 +40,10 @@ class LoginFailure extends AuthState {
 
 /// LoginSuccess state.
 class LoginSuccess extends AuthState {
+  LoginSuccess(this.user);
+
+  final User user;
+
   @override
   String toString() => 'LoginSuccess';
 }
