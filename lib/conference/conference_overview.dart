@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosrem_app/api/conference/conference.dart';
 import 'package:hosrem_app/api/conference/conference_fee.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
+import 'package:hosrem_app/auth/login_registration.dart';
 import 'package:hosrem_app/common/app_assets.dart';
 import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/base_state.dart';
@@ -12,9 +13,8 @@ import 'package:hosrem_app/common/date_time_utils.dart';
 import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/conference/conference_info.dart';
 import 'package:hosrem_app/conference/registration/conference_registration.dart';
-import 'package:hosrem_app/auth/login_registration.dart';
 import 'package:hosrem_app/profile/user_service.dart';
-import 'package:hosrem_app/survey/survey.dart';
+import 'package:hosrem_app/survey/survey_introduction.dart';
 import 'package:hosrem_app/widget/button/primary_button.dart';
 import 'package:hosrem_app/widget/svg/svg_icon.dart';
 import 'package:page_transition/page_transition.dart';
@@ -239,37 +239,25 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
     return Container();
   }
 
-  void _navigateToSurvey(String conferenceId) {
-    Navigator.push(
-      context,
-      MaterialPageRoute<bool>(builder: (BuildContext context) => Survey(conferenceId))
-    );
+  Future<void> _navigateToSurvey(String conferenceId) async {
+    await pushWidget(SurveyIntroduction(conferenceId));
   }
 
-  void _navigateToViewQrCode(String qrCode) {
-    Navigator.push(
-      context,
-      MaterialPageRoute<bool>(builder:
-        (BuildContext context) => ConferenceQrCode(qrCode: qrCode)
-      ),
-    );
+  Future<void> _navigateToViewQrCode(String qrCode) async {
+    await pushWidget(ConferenceQrCode(qrCode: qrCode));
   }
 
   Future<void> _navigateToRegistration(List<ConferenceFee> selectedConferenceFees, bool hasToken) async {
     if (!hasToken) {
-      await Navigator.push<dynamic>(context, PageTransition<dynamic>(
-        type: PageTransitionType.downToUp,
-        child: LoginRegistration()
-      ));
+      await pushWidgetWithTransition(LoginRegistration(), PageTransitionType.downToUp);
       _conferenceFeesBloc.dispatch(LoadConferenceFeesByConferenceIdEvent(conferenceId: widget.conference.id));
       return;
     }
 
-    await Navigator.push<dynamic>(context, PageTransition<dynamic>(
-      type: PageTransitionType.downToUp,
-      child: ConferenceRegistration(conference: widget.conference, conferenceFees: selectedConferenceFees)
-    ));
-
+    await pushWidgetWithTransition(
+      ConferenceRegistration(conference: widget.conference, conferenceFees: selectedConferenceFees),
+      PageTransitionType.downToUp
+    );
     _conferenceFeesBloc.dispatch(LoadConferenceFeesByConferenceIdEvent(conferenceId: widget.conference.id));
   }
 }

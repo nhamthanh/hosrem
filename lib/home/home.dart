@@ -47,13 +47,13 @@ class _HomeState extends BaseState<Home> {
         listener: (BuildContext context, HomeState state) async {
           if (state is ShowNotifications) {
             if (!state.hasToken) {
-              final bool result = await Navigator.push<dynamic>(context, PageTransition<dynamic>(
-                type: PageTransitionType.downToUp, child: LoginRegistration()));
+              final bool result = await pushWidgetWithTransitionResult(LoginRegistration(), PageTransitionType.downToUp);
               if (result == null || !result) {
                 _homeBloc.dispatch(HomeEvent.News);
               } else {
                 _homeBloc.dispatch(HomeEvent.Notifications);
               }
+              onResumeWidget();
             }
           }
         },

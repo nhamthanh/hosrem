@@ -182,16 +182,15 @@ class _ProfileState extends BaseState<Profile> {
 
   Future<void> _navigateToProfile(User user) async {
     if (user == null) {
-      await Navigator.push<dynamic>(context, PageTransition<dynamic>(
-        type: PageTransitionType.downToUp, child: LoginRegistration()));
+      await pushWidgetWithTransition(LoginRegistration(), PageTransitionType.downToUp);
     } else {
-      await Navigator.push(context, MaterialPageRoute<bool>(builder: (BuildContext context) => ProfileDetails()));
+      await pushWidget(ProfileDetails());
     }
     _profileBloc.dispatch(LoadProfileEvent());
   }
 
   Future<void> _navigateToChangePassword(User user) async {
-    await Navigator.push(context, MaterialPageRoute<bool>(builder: (BuildContext context) => ChangePasswordForm(user)));
+    await pushWidget(ChangePasswordForm(user));
     _profileBloc.dispatch(LoadProfileEvent());
   }
 
@@ -202,17 +201,15 @@ class _ProfileState extends BaseState<Profile> {
   }
 
   Future<void> _navigateToMemberRegistration(User user) async {
-    await Navigator.push<dynamic>(context, PageTransition<dynamic>(
-      type: PageTransitionType.downToUp, child: MembershipRegistration(user: user)));
+    await pushWidgetWithTransition(MembershipRegistration(user: user), PageTransitionType.downToUp);
     _profileBloc.dispatch(ReloadProfileEvent());
   }
 
   Future<void> _navigateToMyRegsiteredConferences(User user) async {
     if (user == null) {
-      await Navigator.push<dynamic>(context, PageTransition<dynamic>(
-        type: PageTransitionType.downToUp, child: LoginRegistration()));
+      await pushWidgetWithTransition(LoginRegistration(), PageTransitionType.downToUp);
     } else {
-      await Navigator.push(context, MaterialPageRoute<bool>(builder: (BuildContext context) => MyRegisteredConferences()));
+      await pushWidget(MyRegisteredConferences());
     }
     _profileBloc.dispatch(ReloadProfileEvent());
   }

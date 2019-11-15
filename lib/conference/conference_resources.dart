@@ -187,20 +187,20 @@ class _ConferenceResourcesState extends BaseState<ConferenceResources> {
     (content?.toLowerCase() ?? '').endsWith('pdf') ? _navigateToPdfViewer(title, content) : _navigateToImageViewer(title, content);
   }
 
-  void _navigateToPdfViewer(String title, String content) {
+  Future<void> _navigateToPdfViewer(String title, String content) async {
     final String pdfUrl = content != null && content.isNotEmpty ? '${apiConfig.apiBaseUrl}conferences/${widget.conference.id}/document?fileName=$content' : 'http://';
-    Navigator.push<dynamic>(context, PageTransition<dynamic>(
-      type: PageTransitionType.downToUp,
-      child: PdfPage(url: pdfUrl, name: title ?? AppLocalizations.of(context).tr('conferences.documents.reference_documents'),)
-    ));
+    await pushWidgetWithTransition(
+      PdfPage(url: pdfUrl, name: title ?? AppLocalizations.of(context).tr('conferences.documents.reference_documents')),
+      PageTransitionType.downToUp
+    );
   }
 
-  void _navigateToImageViewer(String title, String content) {
+  Future<void> _navigateToImageViewer(String title, String content) async {
     final String imageUrl = content != null && content.isNotEmpty ? '${apiConfig.apiBaseUrl}conferences/${widget.conference.id}/document?fileName=$content' : 'http://';
-    Navigator.push<dynamic>(context, PageTransition<dynamic>(
-      type: PageTransitionType.downToUp,
-      child: ImageViewer(url: imageUrl, title: title ?? AppLocalizations.of(context).tr('conferences.documents.reference_documents'),)
-    ));
+    await pushWidgetWithTransition(
+      ImageViewer(url: imageUrl, title: title ?? AppLocalizations.of(context).tr('conferences.documents.reference_documents')),
+      PageTransitionType.downToUp
+    );
   }
 
   @override

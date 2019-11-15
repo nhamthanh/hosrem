@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosrem_app/api/article/article.dart';
+import 'package:hosrem_app/article/widget/article_item.dart';
 import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/connection/connection_provider.dart';
@@ -10,7 +11,6 @@ import 'package:hosrem_app/widget/refresher/refresh_widget.dart';
 import 'package:hosrem_app/widget/text/search_text_field.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import 'package:hosrem_app/article/widget/article_item.dart';
 import 'article_detail.dart';
 import 'article_service.dart';
 import 'bloc/articles_bloc.dart';
@@ -136,13 +136,8 @@ class _CategoryArticlesState extends BaseState<CategoryArticles> {
     );
   }
 
-  void _navigateToArticleDetail(Article article) {
-    Navigator.push(
-      context,
-      MaterialPageRoute<bool>(
-        builder: (BuildContext context) => ArticleDetail(article.id, title: widget.categoryName)
-      )
-    );
+  Future<void> _navigateToArticleDetail(Article article) async {
+    await pushWidget(ArticleDetail(article.id, title: widget.categoryName));
   }
 
   void _onLoading() {

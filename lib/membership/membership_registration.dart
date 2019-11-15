@@ -233,9 +233,7 @@ class _MembershipRegistrationState extends BaseState<MembershipRegistration> {
   }
 
   Future<void> _handleProcessPayment() async {
-    await Navigator.push(context, MaterialPageRoute<bool>(
-      builder: (BuildContext context) => MembershipPayment(user: widget.user, membership: _selectedMembership))
-    );
+    await pushWidget(MembershipPayment(user: widget.user, membership: _selectedMembership));
   }
 
   @override

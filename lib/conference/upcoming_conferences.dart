@@ -117,13 +117,8 @@ class _UpcomingConferencesState extends BaseState<UpcomingConferences> {
           final Conference conference = conferences[index];
           return InkWell(
             child: ConferenceItem(conference, apiConfig, registeredConferences[conference.id] ?? false),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute<bool>(
-                  builder: (BuildContext context) => ConferenceDetail(conference.id)
-                )
-              );
+            onTap: () async {
+              await pushWidget(ConferenceDetail(conference.id));
             }
           );
         },

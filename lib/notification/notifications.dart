@@ -118,30 +118,20 @@ class _NotificationsState extends BaseState<Notifications> {
     );
   }
 
-  void _markAsRead(alert.Notification notification) {
+  Future<void> _markAsRead(alert.Notification notification) async {
     _notificationsBloc.dispatch(MarkAsReadEvent(notification.id));
 
     if (notification.notificationType == 'ConferenceUpdated') {
       final String conferenceId = notification.payload['conferenceId'];
       if (conferenceId != null) {
-        Navigator.push(
-          context,
-          MaterialPageRoute<bool>(
-            builder: (BuildContext context) => ConferenceDetail(conferenceId, selectedIndex: 1)
-          )
-        );
+        await pushWidget(ConferenceDetail(conferenceId, selectedIndex: 1));
       }
     }
 
     if (notification.notificationType == 'ConferencePublished') {
       final String conferenceId = notification.payload['conferenceId'];
       if (conferenceId != null) {
-        Navigator.push(
-          context,
-          MaterialPageRoute<bool>(
-            builder: (BuildContext context) => ConferenceDetail(conferenceId)
-          )
-        );
+        await pushWidget(ConferenceDetail(conferenceId));
       }
     }
   }
