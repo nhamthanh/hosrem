@@ -102,9 +102,10 @@ class _LoginRegistrationState extends BaseState<LoginRegistration> with SingleTi
           if (state is RegistrationValidationState) {
             if (state.validFullName && state.validEmail && state.validPhone &&
               state.validPassword && !state.checked) {
+              _checkedAgreement = false;
               _scaffoldKey.currentState.showSnackBar(
                 SnackBar(
-                  content: const Text('Vui lòng xác nhận điều khoản sử dụng'),
+                  content: Text(AppLocalizations.of(context).tr('registration.please_confirm')),
                   backgroundColor: Colors.red,
                 ),
               );
@@ -112,6 +113,7 @@ class _LoginRegistrationState extends BaseState<LoginRegistration> with SingleTi
           }
 
           if (state is RegistrationSuccess) {
+            _scaffoldKey.currentState.hideCurrentSnackBar();
             final bool result = await pushWidgetWithBoolResult(registration_success_page.RegistrationSuccess());
             if (result) {
               _authBloc.dispatch(CleanRegistrationEvent());
@@ -228,7 +230,7 @@ class _LoginRegistrationState extends BaseState<LoginRegistration> with SingleTi
         validFullName: state.validFullName,
         validPhone: state.validPhone,
         validPassword: state.validPassword,
-        checked: state.checked
+        checked: _checkedAgreement
       );
     }
 

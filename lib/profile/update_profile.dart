@@ -72,7 +72,7 @@ class _UpdateProfileState extends BaseState<UpdateProfile> {
       child: BlocListener<ProfileUpdateBloc, ProfileUpdateState>(
         listener: (BuildContext context, ProfileUpdateState state) {
           if (state is ProfileFailure) {
-            Scaffold.of(context).showSnackBar(
+            _scaffoldKey.currentState.showSnackBar(
               SnackBar(
                 content: Text('${state.error}'),
                 backgroundColor: Colors.red,

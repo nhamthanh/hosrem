@@ -34,21 +34,12 @@ class _ChangePasswordFormState extends BaseState<ChangePasswordForm> {
   bool _validPassword;
   bool _validNewPassword;
   bool _validConfirmPassword;
-  bool _checked = false;
   User _user;
   String passwordConfirmError;
   ProfilePasswordBloc _profilePasswordBloc;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     
-  @override
-  void didUpdateWidget(ChangePasswordForm oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    _checked = passwordController.text.isNotEmpty & newPasswordController.text.isNotEmpty
-      & confirmPasswordController.text.isNotEmpty & (newPasswordController.text
-      == confirmPasswordController.text);
-  }
-
   @override
   void initState() {
     super.initState();
@@ -226,7 +217,7 @@ class _ChangePasswordFormState extends BaseState<ChangePasswordForm> {
                 padding: const EdgeInsets.only(left: 25.0, top: 27.0, bottom: 28.5, right: 25.0),
                 child: PrimaryButton(
                 text: AppLocalizations.of(context).tr('my_profile.save'),
-                onPressed: _checked ? () => _changePasswordClick(_user) : null,
+                onPressed: isValidate() ? () => _changePasswordClick(_user) : null,
                 )
               ),
             )
@@ -237,15 +228,16 @@ class _ChangePasswordFormState extends BaseState<ChangePasswordForm> {
   }
 
   void _changePasswordClick(User user) {
-    if(isValidate(user)) {
+    if(isValidate()) {
       final String oldPassword = passwordController.text;
       final String newPassword = newPasswordController.text;
       _profilePasswordBloc.dispatch(ChangePasswordButtonPressed(user.id, UserPassword(null, newPassword, oldPassword, user.id, null)));
     }
   }
 
-  bool isValidate(User user) {
-    if (_validPassword & _validNewPassword & _validConfirmPassword & (newPasswordController.text
+  bool isValidate() {
+    if (passwordController.text.isNotEmpty & newPasswordController.text.isNotEmpty
+      & confirmPasswordController.text.isNotEmpty & (newPasswordController.text
       == confirmPasswordController.text)) {
       return true;
     } else {
