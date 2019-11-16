@@ -1,18 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="112px" height="37px" viewBox="0 0 112 37" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 57.1 (83088) - https://sketch.com -->
-    <title>Group 3</title>
-    <desc>Created with Sketch.</desc>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Events-List---Registered" transform="translate(-242.000000, -512.000000)">
-            <g id="Group-4-Copy" transform="translate(28.000000, 447.000000)">
-                <g id="Group-3" transform="translate(214.000000, 65.000000)">
-                    <path d="M0,7.10542736e-15 L102,7.10542736e-15 C107.522847,6.09089673e-15 112,4.4771525 112,10 L112,32 L112,32 L105,36.1528284 L105,32 L10,32 C4.4771525,32 6.76353751e-16,27.5228475 0,22 L0,7.10542736e-15 L0,7.10542736e-15 Z" id="Rectangle" fill="#FF7875"></path>
-                    <text id="Expired" font-family="NanumGothic" font-size="14" font-weight="normal" letter-spacing="0.233333337" fill="#FFFFFF">
-                        <tspan x="30.5473333" y="20">Expired</tspan>
-                    </text>
-                </g>
-            </g>
-        </g>
+<svg xmlns="http://www.w3.org/2000/svg" width="112" height="33" viewBox="0 0 112 33">
+    <g fill="none" fill-rule="evenodd">
+        <path fill="#F77" d="M0 0h102c5.523 0 10 4.477 10 10v18l-7 4.153V28H10C4.477 28 0 23.523 0 18V0z"/>
+        <text id="Đã-Đăng-Ký" font-family="LucidaGrande, Lucida Grande" font-size="12" font-weight="normal" letter-spacing="0.200000003" fill="#FFFFFF">
+          <tspan x="26.571289" y="18">Đã hết hạn</tspan>
+        </text>
     </g>
 </svg>
