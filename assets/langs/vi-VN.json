@@ -82,7 +82,8 @@
     "confirm": "By signing up,I agree to the terms and conditions",
     "verification_send_to_email": "Your verification has been sent to your email",
     "reset_success": "Successfully Reset Password",
-    "please_login": "Please login with the new password"
+    "please_login": "Please login with the new password",
+    "please_confirm": "Please agree to the terms and conditions"
   },
   "home": {
     "home": "Home",

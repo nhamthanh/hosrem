@@ -47,7 +47,7 @@ class _ProfileDetailsState extends BaseState<ProfileDetails> {
       child: BlocListener<ProfileBloc, ProfileState>(
         listener: (BuildContext context, ProfileState state) {
           if (state is ProfileFailure) {
-            Scaffold.of(context).showSnackBar(
+            _scaffoldKey.currentState.showSnackBar(
               SnackBar(
                 content: Text('${state.error}'),
                 backgroundColor: Colors.red,

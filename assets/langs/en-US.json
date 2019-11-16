@@ -86,7 +86,8 @@
     "working_place_is_required": "Vui lòng nhập nơi làm việc",
     "registration_success": "Đăng ký thành công",
     "confirm": "Bằng việc đăng ký, tôi đồng ý với các điều khoản sử dụng",
-    "verification_send_to_email": "Thông báo xác nhận đã được gửi email cho bạn"
+    "verification_send_to_email": "Thông báo xác nhận đã được gửi email cho bạn",
+    "please_confirm": "Vui lòng xác nhận điều khoản sử dụng"
   },
   "home": {
     "home": "Tin Tức",
