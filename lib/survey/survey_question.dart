@@ -10,11 +10,13 @@ import 'package:hosrem_app/widget/svg/svg_icon.dart';
 /// Survey Question widget.
 @immutable
 class SurveyQuestion extends StatelessWidget {
-  const SurveyQuestion(this.question, { this.value, this.rateChanged });
+  const SurveyQuestion(this.question, { this.value, this.rateChanged, this.enable = true, this.selectColor = AppColors.lightPrimaryColor });
 
   final Question question;
   final String value;
   final Function(String) rateChanged;
+  final bool enable;
+  final Color selectColor;
 
   @override
   Widget build(BuildContext context) {
@@ -42,13 +44,13 @@ class SurveyQuestion extends StatelessWidget {
                       SvgIcon(
                         value == '1' ? AppAssets.emote1Selected : AppAssets.emote1Normal,
                         size: 42.0,
-                        color: value == '1' ? AppColors.lightPrimaryColor : AppColors.secondaryGreyColor
+                        color: value == '1' ? selectColor : AppColors.secondaryGreyColor
                       ),
                       const SizedBox(height: 6.0),
                       const Text('1', textAlign: TextAlign.center, style: TextStyles.textStyle16PrimaryBlack)
                     ],
                   ),
-                  onTap: () => rateChanged == null ? null : rateChanged('1'),
+                  onTap: () => rateChanged == null || !enable ? null : rateChanged('1'),
                 ),
                 InkWell(
                   child: Column(
@@ -56,13 +58,13 @@ class SurveyQuestion extends StatelessWidget {
                       SvgIcon(
                         value == '2' ? AppAssets.emote2Selected : AppAssets.emote2Normal,
                         size: 42.0,
-                        color: value == '2' ? AppColors.lightPrimaryColor : AppColors.secondaryGreyColor
+                        color: value == '2' ? selectColor : AppColors.secondaryGreyColor
                       ),
                       const SizedBox(height: 6.0),
                       const Text('2', textAlign: TextAlign.center, style: TextStyles.textStyle16PrimaryBlack)
                     ],
                   ),
-                  onTap: () => rateChanged == null ? null : rateChanged('2')
+                  onTap: () => rateChanged == null || !enable ? null : rateChanged('2')
                 ),
                 InkWell(
                   child: Column(
@@ -70,13 +72,13 @@ class SurveyQuestion extends StatelessWidget {
                       SvgIcon(
                         value == '3' ? AppAssets.emote3Selected : AppAssets.emote3Normal,
                         size: 42.0,
-                        color: value == '3' ? AppColors.lightPrimaryColor : AppColors.secondaryGreyColor
+                        color: value == '3' ? selectColor : AppColors.secondaryGreyColor
                       ),
                       const SizedBox(height: 6.0),
                       const Text('3', textAlign: TextAlign.center, style: TextStyles.textStyle16PrimaryBlack)
                     ],
                   ),
-                  onTap: () => rateChanged == null ? null : rateChanged('3')
+                  onTap: () => rateChanged == null || !enable ? null : rateChanged('3')
                 ),
                 InkWell(
                   child: Column(
@@ -84,13 +86,13 @@ class SurveyQuestion extends StatelessWidget {
                       SvgIcon(
                         value == '4' ? AppAssets.emote4Selected : AppAssets.emote4Normal,
                         size: 42.0,
-                        color: value == '4' ? AppColors.lightPrimaryColor :  AppColors.secondaryGreyColor
+                        color: value == '4' ? selectColor :  AppColors.secondaryGreyColor
                       ),
                       const SizedBox(height: 6.0),
                       const Text('4', textAlign: TextAlign.center, style: TextStyles.textStyle16PrimaryBlack)
                     ],
                   ),
-                  onTap: () => rateChanged == null ? null : rateChanged('4')
+                  onTap: () => rateChanged == null || !enable ? null : rateChanged('4')
                 ),
                 InkWell(
                   child: Column(
@@ -98,13 +100,13 @@ class SurveyQuestion extends StatelessWidget {
                       SvgIcon(
                         value == '5' ? AppAssets.emote5Selected : AppAssets.emote5Normal,
                         size: 42.0,
-                        color: value == '5' ? AppColors.lightPrimaryColor : AppColors.secondaryGreyColor
+                        color: value == '5' ? selectColor : AppColors.secondaryGreyColor
                       ),
                       const SizedBox(height: 6.0),
                       const Text('5', textAlign: TextAlign.center, style: TextStyles.textStyle16PrimaryBlack)
                     ],
                   ),
-                  onTap: () => rateChanged == null ? null : rateChanged('5')
+                  onTap: () => rateChanged == null || !enable ? null : rateChanged('5')
                 )
               ],
             )

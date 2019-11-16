@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:hosrem_app/api/auth/user.dart';
 import 'package:hosrem_app/api/survey/question.dart';
+import 'package:hosrem_app/api/survey/question_result.dart';
 import 'package:hosrem_app/api/survey/section.dart';
 import 'package:hosrem_app/api/survey/survey.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
@@ -27,7 +28,7 @@ class SurveyBloc extends Bloc<SurveyEvent, SurveyState> {
   Map<Question, String> _values;
   Survey _survey;
   int _selectedSectionIndex = 0;
-
+  List<QuestionResult> _results;
   @override
   SurveyState get initialState => SurveyLoading();
 
@@ -38,9 +39,21 @@ class SurveyBloc extends Bloc<SurveyEvent, SurveyState> {
 
       try {
         _values = <Question, String>{};
-        _survey = await surveyService.getSurveyById(event.id);
+        _survey = await surveyService.getSurveyById(event.conferenceId);
+        if (event.surveyResultId.isNotEmpty) {
+          _results = await surveyService.getSurveyResult(event.surveyResultId);
+        }
+
         for (Section section in _survey.sections) {
           section.questions.sort((Question q1, Question q2) => q1.ordinalNumber.compareTo(q2.ordinalNumber));
+          if (event.surveyResultId.isNotEmpty) {
+            for (int i = 0; i < section.questions.length; i++) {
+              final QuestionResult questionResult = _results.singleWhere((QuestionResult result) => result.question.id == section.questions[i].id , orElse: () => null);
+              if (questionResult != null && questionResult is QuestionResult) {
+                _values[section.questions[i]] =  questionResult.answer;
+              }
+            }
+          }
         }
         yield LoadedSurvey(_survey, values: _values, selectedSectionIndex: _selectedSectionIndex);
       } catch (error) {

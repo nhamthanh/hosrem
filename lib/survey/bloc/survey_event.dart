@@ -8,12 +8,14 @@ abstract class SurveyEvent {
 
 /// LoadSurveyEvent event.
 class LoadSurveyEvent extends SurveyEvent {
-  LoadSurveyEvent(this.id);
+  LoadSurveyEvent(this.conferenceId, { this.surveyResultId = '' });
 
-  final String id;
+  final String conferenceId;
+
+  final String surveyResultId;
 
   @override
-  String toString() => 'LoadSurveyEvent { id = $id }';
+  String toString() => 'LoadSurveyEvent { conferenceId = $conferenceId, surveyResultId = $surveyResultId }';
 }
 
 /// RatingEvent event.

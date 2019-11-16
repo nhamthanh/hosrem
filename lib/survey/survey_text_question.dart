@@ -8,12 +8,12 @@ import 'package:hosrem_app/widget/text/edit_text_field.dart';
 /// Survey text question widget.
 @immutable
 class SurveyTextQuestion extends StatelessWidget {
-  SurveyTextQuestion(this.question, { Key key, String value, this.textChanged })
+  SurveyTextQuestion(this.question, { Key key, String value, this.textChanged, this.enable = true })
       : _feedbackController = TextEditingController(text: value), super(key: key);
 
   final Question question;
   final Function(String) textChanged;
-
+  final bool enable;
   final TextEditingController _feedbackController;
 
   @override
@@ -31,6 +31,7 @@ class SurveyTextQuestion extends StatelessWidget {
             child: EditTextField(
               title: '',
               hint: '',
+              enabled: enable,
               hasLabel: false,
               controller: _feedbackController,
               onTextChanged: textChanged,

@@ -33,6 +33,7 @@ class ConferenceFeesBloc extends Bloc<ConferenceFeesEvent, ConferenceFeesState> 
   Stream<ConferenceFeesState> mapEventToState(ConferenceFeesEvent event) async* {
     if (event is LoadConferenceFeesByConferenceIdEvent) {
       String registrationCode = '';
+      String surveyResultId = '';
       try {
         final bool premiumMembership = await authService.isPremiumMembership();
         final bool hasToken = await authService.hasToken();
@@ -47,10 +48,11 @@ class ConferenceFeesBloc extends Bloc<ConferenceFeesEvent, ConferenceFeesState> 
           final UserConference userConference = await userService.getSpecificRegisteredConference(event.conferenceId);
           if (userConference != null) {
             registrationCode = userConference.registrationCode;
+            surveyResultId = userConference.surveyResultId != null ? userConference.surveyResultId : '';
           }
         }
         yield LoadedConferenceFees(conferenceFees, selectedConferenceFees,
-            allowRegistration: allowRegistration, registeredConference: registeredConference, hasToken: hasToken, registrationCode: registrationCode);
+            allowRegistration: allowRegistration, registeredConference: registeredConference, hasToken: hasToken, registrationCode: registrationCode, surveyResultId: surveyResultId);
       } catch (error) {
         yield ConferenceFeesFailure(error: ErrorHandler.extractErrorMessage(error));
       }

@@ -1,10 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/widgets.dart';
-import 'package:hosrem_app/api/conference/conference_fee.dart';
-import 'package:hosrem_app/api/conference/conference_fees.dart';
 import 'package:hosrem_app/api/conference/user_conference.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
 import 'package:hosrem_app/common/error_handler.dart';

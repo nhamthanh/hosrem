@@ -67,7 +67,14 @@ class _SurveyIntroductionState extends BaseState<SurveyIntroduction> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Khảo sát'),
-        automaticallyImplyLeading: false
+        automaticallyImplyLeading: false,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.clear),
+            color: Colors.white,
+            onPressed: () => Navigator.pop(context)
+          )
+        ]
       ),
       body: Container(
         color: Colors.white,

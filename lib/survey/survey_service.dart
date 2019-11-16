@@ -25,4 +25,10 @@ class SurveyService {
         values.keys.map((Question question) => QuestionResult(values[question], question)).toList();
     await apiProvider.surveyApi.submitSurveyResult(SurveyResult(questionResults, conferenceId, userId));
   }
+
+  /// Get survey result by survey result id [id].
+  Future<List<QuestionResult>> getSurveyResult(String id) async {
+    final SurveyResult surveyResult = await apiProvider.surveyApi.getSurveyResult(id);
+    return surveyResult.answers;
+  }
 }

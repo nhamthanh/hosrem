@@ -14,6 +14,7 @@ import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/conference/conference_info.dart';
 import 'package:hosrem_app/conference/registration/conference_registration.dart';
 import 'package:hosrem_app/profile/user_service.dart';
+import 'package:hosrem_app/survey/survey.dart';
 import 'package:hosrem_app/survey/survey_introduction.dart';
 import 'package:hosrem_app/widget/button/primary_button.dart';
 import 'package:hosrem_app/widget/svg/svg_icon.dart';
@@ -209,12 +210,12 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
             const SizedBox(height: 8.0),
             state.hasToken ? InkWell(
               child: Text(
-                'Đánh giá',
+                state.surveyResultId.isEmpty ? AppLocalizations.of(context).tr('survey.survey') : AppLocalizations.of(context).tr('survey.view_survey'),
                 textAlign: TextAlign.center,
                 style: TextStyles.textStyle11SecondaryGrey
               ),
-              onTap: () => _navigateToSurvey(widget.conference.id)
-            ) : Container()
+              onTap: () => state.surveyResultId.isEmpty ? _navigateToSurvey(widget.conference.id) : _navigateToViewSurvey(widget.conference.id, state.surveyResultId),
+            ) : Container(),
           ],
         )
       );
@@ -242,6 +243,12 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
   Future<void> _navigateToSurvey(String conferenceId) async {
     await pushWidgetWithTransition(
       SurveyIntroduction(conferenceId),
+      PageTransitionType.downToUp
+    );
+  }
+
+  Future<void> _navigateToViewSurvey(String conferenceId, String surveyResultId) async {
+    await pushWidgetWithTransition(Survey(conferenceId, surveyResultId: surveyResultId),
       PageTransitionType.downToUp
     );
   }
