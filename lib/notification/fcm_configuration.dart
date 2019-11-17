@@ -50,7 +50,7 @@ class FcmConfiguration {
     _logger.info('onMessage: $message');
     try {
       Map<String, dynamic> data;
-      if (message['data'].runtimeType == 'String') {
+      if (message['data'] is String) {
         data = json.decode(message['data']);
       } else {
         data = json.decode(message['data']['data']);
@@ -64,7 +64,7 @@ class FcmConfiguration {
         return;
       }
 
-      if (notificationType == 'ConferenceUpdated') {
+      if (notificationType == 'ConferenceUpdated' || notificationType == 'ConferencePublished') {
         final String conferenceId = data['conferenceId'];
         if (conferenceId != null) {
           final String title = data['title'] ?? 'Thông Báo';
@@ -85,7 +85,10 @@ class FcmConfiguration {
                     child: const Text('XEM CHI TIẾT'),
                     onPressed: () {
                       Navigator.pop(_context);
-                      _navigateToConferenceDetail(conferenceId, selectedIndex: 1);
+                      _navigateToConferenceDetail(
+                        conferenceId,
+                        selectedIndex: notificationType == 'ConferencePublished' ? 0 : 1
+                      );
                     }
                   )
                 ],
