@@ -260,7 +260,7 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
 
   Future<void> _handleProcessPayment() async {
     if (_selectedPayment == PaymentMethods.momo) {
-      await _momoPayment.requestPayment(widget.membership.fee, 'Đăng ký hội viên HOSREM');
+      _payViaMomo();
     } else if (_selectedPayment == PaymentMethods.creditCards) {
       _payViaCreditCardsUsingOnePay();
     } else {
@@ -268,7 +268,19 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
     }
   }
 
+  Future<void> _payViaMomo() async {
+    if (!_validateSelectedPaymentType('Momo', PaymentMethods.momo)) {
+      return;
+    }
+
+    await _momoPayment.requestPayment(widget.membership.fee, 'Đăng ký hội viên HOSREM');
+  }
+
   void _payViaCreditCardsUsingOnePay() {
+    if (!_validateSelectedPaymentType('OnePay', PaymentMethods.onepay)) {
+      return;
+    }
+
     _membershipPaymentBloc.dispatch(ProcessCreditCardPaymentEvent(
       membership: widget.membership,
       detail: <String, dynamic>{
@@ -280,7 +292,26 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
     ));
   }
 
+  bool _validateSelectedPaymentType(String selectedPaymentName, String selectedPaymentMethod) {
+    final PaymentType paymentType = _paymentTypes.firstWhere((PaymentType paymentType) => paymentType.type == selectedPaymentMethod,
+      orElse: () => null);
+
+    if (paymentType == null) {
+      showAlert(
+        context: context,
+        body: 'Hiện tại $selectedPaymentName chưa được hỗ trợ. Vui lòng chọn hình thức khác.'
+      );
+      return false;
+    }
+
+    return true;
+  }
+
   void _payViaAtmsUsingOnePay() {
+    if (!_validateSelectedPaymentType('OnePay', PaymentMethods.onepay)) {
+      return;
+    }
+
     _membershipPaymentBloc.dispatch(ProcessAtmPaymentEvent(
       membership: widget.membership,
       detail: <String, dynamic>{
@@ -295,7 +326,7 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
   void _showPaymentFailDialog(dynamic e) {
     showAlert(
       context: context,
-      body: 'Thanh toán không thành công. Vui lòng lòng thử lại.',
+      body: 'Thanh toán không thành công. Vui lòng thử lại.',
       actions: <AlertAction>[
         AlertAction(text: 'OK', onPressed: () {
           Navigator.pop(context);
