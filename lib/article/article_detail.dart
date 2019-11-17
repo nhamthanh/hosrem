@@ -113,7 +113,8 @@ class _ArticleDetailState extends BaseState<ArticleDetail> {
                       borderRadius: BorderRadius.circular(10.0),
                       color: const Color.fromRGBO(52, 169, 255, 0.1),
                       image: DecorationImage(
-                        image: imageProvider, fit: BoxFit.cover
+                        image: imageProvider,
+                        fit: BoxFit.contain
                       ),
                     )
                   ),
@@ -153,7 +154,7 @@ class _ArticleDetailState extends BaseState<ArticleDetail> {
               ) : Container(),
               const SizedBox(height: 16.0),
               state.relativeArticles.isNotEmpty ? Column(
-                children: state.relativeArticles.map((Article article) => 
+                children: state.relativeArticles.map((Article article) =>
                   Column(children: <Widget>[
                     InkWell(
                         child: Row(children: <Widget>[
@@ -177,7 +178,7 @@ class _ArticleDetailState extends BaseState<ArticleDetail> {
                         onTap: () => _navigateToArticleDetail(article)
                       ),
                       const SizedBox(height: 15.0),
-                  ],)  
+                  ],)
                 ).toList(),
               ) : Container(),
             ],

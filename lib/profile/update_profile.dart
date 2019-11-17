@@ -277,6 +277,7 @@ class _UpdateProfileState extends BaseState<UpdateProfile> {
                 error: _validEmail ? null : AppLocalizations.of(context).tr('registration.email_is_required'),
                 onTextChanged: (String value) => setState(() => _validEmail = value.isNotEmpty),
                 controller: _emailController,
+                enabled: false
               )
             ),
           ],

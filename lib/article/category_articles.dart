@@ -84,20 +84,13 @@ class _CategoryArticlesState extends BaseState<CategoryArticles> {
     }
 
     if (state is ArticlesFailure) {
-      return Center(
-        child: Text(AppLocalizations.of(context).tr('articles.no_article_found'), style: TextStyles.textStyle16PrimaryBlack)
-      );
+      return _buildNotFoundWidget();
     }
 
     return LoadingIndicator();
   }
 
   Widget _buildRefreshWidget(List<Article> articles) {
-    if (articles.isEmpty) {
-      return Center(
-        child: Text(AppLocalizations.of(context).tr('articles.no_article_found'), style: TextStyles.textStyle16PrimaryBlack)
-      );
-    }
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: Column(
@@ -115,7 +108,7 @@ class _CategoryArticlesState extends BaseState<CategoryArticles> {
             )
           ),
           Expanded(
-            child: RefreshWidget(
+            child: articles.isEmpty ? _buildNotFoundWidget() : RefreshWidget(
               child: ListView.builder(
                 itemCount: articles.length,
                 itemBuilder: (BuildContext context, int index) {
@@ -133,6 +126,12 @@ class _CategoryArticlesState extends BaseState<CategoryArticles> {
           )
         ],
       )
+    );
+  }
+
+  Widget _buildNotFoundWidget() {
+    return Center(
+      child: Text(AppLocalizations.of(context).tr('articles.no_article_found'), style: TextStyles.textStyle16PrimaryBlack)
     );
   }
 
