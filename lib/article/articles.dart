@@ -1,4 +1,5 @@
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
+import 'package:easy_localization/easy_localization_delegate.dart';
 import 'package:flutter/material.dart';
 import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/text_styles.dart';
@@ -19,18 +20,12 @@ class Articles extends StatefulWidget {
 
 class _ArticlesState extends State<Articles> with SingleTickerProviderStateMixin {
 
-  List<Widget> tabs;
-
   TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-    tabs = <Widget>[
-      Container(child: const Tab(text: 'Tin Cộng Đồng'), width: 120.0),
-      Container(child: const Tab(text: 'Tin Chuyên Ngành'), width: 120.0),
-    ];
-    _tabController = TabController(vsync: this, length: tabs.length);
+    _tabController = TabController(vsync: this, length: 2);
   }
 
   @override
@@ -56,7 +51,10 @@ class _ArticlesState extends State<Articles> with SingleTickerProviderStateMixin
             indicatorRadius: 20.0,
             tabBarIndicatorSize: TabBarIndicatorSize.tab,
           ),
-          tabs: tabs,
+          tabs: <Widget>[
+            Container(child: Tab(text: AppLocalizations.of(context).tr('articles.common_news')), width: 120.0),
+            Container(child: Tab(text: AppLocalizations.of(context).tr('articles.major_news')), width: 139.0),
+          ],
           controller: _tabController,
         ),
         backgroundColor: AppColors.backgroundConferenceColor,
@@ -70,9 +68,9 @@ class _ArticlesState extends State<Articles> with SingleTickerProviderStateMixin
             controller: _tabController,
             children: const <Widget>[
               GroupArticles(categories: <String>[
-                'Tin cộng đồng',
+                'Tin quốc tế',
                 'Tin trong nước',
-                'Tin quốc tế']
+                'Tin cộng đồng']
               ),
               GroupArticles(categories: <String>[
                 'Sản khoa & nhi sơ sinh',
