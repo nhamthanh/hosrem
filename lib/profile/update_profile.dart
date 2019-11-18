@@ -54,7 +54,6 @@ class _UpdateProfileState extends BaseState<UpdateProfile> {
   int _index = 0;
   bool inited = false;
   bool _validFullName = true;
-  bool _validEmail = true;
   User _user;
   @override
   void initState() {
@@ -89,12 +88,12 @@ class _UpdateProfileState extends BaseState<UpdateProfile> {
             if (state is ProfileDataUpdate) {
               _user = state.user;
               if (!inited) {
-                _emailController.text = state.user.email;
                 _fullNameController.text = state.user.fullName;
                 _addressController.text = state.user.address;
                 _workingPlaceController.text = state.user.company;
                 _positionController.text = state.user.position;
                 _departmentController.text = state.user.department;
+                _emailController.text = state.user.email;
               }
               _birthdayController.text = _user.dob != null ? DateTimeUtils.formatAsStandard(_user.dob) : '';
               if (state.degrees != null && state.degrees.isNotEmpty && _degreeItems.isEmpty) {
@@ -274,8 +273,7 @@ class _UpdateProfileState extends BaseState<UpdateProfile> {
               child: EditTextField(
                 title: AppLocalizations.of(context).tr('registration.email'),
                 hint: AppLocalizations.of(context).tr('registration.email_hint'),
-                error: _validEmail ? null : AppLocalizations.of(context).tr('registration.email_is_required'),
-                onTextChanged: (String value) => setState(() => _validEmail = value.isNotEmpty),
+                enable: false,
                 controller: _emailController,
                 enabled: false
               )
@@ -440,9 +438,6 @@ class _UpdateProfileState extends BaseState<UpdateProfile> {
       if (_fullNameController.text.isEmpty) {
         return false;
       }
-      if (_emailController.text.isEmpty) {
-        return false;
-      }
     }
     return true;
   }
@@ -469,7 +464,6 @@ class _UpdateProfileState extends BaseState<UpdateProfile> {
 
   void _onSaveButtonPressed() {
     if (_validateRegisterForm()) {
-      final String email = _emailController.text;
       final String fullName = _fullNameController.text;
       final DateTime birthday = _birthdayController.text.isNotEmpty ? DateTimeUtils.parseDate(_birthdayController.text) : null;
       final String address = _addressController.text;
@@ -489,7 +483,6 @@ class _UpdateProfileState extends BaseState<UpdateProfile> {
         }
       }
       final User user = _user.copyWith(
-        email: email,
         fullName: fullName,
         dob: birthday,
         address: address,

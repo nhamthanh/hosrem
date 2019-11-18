@@ -197,7 +197,7 @@ class _ArticleDetailState extends BaseState<ArticleDetail> {
   }
 
   void _navigateToArticleDetail(Article article) {
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute<bool>(
         builder: (BuildContext context) => ArticleDetail(article.id,
