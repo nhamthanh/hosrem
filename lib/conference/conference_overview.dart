@@ -111,7 +111,7 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
                                             Expanded(
                                               child: Text(
                                                 conference.location,
-                                                maxLines: 2,
+                                                maxLines: 3,
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TextStyles.textStyle14SecondaryGrey
                                               )

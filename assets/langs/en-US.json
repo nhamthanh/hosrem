@@ -160,7 +160,11 @@
   },
   "articles": {
     "no_article_found": "Không tìm thấy bản tin",
-    "hot_news": "Tin nổi bật",
-    "related_news": "Tin liên quan"
+    "hot_news": "Tin mới",
+    "related_news": "Tin liên quan",
+    "common_news": "Tin Cộng đồng",
+    "major_news": "Tin Chuyên Nghành",
+    "international news": "Tin quốc tế",
+    "nation news": "Tin trong nước"
   }
 }

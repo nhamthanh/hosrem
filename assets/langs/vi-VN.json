@@ -157,6 +157,10 @@
   "articles": {
     "no_article_found": "No news found",
     "hot_news": "Featured News",
-    "related_news": "Related news"
+    "related_news": "Related news",
+    "common_news": "Common News",
+    "major_news": "Major News",
+    "international news": "International news",
+    "nation news": "Nation news"
   }
 }

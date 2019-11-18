@@ -19,7 +19,6 @@ import 'package:hosrem_app/profile/field_service.dart';
 import 'package:hosrem_app/widget/button/primary_button.dart';
 import 'package:hosrem_app/widget/dialog/multi_select_dialog.dart';
 import 'package:hosrem_app/widget/dialog/multi_select_dialog_item.dart';
-import 'package:hosrem_app/widget/svg/svg_icon.dart';
 import 'package:hosrem_app/widget/text/edit_text_field.dart';
 import 'package:hosrem_app/widget/text/static_multiple_text_field.dart';
 import 'package:hosrem_app/widget/text/static_text_field.dart';
