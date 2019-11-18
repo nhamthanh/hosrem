@@ -5,13 +5,10 @@ class PaymentMethods {
   /// Momo wallet.
   static const String momo = 'MOMO';
 
-  /// ATM Cards.
-  static const String atm = 'ATM';
+  /// OnePay ATM Cards.
+  static const String onepayAtm = 'ONEPAY-ATM';
 
-  /// Credit cards.
-  static const String creditCards = 'CREDIT_CARDS';
-
-  /// OnePay.
-  static const String onepay = 'ONEPAY';
+  /// OnePay credit cards.
+  static const String onepayCreditCards = 'ONEPAY';
 }
 

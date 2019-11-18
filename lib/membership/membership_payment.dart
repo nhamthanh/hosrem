@@ -144,14 +144,14 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
                                   Row(
                                     children: <Widget>[
                                       Radio<String>(
-                                        value: PaymentMethods.atm,
+                                        value: PaymentMethods.onepayAtm,
                                         groupValue: _selectedPayment,
                                         onChanged: _handleOptionChanged,
                                       ),
                                       Expanded(
                                         child: InkWell(
                                           child: const Text('ATM Card', style: TextStyles.textStyle16PrimaryBlack),
-                                          onTap: () => _handleOptionChanged(PaymentMethods.atm)
+                                          onTap: () => _handleOptionChanged(PaymentMethods.onepayAtm)
                                         )
 
                                       ),
@@ -165,14 +165,14 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
                                   Row(
                                     children: <Widget>[
                                       Radio<String>(
-                                        value: PaymentMethods.creditCards,
+                                        value: PaymentMethods.onepayCreditCards,
                                         groupValue: _selectedPayment,
                                         onChanged: _handleOptionChanged,
                                       ),
                                       Expanded(
                                         child: InkWell(
                                           child: const Text('Thẻ quốc tế (Visa, Master)', style: TextStyles.textStyle16PrimaryBlack),
-                                          onTap: () => _handleOptionChanged(PaymentMethods.creditCards)
+                                          onTap: () => _handleOptionChanged(PaymentMethods.onepayCreditCards)
                                         )
                                       ),
                                       Image.asset(AppAssets.visaIcon, width: 55.0, height: 17.0),
@@ -260,8 +260,8 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
 
   Future<void> _handleProcessPayment() async {
     if (_selectedPayment == PaymentMethods.momo) {
-      _payViaMomo();
-    } else if (_selectedPayment == PaymentMethods.creditCards) {
+      await _payViaMomo();
+    } else if (_selectedPayment == PaymentMethods.onepayCreditCards) {
       _payViaCreditCardsUsingOnePay();
     } else {
       _payViaAtmsUsingOnePay();
@@ -277,7 +277,7 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
   }
 
   void _payViaCreditCardsUsingOnePay() {
-    if (!_validateSelectedPaymentType('OnePay', PaymentMethods.onepay)) {
+    if (!_validateSelectedPaymentType('OnePay', PaymentMethods.onepayCreditCards)) {
       return;
     }
 
@@ -287,7 +287,7 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
         'amount': widget.membership.fee,
         'type': 'external'
       },
-      paymentType: _paymentTypes.firstWhere((PaymentType paymentType) => paymentType.type == PaymentMethods.onepay,
+      paymentType: _paymentTypes.firstWhere((PaymentType paymentType) => paymentType.type == PaymentMethods.onepayCreditCards,
         orElse: () => PaymentType.fromJson(<String, dynamic>{}))
     ));
   }
@@ -308,7 +308,7 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
   }
 
   void _payViaAtmsUsingOnePay() {
-    if (!_validateSelectedPaymentType('OnePay', PaymentMethods.onepay)) {
+    if (!_validateSelectedPaymentType('OnePay', PaymentMethods.onepayAtm)) {
       return;
     }
 
@@ -318,7 +318,7 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
         'amount': widget.membership.fee,
         'type': 'internal'
       },
-      paymentType: _paymentTypes.firstWhere((PaymentType paymentType) => paymentType.type == PaymentMethods.onepay,
+      paymentType: _paymentTypes.firstWhere((PaymentType paymentType) => paymentType.type == PaymentMethods.onepayAtm,
         orElse: () => PaymentType.fromJson(<String, dynamic>{}))
     ));
   }
