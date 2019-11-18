@@ -159,14 +159,14 @@ class _ConferencePaymentState extends BaseState<ConferencePayment> {
                                 Row(
                                   children: <Widget>[
                                     Radio<String>(
-                                      value: PaymentMethods.atm,
+                                      value: PaymentMethods.onepayAtm,
                                       groupValue: _selectedPaymentMethod,
                                       onChanged: _handleOptionChanged,
                                     ),
                                     Expanded(
                                       child: InkWell(
                                         child: const Text('ATM Card', style: TextStyles.textStyle16PrimaryBlack),
-                                        onTap: () => _handleOptionChanged(PaymentMethods.atm)
+                                        onTap: () => _handleOptionChanged(PaymentMethods.onepayAtm)
                                       )
 
                                     ),
@@ -180,14 +180,14 @@ class _ConferencePaymentState extends BaseState<ConferencePayment> {
                                 Row(
                                   children: <Widget>[
                                     Radio<String>(
-                                      value: PaymentMethods.creditCards,
+                                      value: PaymentMethods.onepayCreditCards,
                                       groupValue: _selectedPaymentMethod,
                                       onChanged: _handleOptionChanged,
                                     ),
                                     Expanded(
                                       child: InkWell(
                                         child: const Text('Thẻ quốc tế (Visa, Master)', style: TextStyles.textStyle16PrimaryBlack),
-                                        onTap: () => _handleOptionChanged(PaymentMethods.creditCards)
+                                        onTap: () => _handleOptionChanged(PaymentMethods.onepayCreditCards)
                                       )
                                     ),
                                     Image.asset(AppAssets.visaIcon, width: 55.0, height: 17.0),
@@ -296,7 +296,7 @@ class _ConferencePaymentState extends BaseState<ConferencePayment> {
   Future<void> _handleProcessPayment() async {
     if (_selectedPaymentMethod == PaymentMethods.momo) {
       await _momoPayment.requestPayment(widget.conferenceFee.fee, 'Đăng ký tham gia hội nghị');
-    } else if (_selectedPaymentMethod == PaymentMethods.creditCards) {
+    } else if (_selectedPaymentMethod == PaymentMethods.onepayCreditCards) {
       _payViaCreditCardsUsingOnePay();
     } else {
       _payViaAtmsUsingOnePay();
@@ -304,7 +304,7 @@ class _ConferencePaymentState extends BaseState<ConferencePayment> {
   }
 
   void _payViaCreditCardsUsingOnePay() {
-    final PaymentType paymentType = _paymentTypes.firstWhere((PaymentType paymentType) => paymentType.type == PaymentMethods.onepay,
+    final PaymentType paymentType = _paymentTypes.firstWhere((PaymentType paymentType) => paymentType.type == PaymentMethods.onepayCreditCards,
       orElse: () => PaymentType.fromJson(<String, dynamic>{}));
     _conferencePaymentBloc.dispatch(ProcessCreditCardPaymentEvent(
       <String, dynamic>{
@@ -320,7 +320,7 @@ class _ConferencePaymentState extends BaseState<ConferencePayment> {
   }
 
   void _payViaAtmsUsingOnePay() {
-    final PaymentType paymentType = _paymentTypes.firstWhere((PaymentType paymentType) => paymentType.type == PaymentMethods.onepay,
+    final PaymentType paymentType = _paymentTypes.firstWhere((PaymentType paymentType) => paymentType.type == PaymentMethods.onepayAtm,
       orElse: () => PaymentType.fromJson(<String, dynamic>{}));
     _conferencePaymentBloc.dispatch(ProcessAtmPaymentEvent(
       <String, dynamic>{
