@@ -6,6 +6,7 @@ import 'package:hosrem_app/api/auth/degree.dart';
 import 'package:hosrem_app/api/auth/field.dart';
 import 'package:hosrem_app/api/auth/user.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
+import 'package:hosrem_app/common/app_assets.dart';
 import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/common/date_time_utils.dart';
@@ -18,6 +19,7 @@ import 'package:hosrem_app/profile/field_service.dart';
 import 'package:hosrem_app/widget/button/primary_button.dart';
 import 'package:hosrem_app/widget/dialog/multi_select_dialog.dart';
 import 'package:hosrem_app/widget/dialog/multi_select_dialog_item.dart';
+import 'package:hosrem_app/widget/svg/svg_icon.dart';
 import 'package:hosrem_app/widget/text/edit_text_field.dart';
 import 'package:hosrem_app/widget/text/static_multiple_text_field.dart';
 import 'package:hosrem_app/widget/text/static_text_field.dart';
@@ -273,7 +275,6 @@ class _UpdateProfileState extends BaseState<UpdateProfile> {
               child: EditTextField(
                 title: AppLocalizations.of(context).tr('registration.email'),
                 hint: AppLocalizations.of(context).tr('registration.email_hint'),
-                enable: false,
                 controller: _emailController,
                 enabled: false
               )
@@ -339,6 +340,11 @@ class _UpdateProfileState extends BaseState<UpdateProfile> {
             child: EditTextField(
               title: AppLocalizations.of(context).tr('registration.degree'),
               hint: AppLocalizations.of(context).tr('registration.degree_hint'),
+              suffixIcon: Icon(
+                Icons.keyboard_arrow_down,
+                color: AppColors.secondaryGreyColor,
+                size: 24.0
+              ),
               controller: _degreeController,
             )
           ),
@@ -354,6 +360,11 @@ class _UpdateProfileState extends BaseState<UpdateProfile> {
             child: EditTextField(
               title: AppLocalizations.of(context).tr('registration.field'),
               hint: AppLocalizations.of(context).tr('registration.field_hint'),
+              suffixIcon: Icon(
+                Icons.keyboard_arrow_down,
+                color: AppColors.secondaryGreyColor,
+                size: 24.0
+              ),
               controller: _fieldController,
             )
           ),
