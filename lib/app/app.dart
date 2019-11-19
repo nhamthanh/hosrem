@@ -63,7 +63,6 @@ class _AppState extends State<App> {
         builder: (BuildContext context, AppState state) {
           // ignore: always_specify_types
           final data = EasyLocalizationProvider.of(context).data;
-          data.changeLocale(const Locale('en', 'US'));
           return EasyLocalizationProvider(
             data: data,
             child: MaterialApp(
@@ -78,7 +77,7 @@ class _AppState extends State<App> {
                   path: AppAssets.languagesFolder
                 )
               ],
-              supportedLocales: const <Locale>[Locale('en', 'US'), Locale('vi', 'VN')],
+              supportedLocales: const <Locale>[Locale('vi', 'VN')],
               home: AuthProvider(
                 apiProvider: _appBloc.appContext.apiProvider,
                 handleUnauthorized: _handleUnauthorized,
