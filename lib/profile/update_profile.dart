@@ -6,7 +6,6 @@ import 'package:hosrem_app/api/auth/degree.dart';
 import 'package:hosrem_app/api/auth/field.dart';
 import 'package:hosrem_app/api/auth/user.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
-import 'package:hosrem_app/common/app_assets.dart';
 import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/common/date_time_utils.dart';
@@ -180,7 +179,6 @@ class _UpdateProfileState extends BaseState<UpdateProfile> {
                           children: <Widget>[
                           const Divider(),
                           Container(
-                            color: AppColors.backgroundConferenceColor,
                             padding: const EdgeInsets.fromLTRB(27.0, 20.0, 27.0, 12.0),
                             child: Column(children: <Widget>[
                               Row(

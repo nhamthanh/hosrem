@@ -1,13 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hosrem_app/common/text_styles.dart';
+import 'package:hosrem_app/widget/button/primary_button.dart';
 import 'package:hosrem_app/widget/text/edit_text_field.dart';
 
 /// Registration form.
 @immutable
 class RegistrationForm extends StatefulWidget {
   const RegistrationForm(this.fullNameController, this.emailController, this.phoneController, this.passwordController,
-    this.onChecked, {
+    this.handleRegisterClick, this.onChecked, {
       this.validEmail = true,
       this.validFullName = true,
       this.validPhone = true,
@@ -20,6 +21,7 @@ class RegistrationForm extends StatefulWidget {
   final TextEditingController emailController;
   final TextEditingController phoneController;
   final TextEditingController passwordController;
+  final VoidCallback handleRegisterClick;
   final Function(bool) onChecked;
 
   final bool validFullName;
@@ -128,10 +130,23 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       widget.onChecked(_checked);
                     }
                   )
-                )
+                ),
               ],
             )
-          )
+          ),
+          const SizedBox(height: 28.5),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: Container(
+                  child: PrimaryButton(
+                    text: AppLocalizations.of(context).tr('registration.register'),
+                    onPressed: widget.handleRegisterClick,
+                  )
+                ),
+              )
+            ]
+          ),
         ],
       )
     );
