@@ -1,5 +1,7 @@
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
+import 'package:easy_localization/easy_localization_delegate.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:hosrem_app/api/conference/conference_fees.dart';
 import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/base_state.dart';
@@ -20,19 +22,31 @@ class ConferenceRegistrationFees extends StatefulWidget {
 
 class _ConferenceRegistrationFeesState extends BaseState<ConferenceRegistrationFees>
     with SingleTickerProviderStateMixin {
-  final List<Widget> tabs = <Widget>[
-    Container(child: const Tab(text: 'Hội Viên HOSREM'), width: 140.0),
-    Container(child: const Tab(text: 'Đối Tượng Khác'), width: 140.0)
-  ];
-
+  final GlobalKey key = GlobalKey();
   TabController _tabController;
+  double maxHeight = 20.0;
 
   @override
   void initState() {
     super.initState();
 
-    _tabController = TabController(vsync: this, length: tabs.length);
+    _tabController = TabController(vsync: this, length: 2);
+    //Calculate height of fees area
+    WidgetsBinding.instance.addPostFrameCallback((_) => getHeight());
   }
+
+  void getHeight() {
+    final State state = key.currentState;
+    final RenderFlex box = state.context.findRenderObject();
+    final List<RenderBox> child = box.getChildrenAsList();
+    for (int i = 0; i < child.length; i++) {
+      maxHeight += child[i].size.height;
+    }
+    setState(() {
+      maxHeight = maxHeight;
+    });
+  }
+
 
   @override
   void dispose() {
@@ -60,16 +74,20 @@ class _ConferenceRegistrationFeesState extends BaseState<ConferenceRegistrationF
               indicatorRadius: 20.0,
               tabBarIndicatorSize: TabBarIndicatorSize.tab,
             ),
-            tabs: tabs,
+            tabs: <Widget>[
+              Container(child: Tab(text: AppLocalizations.of(context).tr('conferences.hosrem_member')), width: 140.0),
+              Container(child: Tab(text: AppLocalizations.of(context).tr('conferences.other_member')), width: 140.0)
+            ],
             controller: _tabController
           ),
           const SizedBox(height: 5.0),
           Container(
-            height: 500.0,
+            height: maxHeight,
             child: TabBarView(
               controller: _tabController,
               children: <Widget>[
                 ConferenceRegistrationFeeWidget(
+                  key: key,
                   title: 'Phí tham gia đối với hội viên HOSREM',
                   conferenceFees: widget.conferenceFees.memberFees),
                 ConferenceRegistrationFeeWidget(
@@ -79,7 +97,6 @@ class _ConferenceRegistrationFeesState extends BaseState<ConferenceRegistrationF
               ]
             )
           )
-
         ]
       )
     );
