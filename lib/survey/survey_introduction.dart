@@ -26,19 +26,21 @@ class SurveyIntroduction extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Expanded(
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 28.0),
-                child: Column(
-                  children: <Widget>[
-                    const SizedBox(height: 100.0),
-                    Image.asset(AppAssets.surveyImage),
-                    const SizedBox(height: 52.0),
-                    Text(
-                      'Please take a few minutes to fill out a short survey :)',
-                      textAlign: TextAlign.center,
-                      style: TextStyles.textStyle20PrimaryBlack
-                    )
-                  ],
+              child: SingleChildScrollView(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 28.0),
+                  child: Column(
+                    children: <Widget>[
+                      const SizedBox(height: 100.0),
+                      Image.asset(AppAssets.surveyImage),
+                      const SizedBox(height: 52.0),
+                      Text(
+                        'Rất mong bạn có thể dành ít phút để nhận xét về hội nghị :)',
+                        textAlign: TextAlign.center,
+                        style: TextStyles.textStyle20PrimaryBlack
+                      )
+                    ],
+                  )
                 )
               )
             ),
@@ -64,6 +66,6 @@ class SurveyIntroduction extends StatelessWidget {
   }
 
   Future<void> _navigateToSurveySection(BuildContext context) async {
-    await Navigator.push(context, MaterialPageRoute<bool>(builder: (BuildContext context) => Survey(id)));
+    await Navigator.pushReplacement(context, MaterialPageRoute<bool>(builder: (BuildContext context) => Survey(id, key: const Key('survey'))));
   }
 }

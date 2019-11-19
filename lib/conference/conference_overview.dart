@@ -95,7 +95,7 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
                                       children: <Widget>[
                                         Text(
                                           conference.title ?? '',
-                                          maxLines: 2,
+                                          maxLines: 5,
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyles.textStyle18PrimaryBlack
                                         ),

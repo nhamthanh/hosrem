@@ -6,9 +6,9 @@ class PaymentMethods {
   static const String momo = 'MOMO';
 
   /// OnePay ATM Cards.
-  static const String onepayAtm = 'ONEPAY-ATM';
+  static const String onepayAtm = 'ONEPAY';
 
   /// OnePay credit cards.
-  static const String onepayCreditCards = 'ONEPAY';
+  static const String onepayCreditCards = 'ONEPAY-CREDIT';
 }
 
