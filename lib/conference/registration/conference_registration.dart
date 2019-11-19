@@ -125,7 +125,7 @@ class _ConferenceRegistrationState extends BaseState<ConferenceRegistration> {
                             children: <Widget>[
                               Expanded(
                                 child: Text(
-                                  'Hoi Nghi Khoa Hoc Thuong Nien',
+                                  widget.conference.title,
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyles.textStyle20PrimaryBlack),
