@@ -1,20 +1,69 @@
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hosrem_app/app/app_routes.dart';
+import 'package:hosrem_app/auth/auth_service.dart';
 import 'package:hosrem_app/common/app_assets.dart';
 import 'package:hosrem_app/common/app_colors.dart';
+import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/common/text_styles.dart';
+import 'package:hosrem_app/profile/user_service.dart';
+import 'package:hosrem_app/survey/bloc/survey_introduction_bloc.dart';
+import 'package:hosrem_app/survey/bloc/survey_introduction_event.dart';
+import 'package:hosrem_app/survey/bloc/survey_introduction_state.dart';
 import 'package:hosrem_app/widget/button/primary_button.dart';
+import 'package:loading_overlay/loading_overlay.dart';
 
 import 'survey.dart';
 
 /// Survey introduction page.
-class SurveyIntroduction extends StatelessWidget {
+class SurveyIntroduction extends StatefulWidget {
   const SurveyIntroduction(this.id, { Key key }) : super(key: key);
 
   final String id;
 
   @override
+  _SurveyIntroductionState createState() => _SurveyIntroductionState();
+}
+
+class _SurveyIntroductionState extends BaseState<SurveyIntroduction> {
+
+  SurveyIntroductionBloc _surveyIntroductionBloc;
+  AuthService _authService;
+  @override
+  void initState() {
+    super.initState();
+    _authService = AuthService(apiProvider);
+    _surveyIntroductionBloc = SurveyIntroductionBloc(authService: _authService, userService: UserService(apiProvider, _authService));
+    _surveyIntroductionBloc.dispatch(LoadSurveyIntroduction(widget.id));
+  }
+
+
+  @override
   Widget build(BuildContext context) {
+    return BlocProvider<SurveyIntroductionBloc>(
+      builder: (BuildContext context) => _surveyIntroductionBloc,
+      child: BlocListener<SurveyIntroductionBloc, SurveyIntroductionState>(
+        listener: (BuildContext context, SurveyIntroductionState state) async {
+          if (state is UnauthorizeSurveyIntroduction) {
+            await router.navigateTo(context, AppRoutes.homeRoute, clearStack: true, transition: TransitionType.fadeIn);
+          }
+        },
+        child: BlocBuilder<SurveyIntroductionBloc, SurveyIntroductionState>(
+          bloc: _surveyIntroductionBloc,
+          builder: (BuildContext context, SurveyIntroductionState state) {
+            return LoadingOverlay(
+              isLoading: state is SurveyIntroductionLoading,
+              child: state is LoadedSurveyIntroduction ? buildContent(context, state) : Container(),
+            );
+          }
+        )
+      )
+    );
+  }
+
+  Scaffold buildContent(BuildContext context, LoadedSurveyIntroduction state) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Khảo sát'),
@@ -34,7 +83,12 @@ class SurveyIntroduction extends StatelessWidget {
                       const SizedBox(height: 100.0),
                       Image.asset(AppAssets.surveyImage),
                       const SizedBox(height: 52.0),
-                      Text(
+                      state.surveyResult ? const Text(
+                        'Cảm ơn bạn đã tham gia khảo sát :)',
+                        textAlign: TextAlign.center,
+                        style: TextStyles.textStyle20PrimaryBlack
+                      ) :
+                      const Text(
                         'Rất mong bạn có thể dành ít phút để nhận xét về hội nghị :)',
                         textAlign: TextAlign.center,
                         style: TextStyles.textStyle20PrimaryBlack
@@ -54,7 +108,11 @@ class SurveyIntroduction extends StatelessWidget {
                 color: Colors.white,
               ),
               padding: const EdgeInsets.only(left: 25.0, top: 28.5, bottom: 28.5, right: 25.0),
-              child: PrimaryButton(
+              
+              child: state.surveyResult ? PrimaryButton(
+                text: 'Quay về',
+                onPressed: () => router.navigateTo(context, AppRoutes.homeRoute, clearStack: true, transition: TransitionType.fadeIn),
+              ) : PrimaryButton(
                 text: 'Bắt Đầu',
                 onPressed: () => _navigateToSurveySection(context),
               )
@@ -66,6 +124,6 @@ class SurveyIntroduction extends StatelessWidget {
   }
 
   Future<void> _navigateToSurveySection(BuildContext context) async {
-    await Navigator.pushReplacement(context, MaterialPageRoute<bool>(builder: (BuildContext context) => Survey(id, key: const Key('survey'))));
+    await Navigator.pushReplacement(context, MaterialPageRoute<bool>(builder: (BuildContext context) => Survey(widget.id, key: const Key('survey'))));
   }
 }

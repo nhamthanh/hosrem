@@ -7,7 +7,7 @@ part 'user_conference.g.dart';
 /// User conference response model.
 @JsonSerializable(nullable: false)
 class UserConference {
-  UserConference(this.conference, this.registrationCode);
+  UserConference(this.conference, this.registrationCode, {this.surveyResultId});
 
   factory UserConference.fromJson(Map<String, dynamic> json) => _$UserConferenceFromJson(json);
 
@@ -16,6 +16,9 @@ class UserConference {
 
   @JsonKey(name: 'registrationCode', nullable: true)
   final String registrationCode;
+
+  @JsonKey(name: 'surveyResultId', nullable: true)
+  final String surveyResultId;
 
   Map<String, dynamic> toJson() => _$UserConferenceToJson(this);
 }

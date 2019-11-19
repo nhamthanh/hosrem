@@ -12,6 +12,7 @@ UserConference _$UserConferenceFromJson(Map<String, dynamic> json) {
         ? null
         : Conference.fromJson(json['conference'] as Map<String, dynamic>),
     json['registrationCode'] as String,
+    surveyResultId: json['surveyResultId'] as String,
   );
 }
 
@@ -19,4 +20,5 @@ Map<String, dynamic> _$UserConferenceToJson(UserConference instance) =>
     <String, dynamic>{
       'conference': instance.conference,
       'registrationCode': instance.registrationCode,
+      'surveyResultId': instance.surveyResultId,
     };
