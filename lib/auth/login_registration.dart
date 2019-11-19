@@ -12,7 +12,6 @@ import 'package:hosrem_app/membership/membership_service.dart';
 import 'package:hosrem_app/notification/notification_service.dart';
 import 'package:hosrem_app/profile/profile_change_password.dart';
 import 'package:hosrem_app/register/registration_form.dart';
-import 'package:hosrem_app/widget/button/primary_button.dart';
 import 'package:hosrem_app/auth/registration_success.dart' as registration_success_page;
 import 'package:loading_overlay/loading_overlay.dart';
 
@@ -31,7 +30,7 @@ class LoginRegistration extends StatefulWidget {
 }
 
 class _LoginRegistrationState extends BaseState<LoginRegistration> with SingleTickerProviderStateMixin {
-
+  
   final List<Widget> _tabs = <Widget>[
     Container(child: const Tab(text: 'Đăng Nhập'), width: 130.0, height: 36),
     Container(child: const Tab(text: 'Đăng Ký'), width: 130.0, height: 36),
@@ -185,27 +184,12 @@ class _LoginRegistrationState extends BaseState<LoginRegistration> with SingleTi
                                       _buildRegistrationForm(state)
                                     ]
                                   )
-                                )
+                                ),
                               ],
                             )
                           )
                         ),
-                        Container(
-                          height: 10.0,
-                          color: AppColors.backgroundConferenceColor,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border(top: const BorderSide(width: 1.0, color: AppColors.editTextFieldBorderColor)),
-                            color: Colors.white,
-                          ),
-                          padding: const EdgeInsets.only(left: 25.0, top: 28.5, bottom: 28.5, right: 25.0),
-                          child: PrimaryButton(
-                            text: _selectedTabIndex == 0 ? AppLocalizations.of(context).tr('login.login')
-                              : AppLocalizations.of(context).tr('registration.register'),
-                            onPressed: _handleLoginRegisterClick,
-                          )
-                        )
+                        
                       ]
                     ),
                   )
@@ -225,6 +209,7 @@ class _LoginRegistrationState extends BaseState<LoginRegistration> with SingleTi
         _emailController,
         _phoneController,
         _pwController,
+        _handleRegisterClick,
           (bool checked) => _checkedAgreement = checked,
         validEmail: state.validEmail,
         validFullName: state.validFullName,
@@ -243,7 +228,7 @@ class _LoginRegistrationState extends BaseState<LoginRegistration> with SingleTi
     }
 
     return RegistrationForm(_fullNameController, _emailController, _phoneController,
-      _pwController, (bool checked) => _checkedAgreement = checked, checked: _checkedAgreement);
+      _pwController, _handleRegisterClick, (bool checked) => _checkedAgreement = checked, checked: _checkedAgreement);
   }
 
   Widget _buildLoginForm(AuthState state) {
@@ -251,25 +236,26 @@ class _LoginRegistrationState extends BaseState<LoginRegistration> with SingleTi
       return LoginForm(
         _emailPhoneController,
         _passwordController,
+        _handleLoginClick,
         validEmail: state.validEmail,
         validPassword: state.validPassword
       );
     }
-    return LoginForm(_emailPhoneController, _passwordController);
+    return LoginForm(_emailPhoneController, _passwordController, _handleLoginClick);
   }
 
-  void _handleLoginRegisterClick() {
-    if (_selectedTabIndex == 0) {
-      _authBloc.dispatch(LoginButtonPressed(email: _emailPhoneController.text, password: _passwordController.text));
-    } else {
-      _authBloc.dispatch(RegisterButtonPressed(
-        email: _emailController.text,
-        password: _pwController.text,
-        phone: _phoneController.text,
-        fullName: _fullNameController.text,
-        checked: _checkedAgreement
-      ));
-    }
+  void _handleLoginClick() {
+    _authBloc.dispatch(LoginButtonPressed(email: _emailPhoneController.text, password: _passwordController.text));
+  }
+
+  void _handleRegisterClick() {
+    _authBloc.dispatch(RegisterButtonPressed(
+      email: _emailController.text,
+      password: _pwController.text,
+      phone: _phoneController.text,
+      fullName: _fullNameController.text,
+      checked: _checkedAgreement
+    ));
   }
 
   TabBar _buildTabBar() {

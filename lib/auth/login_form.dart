@@ -3,17 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:hosrem_app/auth/forgot_password/forgot_password.dart';
 import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/common/text_styles.dart';
+import 'package:hosrem_app/widget/button/primary_button.dart';
 import 'package:hosrem_app/widget/text/edit_text_field.dart';
 
 /// Login form.
 @immutable
 class LoginForm extends StatefulWidget {
-  const LoginForm(this.emailPhoneController, this.passwordController, { this.validEmail = true, this.validPassword = true });
+  const LoginForm(this.emailPhoneController, this.passwordController, this.handleLoginClick, { this.validEmail = true, this.validPassword = true });
 
   final TextEditingController emailPhoneController;
   final TextEditingController passwordController;
   final bool validEmail;
   final bool validPassword;
+  final VoidCallback handleLoginClick;
 
   @override
   State<LoginForm> createState() => _LoginFormState();
@@ -88,6 +90,19 @@ class _LoginFormState extends BaseState<LoginForm> {
                               controller: widget.passwordController,
                             )
                           ),
+                        ],
+                      ),
+                      const SizedBox(height: 28.5),
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Container(
+                              child: PrimaryButton(
+                                text: AppLocalizations.of(context).tr('login.login'),
+                                onPressed: widget.handleLoginClick,
+                              )
+                            ),
+                          )
                         ],
                       ),
                       const SizedBox(height: 15.0),

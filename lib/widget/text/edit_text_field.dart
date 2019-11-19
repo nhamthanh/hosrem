@@ -48,7 +48,7 @@ class EditTextField extends StatelessWidget {
               ),
               prefixIcon: prefixIcon == null ? null : prefixIcon,
               suffixIcon: suffixIcon == null ? null : suffixIcon,
-              fillColor: Colors.white,
+              fillColor: !enabled ? AppColors.backgroundLightGreyColor : Colors.white,
               filled: true
             ),
             obscureText: obscureText,
