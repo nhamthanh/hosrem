@@ -109,7 +109,6 @@ flutter:
   - assets/images/emote_5_normal.svg
   - assets/images/emote_5_selected.svg
   - assets/langs/vi-VN.json
-  - assets/langs/en-US.json
 
   fonts:
   - family: Muli

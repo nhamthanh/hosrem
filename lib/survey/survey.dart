@@ -89,7 +89,7 @@ class _SurveyState extends BaseState<Survey> {
                 final int selectedSectionIndex = state is LoadedSurvey ? state.selectedSectionIndex : 0;
                 return LoadingOverlay(
                   isLoading: state is SurveyLoading,
-                  child: Column(
+                  child: state is SurveyLoading ? Container() : Column(
                     children: <Widget>[
                       Expanded(
                         child: _buildPageView(survey, sections, values),
