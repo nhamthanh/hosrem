@@ -33,7 +33,9 @@
     "reset_password": "Tạo Lại Mật Khẩu",
     "change_your_password": "Thay Đổi Mật Khẩu",
     "enter_old_pass_new_pass": "Vui lòng nhập mật khẩu cũ và mật khẩu mới",
-    "enter_new_pass": "Vui lòng nhập mật khẩu mới"
+    "enter_new_pass": "Vui lòng nhập mật khẩu mới",
+    "reset_success": "Thay Đổi Mật Khẩu Thành Công",
+    "please_login": "Vui lòng đăng nhập nhập với mật khẩu mới"
   },
   "registration": {
     "register": "Đăng Ký",
@@ -84,7 +86,8 @@
     "working_place_is_required": "Vui lòng nhập nơi làm việc",
     "registration_success": "Đăng ký thành công",
     "confirm": "Bằng việc đăng ký, tôi đồng ý với các điều khoản sử dụng",
-    "verification_send_to_email": "Thông báo xác nhận đã được gửi email cho bạn"
+    "verification_send_to_email": "Thông báo xác nhận đã được gửi email cho bạn",
+    "please_confirm": "Vui lòng xác nhận điều khoản sử dụng"
   },
   "home": {
     "home": "Tin Tức",
@@ -112,9 +115,10 @@
       "main_documents": "Tài Liệu Chính",
       "supplement_documents": "Tài Liệu Bổ Sung",
       "no_document_found": "Không Tìm Thấy Tài Liệu",
-      "upgrade_to_view_documents": "Bạn cần phải đăng ký để xem tài liệu",
+      "upgrade_to_view_documents": "Bạn cần phải đăng ký hội nghị để xem tài liệu",
       "reference_documents": "Tài liệu tham khảo"
-    }
+    },
+    "no_conference_found": "Không tìm thấy thông tin về hội nghị"
   },
   "profile": {
     "your_profile": "Thông tin tài khoản",
@@ -156,6 +160,11 @@
   },
   "articles": {
     "no_article_found": "Không tìm thấy bản tin",
-    "hot_news": "Tin nổi bật"
+    "hot_news": "Tin mới",
+    "related_news": "Tin liên quan",
+    "common_news": "Tin Cộng đồng",
+    "major_news": "Tin Chuyên Nghành",
+    "international news": "Tin quốc tế",
+    "nation news": "Tin trong nước"
   }
 }

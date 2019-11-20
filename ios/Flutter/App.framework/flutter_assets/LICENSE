@@ -5104,6 +5104,7 @@ OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --------------------------------------------------------------------------------
 connectivity
+url_launcher_platform_interface
 
 // Copyright 2017 The Chromium Authors. All rights reserved.
 //
@@ -5950,6 +5951,7 @@ firebase_crashlytics
 --------------------------------------------------------------------------------
 firebase_messaging
 shared_preferences
+url_launcher
 
 // Copyright 2017 The Chromium Authors. All rights reserved.
 //
