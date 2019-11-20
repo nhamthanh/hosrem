@@ -177,8 +177,9 @@ class _UpdateProfileState extends BaseState<UpdateProfile> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
-                          const Divider(),
+                          const Divider(height: 1.0),
                           Container(
+                            color: Colors.white,
                             padding: const EdgeInsets.fromLTRB(27.0, 20.0, 27.0, 12.0),
                             child: Column(children: <Widget>[
                               Row(
@@ -198,7 +199,7 @@ class _UpdateProfileState extends BaseState<UpdateProfile> {
                                 ],
                               ),
                               const SizedBox(height: 8.0),
-                              Material(
+                              Container(
                                 child: InkWell(
                                   onTap: () {
                                     _onBackPress();

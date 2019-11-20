@@ -65,7 +65,7 @@ class _ConferenceRegistrationFeesState extends BaseState<ConferenceRegistrationF
           ),
           const SizedBox(height: 5.0),
           Container(
-            height: 800.0,
+            height: 500.0,
             child: TabBarView(
               controller: _tabController,
               children: <Widget>[

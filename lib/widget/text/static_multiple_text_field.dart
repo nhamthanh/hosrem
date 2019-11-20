@@ -30,11 +30,13 @@ class StaticMultipleTextField extends StatelessWidget {
               )
             ),
             const SizedBox(width: 14.0),
-            Text(
-              value ?? '',
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyles.textStyle20PrimaryBlack,
+            Expanded(
+              child: Text(
+                value ?? '',
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyles.textStyle20PrimaryBlack,
+              )
             )
           ]
         )).toList())

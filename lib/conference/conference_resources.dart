@@ -88,9 +88,13 @@ class _ConferenceResourcesState extends BaseState<ConferenceResources> {
               }
 
               return Center(
-                child: Text(
-                  AppLocalizations.of(context).tr('conferences.documents.upgrade_to_view_documents'),
-                  style: TextStyles.textStyle16PrimaryBlack
+                child: Container(
+                  padding: const EdgeInsets.all(25.0),
+                  child: Text(
+                    AppLocalizations.of(context).tr('conferences.documents.upgrade_to_view_documents'),
+                    style: TextStyles.textStyle16PrimaryBlack,
+                    textAlign: TextAlign.center
+                  )
                 )
               );
             }

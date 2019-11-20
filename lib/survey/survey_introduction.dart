@@ -84,7 +84,7 @@ class _SurveyIntroductionState extends BaseState<SurveyIntroduction> {
                       Image.asset(AppAssets.surveyImage),
                       const SizedBox(height: 52.0),
                       state.surveyResult ? const Text(
-                        'Cảm ơn bạn đã tham gia khảo sát :)',
+                        'Bạn đã hoàn thành khảo sát :)',
                         textAlign: TextAlign.center,
                         style: TextStyles.textStyle20PrimaryBlack
                       ) :
@@ -108,7 +108,7 @@ class _SurveyIntroductionState extends BaseState<SurveyIntroduction> {
                 color: Colors.white,
               ),
               padding: const EdgeInsets.only(left: 25.0, top: 28.5, bottom: 28.5, right: 25.0),
-              
+
               child: state.surveyResult ? PrimaryButton(
                 text: 'Quay về',
                 onPressed: () => router.navigateTo(context, AppRoutes.homeRoute, clearStack: true, transition: TransitionType.fadeIn),

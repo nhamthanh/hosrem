@@ -240,7 +240,10 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
   }
 
   Future<void> _navigateToSurvey(String conferenceId) async {
-    await pushWidget(SurveyIntroduction(conferenceId));
+    await pushWidgetWithTransition(
+      SurveyIntroduction(conferenceId),
+      PageTransitionType.downToUp
+    );
   }
 
   Future<void> _navigateToViewQrCode(String qrCode) async {

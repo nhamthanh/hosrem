@@ -81,11 +81,19 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
           }
 
           if (state is MembershipCreditCardPaymentSuccess) {
-            _navigateToPaymentWebview(state.payment.detail['requestUrl']);
+            if (state.payment.detail.containsKey('requestUrl')) {
+              _navigateToPaymentWebview(state.payment.detail['requestUrl']);
+            } else {
+              _showPaymentFailDialog('');
+            }
           }
 
           if (state is MembershipAtmPaymentSuccess) {
-            _navigateToPaymentWebview(state.payment.detail['requestUrl']);
+            if (state.payment.detail.containsKey('requestUrl')) {
+              _navigateToPaymentWebview(state.payment.detail['requestUrl']);
+            } else {
+              _showPaymentFailDialog('');
+            }
           }
         },
         child: BlocBuilder<MembershipPaymentBloc, MembershipPaymentState>(
