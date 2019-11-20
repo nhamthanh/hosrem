@@ -93,11 +93,19 @@ class _ConferencePaymentState extends BaseState<ConferencePayment> {
           }
 
           if (state is ConferenceCreditCardPaymentSuccess) {
-            _navigateToPaymentWebview(state.payment.detail['requestUrl']);
+            if (state.payment.detail.containsKey('requestUrl')) {
+              _navigateToPaymentWebview(state.payment.detail['requestUrl']);
+            } else {
+              _showPaymentFailDialog('');
+            }
           }
 
           if (state is ConferenceAtmPaymentSuccess) {
-            _navigateToPaymentWebview(state.payment.detail['requestUrl']);
+            if (state.payment.detail.containsKey('requestUrl')) {
+              _navigateToPaymentWebview(state.payment.detail['requestUrl']);
+            } else {
+              _showPaymentFailDialog('');
+            }
           }
         },
         child: BlocBuilder<ConferencePaymentBloc, ConferencePaymentState>(
@@ -293,9 +301,24 @@ class _ConferencePaymentState extends BaseState<ConferencePayment> {
     );
   }
 
+  bool _validateSelectedPaymentType(String selectedPaymentName, String selectedPaymentMethod) {
+    final PaymentType paymentType = _paymentTypes.firstWhere((PaymentType paymentType) => paymentType.type == selectedPaymentMethod,
+      orElse: () => null);
+
+    if (paymentType == null) {
+      showAlert(
+        context: context,
+        body: 'Hiện tại $selectedPaymentName chưa được hỗ trợ. Vui lòng chọn hình thức khác.'
+      );
+      return false;
+    }
+
+    return true;
+  }
+
   Future<void> _handleProcessPayment() async {
     if (_selectedPaymentMethod == PaymentMethods.momo) {
-      await _momoPayment.requestPayment(widget.conferenceFee.fee, 'Đăng ký tham gia hội nghị');
+      await _payViaMomo();
     } else if (_selectedPaymentMethod == PaymentMethods.onepayCreditCards) {
       _payViaCreditCardsUsingOnePay();
     } else {
@@ -303,7 +326,19 @@ class _ConferencePaymentState extends BaseState<ConferencePayment> {
     }
   }
 
+  Future<void> _payViaMomo() async {
+    if (!_validateSelectedPaymentType('Momo', PaymentMethods.momo)) {
+      return;
+    }
+
+    await _momoPayment.requestPayment(widget.conferenceFee.fee, 'Đăng ký tham gia hội nghị');
+  }
+
   void _payViaCreditCardsUsingOnePay() {
+    if (!_validateSelectedPaymentType('OnePay', PaymentMethods.onepayCreditCards)) {
+      return;
+    }
+
     final PaymentType paymentType = _paymentTypes.firstWhere((PaymentType paymentType) => paymentType.type == PaymentMethods.onepayCreditCards,
       orElse: () => PaymentType.fromJson(<String, dynamic>{}));
     _conferencePaymentBloc.dispatch(ProcessCreditCardPaymentEvent(
@@ -320,6 +355,10 @@ class _ConferencePaymentState extends BaseState<ConferencePayment> {
   }
 
   void _payViaAtmsUsingOnePay() {
+    if (!_validateSelectedPaymentType('OnePay', PaymentMethods.onepayAtm)) {
+      return;
+    }
+
     final PaymentType paymentType = _paymentTypes.firstWhere((PaymentType paymentType) => paymentType.type == PaymentMethods.onepayAtm,
       orElse: () => PaymentType.fromJson(<String, dynamic>{}));
     _conferencePaymentBloc.dispatch(ProcessAtmPaymentEvent(

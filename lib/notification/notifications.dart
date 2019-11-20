@@ -7,6 +7,7 @@ import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/conference/conference_detail.dart';
 import 'package:hosrem_app/connection/connection_provider.dart';
 import 'package:hosrem_app/loading/loading_indicator.dart';
+import 'package:hosrem_app/survey/survey_introduction.dart';
 import 'package:hosrem_app/widget/refresher/refresh_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -132,6 +133,13 @@ class _NotificationsState extends BaseState<Notifications> {
       final String conferenceId = notification.payload['conferenceId'];
       if (conferenceId != null) {
         await pushWidget(ConferenceDetail(conferenceId));
+      }
+    }
+
+    if (notification.notificationType == 'ConferenceSurvey') {
+      final String conferenceId = notification.payload['conferenceId'];
+      if (conferenceId != null) {
+        await pushWidget(SurveyIntroduction(conferenceId));
       }
     }
   }

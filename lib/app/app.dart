@@ -77,7 +77,7 @@ class _AppState extends State<App> {
                   path: AppAssets.languagesFolder
                 )
               ],
-              supportedLocales: const <Locale>[Locale('vi', 'VN')],
+              supportedLocales: const <Locale>[Locale('en', 'US'), Locale('vi', 'VN')],
               home: AuthProvider(
                 apiProvider: _appBloc.appContext.apiProvider,
                 handleUnauthorized: _handleUnauthorized,

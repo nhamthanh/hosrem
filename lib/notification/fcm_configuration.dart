@@ -122,7 +122,7 @@ class FcmConfiguration {
     _logger.info('_onResume: $message');
     try {
       Map<String, dynamic> data;
-      if (message['data'].runtimeType == 'String') {
+      if (message['data'] is String) {
         data = json.decode(message['data']);
       } else {
         data = json.decode(message['data']['data']);

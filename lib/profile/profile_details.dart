@@ -102,7 +102,7 @@ class _ProfileDetailsState extends BaseState<ProfileDetails> {
                           color: AppColors.backgroundConferenceColor,
                         ),
                         StaticMultipleTextField(
-                          'Lĩnh vự quan tâm',
+                          'Lĩnh vực quan tâm',
                           _user?.fields?.map((Field field) => field.name)?.toList() ?? <String>[]
                         ),
                         const SizedBox(height: 16.0),
