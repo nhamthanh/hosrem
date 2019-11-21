@@ -134,6 +134,7 @@ class _ArticleDetailState extends BaseState<ArticleDetail> {
               const SizedBox(height: 24.0),
               Html(
                 data: state.article.content,
+                useRichText: false,
                 padding: const EdgeInsets.all(8.0),
                 onLinkTap: (String url) async {
                   if (await canLaunch(url)) {
