@@ -118,7 +118,9 @@
       "upgrade_to_view_documents": "Bạn cần phải đăng ký hội nghị để xem tài liệu",
       "reference_documents": "Tài liệu tham khảo"
     },
-    "no_conference_found": "Không tìm thấy thông tin về hội nghị"
+    "no_conference_found": "Không tìm thấy thông tin về hội nghị",
+    "hosrem_member": "Hội Viên HOSREM",
+    "other_member": "Đối Tượng Khác"
   },
   "profile": {
     "your_profile": "Thông tin tài khoản",
