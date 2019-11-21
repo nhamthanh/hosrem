@@ -27,12 +27,15 @@ class _PaymentWebviewState extends State<PaymentWebview> {
     _logger.info('Callback URL $_callbackUrl');
 
     final FlutterWebviewPlugin flutterWebviewPlugin = FlutterWebviewPlugin();
-    flutterWebviewPlugin.onUrlChanged.listen((String url) {
-      _logger.info(url);
-      if (url.startsWith(_callbackUrl)) {
-        final Uri callbackUri = Uri.parse(url);
-        final String responseCode = callbackUri.queryParameters['vpc_TxnResponseCode'];
-        Navigator.pop(context, responseCode == '0');
+    flutterWebviewPlugin.onStateChanged.listen((WebViewStateChanged state) {
+      _logger.info(state.type);
+      _logger.info(state.url);
+      if (state.type == WebViewState.finishLoad) {
+        if (state.url.startsWith(_callbackUrl)) {
+          final Uri callbackUri = Uri.parse(state.url);
+          final String responseCode = callbackUri.queryParameters['vpc_TxnResponseCode'];
+          Navigator.pop(context, responseCode == '0');
+        }
       }
     });
   }

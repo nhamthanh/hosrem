@@ -277,7 +277,7 @@ class _ConferencePaymentState extends BaseState<ConferencePayment> {
   void _showPaymentSuccessDialog() {
     showAlert(
       context: context,
-      body: 'Bạn thành công đăng ký tham dự hội nghị',
+      body: 'Bạn đã đăng ký tham dự hội nghị thành công',
       actions: <AlertAction>[
         AlertAction(text: 'OK', onPressed: () {
           Navigator.pop(context);
@@ -290,7 +290,7 @@ class _ConferencePaymentState extends BaseState<ConferencePayment> {
   void _showPaymentFailDialog(dynamic e) {
     showAlert(
       context: context,
-      body: 'Thanh toán không thành công. Vui lòng lòng thử lại.',
+      body: 'Thanh toán không thành công. Vui lòng thử lại.',
       actions: <AlertAction>[
         AlertAction(text: 'OK', onPressed: () {
           Navigator.pop(context);
