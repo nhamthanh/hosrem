@@ -15,7 +15,6 @@ import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/conference/bloc/conference_payment_bloc.dart';
 import 'package:hosrem_app/conference/bloc/conference_payment_event.dart';
 import 'package:hosrem_app/conference/bloc/conference_payment_state.dart';
-import 'package:hosrem_app/conference/bloc/conference_registration_state.dart';
 import 'package:hosrem_app/connection/connection_provider.dart';
 import 'package:hosrem_app/membership/momo_payment.dart';
 import 'package:hosrem_app/membership/payment_methods.dart';
@@ -119,7 +118,7 @@ class _ConferencePaymentState extends BaseState<ConferencePayment> {
               ),
               body: ConnectionProvider(
                 child: LoadingOverlay(
-                  isLoading: state is ConferenceRegistrationLoading,
+                  isLoading: state is ConferencePaymentLoading,
                   child: Container(
                     color: Colors.white,
                     child: _buildContentWidget(state)
