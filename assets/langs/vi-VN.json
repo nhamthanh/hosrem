@@ -68,8 +68,8 @@
     "department_hint": "Nhập khoa phòng công tác",
     "degree": "Bằng cấp",
     "degree_hint": "Nhập bằng cấp",
-    "field": "Lãnh vực quan tâm",
-    "field_hint": "Nhập lãnh vực quan tâm",
+    "field": "Lĩnh vực quan tâm",
+    "field_hint": "Nhập lĩnh vực quan tâm",
     "sign_up": "Đăng Ký",
     "full_name_is_required": "Vui lòng nhập họ tên",
     "first_name_is_required": "Vui lòng nhập tên",
@@ -164,8 +164,8 @@
     "no_article_found": "Không tìm thấy bản tin",
     "hot_news": "Tin mới",
     "related_news": "Tin liên quan",
-    "common_news": "Tin Cộng đồng",
-    "major_news": "Tin Chuyên Nghành",
+    "common_news": "Tin Cộng Đồng",
+    "major_news": "Tin Chuyên Ngành",
     "international news": "Tin quốc tế",
     "nation news": "Tin trong nước"
   }

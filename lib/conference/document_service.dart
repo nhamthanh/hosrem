@@ -30,7 +30,6 @@ class DocumentService {
 
   /// Get document from cache or download from [url] and [token].
   Future<File> getDocumentFromCacheOrDownload(String url, String token) async {
-    await Future<void>.delayed(Duration(milliseconds: 500));
     return apiProvider.cacheManager.getSingleFile(url);
   }
 }
