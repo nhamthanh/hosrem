@@ -24,9 +24,9 @@ import 'survey_service.dart';
 /// Survey page.
 @immutable
 class Survey extends StatefulWidget {
-  const Survey(this.conferenceId, { this.surveyResultId = '', Key key }) : super(key: key);
+  const Survey(this.survey, { this.surveyResultId = '', Key key }) : super(key: key);
 
-  final String conferenceId;
+  final api_model.Survey survey;
 
   final String surveyResultId;
 
@@ -46,13 +46,13 @@ class _SurveyState extends BaseState<Survey> {
   void initState() {
     super.initState();
     _surveyBloc = SurveyBloc(surveyService: SurveyService(apiProvider), authService: AuthService(apiProvider));
-    _surveyBloc.dispatch(LoadSurveyEvent(widget.conferenceId, surveyResultId: widget.surveyResultId));
+    _surveyBloc.dispatch(LoadSurveyEvent(widget.survey, surveyResultId: widget.surveyResultId));
   }
 
   @override
   Widget build(BuildContext context) {
     if (widget.surveyResultId.isEmpty) {
-      closeOrSubmit = 'Gởi Đi';
+      closeOrSubmit = AppLocalizations.of(context).tr('button.send');
     } else {
       closeOrSubmit = AppLocalizations.of(context).tr('button.close');
     }
@@ -190,7 +190,7 @@ class _SurveyState extends BaseState<Survey> {
 
   void _submitRatingOrClose(Map<Question, String> values) {
     if (widget.surveyResultId.isEmpty) {
-      _surveyBloc.dispatch(SubmitRatingEvent(values, widget.conferenceId));
+      _surveyBloc.dispatch(SubmitRatingEvent(values, widget.survey.conferenceId));
     } else {
       Navigator.pop(context);
     }

@@ -39,7 +39,7 @@ class SurveyBloc extends Bloc<SurveyEvent, SurveyState> {
 
       try {
         _values = <Question, String>{};
-        _survey = await surveyService.getSurveyById(event.conferenceId);
+        _survey = event.survey;
         if (event.surveyResultId.isNotEmpty) {
           _results = await surveyService.getSurveyResult(event.surveyResultId);
         }

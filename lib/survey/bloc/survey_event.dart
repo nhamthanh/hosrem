@@ -1,4 +1,6 @@
 import 'package:hosrem_app/api/survey/question.dart';
+import 'package:hosrem_app/api/survey/survey.dart' as api;
+import 'package:hosrem_app/survey/survey.dart';
 import 'package:meta/meta.dart';
 
 /// Survey event.
@@ -8,14 +10,14 @@ abstract class SurveyEvent {
 
 /// LoadSurveyEvent event.
 class LoadSurveyEvent extends SurveyEvent {
-  LoadSurveyEvent(this.conferenceId, { this.surveyResultId = '' });
+  LoadSurveyEvent(this.survey, { this.surveyResultId = '' });
 
-  final String conferenceId;
+  final api.Survey survey;
 
   final String surveyResultId;
 
   @override
-  String toString() => 'LoadSurveyEvent { conferenceId = $conferenceId, surveyResultId = $surveyResultId }';
+  String toString() => 'LoadSurveyEvent { conferenceId = ${survey.conferenceId}, surveyResultId = $surveyResultId }';
 }
 
 /// RatingEvent event.

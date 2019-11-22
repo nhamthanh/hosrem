@@ -178,6 +178,7 @@
   "button": {
     "next": "Tiếp tục",
     "back": "Quay về",
-    "close": "Đóng"
+    "close": "Đóng",
+    "send": "Gửi đi"
   }
 }

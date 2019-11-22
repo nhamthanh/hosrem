@@ -9,9 +9,11 @@ abstract class SurveyIntroductionEvent extends Equatable {
 
 /// LoadSurveyIntroduction event.
 class LoadSurveyIntroduction extends SurveyIntroductionEvent {
-  const LoadSurveyIntroduction(this.id);
+  const LoadSurveyIntroduction(this.conferenceId, { this.surveyResultId = '' });
 
-  final String id;
+  final String conferenceId;
+
+  final String surveyResultId;
 
   @override
   String toString() =>
