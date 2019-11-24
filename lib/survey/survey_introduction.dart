@@ -55,7 +55,7 @@ class _SurveyIntroductionState extends BaseState<SurveyIntroduction> {
           builder: (BuildContext context, SurveyIntroductionState state) {
             return LoadingOverlay(
               isLoading: state is SurveyIntroductionLoading,
-              child: state is LoadedSurveyIntroduction ? buildContent(context, state) : Container(),
+              child: buildContent(context, state),
             );
           }
         )
@@ -63,7 +63,7 @@ class _SurveyIntroductionState extends BaseState<SurveyIntroduction> {
     );
   }
 
-  Scaffold buildContent(BuildContext context, LoadedSurveyIntroduction state) {
+  Scaffold buildContent(BuildContext context, SurveyIntroductionState state) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Khảo sát'),
@@ -83,7 +83,7 @@ class _SurveyIntroductionState extends BaseState<SurveyIntroduction> {
                       const SizedBox(height: 100.0),
                       Image.asset(AppAssets.surveyImage),
                       const SizedBox(height: 52.0),
-                      state.surveyResult ? const Text(
+                      state is LoadedSurveyIntroduction && state.surveyResult ? const Text(
                         'Bạn đã hoàn thành khảo sát :)',
                         textAlign: TextAlign.center,
                         style: TextStyles.textStyle20PrimaryBlack
@@ -109,7 +109,7 @@ class _SurveyIntroductionState extends BaseState<SurveyIntroduction> {
               ),
               padding: const EdgeInsets.only(left: 25.0, top: 28.5, bottom: 28.5, right: 25.0),
 
-              child: state.surveyResult ? PrimaryButton(
+              child: state is LoadedSurveyIntroduction && state.surveyResult ? PrimaryButton(
                 text: 'Quay về',
                 onPressed: () => router.navigateTo(context, AppRoutes.homeRoute, clearStack: true, transition: TransitionType.fadeIn),
               ) : PrimaryButton(

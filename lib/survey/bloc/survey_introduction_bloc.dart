@@ -28,6 +28,7 @@ class SurveyIntroductionBloc extends Bloc<SurveyIntroductionEvent, SurveyIntrodu
   @override
   Stream<SurveyIntroductionState> mapEventToState(SurveyIntroductionEvent event) async* {
     if (event is LoadSurveyIntroduction) {
+      yield SurveyIntroductionLoading();
       bool surveyResult = false;
       try {
         if (authService.currentUser() != null) {
