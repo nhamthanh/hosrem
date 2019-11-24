@@ -23,16 +23,12 @@ class _ConferenceRegistrationFeesState extends BaseState<ConferenceRegistrationF
     with SingleTickerProviderStateMixin {
 
   TabController _tabController;
-  int maxUnit = 1;
 
   @override
   void initState() {
     super.initState();
 
     _tabController = TabController(vsync: this, length: 2);
-    //Calculate height of fees area
-    maxUnit = widget.conferenceFees.memberFees.length > widget.conferenceFees.otherFees.length ?
-      widget.conferenceFees.memberFees.length : widget.conferenceFees.otherFees.length;
   }
 
   @override
@@ -69,7 +65,7 @@ class _ConferenceRegistrationFeesState extends BaseState<ConferenceRegistrationF
           ),
           const SizedBox(height: 5.0),
           Container(
-            height: 100.0 + (maxUnit * 47),
+            height: 550.0,
             child: TabBarView(
               controller: _tabController,
               children: <Widget>[

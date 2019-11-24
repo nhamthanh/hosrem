@@ -13,6 +13,7 @@ import 'package:hosrem_app/common/date_time_utils.dart';
 import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/conference/conference_info.dart';
 import 'package:hosrem_app/conference/registration/conference_registration.dart';
+import 'package:hosrem_app/loading/loading_indicator.dart';
 import 'package:hosrem_app/profile/user_service.dart';
 import 'package:hosrem_app/survey/survey_introduction.dart';
 import 'package:hosrem_app/widget/button/primary_button.dart';
@@ -187,7 +188,7 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
               );
             }
 
-            return Container();
+            return LoadingIndicator();
           }
         )
       )
@@ -206,12 +207,14 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
               text: AppLocalizations.of(context).tr('conferences.join_code'),
               onPressed: () => _navigateToViewQrCode(state.registrationCode),
             ),
-            const SizedBox(height: 8.0),
             state.hasToken ? InkWell(
-              child: Text(
-                'Đánh giá',
-                textAlign: TextAlign.center,
-                style: TextStyles.textStyle11SecondaryGrey
+              child: Container(
+                padding: const EdgeInsets.only(top: 8.0, left: 15.0, right: 15.0),
+                child: Text(
+                  'Đánh giá',
+                  textAlign: TextAlign.center,
+                  style: TextStyles.textStyle11SecondaryGrey
+                )
               ),
               onTap: () => _navigateToSurvey(widget.conference.id)
             ) : Container()

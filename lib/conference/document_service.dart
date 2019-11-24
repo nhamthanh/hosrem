@@ -30,6 +30,9 @@ class DocumentService {
 
   /// Get document from cache or download from [url] and [token].
   Future<File> getDocumentFromCacheOrDownload(String url, String token) async {
+    // ignore: flutter_style_todos
+    // TODO: Wait a little bit to make sure animation is done.
+    await Future<void>.delayed(Duration(milliseconds: 500));
     return apiProvider.cacheManager.getSingleFile(url);
   }
 }
