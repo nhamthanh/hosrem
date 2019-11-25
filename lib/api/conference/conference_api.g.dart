@@ -132,4 +132,21 @@ class _ConferenceApi implements ConferenceApi {
     final value = _result.data;
     return Future.value(value);
   }
+
+  @override
+  getRegistrationInfoFromRegCode(id, regCode) async {
+    ArgumentError.checkNotNull(id, 'id');
+    ArgumentError.checkNotNull(regCode, 'regCode');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final Response<Map<String, dynamic>> _result = await _dio.request(
+        'conferences/$id/registration-codes/$regCode',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET', headers: <String, dynamic>{}, extra: _extra),
+        data: _data);
+    final value = ConferenceRegistration.fromJson(_result.data);
+    return Future.value(value);
+  }
 }

@@ -9,7 +9,10 @@ import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/image/image_viewer.dart';
 import 'package:hosrem_app/loading/loading_indicator.dart';
 import 'package:hosrem_app/pdf/pdf_page.dart';
+import 'package:hosrem_app/widget/button/primary_button.dart';
+import 'package:hosrem_app/widget/text/edit_text_field.dart';
 import 'package:hosrem_app/widget/text/search_text_field.dart';
+import 'package:loading_overlay/loading_overlay.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 
@@ -31,19 +34,18 @@ class ConferenceResources extends StatefulWidget {
 }
 
 class _ConferenceResourcesState extends BaseState<ConferenceResources> {
+  final TextEditingController _fullNameController = TextEditingController();
+  final TextEditingController _registrationCodeController = TextEditingController();
+
   DocumentsBloc _documentsBloc;
 
   @override
   void initState() {
     super.initState();
+
     _documentsBloc = DocumentsBloc(DocumentService(apiProvider), AuthService(apiProvider),
           ConferenceService(apiProvider));
-    _documentsBloc.dispatch(
-      LoadDocumentByConferenceIdEvent(
-        conference: widget.conference,
-        supplementDocs: widget.conference.files
-      )
-    );
+    _documentsBloc.dispatch(CheckIfUnlockConferenceEvent(widget.conference));
   }
 
   @override
@@ -60,59 +62,169 @@ class _ConferenceResourcesState extends BaseState<ConferenceResources> {
               ),
             );
           }
+
+          if (state is ConferenceUnlockState) {
+            if (state.unlocked) {
+              _documentsBloc.dispatch(
+                LoadDocumentByConferenceIdEvent(widget.conference, widget.conference.files)
+              );
+            }
+
+            if (state.errorMsg.isNotEmpty) {
+              Scaffold.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('${state.errorMsg}'),
+                  backgroundColor: Colors.red,
+                ),
+              );
+            }
+          }
         },
         child: BlocBuilder<DocumentsBloc, DocumentsState>(
           bloc: _documentsBloc,
           builder: (BuildContext context, DocumentsState state) {
-            if (state is LoadedDocumentsState) {
-              if (state.canViewDocuments) {
-                return Column(
-                  children: <Widget>[
-                    Container(
-                      padding: const EdgeInsets.only(left: 28.0, right: 28.0, top: 19.0, bottom: 0.0),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: SearchTextField(
-                              executeSearch: _searchDocuments
-                            )
-                          ),
-                        ],
-                      )
-                    ),
-                    Expanded(
-                      child: _buildDocumentsWidget(state)
-                    )
-                  ]
-                );
-              }
-
-              return Center(
-                child: Container(
-                  padding: const EdgeInsets.all(25.0),
-                  child: Text(
-                    AppLocalizations.of(context).tr('conferences.documents.upgrade_to_view_documents'),
-                    style: TextStyles.textStyle16PrimaryBlack,
-                    textAlign: TextAlign.center
-                  )
-                )
-              );
-            }
-
-            if (state is DocumentsFailure) {
-              return Center(
-                child: Text(
-                  AppLocalizations.of(context).tr('conferences.documents.no_document_found'),
-                  style: TextStyles.textStyle16PrimaryBlack
-                )
-              );
-            }
-
-            return LoadingIndicator();
+            return LoadingOverlay(
+              child: _buildPageContent(state),
+              isLoading: state is DocumentsLoading || (state is ConferenceUnlockState && state.loading)
+            );
           }
         )
       )
     );
+  }
+
+  Widget _buildPageContent(DocumentsState state) {
+    if (state is ConferenceUnlockState) {
+      if (!state.unlocked) {
+        if (state.loggedIn) {
+          return Center(
+            child: Container(
+              padding: const EdgeInsets.all(25.0),
+              child: Text(
+                AppLocalizations.of(context).tr('conferences.documents.upgrade_to_view_documents'),
+                style: TextStyles.textStyle16PrimaryBlack,
+                textAlign: TextAlign.center
+              )
+            )
+          );
+        }
+
+        return SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              Container(
+                padding: const EdgeInsets.only(left: 28.0, right: 27.0),
+                child: Column(
+                  children: <Widget>[
+                    const SizedBox(height: 30),
+                    Text(
+                      'Vui lòng cung cấp thông tin đăng ký hội nghị của bạn',
+                      style: TextStyles.textStyle14SecondaryGrey
+                    ),
+                    const SizedBox(height: 25),
+                    Row(
+                      children: <Widget>[
+                        const SizedBox(height: 20),
+                        Expanded(
+                          child: EditTextField(
+                            hasLabel: false,
+                            title: '',
+                            hint: 'Nhập họ và tên',
+                            error: !state.fields['fullName'] ? 'Vui lòng nhập họ và tên' : null,
+                            onTextChanged: (String value) => _handleFormTextChanged('fullName', value),
+                            controller: _fullNameController,
+                          )
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20.0),
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: EditTextField(
+                            hasLabel: false,
+                            title: '',
+                            hint: 'Nhập mã hội nghị',
+                            error: !state.fields['registrationCode'] ?'Vui lòng nhập mã hội nghị' : null,
+                            onTextChanged: (String value) => _handleFormTextChanged('registrationCode', value),
+                            controller: _registrationCodeController,
+                          )
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 28.5),
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Container(
+                            child: PrimaryButton(
+                              text: 'Đăng Nhập',
+                              onPressed: _loginAsRegistrationCode,
+                            )
+                          ),
+                        )
+                      ],
+                    )
+                  ]
+                )
+              ),
+            ],
+          )
+        );
+      }
+
+
+
+      return Container();
+    }
+
+    if (state is LoadedDocumentsState) {
+      return Column(
+        children: <Widget>[
+          Container(
+            padding: const EdgeInsets.only(left: 28.0, right: 28.0, top: 19.0, bottom: 0.0),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: SearchTextField(
+                    executeSearch: _searchDocuments
+                  )
+                ),
+              ],
+            )
+          ),
+          Expanded(
+            child: _buildDocumentsWidget(state)
+          )
+        ]
+      );
+    }
+
+    if (state is DocumentsFailure) {
+      return Center(
+        child: Text(
+          AppLocalizations.of(context).tr('conferences.documents.no_document_found'),
+          style: TextStyles.textStyle16PrimaryBlack
+        )
+      );
+    }
+
+    return Container();
+  }
+
+  void _handleFormTextChanged(String name, String value) {
+    _documentsBloc.dispatch(ValidateFormFieldEvent(name: name, value: value));
+  }
+
+  void _loginAsRegistrationCode() {
+    _documentsBloc.dispatch(ViewDocumentsPressedEvent(
+      fullName: _fullNameController.text,
+      registrationCode: _registrationCodeController.text,
+      conference: widget.conference,
+      supplementDocs: widget.conference.files
+    ));
   }
 
   Widget _buildDocumentsWidget(LoadedDocumentsState state) {

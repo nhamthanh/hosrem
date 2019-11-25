@@ -36,4 +36,9 @@ class ConferenceService {
       ConferenceRegistration conferenceRegistration) async {
     return apiProvider.conferenceApi.registerConferenceById(conferenceId, conferenceRegistration);
   }
+
+  /// Get registration info from registration code.
+  Future<ConferenceRegistration> getRegistrationInfoFromRegCode(String conferenceId, String regCode) async {
+    return apiProvider.conferenceApi.getRegistrationInfoFromRegCode(conferenceId, regCode);
+  }
 }

@@ -22,12 +22,25 @@ class DocumentsFailure extends DocumentsState {
   String toString() => 'DocumentsFailure { error: $error }';
 }
 
+/// DefaultDocumentsState state.
+class ConferenceUnlockState extends DocumentsState {
+  ConferenceUnlockState({ @required this.fields, this.loggedIn = false, this.unlocked = false,
+    this.loading = false, this.errorMsg = '' });
+
+  final bool unlocked;
+  final bool loggedIn;
+  final bool loading;
+  final String errorMsg;
+  final Map<String, bool> fields;
+
+  @override
+  String toString() => 'ConferenceUnlockState';
+}
+
 /// LoadedDocumentsState state.
 class LoadedDocumentsState extends DocumentsState {
-  LoadedDocumentsState({this.canViewDocuments = false, this.documents = const <Document>[],
-      this.supplementDocs = const <Document>[]});
+  LoadedDocumentsState({ this.documents = const <Document>[], this.supplementDocs = const <Document>[] });
 
-  final bool canViewDocuments;
   final List<Document> documents;
   final List<Document> supplementDocs;
 

@@ -11,14 +11,18 @@ ConferenceRegistration _$ConferenceRegistrationFromJson(
   return ConferenceRegistration(
     json['registrationId'] as String,
     json['conferenceId'] as String,
-    (json['fee'] as num).toDouble(),
+    (json['fee'] as num)?.toDouble() ?? 0.0,
     json['letterAddress'] as String,
     json['letterType'] as String,
     json['paymentStatus'] as String,
     json['paymentTypeId'] as String,
-    DateTime.parse(json['registerTime'] as String),
+    json['registerTime'] == null
+        ? null
+        : DateTime.parse(json['registerTime'] as String),
     json['registrationType'] as String,
-    json['userId'] as String,
+    json['user'] == null
+        ? null
+        : User.fromJson(json['user'] as Map<String, dynamic>),
   );
 }
 
@@ -32,7 +36,7 @@ Map<String, dynamic> _$ConferenceRegistrationToJson(
       'letterType': instance.letterType,
       'paymentStatus': instance.paymentStatus,
       'paymentTypeId': instance.paymentTypeId,
-      'registerTime': instance.registerTime.toIso8601String(),
+      'registerTime': instance.registerTime?.toIso8601String(),
       'registrationType': instance.registrationType,
-      'userId': instance.userId,
+      'user': instance.user,
     };

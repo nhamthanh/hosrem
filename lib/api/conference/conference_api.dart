@@ -42,5 +42,9 @@ abstract class ConferenceApi {
   /// Check if user [userId] has registered the conference [id].
   @GET('conferences/{id}/registrations/{userId}')
   Future<bool> checkRegistrationStatusOfMember(@Path() String id, @Path() String userId);
+
+  /// Get registration inform from registration code [regCode].
+  @GET('conferences/{id}/registration-codes/{regCode}')
+  Future<ConferenceRegistration> getRegistrationInfoFromRegCode(@Path() String id, @Path() String regCode);
 }
 

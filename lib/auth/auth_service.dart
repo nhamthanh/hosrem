@@ -146,4 +146,21 @@ class AuthService {
   Future<bool> resetUserPassword(UserPassword userPassword) async {
     return apiProvider.authApi.resetUserPassword(userPassword);
   }
+
+  /// Persist registration code [registrationCode].
+  Future<void> persistRegistrationCode(String conferenceId, String registrationCode) async {
+    final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+    final Map<String, dynamic> conferences =
+      _sharedPreferences.containsKey('conferences') ? jsonDecode(_sharedPreferences.get('conferences')) : <String, String>{};
+    conferences[conferenceId] = registrationCode;
+    await _sharedPreferences.setString('conferences', jsonEncode(conferences));
+  }
+
+  /// Check if device has conference id.
+  Future<bool> isRegisteredConference(String conferenceId) async {
+    final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+    final Map<String, dynamic> conferences =
+      _sharedPreferences.containsKey('conferences') ? jsonDecode(_sharedPreferences.get('conferences')) : <String, String>{};
+    return conferences.containsKey(conferenceId);
+  }
 }
