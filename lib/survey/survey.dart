@@ -36,18 +36,20 @@ class _SurveyState extends BaseState<Survey> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final PageController _pageController = PageController();
   SurveyBloc _surveyBloc;
-
+  final List<ScrollController> _controllers = <ScrollController>[];
+  final Map<int, bool> _pageEnable = <int, bool>{};
+  int currentPage = 0;
 
   @override
   void initState() {
     super.initState();
-
+    _pageEnable[currentPage] = false;
     _surveyBloc = SurveyBloc(surveyService: SurveyService(apiProvider), authService: AuthService(apiProvider));
     _surveyBloc.dispatch(LoadSurveyEvent(widget.id));
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {  
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -79,6 +81,7 @@ class _SurveyState extends BaseState<Survey> {
               if (state is SubmitSurveySuccess) {
                 _showResultDialog();
               }
+
             },
             child: BlocBuilder<SurveyBloc, SurveyState>(
               bloc: _surveyBloc,
@@ -87,6 +90,12 @@ class _SurveyState extends BaseState<Survey> {
                 final List<Section> sections = survey != null ? survey.sections : <Section>[];
                 final Map<Question, String> values = state is LoadedSurvey ? state.values : <Question, String>{};
                 final int selectedSectionIndex = state is LoadedSurvey ? state.selectedSectionIndex : 0;
+                if (_controllers.isEmpty) {
+                  for (int i = 0; i < sections.length; i++) {
+                    _controllers.add(ScrollController());
+                    _controllers[i].addListener(_scrollListener);
+                  }
+                }
                 return LoadingOverlay(
                   isLoading: state is SurveyLoading,
                   child: state is SurveyLoading ? Container() : Column(
@@ -117,7 +126,7 @@ class _SurveyState extends BaseState<Survey> {
                             Expanded(
                               child: PrimaryButton(
                                 text: selectedSectionIndex >= sections.length - 1 ? 'Gởi Đi' : 'Tiếp Tục',
-                                onPressed: _buildNextOnPressed(survey, selectedSectionIndex, sections, values)
+                                onPressed: checkEnable() ? _buildNextOnPressed(survey, selectedSectionIndex, sections, values) : null
                               )
                             )
                           ],
@@ -160,6 +169,7 @@ class _SurveyState extends BaseState<Survey> {
       onPageChanged: _pageChanged,
       physics: const NeverScrollableScrollPhysics(),
       children: sections.map((Section section) => SingleChildScrollView(
+        controller: _controllers[currentPage],
         child: SurveySection(
           section,
           values: values,
@@ -175,6 +185,7 @@ class _SurveyState extends BaseState<Survey> {
 
   void _goBack(int selectedSectionIndex) {
     if (selectedSectionIndex > 0) {
+      currentPage--;
       _pageController.animateToPage(selectedSectionIndex - 1, duration: Duration(milliseconds: 500), curve: Curves.ease);
     }
   }
@@ -183,9 +194,24 @@ class _SurveyState extends BaseState<Survey> {
     _surveyBloc.dispatch(SubmitRatingEvent(values, widget.id));
   }
 
+  bool checkEnable() {
+    if (_controllers[currentPage].hasClients) {
+      if (_controllers[currentPage].offset == 0.0 && _controllers[currentPage].position.maxScrollExtent == 0.0 && !_controllers[currentPage].position.outOfRange) {
+        setState(() {
+          _pageEnable[currentPage] = true;
+        });
+      }
+    }
+    return _pageEnable[currentPage];
+  }
+
   void _goForward(List<Section> sections, int selectedSectionIndex) {
     if (selectedSectionIndex < sections.length - 1) {
+      currentPage++;
       _pageController.animateToPage(selectedSectionIndex + 1, duration: Duration(milliseconds: 500), curve: Curves.ease);
+      if (!_pageEnable.containsKey(currentPage)) {
+        _pageEnable[currentPage] = false;
+      }
     }
   }
 
@@ -209,5 +235,14 @@ class _SurveyState extends BaseState<Survey> {
         })
       ]
     );
+  }
+
+  void _scrollListener() {
+    if (_controllers[currentPage].offset >= _controllers[currentPage].position.maxScrollExtent &&
+        !_controllers[currentPage].position.outOfRange) {
+        setState(() {
+          _pageEnable[currentPage] = true;
+        });
+    }
   }
 }
