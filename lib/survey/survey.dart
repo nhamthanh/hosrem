@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization_delegate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_alert/flutter_alert.dart';
@@ -23,9 +24,11 @@ import 'survey_service.dart';
 /// Survey page.
 @immutable
 class Survey extends StatefulWidget {
-  const Survey(this.id, { Key key }) : super(key: key);
+  const Survey(this.survey, { this.surveyResultId = '', Key key }) : super(key: key);
 
-  final String id;
+  final api_model.Survey survey;
+
+  final String surveyResultId;
 
   @override
   State<Survey> createState() => _SurveyState();
@@ -36,27 +39,32 @@ class _SurveyState extends BaseState<Survey> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final PageController _pageController = PageController();
   SurveyBloc _surveyBloc;
-
+  String errorMessage = '';
+  String closeOrSubmit = '';
 
   @override
   void initState() {
     super.initState();
-
     _surveyBloc = SurveyBloc(surveyService: SurveyService(apiProvider), authService: AuthService(apiProvider));
-    _surveyBloc.dispatch(LoadSurveyEvent(widget.id));
+    _surveyBloc.dispatch(LoadSurveyEvent(widget.survey, surveyResultId: widget.surveyResultId));
   }
 
   @override
   Widget build(BuildContext context) {
+    if (widget.surveyResultId.isEmpty) {
+      closeOrSubmit = AppLocalizations.of(context).tr('button.send');
+    } else {
+      closeOrSubmit = AppLocalizations.of(context).tr('button.close');
+    }
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: const Text('Khảo sát'),
+        title: Text(AppLocalizations.of(context).tr('survey.survey')),
         centerTitle: true,
         automaticallyImplyLeading: false,
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.clear),
+            icon: Icon(Icons.clear),  
             color: Colors.white,
             onPressed: () => Navigator.pop(context)
           )
@@ -68,12 +76,7 @@ class _SurveyState extends BaseState<Survey> {
           child: BlocListener<SurveyBloc, SurveyState>(
             listener: (BuildContext context, SurveyState state) {
               if (state is SurveyFailure) {
-                _scaffoldKey.currentState.showSnackBar(
-                  SnackBar(
-                    content: Text('${state.error}'),
-                    backgroundColor: Colors.red,
-                  ),
-                );
+                errorMessage = state.error;
               }
 
               if (state is SubmitSurveySuccess) {
@@ -109,14 +112,14 @@ class _SurveyState extends BaseState<Survey> {
                           children: <Widget>[
                             Expanded(
                               child: DefaultButton(
-                                text: 'Quay Lại',
+                                text: AppLocalizations.of(context).tr('button.back'),
                                 onPressed: selectedSectionIndex == 0 ? null : () => _goBack(selectedSectionIndex)
                               )
                             ),
                             const SizedBox(width: 17.0),
                             Expanded(
                               child: PrimaryButton(
-                                text: selectedSectionIndex >= sections.length - 1 ? 'Gởi Đi' : 'Tiếp Tục',
+                                text: selectedSectionIndex >= sections.length - 1 ?  closeOrSubmit : AppLocalizations.of(context).tr('button.next'),
                                 onPressed: _buildNextOnPressed(survey, selectedSectionIndex, sections, values)
                               )
                             )
@@ -141,17 +144,22 @@ class _SurveyState extends BaseState<Survey> {
     }
 
     return selectedSectionIndex >= sections.length - 1
-      ? () => _submitRating(values)
+      ? () => _submitRatingOrClose(values)
       : () => _goForward(sections, selectedSectionIndex);
   }
 
   Widget _buildPageView(api_model.Survey survey, List<Section> sections, Map<Question, String> values) {
     if (survey == null) {
       return Center(
-        child: Text(
-          'Chưa có thông tin về khảo sát',
-          style: TextStyles.textStyle16PrimaryBlack
-        )
+        child: Container (
+          padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+          child: Text(
+            errorMessage.isEmpty ? AppLocalizations.of(context).tr('survey.no_info_survey'): errorMessage,
+            style: TextStyles.textStyle16PrimaryBlack,
+            textAlign: TextAlign.center,
+            maxLines: 2,
+          ) ,
+        ) 
       );
     }
 
@@ -163,7 +171,8 @@ class _SurveyState extends BaseState<Survey> {
         child: SurveySection(
           section,
           values: values,
-          rateChanged: _handleRateChanged
+          rateChanged: _handleRateChanged,
+          enable: widget.surveyResultId.isEmpty ? true : false,
         )
       )).toList()
     );
@@ -179,8 +188,12 @@ class _SurveyState extends BaseState<Survey> {
     }
   }
 
-  void _submitRating(Map<Question, String> values) {
-    _surveyBloc.dispatch(SubmitRatingEvent(values, widget.id));
+  void _submitRatingOrClose(Map<Question, String> values) {
+    if (widget.surveyResultId.isEmpty) {
+      _surveyBloc.dispatch(SubmitRatingEvent(values, widget.survey.conferenceId));
+    } else {
+      Navigator.pop(context);
+    }
   }
 
   void _goForward(List<Section> sections, int selectedSectionIndex) {

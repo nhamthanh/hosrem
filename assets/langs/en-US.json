@@ -168,5 +168,17 @@
     "major_news": "Tin Chuyên Ngành",
     "international news": "Tin quốc tế",
     "nation news": "Tin trong nước"
+  },
+  "survey": {
+    "survey": "Khảo sát",
+    "view_survey": "Xem khảo sát",
+    "no_info_survey": "Chưa có thông tin về khảo sát",
+    "please_rate": "Vui lòng đánh giá từ 1 (tệ nhất) đến 5 (tốt nhất)."
+  },
+  "button": {
+    "next": "Tiếp tục",
+    "back": "Quay về",
+    "close": "Đóng",
+    "send": "Gửi đi"
   }
 }

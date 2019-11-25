@@ -1,3 +1,4 @@
+import 'package:hosrem_app/api/survey/survey.dart';
 import 'package:meta/meta.dart';
 
 /// Survey Introduction state.
@@ -23,9 +24,11 @@ class SurveyIntroductionFailure extends SurveyIntroductionState {
 
 /// LoadedSurveyIntroduction state.
 class LoadedSurveyIntroduction extends SurveyIntroductionState {
-  LoadedSurveyIntroduction({this.surveyResult = false});
+  LoadedSurveyIntroduction(this.survey, {this.surveyResultId = '' });
 
-  final bool surveyResult;
+  final Survey survey;
+
+  final String surveyResultId;
 
   @override
   String toString() => 'LoadedSurveyIntroduction';

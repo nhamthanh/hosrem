@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -12,6 +13,7 @@ import 'package:hosrem_app/profile/user_service.dart';
 import 'package:hosrem_app/survey/bloc/survey_introduction_bloc.dart';
 import 'package:hosrem_app/survey/bloc/survey_introduction_event.dart';
 import 'package:hosrem_app/survey/bloc/survey_introduction_state.dart';
+import 'package:hosrem_app/survey/survey_service.dart';
 import 'package:hosrem_app/widget/button/primary_button.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 
@@ -31,11 +33,12 @@ class _SurveyIntroductionState extends BaseState<SurveyIntroduction> {
 
   SurveyIntroductionBloc _surveyIntroductionBloc;
   AuthService _authService;
+  String errorMessage = '';
   @override
   void initState() {
     super.initState();
     _authService = AuthService(apiProvider);
-    _surveyIntroductionBloc = SurveyIntroductionBloc(authService: _authService, userService: UserService(apiProvider, _authService));
+    _surveyIntroductionBloc = SurveyIntroductionBloc(surveyService: SurveyService(apiProvider), authService: _authService, userService: UserService(apiProvider, _authService));
     _surveyIntroductionBloc.dispatch(LoadSurveyIntroduction(widget.id));
   }
 
@@ -48,6 +51,13 @@ class _SurveyIntroductionState extends BaseState<SurveyIntroduction> {
         listener: (BuildContext context, SurveyIntroductionState state) async {
           if (state is UnauthorizeSurveyIntroduction) {
             await router.navigateTo(context, AppRoutes.homeRoute, clearStack: true, transition: TransitionType.fadeIn);
+          }
+          if (state is LoadedSurveyIntroduction) {
+            if (state.surveyResultId.isNotEmpty) {
+              await Navigator.pushReplacement(context, MaterialPageRoute<bool>(builder: (BuildContext context) => Survey(state.survey, surveyResultId: state.surveyResultId, key: const Key('survey'))));
+            } else if (state.survey == null) {
+              errorMessage = AppLocalizations.of(context).tr('survey.no_info_survey');
+            }
           }
         },
         child: BlocBuilder<SurveyIntroductionBloc, SurveyIntroductionState>(
@@ -66,10 +76,17 @@ class _SurveyIntroductionState extends BaseState<SurveyIntroduction> {
   Scaffold buildContent(BuildContext context, SurveyIntroductionState state) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Khảo sát'),
-        automaticallyImplyLeading: false
+        title: Text(AppLocalizations.of(context).tr('survey.survey')),
+        automaticallyImplyLeading: false,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.clear),
+            color: Colors.white,
+            onPressed: () => Navigator.pop(context)
+          )
+        ]
       ),
-      body: Container(
+      body: state is LoadedSurveyIntroduction ? Container(
         color: Colors.white,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -83,13 +100,8 @@ class _SurveyIntroductionState extends BaseState<SurveyIntroduction> {
                       const SizedBox(height: 100.0),
                       Image.asset(AppAssets.surveyImage),
                       const SizedBox(height: 52.0),
-                      state is LoadedSurveyIntroduction && state.surveyResult ? const Text(
-                        'Bạn đã hoàn thành khảo sát :)',
-                        textAlign: TextAlign.center,
-                        style: TextStyles.textStyle20PrimaryBlack
-                      ) :
-                      const Text(
-                        'Rất mong bạn có thể dành ít phút để nhận xét về hội nghị :)',
+                      Text(
+                        errorMessage.isEmpty ? 'Rất mong bạn có thể dành ít phút để nhận xét về hội nghị :)' : errorMessage,
                         textAlign: TextAlign.center,
                         style: TextStyles.textStyle20PrimaryBlack
                       )
@@ -108,22 +120,22 @@ class _SurveyIntroductionState extends BaseState<SurveyIntroduction> {
                 color: Colors.white,
               ),
               padding: const EdgeInsets.only(left: 25.0, top: 28.5, bottom: 28.5, right: 25.0),
-
-              child: state is LoadedSurveyIntroduction && state.surveyResult ? PrimaryButton(
-                text: 'Quay về',
-                onPressed: () => router.navigateTo(context, AppRoutes.homeRoute, clearStack: true, transition: TransitionType.fadeIn),
-              ) : PrimaryButton(
-                text: 'Bắt Đầu',
-                onPressed: () => _navigateToSurveySection(context),
+              child: PrimaryButton(
+                text: errorMessage.isEmpty ? 'Bắt Đầu' : AppLocalizations.of(context).tr('button.back'),
+                onPressed: () => _navigateToSurveyOrBack(context, state),
               )
             )
           ],
         )
-      )
+      ) : Container(color: Colors.white,)
     );
   }
 
-  Future<void> _navigateToSurveySection(BuildContext context) async {
-    await Navigator.pushReplacement(context, MaterialPageRoute<bool>(builder: (BuildContext context) => Survey(widget.id, key: const Key('survey'))));
+  Future<void> _navigateToSurveyOrBack(BuildContext context, LoadedSurveyIntroduction state) async {
+    if (errorMessage.isEmpty) {
+      await Navigator.pushReplacement(context, MaterialPageRoute<bool>(builder: (BuildContext context) => Survey(state.survey, surveyResultId: state.surveyResultId, key: const Key('survey'))));
+    } else {
+      Navigator.pop(context);
+    }
   }
 }
