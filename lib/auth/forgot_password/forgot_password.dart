@@ -68,9 +68,8 @@ class _ForgotPasswordState extends BaseState<ForgotPassword> {
         listener: (BuildContext context, ForgotPasswordState state) async {
           if (state is VerifyEmailResultState) {
             if (state.result) {
-               FocusScope.of(context).requestFocus(FocusNode());
-              _page += 1;
-              _pageController.jumpToPage( _page);
+              FocusScope.of(context).requestFocus(FocusNode());
+              _pageController.jumpToPage(++_page);
             } else {
               errorMessage = state.message;
             }
@@ -79,13 +78,13 @@ class _ForgotPasswordState extends BaseState<ForgotPassword> {
 
           if (state is VerifyCodeResultState) {
             if (state.result) {
-              _page += 1;
-              _pageController.jumpToPage( _page);
+              _pageController.jumpToPage(++_page);
             }
             _validCode = state.result;
           }
 
           if (state is ForgotPasswordSuccess) {
+            FocusScope.of(context).requestFocus(FocusNode());
             _pageController.jumpToPage(++_page);
           }
 
