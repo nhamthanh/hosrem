@@ -1,3 +1,4 @@
+import 'package:hosrem_app/api/auth/user.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'conference_registration.g.dart';
@@ -6,7 +7,7 @@ part 'conference_registration.g.dart';
 @JsonSerializable(nullable: false)
 class ConferenceRegistration {
   ConferenceRegistration(this.registrationId, this.conferenceId, this.fee, this.letterAddress, this.letterType, this.paymentStatus,
-    this.paymentTypeId, this.registerTime, this.registrationType, this.userId);
+    this.paymentTypeId, this.registerTime, this.registrationType, this.user);
 
   factory ConferenceRegistration.fromJson(Map<String, dynamic> json) => _$ConferenceRegistrationFromJson(json);
 
@@ -16,7 +17,7 @@ class ConferenceRegistration {
   @JsonKey(name: 'conferenceId')
   final String conferenceId;
 
-  @JsonKey(name: 'fee')
+  @JsonKey(name: 'fee', nullable: true, defaultValue: 0.0)
   final double fee;
 
   @JsonKey(name: 'letterAddress')
@@ -31,14 +32,14 @@ class ConferenceRegistration {
   @JsonKey(name: 'paymentTypeId')
   final String paymentTypeId;
 
-  @JsonKey(name: 'registerTime')
+  @JsonKey(name: 'registerTime', nullable: true)
   final DateTime registerTime;
 
-  @JsonKey(name: 'registrationType')
+  @JsonKey(name: 'registrationType', nullable: true)
   final String registrationType;
 
-  @JsonKey(name: 'userId')
-  final String userId;
+  @JsonKey(name: 'user', nullable: true)
+  final User user;
 
   Map<String, dynamic> toJson() => _$ConferenceRegistrationToJson(this);
 }

@@ -9,6 +9,7 @@ class DocumentService {
 
   static const String SPEAKER_DOCUMENT_TYPE = 'Speaker';
   static const String OTHER_DOCUMENT_TYPE = 'Other';
+  static const int HALF_SECOND_IN_MILLISECOND = 500;
 
   final ApiProvider apiProvider;
 
@@ -33,6 +34,12 @@ class DocumentService {
     // ignore: flutter_style_todos
     // TODO: Wait a little bit to make sure animation is done.
     await Future<void>.delayed(Duration(milliseconds: 500));
-    return apiProvider.cacheManager.getSingleFile(url);
+    final int startTimeInEpoch = DateTime.now().millisecondsSinceEpoch;
+    final File file = await apiProvider.cacheManager.getSingleFile(url);
+    final int diff = DateTime.now().millisecondsSinceEpoch - startTimeInEpoch;
+    if (diff < HALF_SECOND_IN_MILLISECOND) {
+      await Future<void>.delayed(Duration(milliseconds: HALF_SECOND_IN_MILLISECOND - diff));
+    }
+    return file;
   }
 }
