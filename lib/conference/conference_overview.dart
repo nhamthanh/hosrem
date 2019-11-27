@@ -148,7 +148,15 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
                               padding: const EdgeInsets.all(28.0),
                               child: CachedNetworkImage(
                                 imageUrl: conference.banner != null ? '${apiConfig.apiBaseUrl}conferences/${conference.id}/banner?fileName=${conference.banner}' : 'https://',
-                                placeholder: (BuildContext context, String url) => Center(child: const CircularProgressIndicator()),
+                                placeholder: (BuildContext context, String url) => Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
+                                  Container(
+                                    height: 168.0,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      color: const Color.fromRGBO(52, 169, 255, 0.1)
+                                    ),
+                                    child: Image.asset(AppAssets.conferencePlaceholder))
+                                ]),
                                 errorWidget: (BuildContext context, String url, Object error) =>
                                   Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
                                     Container(

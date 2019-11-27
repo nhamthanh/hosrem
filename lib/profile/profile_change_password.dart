@@ -18,9 +18,10 @@ import 'package:loading_overlay/loading_overlay.dart';
 /// Change password form.
 @immutable
 class ChangePasswordForm extends StatefulWidget {
-  const ChangePasswordForm(this.user);
+  const ChangePasswordForm(this.user, { this.title });
 
   final User user;
+  final String title;
 
   @override
   State<ChangePasswordForm> createState() => _ChangePasswordFormState();
@@ -39,7 +40,7 @@ class _ChangePasswordFormState extends BaseState<ChangePasswordForm> {
   ProfilePasswordBloc _profilePasswordBloc;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-    
+
   @override
   void initState() {
     super.initState();
@@ -114,7 +115,7 @@ class _ChangePasswordFormState extends BaseState<ChangePasswordForm> {
         ],
         centerTitle: true
       ),
-      body: Center ( 
+      body: Center (
         child: Container(
           color: Colors.white,
           child: ListView(
@@ -139,7 +140,7 @@ class _ChangePasswordFormState extends BaseState<ChangePasswordForm> {
                     child: Container(
                       padding: const EdgeInsets.only(left: 46.0, right: 45.0),
                       child : Text(
-                        AppLocalizations.of(context).tr('login.enter_old_pass_new_pass'),
+                        widget.title ?? AppLocalizations.of(context).tr('login.enter_old_pass_new_pass'),
                         textAlign: TextAlign.center,
                         style: TextStyles.textStyle18PrimaryBlack,
                         overflow: TextOverflow.ellipsis,
@@ -204,7 +205,7 @@ class _ChangePasswordFormState extends BaseState<ChangePasswordForm> {
         )
       ),
       bottomNavigationBar: BottomAppBar (
-        child: Column( 
+        child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
           Container(
@@ -222,7 +223,7 @@ class _ChangePasswordFormState extends BaseState<ChangePasswordForm> {
               ),
             )
           ],)
-        ],) 
+        ],)
       ),
     );
   }

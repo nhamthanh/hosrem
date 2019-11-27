@@ -67,6 +67,7 @@ class _AppState extends State<App> {
             data: data,
             child: MaterialApp(
               title: 'Hosrem Application',
+              debugShowCheckedModeBanner: false,
               theme: _buildThemeData(state),
               localizationsDelegates: <LocalizationsDelegate<dynamic>>[
                 GlobalMaterialLocalizations.delegate,
