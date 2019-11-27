@@ -20,6 +20,7 @@ ConferenceRegistration _$ConferenceRegistrationFromJson(
         ? null
         : DateTime.parse(json['registerTime'] as String),
     json['registrationType'] as String,
+    json['userId'] as String,
     json['user'] == null
         ? null
         : User.fromJson(json['user'] as Map<String, dynamic>),
@@ -38,5 +39,6 @@ Map<String, dynamic> _$ConferenceRegistrationToJson(
       'paymentTypeId': instance.paymentTypeId,
       'registerTime': instance.registerTime?.toIso8601String(),
       'registrationType': instance.registrationType,
+      'userId': instance.userId,
       'user': instance.user,
     };

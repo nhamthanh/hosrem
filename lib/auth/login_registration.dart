@@ -30,7 +30,7 @@ class LoginRegistration extends StatefulWidget {
 }
 
 class _LoginRegistrationState extends BaseState<LoginRegistration> with SingleTickerProviderStateMixin {
-  
+
   final List<Widget> _tabs = <Widget>[
     Container(child: const Tab(text: 'Đăng Nhập'), width: 130.0, height: 36),
     Container(child: const Tab(text: 'Đăng Ký'), width: 130.0, height: 36),
@@ -82,7 +82,8 @@ class _LoginRegistrationState extends BaseState<LoginRegistration> with SingleTi
         listener: (BuildContext context, AuthState state) async {
           if (state is LoginSuccess) {
             if (state.user.mustResetPassword) {
-              await Navigator.push(context, MaterialPageRoute<bool>(builder: (BuildContext context) => ChangePasswordForm(state.user)));
+              await Navigator.push(context, MaterialPageRoute<bool>(builder: (BuildContext context) =>
+                ChangePasswordForm(state.user, title: 'Để bảo mật HOSREM khuyến khích bạn nên đổi mật khẩu')));
               Navigator.pop(context, true);
             } else {
               Navigator.pop(context, true);
@@ -189,7 +190,7 @@ class _LoginRegistrationState extends BaseState<LoginRegistration> with SingleTi
                             )
                           )
                         ),
-                        
+
                       ]
                     ),
                   )

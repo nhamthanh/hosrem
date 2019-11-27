@@ -105,7 +105,16 @@ class ConferenceItem extends StatelessWidget {
             child: CachedNetworkImage(
               height: 168.0,
               imageUrl: conference.banner != null ? '${apiConfig.apiBaseUrl}conferences/${conference.id}/banner?fileName=${conference.banner}' : 'https://',
-              placeholder: (BuildContext context, String url) => Center(child: const CircularProgressIndicator()),
+              placeholder: (BuildContext context, String url) => Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Container(
+                    height: 168.0,
+                    color: const Color.fromRGBO(52, 169, 255, 0.1),
+                    child: Image.asset(AppAssets.conferencePlaceholder)
+                  )
+                ]
+              ),
               errorWidget: (BuildContext context, String url, Object error) => Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
