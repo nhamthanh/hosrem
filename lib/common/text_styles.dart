@@ -240,5 +240,16 @@ class TextStyles {
     fontSize: 9.0,
     color: AppColors.secondaryBlackColor
   );
+
+  static const TextStyle textStyleItalic= TextStyle(
+    fontFamily: 'Muli-Italic',
+    fontStyle: FontStyle.italic
+  );
+
+  static const TextStyle textStyleItalicBold= TextStyle(
+    fontFamily: 'Muli-Italic',
+    fontStyle: FontStyle.italic,
+    fontWeight: FontWeight.bold
+  );
 }
 

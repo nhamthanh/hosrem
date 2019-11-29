@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:hosrem_app/article/bloc/articles_bloc.dart';
 import 'package:hosrem_app/article/bloc/articles_state.dart';
 import 'package:hosrem_app/common/app_assets.dart';
@@ -11,9 +10,9 @@ import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/common/date_time_utils.dart';
 import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/connection/connection_provider.dart';
+import 'package:hosrem_app/widget/html/custom_html.dart';
 import 'package:hosrem_app/widget/svg/svg_icon.dart';
 import 'package:loading_overlay/loading_overlay.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:hosrem_app/api/article/article.dart';
 
 import 'article_service.dart';
@@ -132,16 +131,7 @@ class _ArticleDetailState extends BaseState<ArticleDetail> {
                     ])),
               ),
               const SizedBox(height: 24.0),
-              Html(
-                data: state.article.content,
-                useRichText: false,
-                padding: const EdgeInsets.all(8.0),
-                onLinkTap: (String url) async {
-                  if (await canLaunch(url)) {
-                    await launch(url);
-                  }
-                }
-              ),
+              CustomHtml(state.article.content),
               const SizedBox(height: 16.0),
               state.relativeArticles.isNotEmpty ? Row(
                 children: <Widget>[
