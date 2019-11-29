@@ -4,13 +4,14 @@ import 'package:hosrem_app/auth/forgot_password/forgot_password.dart';
 import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/widget/button/primary_button.dart';
+import 'package:hosrem_app/widget/button/facebook_button.dart';
 import 'package:hosrem_app/widget/text/edit_text_field.dart';
 
 /// Login form.
 @immutable
 class LoginForm extends StatefulWidget {
-  const LoginForm(this.emailPhoneController, this.passwordController, this.handleLoginClick, { this.validEmail = true, this.validPassword = true });
-
+  const LoginForm(this.emailPhoneController, this.passwordController, this.handleLoginClick, this.onLoginFacebookButtonPressed, { this.validEmail = true, this.validPassword = true });
+  final VoidCallback onLoginFacebookButtonPressed;
   final TextEditingController emailPhoneController;
   final TextEditingController passwordController;
   final bool validEmail;
@@ -102,32 +103,68 @@ class _LoginFormState extends BaseState<LoginForm> {
                                 onPressed: widget.handleLoginClick,
                               )
                             ),
-                          )
-                        ],
+                          ),
+                        ]
                       ),
-                      const SizedBox(height: 15.0),
+                      const SizedBox(height: 10.0),
                       Material(
                         color: Colors.white,
                         child: InkWell(
                           highlightColor: Colors.white,
                           focusColor: Colors.white,
+                          splashColor: Colors.white,
                           onTap: () {
                             _onForgetPasswordPress();
                           },
-                          child: Text(
-                            AppLocalizations.of(context).tr('login.forgot_password'),
-                            style: TextStyles.textStyle11PrimaryBlueBold,
-                          ),
+                          child: Container(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Text(
+                              AppLocalizations.of(context).tr('login.forgot_password'),
+                              style: TextStyles.textStyle11PrimaryBlueBold,
+                            ),
+                          )
                         ),
                       ),
-                    ]
-                  )
+                      const SizedBox(height: 7),
+                      Row(
+                        children: <Widget>[
+                          const Expanded(
+                            child: Divider(
+                              thickness: 1.0,
+                            ),
+                          ),
+                          const SizedBox(width: 10.0,),
+                          Center(
+                            child: const Text('Hoặc',
+                              style: TextStyles.textStyle11PrimaryBlack,
+                            ),
+                          ),
+                          const SizedBox(width: 10.0,),
+                          const Expanded(
+                            child: Divider(
+                              thickness: 1.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 25),
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: FacebookButton(
+                              text: AppLocalizations.of(context).tr('login.login_with_facebook'),
+                              onPressed: widget.onLoginFacebookButtonPressed,
+                            )
+                          ),
+                        ],
+                      ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ]
           )
         ),
-      ]
+      )]
     );
   }
 
