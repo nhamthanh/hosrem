@@ -98,9 +98,7 @@ class _ConferenceDetailState extends BaseState<ConferenceDetail> with SingleTick
                         return ConnectionProvider(
                           child: LoadingOverlay(
                             isLoading: state is ConferenceLoading,
-                            child: state is LoadedConferenceState
-                              ? _buildConferenceWidget(context, state.conference, state.documents)
-                              : Container()
+                            child: _buildContent(context, state)
                           )
                         );
                       }
@@ -133,8 +131,18 @@ class _ConferenceDetailState extends BaseState<ConferenceDetail> with SingleTick
       controller: _tabController
     );
   }
+  
+  Widget _buildContent(BuildContext context, ConferenceState state) {
+    if (state is LoadedConferenceState) {
+      return _buildConferenceWidget(context, state.conference, state.documents);
+    } else if (state is ConferenceFailure) {
+      return Center(child: Text(AppLocalizations.of(context).tr('conferences.no_conference_found')));
+    } else {
+      return Container(color: Colors.white,);
+    }
+  }
 
-  Column _buildConferenceWidget(BuildContext context, Conference conference, List<Document> documents) {
+  Widget _buildConferenceWidget(BuildContext context, Conference conference, List<Document> documents) {
     return Column(
       children: <Widget>[
         const SizedBox(height: 5.0),

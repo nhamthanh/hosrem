@@ -9,7 +9,7 @@ import 'package:hosrem_app/widget/svg/svg_icon.dart';
 
 /// Conference registration fee widget.
 @immutable
-class ConferenceRegistrationFeeWidget extends StatelessWidget {
+class ConferenceRegistrationFeeWidget extends StatefulWidget {
   const ConferenceRegistrationFeeWidget({Key key, @required this.title, @required this.conferenceFees})
     : assert(title != null), assert(conferenceFees != null), super(key: key);
 
@@ -17,15 +17,20 @@ class ConferenceRegistrationFeeWidget extends StatelessWidget {
   final String title;
 
   @override
+  _ConferenceRegistrationFeeWidgetState createState() => _ConferenceRegistrationFeeWidgetState();
+}
+
+class _ConferenceRegistrationFeeWidgetState extends State<ConferenceRegistrationFeeWidget> {
+  @override
   Widget build(BuildContext context) {
     final Map<DateTime, List<ConferenceFee>> groupByMilestoneFees =
-        groupBy(conferenceFees, (ConferenceFee conferenceFee) => conferenceFee.milestone);
+        groupBy(widget.conferenceFees, (ConferenceFee conferenceFee) => conferenceFee.milestone);
     final List<DateTime> milestones = groupByMilestoneFees.keys.toList();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          title,
+          widget.title,
           style: TextStyles.textStyle16SecondaryBlackBold
         ),
         const SizedBox(height: 17.0),
