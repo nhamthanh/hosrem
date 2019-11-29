@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hosrem_app/api/survey/question.dart';
 import 'package:hosrem_app/api/survey/section.dart';
+import 'package:hosrem_app/common/app_colors.dart';
 
 import 'survey_question.dart';
 import 'survey_section_header.dart';
@@ -10,11 +11,12 @@ import 'survey_text_question.dart';
 
 /// SurveySection page.
 class SurveySection extends StatelessWidget {
-  const SurveySection(this.section, { this.values = const <Question, String>{}, this.rateChanged });
+  const SurveySection(this.section, { this.enable = true, this.values = const <Question, String>{}, this.rateChanged });
 
   final Section section;
   final Map<Question, String> values;
   final Function(Question, String) rateChanged;
+  final bool enable;
 
   @override
   Widget build(BuildContext context) {
@@ -35,18 +37,21 @@ class SurveySection extends StatelessWidget {
   }
 
   Widget _buildSurveyQuestion(Question question) {
+
     if (question.answerType == 'FreeText') {
       return SurveyTextQuestion(
         question,
         value: values[question],
-        textChanged: (String value) => rateChanged == null ? null : rateChanged(question, value)
+        textChanged: (String value) => rateChanged == null ? null : rateChanged(question, value),
+        enable: enable,
       );
     }
 
     return SurveyQuestion(
       question,
       value: values[question],
-      rateChanged: (String value) => rateChanged == null ? null : rateChanged(question, value)
+      rateChanged: (String value) => rateChanged == null ? null : rateChanged(question, value),
+      enable: enable,
     );
   }
 }

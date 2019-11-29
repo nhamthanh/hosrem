@@ -23,5 +23,13 @@ abstract class SurveyApi {
   /// Submit survey result.
   @POST('survey-results')
   Future<SurveyResult> submitSurveyResult(@Body() SurveyResult surveyResult);
+
+  /// Update survey result.
+  @PUT('survey-results/{id}')
+  Future<SurveyResult> updateSurveyResult(@Path() String id, @Body() SurveyResult surveyResult);
+
+  /// Get survey result.
+  @GET('survey-results/{id}')
+  Future<SurveyResult> getSurveyResult(@Path() String id);
 }
 

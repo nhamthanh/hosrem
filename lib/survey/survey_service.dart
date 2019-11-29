@@ -20,9 +20,20 @@ class SurveyService {
   }
 
   /// Submit survey value.
-  Future<void> submitSurveyResult(String conferenceId, String userId, Map<Question, String> values) async {
+  Future<void> submitSurveyResult(String conferenceId, String userId, Map<Question, String> values, { String surveyResultId = ''}) async {
     final List<QuestionResult> questionResults =
         values.keys.map((Question question) => QuestionResult(values[question], question)).toList();
-    await apiProvider.surveyApi.submitSurveyResult(SurveyResult(questionResults, conferenceId, userId));
+    if (surveyResultId.isEmpty) {
+      await apiProvider.surveyApi.submitSurveyResult(SurveyResult(questionResults, conferenceId, userId));
+    } else {
+      await apiProvider.surveyApi.updateSurveyResult(surveyResultId, SurveyResult(questionResults, conferenceId, userId));
+    }
+
+  }
+
+  /// Get survey result by survey result id [id].
+  Future<List<QuestionResult>> getSurveyResult(String id) async {
+    final SurveyResult surveyResult = await apiProvider.surveyApi.getSurveyResult(id);
+    return surveyResult.answers;
   }
 }
