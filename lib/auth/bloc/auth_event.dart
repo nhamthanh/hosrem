@@ -51,3 +51,9 @@ class CleanRegistrationEvent extends AuthEvent {
   @override
   String toString() => 'CleanRegistrationEvent {}';
 }
+
+/// LoginFacebookButtonPressed event.
+class LoginFacebookButtonPressed extends AuthEvent {
+  @override
+  String toString() => 'LoginFacebookButtonPressed { }';
+}

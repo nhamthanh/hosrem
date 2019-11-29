@@ -30,6 +30,24 @@ class _AuthApi implements AuthApi {
   }
 
   @override
+  loginOauthProvider(oAuthProvider, body) async {
+    ArgumentError.checkNotNull(oAuthProvider, 'oAuthProvider');
+    ArgumentError.checkNotNull(body, 'body');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(body ?? <String, dynamic>{});
+    final Response<Map<String, dynamic>> _result = await _dio.request(
+        'login/$oAuthProvider',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST', headers: <String, dynamic>{}, extra: _extra),
+        data: _data);
+    final value = Token.fromJson(_result.data);
+    return Future.value(value);
+  }
+
+  @override
   register(user) async {
     ArgumentError.checkNotNull(user, 'user');
     const _extra = <String, dynamic>{};

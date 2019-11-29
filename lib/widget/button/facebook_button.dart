@@ -16,7 +16,7 @@ class FacebookButton extends StatelessWidget {
       height: 50.0,
       decoration: BoxDecoration(
         color: AppColors.facebookPrimaryColor,
-        borderRadius: BorderRadius.circular(5.0),
+        borderRadius: BorderRadius.circular(15.0),
       ),
       child: FlatButton(
         child: Text(text),

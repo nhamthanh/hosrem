@@ -238,11 +238,12 @@ class _LoginRegistrationState extends BaseState<LoginRegistration> with SingleTi
         _emailPhoneController,
         _passwordController,
         _handleLoginClick,
+        _onLoginFacebookButtonPressed,
         validEmail: state.validEmail,
         validPassword: state.validPassword
       );
     }
-    return LoginForm(_emailPhoneController, _passwordController, _handleLoginClick);
+    return LoginForm(_emailPhoneController, _passwordController, _handleLoginClick, _onLoginFacebookButtonPressed);
   }
 
   void _handleLoginClick() {
@@ -276,5 +277,9 @@ class _LoginRegistrationState extends BaseState<LoginRegistration> with SingleTi
       tabs: _tabs,
       controller: _tabController
     );
+  }
+
+  void _onLoginFacebookButtonPressed() {
+    _authBloc.dispatch(LoginFacebookButtonPressed());
   }
 }

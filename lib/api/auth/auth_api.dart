@@ -17,6 +17,10 @@ abstract class AuthApi {
   @POST('login')
   Future<Token> login(@Body() Map<String, dynamic> body);
 
+  /// Login with oAuthProvider in [body].
+  @POST('login/{oAuthProvider}')
+  Future<Token> loginOauthProvider(@Path() String oAuthProvider, @Body() Map<String, dynamic> body);
+
   /// Register a new account.
   @POST('users/register')
   Future<User> register(@Body() User user);

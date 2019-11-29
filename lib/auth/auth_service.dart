@@ -68,13 +68,22 @@ class AuthService {
   /// Login with Facebook account.
   Future<String> loginWithFacebook() async {
     final FacebookLogin facebookLogin = FacebookLogin();
-    await facebookLogin.logIn(<String>['email']);
-//    if (result.status == FacebookLoginStatus.loggedIn) {
-//      return 'jwttoken';
-//    }
-//    return 'jwttoken';
-
-    throw Exception('Chưa hỗ trợ để đăng nhập với Facebook');
+    final FacebookLoginResult result = await facebookLogin.logIn(<String>['email']);
+    switch (result.status) {
+      case FacebookLoginStatus.loggedIn:
+        final Token tokenObj = await apiProvider.authApi.loginOauthProvider('facebook', <String, String>{
+          'accessToken': result.accessToken.token,
+          'oauthProvider': 'facebook',
+          'userId': result.accessToken.userId,
+        });
+        return tokenObj.token;
+      case FacebookLoginStatus.cancelledByUser:
+        return null;
+      case FacebookLoginStatus.error:
+        throw Exception('Đăng nhập facebook thất bại');
+      default:
+        return null;
+    }
   }
 
   /// Load current user.

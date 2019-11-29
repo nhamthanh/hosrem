@@ -49,6 +49,24 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     }
 
+    if (event is LoginFacebookButtonPressed) {
+      try {
+        final String token = await authService.loginWithFacebook();
+        if (token == null) {
+          return;
+        }
+        yield LoginLoading();
+        await authService.persistToken(token);
+        final User user = await authService.loadCurrentUser();
+        await authService.persistCurrentUser(user);
+        await _registerPushNotification();
+        yield LoginSuccess(user);
+      } catch (error) {
+        yield LoginFailure(error: ErrorHandler.extractErrorMessage(error));
+      }
+    }
+
+
     if (event is RegisterButtonPressed) {
       /// 1. Validate login form.
       if (event.email.isEmpty || event.password.isEmpty || event.fullName.isEmpty || event.phone.isEmpty || !event.checked) {
