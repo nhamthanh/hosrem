@@ -8,12 +8,14 @@ abstract class SurveyEvent {
 
 /// LoadSurveyEvent event.
 class LoadSurveyEvent extends SurveyEvent {
-  LoadSurveyEvent(this.id);
+  LoadSurveyEvent(this.conferenceId, { this.surveyResultId = '' });
 
-  final String id;
+  final String conferenceId;
+
+  final String surveyResultId;
 
   @override
-  String toString() => 'LoadSurveyEvent { id = $id }';
+  String toString() => 'LoadSurveyEvent { conferenceId = $conferenceId, surveyResultId = $surveyResultId }';
 }
 
 /// RatingEvent event.
@@ -39,10 +41,11 @@ class ChangeSectionEvent extends SurveyEvent {
 
 /// Submit rating result event.
 class SubmitRatingEvent extends SurveyEvent {
-  SubmitRatingEvent(this.values, this.conferenceId);
+  SubmitRatingEvent(this.values, this.conferenceId, { this.surveyResultId = '' });
 
   final Map<Question, String> values;
   final String conferenceId;
+  final String surveyResultId;
 
   @override
   String toString() => 'SubmitRatingEvent {}';

@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:hosrem_app/api/auth/user.dart';
 import 'package:hosrem_app/api/survey/question.dart';
+import 'package:hosrem_app/api/survey/question_result.dart';
 import 'package:hosrem_app/api/survey/section.dart';
 import 'package:hosrem_app/api/survey/survey.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
@@ -27,7 +28,6 @@ class SurveyBloc extends Bloc<SurveyEvent, SurveyState> {
   Map<Question, String> _values;
   Survey _survey;
   int _selectedSectionIndex = 0;
-
   @override
   SurveyState get initialState => SurveyLoading();
 
@@ -35,12 +35,15 @@ class SurveyBloc extends Bloc<SurveyEvent, SurveyState> {
   Stream<SurveyState> mapEventToState(SurveyEvent event) async* {
     if (event is LoadSurveyEvent) {
       yield SurveyLoading();
-
       try {
         _values = <Question, String>{};
-        _survey = await surveyService.getSurveyById(event.id);
+        _survey = await surveyService.getSurveyById(event.conferenceId);
+        final List<QuestionResult> _results = event.surveyResultId.isNotEmpty ? await surveyService.getSurveyResult(event.surveyResultId) : null;
         for (Section section in _survey.sections) {
           section.questions.sort((Question q1, Question q2) => q1.ordinalNumber.compareTo(q2.ordinalNumber));
+          if (event.surveyResultId.isNotEmpty) {
+            bidingAnswer(section.questions, _results);
+          }
         }
         yield LoadedSurvey(_survey, values: _values, selectedSectionIndex: _selectedSectionIndex);
       } catch (error) {
@@ -73,12 +76,19 @@ class SurveyBloc extends Bloc<SurveyEvent, SurveyState> {
 
       try {
         final User user = await authService.currentUser();
-        await surveyService.submitSurveyResult(event.conferenceId, user.id, event.values);
+        await surveyService.submitSurveyResult(event.conferenceId, user.id, event.values, surveyResultId: event.surveyResultId);
         yield SubmitSurveySuccess();
       } catch (error) {
         print(error.toString());
         yield SurveyFailure(error: ErrorHandler.extractErrorMessage(error));
       }
+    }
+  }
+
+  void bidingAnswer(List<Question> questions, List<QuestionResult> _results) {
+    for (int i = 0; i < questions.length; i++) {
+      final QuestionResult questionResult = _results.singleWhere((QuestionResult result) => result.question.id == questions[i].id , orElse: () => null);
+      _values[questions[i]] = questionResult != null && questionResult is QuestionResult ? questionResult.answer : '';
     }
   }
 }

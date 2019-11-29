@@ -15,6 +15,7 @@ import 'package:hosrem_app/conference/conference_info.dart';
 import 'package:hosrem_app/conference/registration/conference_registration.dart';
 import 'package:hosrem_app/loading/loading_indicator.dart';
 import 'package:hosrem_app/profile/user_service.dart';
+import 'package:hosrem_app/survey/survey.dart';
 import 'package:hosrem_app/survey/survey_introduction.dart';
 import 'package:hosrem_app/widget/button/primary_button.dart';
 import 'package:hosrem_app/widget/svg/svg_icon.dart';
@@ -215,17 +216,24 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
               text: AppLocalizations.of(context).tr('conferences.join_code'),
               onPressed: () => _navigateToViewQrCode(state.registrationCode),
             ),
-            state.hasToken ? InkWell(
-              child: Container(
-                padding: const EdgeInsets.only(top: 8.0, left: 15.0, right: 15.0),
-                child: Text(
-                  'Đánh giá',
-                  textAlign: TextAlign.center,
-                  style: TextStyles.textStyle11SecondaryGrey
-                )
-              ),
-              onTap: () => _navigateToSurvey(widget.conference.id)
-            ) : Container()
+
+            
+            state.hasToken ? Column(
+              children: <Widget>[
+                InkWell(
+                  child: Container(
+                    padding: const EdgeInsets.only(top: 8.0, left: 15.0, right: 15.0),
+                    child: Text(
+                      state.surveyResultId.isEmpty ? AppLocalizations.of(context).tr('survey.survey') : AppLocalizations.of(context).tr('survey.edit_survey'),
+                      textAlign: TextAlign.center,
+                      style: TextStyles.textStyle11SecondaryGrey
+                    ),
+                  ),
+                  onTap: () => state.surveyResultId.isEmpty ? _navigateToSurvey(widget.conference.id) : _navigateToEditSurvey(widget.conference.id, state.surveyResultId),
+                ),
+              ],
+            ) : Container(),
+             
           ],
         )
       );
@@ -253,6 +261,12 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
   Future<void> _navigateToSurvey(String conferenceId) async {
     await pushWidgetWithTransition(
       SurveyIntroduction(conferenceId),
+      PageTransitionType.downToUp
+    );
+  }
+
+  Future<void> _navigateToEditSurvey(String conferenceId, String surveyResultId) async {
+    await pushWidgetWithTransition(Survey(conferenceId, surveyResultId: surveyResultId),
       PageTransitionType.downToUp
     );
   }

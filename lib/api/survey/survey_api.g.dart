@@ -63,4 +63,38 @@ class _SurveyApi implements SurveyApi {
     final value = SurveyResult.fromJson(_result.data);
     return Future.value(value);
   }
+
+  @override
+  updateSurveyResult(id, surveyResult) async {
+    ArgumentError.checkNotNull(id, 'id');
+    ArgumentError.checkNotNull(surveyResult, 'surveyResult');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(surveyResult.toJson() ?? <String, dynamic>{});
+    final Response<Map<String, dynamic>> _result = await _dio.request(
+        'survey-results/$id',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'PUT', headers: <String, dynamic>{}, extra: _extra),
+        data: _data);
+    final value = SurveyResult.fromJson(_result.data);
+    return Future.value(value);
+  }
+
+  @override
+  getSurveyResult(id) async {
+    ArgumentError.checkNotNull(id, 'id');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final Response<Map<String, dynamic>> _result = await _dio.request(
+        'survey-results/$id',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET', headers: <String, dynamic>{}, extra: _extra),
+        data: _data);
+    final value = SurveyResult.fromJson(_result.data);
+    return Future.value(value);
+  }
 }
