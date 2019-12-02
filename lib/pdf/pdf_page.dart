@@ -1,9 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
 import 'package:hosrem_app/common/base_state.dart';
+import 'package:hosrem_app/common/rotation_state.dart';
 import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/conference/document_service.dart';
 import 'package:hosrem_app/loading/loading_indicator.dart';
@@ -25,7 +27,7 @@ class PdfPage extends StatefulWidget {
   _PdfPageState createState() => _PdfPageState();
 }
 
-class _PdfPageState extends BaseState<PdfPage> {
+class _PdfPageState extends RotationState<PdfPage> {
   PdfBloc _pdfBloc;
   AppBar _appBar;
 
@@ -106,4 +108,5 @@ class _PdfPageState extends BaseState<PdfPage> {
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     return mediaQuery.size.width;
   }
+
 }
