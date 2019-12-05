@@ -6,8 +6,8 @@ import 'package:hosrem_app/api/document/document.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
 import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/common/text_styles.dart';
+import 'package:hosrem_app/epub/epub_viewer.dart';
 import 'package:hosrem_app/image/image_viewer.dart';
-import 'package:hosrem_app/loading/loading_indicator.dart';
 import 'package:hosrem_app/pdf/pdf_page.dart';
 import 'package:hosrem_app/widget/button/primary_button.dart';
 import 'package:hosrem_app/widget/text/edit_text_field.dart';
@@ -300,7 +300,14 @@ class _ConferenceResourcesState extends BaseState<ConferenceResources> {
   }
 
   void _navigateToViewer(String title, String content) {
-    (content?.toLowerCase() ?? '').endsWith('pdf') ? _navigateToPdfViewer(title, content) : _navigateToImageViewer(title, content);
+    final String postFix = content?.toLowerCase() ?? '';
+    if (postFix.endsWith('pdf')) {
+      _navigateToPdfViewer(title, content);
+    } else if (postFix.endsWith('epub')) {
+      _navigateToEpubViewer(title, content);
+    } else {
+      _navigateToImageViewer(title, content);
+    } 
   }
 
   Future<void> _navigateToPdfViewer(String title, String content) async {
@@ -315,6 +322,14 @@ class _ConferenceResourcesState extends BaseState<ConferenceResources> {
     final String imageUrl = content != null && content.isNotEmpty ? '${apiConfig.apiBaseUrl}conferences/${widget.conference.id}/document?fileName=$content' : 'http://';
     await pushWidgetWithTransition(
       ImageViewer(url: imageUrl, title: title ?? AppLocalizations.of(context).tr('conferences.documents.reference_documents')),
+      PageTransitionType.downToUp
+    );
+  }
+
+  Future<void> _navigateToEpubViewer(String title, String content) async {
+    final String epubUrl = content != null && content.isNotEmpty ? '${apiConfig.apiBaseUrl}conferences/${widget.conference.id}/document?fileName=$content' : 'http://';
+    await pushWidgetWithTransition(
+      EpubViewer(url: epubUrl, title: title ?? AppLocalizations.of(context).tr('conferences.documents.reference_documents')),
       PageTransitionType.downToUp
     );
   }

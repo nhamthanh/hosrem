@@ -26,6 +26,9 @@ class AppAssets {
   /// Pdf file type.
   static const String pdfFileType = 'assets/images/pdf_file_type.svg';
 
+  /// Epub file type.
+  static const String epubFileType = 'assets/images/epub_file_type.svg';
+
   /// Email icon.
   static const String emailIcon = 'assets/images/email.svg';
 
