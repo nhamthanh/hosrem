@@ -48,6 +48,7 @@ dependencies:
   firebase_crashlytics: ^0.1.0+3
   flutter_user_agent: ^1.2.1
   url_launcher: ^5.2.5
+  epub: ^2.0.0
   momo:
     path: ../momo
 
@@ -74,6 +75,7 @@ flutter:
   - assets/images/registered.svg
   - assets/images/pdf_file_type.svg
   - assets/images/jpg_file_type.svg
+  - assets/images/epub_file_type.svg
   - assets/images/search.svg
   - assets/images/expired.svg
   - assets/images/email.svg
