@@ -21,7 +21,7 @@ class ConferenceQrCode extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             PrettyQr(
-              image: AssetImage(AppAssets.imageLogo),
+              image: const AssetImage(AppAssets.imageLogo),
               typeNumber: 3,
               size: 250,
               data: qrCode,

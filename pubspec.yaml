@@ -110,6 +110,8 @@ flutter:
   - assets/images/emote_4_selected.svg
   - assets/images/emote_5_normal.svg
   - assets/images/emote_5_selected.svg
+  - assets/images/cash.jpg
+  - assets/images/bank_transfer.png
   - assets/langs/vi-VN.json
   - assets/langs/en-US.json
 

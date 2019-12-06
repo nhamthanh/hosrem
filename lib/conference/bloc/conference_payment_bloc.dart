@@ -24,7 +24,7 @@ class ConferencePaymentBloc extends Bloc<ConferencePaymentEvent, ConferencePayme
   ConferencePaymentState get initialState => ConferencePaymentLoading();
 
   @override
-  Stream<ConferencePaymentState> mapEventToState(ConferencePaymentEvent event) async* {
+  Stream<ConferencePaymentState>  mapEventToState(ConferencePaymentEvent event) async* {
     if (event is LoadConferencePaymentDataEvent) {
       try {
         final bool premiumMembership = await authService.isPremiumMembership();
@@ -77,6 +77,18 @@ class ConferencePaymentBloc extends Bloc<ConferencePaymentEvent, ConferencePayme
         final Payment payment = await paymentService.createConferencePayment(event.conferenceId, event.fee, currentUser.address,
           event.letterType, event.paymentType, event.detail);
         yield ConferenceAtmPaymentSuccess(payment);
+      } catch (error) {
+        yield ConferencePaymentFailure(error: ErrorHandler.extractErrorMessage(error));
+      }
+    }
+
+    if (event is ProcessPendingPaymentEvent) {
+      yield ConferencePaymentLoading();
+      try {
+        final User currentUser = await authService.currentUser();
+        final Payment payment = await paymentService.createConferencePayment(event.conferenceId, event.fee, currentUser.address,
+          event.letterType, event.paymentType, event.detail);
+        yield ConferencePendingPaymentSuccess(payment);
       } catch (error) {
         yield ConferencePaymentFailure(error: ErrorHandler.extractErrorMessage(error));
       }

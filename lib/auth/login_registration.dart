@@ -38,7 +38,6 @@ class _LoginRegistrationState extends BaseState<LoginRegistration> with SingleTi
 
   TabController _tabController;
   AuthBloc _authBloc;
-  int _selectedTabIndex = 0;
   bool _checkedAgreement = false;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -57,7 +56,6 @@ class _LoginRegistrationState extends BaseState<LoginRegistration> with SingleTi
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this, length: _tabs.length);
-    _tabController.addListener(() => setState(() => _selectedTabIndex = _tabController.index));
 
     final AuthService authService = AuthService(apiProvider);
     final MembershipService membershipService = MembershipService(apiProvider);

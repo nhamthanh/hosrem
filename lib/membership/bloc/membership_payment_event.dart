@@ -66,4 +66,17 @@ class ProcessAtmPaymentEvent extends MembershipPaymentEvent {
   String toString() => 'ProcessAtmPaymentEvent { }';
 }
 
+/// ProcessAtmPaymentEvent event.
+class ProcessPendingPaymentEvent extends MembershipPaymentEvent {
+  ProcessPendingPaymentEvent({@required this.detail, @required this.membership, @required this.paymentType}) :
+      super(<dynamic>[detail, membership, paymentType]);
+
+  final Map<String, dynamic> detail;
+  final Membership membership;
+  final PaymentType paymentType;
+
+  @override
+  String toString() => 'ProcessPendingPaymentEvent { }';
+}
+
 
