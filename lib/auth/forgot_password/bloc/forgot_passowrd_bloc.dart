@@ -22,6 +22,7 @@ class ForgotPasswordBloc extends Bloc<ForgotPasswordEvent, ForgotPasswordState> 
 
   @override
   Stream<ForgotPasswordState> mapEventToState(ForgotPasswordEvent event) async* {
+    yield ForgetPasswordLoading();
     if (event is VerifyEmailEvent) {
       /// Verify email and generate verify code
       try {
@@ -32,6 +33,7 @@ class ForgotPasswordBloc extends Bloc<ForgotPasswordEvent, ForgotPasswordState> 
       }
     }
     if (event is VerifyCodeEvent) {
+      yield ForgetPasswordLoading();
       /// Validate Code
       try {
         final bool verifyCode = await authService.verifyResetPasswordCode(event.code);
@@ -47,6 +49,7 @@ class ForgotPasswordBloc extends Bloc<ForgotPasswordEvent, ForgotPasswordState> 
       }
     }
     if (event is ChangePasswordEvent) {
+      yield ForgetPasswordLoading();
       /// Change password
       try {
         await authService.resetUserPassword(UserPassword(null, event.password, null, null, event.code));

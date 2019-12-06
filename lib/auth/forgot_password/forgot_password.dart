@@ -35,11 +35,7 @@ class _ForgotPasswordState extends BaseState<ForgotPassword> {
   String errorMessage;
   ForgotPasswordBloc _forgotPasswordBloc;
   PageController _pageController;
-
   int _page = 0;
-  bool _verifyEmailDebounch = true;
-  bool _verifyCodeDebounch = true;
-  bool _changePassDebounch = true;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -74,7 +70,7 @@ class _ForgotPasswordState extends BaseState<ForgotPassword> {
               FocusScope.of(context).requestFocus(FocusNode());
               _pageController.jumpToPage(++_page);
             } else {
-              _verifyEmailDebounch = true;
+
               errorMessage = state.message;
             }
             _validEmail = state.result;
@@ -83,8 +79,6 @@ class _ForgotPasswordState extends BaseState<ForgotPassword> {
           if (state is VerifyCodeResultState) {
             if (state.result) {
               _pageController.jumpToPage(++_page);
-            } else {
-              _verifyCodeDebounch = true;
             }
             _validCode = state.result;
           }
@@ -95,8 +89,6 @@ class _ForgotPasswordState extends BaseState<ForgotPassword> {
           }
 
           if (state is ForgetPasswordFailure) {
-            _verifyCodeDebounch = true;
-            _changePassDebounch = true;
             _scaffoldKey.currentState.showSnackBar(
               SnackBar(
                 content: Text(state.error),
@@ -149,10 +141,7 @@ class _ForgotPasswordState extends BaseState<ForgotPassword> {
   }
 
   void _verifyEmailClick() {
-    if (_verifyEmailDebounch) {
-      _verifyEmailDebounch = false;
-      _forgotPasswordBloc.dispatch(VerifyEmailEvent(emailController.text));
-    }
+    _forgotPasswordBloc.dispatch(VerifyEmailEvent(emailController.text));
   }
 
   void _emailInformClick() {
@@ -160,16 +149,10 @@ class _ForgotPasswordState extends BaseState<ForgotPassword> {
   }
 
   void _verifyCodeClick() {
-    if (_verifyCodeDebounch) {
-      _verifyCodeDebounch = false;
-      _forgotPasswordBloc.dispatch(VerifyCodeEvent(codeController.text));
-    }
+    _forgotPasswordBloc.dispatch(VerifyCodeEvent(codeController.text));
   }
 
   void _changePasswordClick() {
-    if (_changePassDebounch) {
-      _changePassDebounch = false;
-      _forgotPasswordBloc.dispatch(ChangePasswordEvent(codeController.text, passwordController.text));
-    }
+    _forgotPasswordBloc.dispatch(ChangePasswordEvent(codeController.text, passwordController.text));
   }
 }

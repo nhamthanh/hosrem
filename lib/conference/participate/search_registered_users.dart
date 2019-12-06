@@ -29,6 +29,7 @@ class SearchRegisteredUsers extends StatefulWidget {
 class _SearchRegisteredUsersState extends BaseState<SearchRegisteredUsers> {
   RefreshController _refreshController;
   SearchRegisteredUsersBloc _searchRegisteredUsersBloc;
+  bool _onInit = true;
 
   @override
   void initState() {
@@ -90,7 +91,8 @@ class _SearchRegisteredUsersState extends BaseState<SearchRegisteredUsers> {
               children: <Widget>[
                 Expanded(
                   child: SearchTextField(
-                    executeSearch: _searchSearchRegisteredUser
+                    executeSearch: _searchSearchRegisteredUser,
+                    onEditingComplete: true,
                   )
                 ),
               ],
@@ -105,6 +107,9 @@ class _SearchRegisteredUsersState extends BaseState<SearchRegisteredUsers> {
   }
 
   Widget _buildRefreshWidget(List<PublicRegistration> searchRegisteredUser) {
+    if (searchRegisteredUser.isEmpty && !_onInit) {
+      return Center(child: const Text('Không có kết quả tìm kiếm'));
+    }
     return RefreshWidget(
       child: ListView.builder(
         itemCount: searchRegisteredUser.length,
@@ -131,6 +136,7 @@ class _SearchRegisteredUsersState extends BaseState<SearchRegisteredUsers> {
   }
 
   void _searchSearchRegisteredUser(String value) {
+    _onInit = false;
     final Map<String, dynamic> searchCriteria = <String, dynamic>{};
     searchCriteria.addAll(widget.criteria);
     searchCriteria['fullName'] = value.toLowerCase();

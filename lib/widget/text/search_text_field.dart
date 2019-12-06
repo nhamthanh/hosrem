@@ -6,9 +6,11 @@ import 'edit_text_field.dart';
 
 /// Search text field.
 class SearchTextField extends StatefulWidget {
-  const SearchTextField({Key key, this.executeSearch}) : super(key: key);
+  const SearchTextField({Key key, this.executeSearch, this.onEditingComplete = false}) : super(key: key);
 
   final Function executeSearch;
+
+  final bool onEditingComplete;
 
   @override
   State<SearchTextField> createState() => _SearchTextFieldState();
@@ -27,7 +29,8 @@ class _SearchTextFieldState extends State<SearchTextField> {
       prefixIcon: Icon(Icons.search),
       title: 'Tìm kiếm',
       hint: 'Tìm kiếm',
-      onTextChanged: _onSearchChanged,
+      onTextChanged: !widget.onEditingComplete ? _onSearchChanged : null,
+      onTextCompleted: widget.onEditingComplete ? _onSearchCompleted : null,
       controller: _searchController,
     );
   }
@@ -40,5 +43,9 @@ class _SearchTextFieldState extends State<SearchTextField> {
     _debounce = Timer(Duration(milliseconds: 300), () {
       widget.executeSearch(_searchController.text);
     });
+  }
+
+  void _onSearchCompleted() {
+    widget.executeSearch(_searchController.text);
   }
 }
