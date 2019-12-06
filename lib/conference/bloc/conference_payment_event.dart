@@ -77,3 +77,19 @@ class ProcessAtmPaymentEvent extends ConferencePaymentEvent {
   @override
   String toString() => 'ProcessAtmPaymentEvent { }';
 }
+
+/// ProcessPendingPaymentEvent event.
+class ProcessPendingPaymentEvent extends ConferencePaymentEvent {
+  ProcessPendingPaymentEvent(this.detail, this.conferenceId, this.fee, this.letterAddress,
+    this.letterType, this.paymentType);
+
+  final Map<String, dynamic> detail;
+  final String conferenceId;
+  final double fee;
+  final String letterAddress;
+  final String letterType;
+  final PaymentType paymentType;
+
+  @override
+  String toString() => 'ProcessAtmPaymentEvent { }';
+}

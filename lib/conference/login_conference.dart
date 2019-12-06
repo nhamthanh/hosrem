@@ -106,7 +106,7 @@ class _LoginConferenceState extends BaseState<LoginConference> {
               child: Column(
                 children: <Widget>[
                   const SizedBox(height: 30),
-                  Text(
+                  const Text(
                     'Vui lòng cung cấp thông tin đăng ký hội nghị của bạn',
                     textAlign: TextAlign.center,
                     style: TextStyles.textStyle20PrimaryBlack

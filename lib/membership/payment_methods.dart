@@ -10,5 +10,11 @@ class PaymentMethods {
 
   /// OnePay credit cards.
   static const String onepayCreditCards = 'ONEPAY-CREDIT';
+
+  /// Direct Payment.
+  static const String directPayment = 'DIRECT PAYMENT';
+
+  /// Bank transfer.
+  static const String bankTransfer = 'BANK TRANSFER';
 }
 

@@ -106,6 +106,19 @@ class _ConferencePaymentState extends BaseState<ConferencePayment> {
               _showPaymentFailDialog('');
             }
           }
+
+          if (state is ConferencePendingPaymentSuccess) {
+            showAlert(
+              context: context,
+              body: 'Cảm ơn bạn đã đăng ký. Vui lòng liên hệ Hosrem để hoàn thành thanh toán.',
+              actions: <AlertAction>[
+                AlertAction(text: 'OK', onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                })
+              ]
+            );
+          }
         },
         child: BlocBuilder<ConferencePaymentBloc, ConferencePaymentState>(
           bloc: _conferencePaymentBloc,
@@ -223,6 +236,46 @@ class _ConferencePaymentState extends BaseState<ConferencePayment> {
                                   ],
                                 )
                               ]
+                            ),
+                            Column(
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Radio<String>(
+                                      value: PaymentMethods.directPayment,
+                                      groupValue: _selectedPaymentMethod,
+                                      onChanged: _handleOptionChanged,
+                                    ),
+                                    Expanded(
+                                      child: InkWell(
+                                        child: const Text('Thanh Toán Trực Tiếp', style: TextStyles.textStyle16PrimaryBlack),
+                                        onTap: () => _handleOptionChanged(PaymentMethods.directPayment)
+                                      )
+                                    ),
+                                    Image.asset(AppAssets.cashIcon, width: 80.0, height: 52.0)
+                                  ],
+                                )
+                              ]
+                            ),
+                            Column(
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Radio<String>(
+                                      value: PaymentMethods.bankTransfer,
+                                      groupValue: _selectedPaymentMethod,
+                                      onChanged: _handleOptionChanged,
+                                    ),
+                                    Expanded(
+                                      child: InkWell(
+                                        child: const Text('Chuyển Khoản', style: TextStyles.textStyle16PrimaryBlack),
+                                        onTap: () => _handleOptionChanged(PaymentMethods.bankTransfer)
+                                      )
+                                    ),
+                                    Image.asset(AppAssets.bankTransferIcon, width: 80.0, height: 52.0)
+                                  ],
+                                )
+                              ]
                             )
                           ],
                         )
@@ -320,8 +373,12 @@ class _ConferencePaymentState extends BaseState<ConferencePayment> {
       await _payViaMomo();
     } else if (_selectedPaymentMethod == PaymentMethods.onepayCreditCards) {
       _payViaCreditCardsUsingOnePay();
-    } else {
+    } else if (_selectedPaymentMethod == PaymentMethods.onepayAtm) {
       _payViaAtmsUsingOnePay();
+    } else if (_selectedPaymentMethod == PaymentMethods.directPayment) {
+      _payViaDirectPayment();
+    } else {
+      _payViaBankTransfer();
     }
   }
 
@@ -344,6 +401,44 @@ class _ConferencePaymentState extends BaseState<ConferencePayment> {
       <String, dynamic>{
         'amount': widget.conferenceFee.fee,
         'type': 'external'
+      },
+      widget.conference.id,
+      widget.conferenceFee.fee,
+      '',
+      widget.conferenceFee.letterType,
+      paymentType
+    ));
+  }
+
+  void _payViaDirectPayment() {
+    if (!_validateSelectedPaymentType('Thanh toán trực tiếp', PaymentMethods.directPayment)) {
+      return;
+    }
+
+    final PaymentType paymentType = _paymentTypes.firstWhere((PaymentType paymentType) => paymentType.type == PaymentMethods.directPayment,
+      orElse: () => PaymentType.fromJson(<String, dynamic>{}));
+    _conferencePaymentBloc.dispatch(ProcessPendingPaymentEvent(
+      <String, dynamic>{
+        'amount': widget.conferenceFee.fee
+      },
+      widget.conference.id,
+      widget.conferenceFee.fee,
+      '',
+      widget.conferenceFee.letterType,
+      paymentType
+    ));
+  }
+
+  void _payViaBankTransfer() {
+    if (!_validateSelectedPaymentType('Chuyển khoản', PaymentMethods.bankTransfer)) {
+      return;
+    }
+
+    final PaymentType paymentType = _paymentTypes.firstWhere((PaymentType paymentType) => paymentType.type == PaymentMethods.bankTransfer,
+      orElse: () => PaymentType.fromJson(<String, dynamic>{}));
+    _conferencePaymentBloc.dispatch(ProcessPendingPaymentEvent(
+      <String, dynamic>{
+        'amount': widget.conferenceFee.fee
       },
       widget.conference.id,
       widget.conferenceFee.fee,

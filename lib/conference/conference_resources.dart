@@ -105,7 +105,7 @@ class _ConferenceResourcesState extends BaseState<ConferenceResources> {
             children: <Widget>[
               Expanded(
                 child: Center(
-                  child: Text(
+                  child: const Text(
                     'Vui lòng cung cấp thông tin về hội nghị',
                     style: TextStyles.textStyle16PrimaryBlack,
                     textAlign: TextAlign.center

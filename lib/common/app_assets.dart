@@ -83,6 +83,12 @@ class AppAssets {
   /// Momo icon.
   static const String momoIcon = 'assets/images/momo.png';
 
+  /// Cash icon.
+  static const String cashIcon = 'assets/images/cash.jpg';
+
+  /// Cash icon.
+  static const String bankTransferIcon = 'assets/images/bank_transfer.png';
+
   /// Onepay icon.
   static const String onepayIcon = 'assets/images/onepay.png';
 

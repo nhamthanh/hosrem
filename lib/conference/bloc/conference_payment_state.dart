@@ -62,3 +62,13 @@ class ConferencePaymentDataSuccess extends ConferencePaymentState {
   @override
   String toString() => 'ConferencePaymentDataSuccess {}';
 }
+
+/// ConferencePendingPaymentSuccess state.
+class ConferencePendingPaymentSuccess extends ConferencePaymentState {
+  ConferencePendingPaymentSuccess(this.payment);
+
+  final Payment payment;
+
+  @override
+  String toString() => 'ConferencePendingPaymentSuccess';
+}
