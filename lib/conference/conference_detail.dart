@@ -2,11 +2,11 @@ import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hosrem_app/api/conference/conference.dart';
 import 'package:hosrem_app/api/document/document.dart';
 import 'package:hosrem_app/common/app_colors.dart';
 import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/common/text_styles.dart';
+import 'package:hosrem_app/conference/participate/search_registered_users.dart';
 import 'package:hosrem_app/connection/connection_provider.dart';
 import 'package:hosrem_app/image/image_viewer.dart';
 import 'package:hosrem_app/pdf/pdf_viewer.dart';
@@ -37,6 +37,7 @@ class _ConferenceDetailState extends BaseState<ConferenceDetail> with SingleTick
     Container(child: const Tab(text: 'Tổng Quan'), width: 80.0),
     Container(child: const Tab(text: 'Chi Tiết'), width: 80.0),
     Container(child: const Tab(text: 'Tài Liệu'), width: 80.0),
+    Container(child: const Tab(text: 'Tham gia'), width: 80.0),
   ];
 
   ConferenceBloc _conferenceBloc;
@@ -98,9 +99,7 @@ class _ConferenceDetailState extends BaseState<ConferenceDetail> with SingleTick
                         return ConnectionProvider(
                           child: LoadingOverlay(
                             isLoading: state is ConferenceLoading,
-                            child: state is LoadedConferenceState
-                              ? _buildConferenceWidget(context, state.conference, state.documents)
-                              : Container()
+                            child: _buildConferenceWidget(context, state)
                           )
                         );
                       }
@@ -134,27 +133,34 @@ class _ConferenceDetailState extends BaseState<ConferenceDetail> with SingleTick
     );
   }
 
-  Column _buildConferenceWidget(BuildContext context, Conference conference, List<Document> documents) {
-    return Column(
-      children: <Widget>[
-        const SizedBox(height: 5.0),
-        _buildTabBar(),
-        const SizedBox(height: 5.0),
-        Expanded(
-          child: Container(
-            color: Colors.white,
-            child: TabBarView(
-              controller: _tabController,
-              children: <Widget>[
-                ConferenceOverview(conference: conference),
-                _buildPdfWidget(documents, context),
-                ConferenceResources(conference)
-              ]
+  Widget _buildConferenceWidget(BuildContext context, ConferenceState state) {
+    if (state is LoadedConferenceState) {
+      return Column(
+        children: <Widget>[
+          const SizedBox(height: 5.0),
+          _buildTabBar(),
+          const SizedBox(height: 5.0),
+          Expanded(
+            child: Container(
+              color: Colors.white,
+              child: TabBarView(
+                controller: _tabController,
+                children: <Widget>[
+                  ConferenceOverview(conference: state.conference),
+                  _buildPdfWidget(state.documents, context),
+                  ConferenceResources(state.conference),
+                  SearchRegisteredUsers(state.conference.id)
+                ]
+              )
             )
           )
-        )
-      ]
-    );
+        ]
+      );
+    } else if (state is ConferenceFailure) {
+      return Center(child: const Text('Không tồn tại thông tin về hội nghị'));
+    } else {
+      return Container(color: Colors.white,);
+    }
   }
 
   Widget _buildPdfWidget(List<Document> documents, BuildContext context) {

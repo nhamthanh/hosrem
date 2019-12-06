@@ -142,5 +142,11 @@ class AppAssets {
 
   /// Emote 5 selected icon.
   static const String emote5Selected = 'assets/images/emote_5_selected.svg';
+
+  /// Pay success.
+  static const String pay_icon = 'assets/images/pay.svg';
+
+  /// Pending payment.
+  static const String pending_icon = 'assets/images/pending.svg';
 }
 
