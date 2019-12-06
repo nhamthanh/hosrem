@@ -8,6 +8,7 @@ import 'conference_fees.dart';
 import 'conference_member_pagination.dart';
 import 'conference_pagination.dart';
 import 'conference_registration.dart';
+import 'update_registration_status.dart';
 
 part 'conference_api.g.dart';
 
@@ -51,5 +52,10 @@ abstract class ConferenceApi {
   /// Get registrated user of conference from id [id].
   @GET('conferences/{id}/registrations/public')
   Future<PublicRegistrationPagination> getParticipates(@Path() String id, @Queries() Map<String, dynamic> query);
+
+  /// Update conference registration status.
+  @PUT('conferences/{id}/registrations/{userId}/status')
+  Future<ConferenceRegistration> updateConferenceRegistrationStatus(@Path() String id, @Path() String userId,
+      @Body() UpdateRegistrationStatus updateRegistrationStatus);
 }
 

@@ -40,3 +40,13 @@ class LoadedConferenceState extends ConferenceState {
   String toString() => 'LoadedConferenceState';
 }
 
+/// ChangeConferenceTabState state.
+class ChangeConferenceTabState extends ConferenceState {
+  ChangeConferenceTabState({ this.tabIndex = 0 });
+
+  final int tabIndex;
+
+  @override
+  String toString() => 'ChangeConferenceTabState { }';
+}
+

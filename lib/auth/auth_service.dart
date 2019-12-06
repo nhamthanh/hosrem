@@ -8,6 +8,7 @@ import 'package:hosrem_app/api/auth/token.dart';
 import 'package:hosrem_app/api/auth/token_payload.dart';
 import 'package:hosrem_app/api/auth/user.dart';
 import 'package:hosrem_app/api/auth/user_password.dart';
+import 'package:hosrem_app/api/conference/conference_auth.dart';
 import 'package:hosrem_app/network/api_provider.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -156,20 +157,24 @@ class AuthService {
     return apiProvider.authApi.resetUserPassword(userPassword);
   }
 
-  /// Persist registration code [registrationCode].
-  Future<void> persistRegistrationCode(String conferenceId, String registrationCode) async {
+  /// Persist conference auth.
+  Future<void> persistConferenceAuth(String conferenceId, String fullName, String regCode) async {
     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
     final Map<String, dynamic> conferences =
-      _sharedPreferences.containsKey('conferences') ? jsonDecode(_sharedPreferences.get('conferences')) : <String, String>{};
-    conferences[conferenceId] = registrationCode;
+      _sharedPreferences.containsKey('conferences') ? jsonDecode(_sharedPreferences.get('conferences')) : <String, dynamic>{};
+    conferences[conferenceId] = ConferenceAuth(conferenceId, fullName, regCode);
     await _sharedPreferences.setString('conferences', jsonEncode(conferences));
   }
 
   /// Check if device has conference id.
-  Future<bool> isRegisteredConference(String conferenceId) async {
+  Future<ConferenceAuth> getConferenceAuth(String conferenceId) async {
     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
     final Map<String, dynamic> conferences =
-      _sharedPreferences.containsKey('conferences') ? jsonDecode(_sharedPreferences.get('conferences')) : <String, String>{};
-    return conferences.containsKey(conferenceId);
+      _sharedPreferences.containsKey('conferences') ? jsonDecode(_sharedPreferences.get('conferences')) : <String, dynamic>{};
+    if (conferences.containsKey(conferenceId)) {
+      return ConferenceAuth.fromJson(conferences[conferenceId]);
+    }
+
+    return null;
   }
 }

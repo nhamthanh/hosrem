@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:hosrem_app/api/auth/user.dart';
-import 'package:hosrem_app/api/conference/conference_registration.dart';
+import 'package:hosrem_app/api/conference/conference_auth.dart';
 import 'package:hosrem_app/api/document/document.dart';
 import 'package:hosrem_app/api/document/document_pagination.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
@@ -21,22 +21,18 @@ class DocumentsBloc extends Bloc<DocumentsEvent, DocumentsState> {
   static const int DEFAULT_PAGE = 0;
   static const int DEFAULT_PAGE_SIZE = 1000;
 
+  final Logger _logger = Logger('DocumentsBloc');
+
   final DocumentService documentService;
   final ConferenceService conferenceService;
   final AuthService authService;
-  final Logger _logger = Logger('DocumentsBloc');
 
-  final Map<String, bool> _fields = <String, bool>{};
   List<Document> _supplementDocs;
   List<Document> _documents;
 
 
   @override
-  DocumentsState get initialState {
-    _fields['fullName'] = true;
-    _fields['registrationCode'] = true;
-    return DocumentsLoading();
-  }
+  DocumentsState get initialState => DocumentsLoading();
 
   @override
   Stream<DocumentsState> mapEventToState(DocumentsEvent event) async* {
@@ -44,13 +40,13 @@ class DocumentsBloc extends Bloc<DocumentsEvent, DocumentsState> {
       try {
         yield DocumentsLoading();
         final User currentUser = await authService.currentUser();
-        final bool registeredConference = currentUser == null ?
-            await authService.isRegisteredConference(event.conference.id) :
+        final ConferenceAuth conferenceAuth = await authService.getConferenceAuth(event.conference.id);
+        final bool registeredConference = currentUser == null ? conferenceAuth != null :
             await conferenceService.checkIfUserRegisterConference(event.conference.id, currentUser.id);
-        yield ConferenceUnlockState(fields: _fields, loggedIn: currentUser != null, unlocked: registeredConference);
+        yield ConferenceUnlockState(loggedIn: currentUser != null, unlocked: registeredConference);
       } catch (error) {
         _logger.fine(error);
-        yield ConferenceUnlockState(fields: _fields, errorMsg: ErrorHandler.extractErrorMessage(error));
+        yield DocumentsFailure(error: ErrorHandler.extractErrorMessage(error));
       }
     }
 
@@ -65,6 +61,7 @@ class DocumentsBloc extends Bloc<DocumentsEvent, DocumentsState> {
         _supplementDocs = otherDocumentPagination.items;
 
         yield LoadedDocumentsState(
+          hasToken: await authService.hasToken(),
           documents: documentPagination.items,
           supplementDocs: _supplementDocs
         );
@@ -81,6 +78,7 @@ class DocumentsBloc extends Bloc<DocumentsEvent, DocumentsState> {
         final List<Document> filteredSupplementDocs =
             _supplementDocs.where((Document d) => _filterText(d, event.filterText)).toList();
         yield LoadedDocumentsState(
+          hasToken: await authService.hasToken(),
           documents: filteredDocuments,
           supplementDocs: filteredSupplementDocs
         );
@@ -90,39 +88,13 @@ class DocumentsBloc extends Bloc<DocumentsEvent, DocumentsState> {
       }
     }
 
-    if (event is ValidateFormFieldEvent) {
+    if (event is LogoutConferenceEvent) {
       try {
-        _fields[event.name] = event.value.isNotEmpty;
-        yield ConferenceUnlockState(fields: _fields);
+        await authService.clearUser();
+        dispatch(CheckIfUnlockConferenceEvent(event.conference));
       } catch (error) {
         _logger.fine(error);
         yield DocumentsFailure(error: ErrorHandler.extractErrorMessage(error));
-      }
-    }
-
-    if (event is ViewDocumentsPressedEvent) {
-      try {
-        yield ConferenceUnlockState(fields: _fields, loading: true);
-
-        if (event.fullName.isEmpty || event.registrationCode.isEmpty) {
-          _fields['fullName'] = event.fullName.isNotEmpty;
-          _fields['registrationCode'] = event.registrationCode.isNotEmpty;
-          yield ConferenceUnlockState(fields: _fields);
-          return;
-        }
-
-        final ConferenceRegistration conferenceRegistration =
-          await conferenceService.getRegistrationInfoFromRegCode(event.conference.id, event.registrationCode);
-        if (conferenceRegistration?.user?.fullName != event.fullName) {
-          yield ConferenceUnlockState(fields: _fields, errorMsg: 'Tên hoặc mã hội nghị của bạn không đúng. Vui lòng thử lại.');
-          return;
-        }
-
-        await authService.persistRegistrationCode(event.conference.id, event.registrationCode);
-        dispatch(LoadDocumentByConferenceIdEvent(event.conference, event.supplementDocs));
-      } catch (error) {
-        _logger.fine(error);
-        yield ConferenceUnlockState(fields: _fields, errorMsg: ErrorHandler.extractErrorMessage(error));
       }
     }
   }

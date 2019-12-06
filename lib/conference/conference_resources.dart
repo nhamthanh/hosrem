@@ -9,10 +9,8 @@ import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/image/image_viewer.dart';
 import 'package:hosrem_app/loading/loading_indicator.dart';
 import 'package:hosrem_app/pdf/pdf_page.dart';
-import 'package:hosrem_app/widget/button/primary_button.dart';
-import 'package:hosrem_app/widget/text/edit_text_field.dart';
+import 'package:hosrem_app/widget/button/default_button.dart';
 import 'package:hosrem_app/widget/text/search_text_field.dart';
-import 'package:loading_overlay/loading_overlay.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 
@@ -22,6 +20,7 @@ import 'bloc/documents_state.dart';
 import 'conference_resource_item.dart';
 import 'conference_service.dart';
 import 'document_service.dart';
+import 'login_conference.dart';
 
 /// Conference resources page.
 class ConferenceResources extends StatefulWidget {
@@ -34,9 +33,6 @@ class ConferenceResources extends StatefulWidget {
 }
 
 class _ConferenceResourcesState extends BaseState<ConferenceResources> {
-  final TextEditingController _fullNameController = TextEditingController();
-  final TextEditingController _registrationCodeController = TextEditingController();
-
   DocumentsBloc _documentsBloc;
 
   @override
@@ -65,32 +61,25 @@ class _ConferenceResourcesState extends BaseState<ConferenceResources> {
 
           if (state is ConferenceUnlockState) {
             if (state.unlocked) {
-              _documentsBloc.dispatch(
-                LoadDocumentByConferenceIdEvent(widget.conference, widget.conference.files)
-              );
-            }
-
-            if (state.errorMsg.isNotEmpty) {
-              Scaffold.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('${state.errorMsg}'),
-                  backgroundColor: Colors.red,
-                ),
-              );
+              _documentsBloc.dispatch(LoadDocumentByConferenceIdEvent(widget.conference, widget.conference.files));
             }
           }
         },
         child: BlocBuilder<DocumentsBloc, DocumentsState>(
           bloc: _documentsBloc,
           builder: (BuildContext context, DocumentsState state) {
-            return LoadingOverlay(
-              child: _buildPageContent(state),
-              isLoading: state is DocumentsLoading || (state is ConferenceUnlockState && state.loading)
-            );
+            return _buildPageContent(state);
           }
         )
       )
     );
+  }
+
+  Future<void> _navigateToLoginConference() async {
+    final bool result = await pushWidgetWithTransitionResult(LoginConference(widget.conference), PageTransitionType.downToUp);
+    if (result != null && result) {
+      _documentsBloc.dispatch(CheckIfUnlockConferenceEvent(widget.conference));
+    }
   }
 
   Widget _buildPageContent(DocumentsState state) {
@@ -109,73 +98,29 @@ class _ConferenceResourcesState extends BaseState<ConferenceResources> {
           );
         }
 
-        return SingleChildScrollView(
+        return Container(
+          padding: const EdgeInsets.all(25.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Container(
-                padding: const EdgeInsets.only(left: 28.0, right: 27.0),
-                child: Column(
-                  children: <Widget>[
-                    const SizedBox(height: 30),
-                    Text(
-                      'Vui lòng cung cấp thông tin đăng ký hội nghị của bạn',
-                      style: TextStyles.textStyle14SecondaryGrey
-                    ),
-                    const SizedBox(height: 25),
-                    Row(
-                      children: <Widget>[
-                        const SizedBox(height: 20),
-                        Expanded(
-                          child: EditTextField(
-                            hasLabel: false,
-                            title: '',
-                            hint: 'Nhập họ và tên',
-                            error: !state.fields['fullName'] ? 'Vui lòng nhập họ và tên' : null,
-                            onTextChanged: (String value) => _handleFormTextChanged('fullName', value),
-                            controller: _fullNameController,
-                          )
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20.0),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: EditTextField(
-                            hasLabel: false,
-                            title: '',
-                            hint: 'Nhập mã hội nghị',
-                            error: !state.fields['registrationCode'] ?'Vui lòng nhập mã hội nghị' : null,
-                            onTextChanged: (String value) => _handleFormTextChanged('registrationCode', value),
-                            controller: _registrationCodeController,
-                          )
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 28.5),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: Container(
-                            child: PrimaryButton(
-                              text: 'Đăng Nhập',
-                              onPressed: _loginAsRegistrationCode,
-                            )
-                          ),
-                        )
-                      ],
-                    )
-                  ]
+              Expanded(
+                child: Center(
+                  child: Text(
+                    'Vui lòng cung cấp thông tin về hội nghị',
+                    style: TextStyles.textStyle16PrimaryBlack,
+                    textAlign: TextAlign.center
+                  )
                 )
               ),
+              const SizedBox(height: 10.0),
+              DefaultButton(
+                text: 'Đăng Nhập',
+                onPressed: _navigateToLoginConference,
+              )
             ],
           )
         );
       }
-
-
 
       return Container();
     }
@@ -211,20 +156,7 @@ class _ConferenceResourcesState extends BaseState<ConferenceResources> {
       );
     }
 
-    return Container();
-  }
-
-  void _handleFormTextChanged(String name, String value) {
-    _documentsBloc.dispatch(ValidateFormFieldEvent(name: name, value: value));
-  }
-
-  void _loginAsRegistrationCode() {
-    _documentsBloc.dispatch(ViewDocumentsPressedEvent(
-      fullName: _fullNameController.text,
-      registrationCode: _registrationCodeController.text,
-      conference: widget.conference,
-      supplementDocs: widget.conference.files
-    ));
+    return LoadingIndicator();
   }
 
   Widget _buildDocumentsWidget(LoadedDocumentsState state) {
@@ -290,7 +222,20 @@ class _ConferenceResourcesState extends BaseState<ConferenceResources> {
               onTap: () => _navigateToViewer(document.title, document.content)
             )).toList()
           )
-        )
+        ),
+        !state.hasToken ? Container(
+          padding: const EdgeInsets.only(left: 25.0, top: 21.5, bottom: 28.5, right: 25.0),
+          color: Colors.white,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              DefaultButton(
+                text: 'Đăng Xuất',
+                onPressed: () => _documentsBloc.dispatch(LogoutConferenceEvent(widget.conference))
+              )
+            ],
+          )
+        ) : Container()
       ]
     );
   }

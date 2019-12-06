@@ -76,7 +76,7 @@ class SurveyBloc extends Bloc<SurveyEvent, SurveyState> {
 
       try {
         final User user = await authService.currentUser();
-        await surveyService.submitSurveyResult(event.conferenceId, user.id, event.values, surveyResultId: event.surveyResultId);
+        await surveyService.submitSurveyResult(event.conferenceId, user?.id, event.values, surveyResultId: event.surveyResultId);
         yield SubmitSurveySuccess();
       } catch (error) {
         print(error.toString());

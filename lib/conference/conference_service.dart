@@ -2,6 +2,7 @@ import 'package:hosrem_app/api/conference/conference.dart';
 import 'package:hosrem_app/api/conference/conference_fees.dart';
 import 'package:hosrem_app/api/conference/conference_pagination.dart';
 import 'package:hosrem_app/api/conference/conference_registration.dart';
+import 'package:hosrem_app/api/conference/update_registration_status.dart';
 import 'package:hosrem_app/network/api_provider.dart';
 
 /// Conference service.
@@ -40,5 +41,11 @@ class ConferenceService {
   /// Get registration info from registration code.
   Future<ConferenceRegistration> getRegistrationInfoFromRegCode(String conferenceId, String regCode) async {
     return apiProvider.conferenceApi.getRegistrationInfoFromRegCode(conferenceId, regCode);
+  }
+
+  /// Get registration info from registration code.
+  Future<ConferenceRegistration> updateConferenceRegistrationStatus(UpdateRegistrationStatus updateRegistrationStatus) async {
+    return apiProvider.conferenceApi.updateConferenceRegistrationStatus(updateRegistrationStatus.conferenceId,
+      updateRegistrationStatus.userId, updateRegistrationStatus);
   }
 }

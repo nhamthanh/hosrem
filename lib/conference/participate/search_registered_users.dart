@@ -79,7 +79,7 @@ class _SearchRegisteredUsersState extends BaseState<SearchRegisteredUsers> {
     );
   }
 
-  Widget _buildContentPage(List<PublicRegistration> SearchRegisteredUser) {
+  Widget _buildContentPage(List<PublicRegistration> searchRegisteredUser) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: Column(
@@ -97,7 +97,7 @@ class _SearchRegisteredUsersState extends BaseState<SearchRegisteredUsers> {
             )
           ),
           Expanded(
-            child: _buildRefreshWidget(SearchRegisteredUser)
+            child: _buildRefreshWidget(searchRegisteredUser)
           )
         ],
       )
@@ -119,7 +119,7 @@ class _SearchRegisteredUsersState extends BaseState<SearchRegisteredUsers> {
       onLoading: _onLoading,
       refreshController: _refreshController
     );
-    
+
   }
 
   void _onLoading() {

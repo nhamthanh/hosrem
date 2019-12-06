@@ -21,7 +21,7 @@ class AuthInterceptor extends Interceptor {
     try {
       apiError = ApiError.fromJson(error.response?.data);
     } catch (error) {
-      _logger.fine(error.message);
+      _logger.fine(error?.message);
     }
     return apiError;
   }

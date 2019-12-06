@@ -2,9 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:hosrem_app/app/app_context.dart';
 import 'package:hosrem_app/common/app_colors.dart';
-import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/common/rotation_state.dart';
 import 'package:photo_view/photo_view.dart';
 

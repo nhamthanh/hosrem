@@ -167,4 +167,25 @@ class _ConferenceApi implements ConferenceApi {
     final value = PublicRegistrationPagination.fromJson(_result.data);
     return Future.value(value);
   }
+
+  @override
+  updateConferenceRegistrationStatus(
+      id, userId, updateRegistrationStatus) async {
+    ArgumentError.checkNotNull(id, 'id');
+    ArgumentError.checkNotNull(userId, 'userId');
+    ArgumentError.checkNotNull(
+        updateRegistrationStatus, 'updateRegistrationStatus');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(updateRegistrationStatus.toJson() ?? <String, dynamic>{});
+    final Response<Map<String, dynamic>> _result = await _dio.request(
+        'conferences/$id/registrations/$userId/status',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'PUT', headers: <String, dynamic>{}, extra: _extra),
+        data: _data);
+    final value = ConferenceRegistration.fromJson(_result.data);
+    return Future.value(value);
+  }
 }

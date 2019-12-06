@@ -22,7 +22,7 @@ abstract class RotationState<T extends StatefulWidget> extends BaseState<T> {
 
   @override
   void dispose(){
-    SystemChrome.setPreferredOrientations([
+    SystemChrome.setPreferredOrientations(<DeviceOrientation>[
       DeviceOrientation.portraitUp,
     ]);
     super.dispose();

@@ -17,6 +17,7 @@ import 'package:hosrem_app/loading/loading_indicator.dart';
 import 'package:hosrem_app/profile/user_service.dart';
 import 'package:hosrem_app/survey/survey.dart';
 import 'package:hosrem_app/survey/survey_introduction.dart';
+import 'package:hosrem_app/widget/button/default_button.dart';
 import 'package:hosrem_app/widget/button/primary_button.dart';
 import 'package:hosrem_app/widget/svg/svg_icon.dart';
 import 'package:page_transition/page_transition.dart';
@@ -25,6 +26,7 @@ import 'bloc/conference_fees_bloc.dart';
 import 'bloc/conference_fees_event.dart';
 import 'bloc/conference_fees_state.dart';
 import 'conference_service.dart';
+import 'login_conference.dart';
 import 'registration/conference_qr_code.dart';
 import 'registration/conference_registration_fees.dart';
 
@@ -41,12 +43,12 @@ class ConferenceOverview extends StatefulWidget {
 class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
 
   ConferenceFeesBloc _conferenceFeesBloc;
-
   AuthService authService;
 
   @override
   void initState() {
     super.initState();
+
     authService = AuthService(apiProvider);
     _conferenceFeesBloc = ConferenceFeesBloc(
       conferenceService: ConferenceService(apiProvider),
@@ -204,58 +206,56 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
     );
   }
 
+  Future<void> _navigateToLoginConference() async {
+    final bool result = await pushWidgetWithTransitionResult(LoginConference(widget.conference), PageTransitionType.downToUp);
+    if (result != null && result) {
+      _conferenceFeesBloc.dispatch(
+        LoadConferenceFeesByConferenceIdEvent(
+          conferenceId: widget.conference.id,
+          conferenceStatus: widget.conference.status
+        )
+      );
+    }
+  }
+
   Widget _buildButtonRegistrationWidget(LoadedConferenceFees state) {
-    if (state.registeredConference) {
-      return Container(
-        padding: const EdgeInsets.only(left: 25.0, top: 21.5, bottom: 28.5, right: 25.0),
-        color: Colors.white,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            PrimaryButton(
-              text: AppLocalizations.of(context).tr('conferences.join_code'),
-              onPressed: () => _navigateToViewQrCode(state.registrationCode),
-            ),
-
-            
-            state.hasToken ? Column(
-              children: <Widget>[
-                InkWell(
-                  child: Container(
-                    padding: const EdgeInsets.only(top: 8.0, left: 15.0, right: 15.0),
-                    child: Text(
-                      state.surveyResultId.isEmpty ? AppLocalizations.of(context).tr('survey.survey') : AppLocalizations.of(context).tr('survey.edit_survey'),
-                      textAlign: TextAlign.center,
-                      style: TextStyles.textStyle11SecondaryGrey
-                    ),
+    return Container(
+      padding: const EdgeInsets.only(left: 25.0, top: 21.5, bottom: 28.5, right: 25.0),
+      color: Colors.white,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          state.registeredConference ? PrimaryButton(
+            text: AppLocalizations.of(context).tr('conferences.join_code'),
+            onPressed: () => _navigateToViewQrCode(state.registrationCode),
+          ) : Container(),
+          !state.registeredConference && state.allowRegistration ? PrimaryButton(
+            text: AppLocalizations.of(context).tr('conferences.register_for_event'),
+            onPressed: () => _navigateToRegistration(state.selectedConferenceFee, state.hasToken),
+          ) : Container(),
+          state.registeredConference ? Column(
+            children: <Widget>[
+              InkWell(
+                child: Container(
+                  padding: const EdgeInsets.only(top: 8.0, left: 15.0, right: 15.0),
+                  child: Text(
+                    state.surveyResultId.isEmpty ? AppLocalizations.of(context).tr('survey.survey') : AppLocalizations.of(context).tr('survey.edit_survey'),
+                    textAlign: TextAlign.center,
+                    style: TextStyles.textStyle11SecondaryGrey
                   ),
-                  onTap: () => state.surveyResultId.isEmpty ? _navigateToSurvey(widget.conference.id) : _navigateToEditSurvey(widget.conference.id, state.surveyResultId),
                 ),
-              ],
-            ) : Container(),
-             
-          ],
-        )
-      );
-    }
-
-    if (state.allowRegistration) {
-      return Container(
-        padding: const EdgeInsets.only(left: 25.0, top: 21.5, bottom: 28.5, right: 25.0),
-        color: Colors.white,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            PrimaryButton(
-              text: AppLocalizations.of(context).tr('conferences.register_for_event'),
-              onPressed: () => _navigateToRegistration(state.selectedConferenceFee, state.hasToken),
-            )
-          ],
-        )
-      );
-    }
-
-    return Container();
+                onTap: () => state.surveyResultId.isEmpty ? _navigateToSurvey(widget.conference.id) : _navigateToEditSurvey(widget.conference.id, state.surveyResultId),
+              ),
+            ],
+          ) : Container(),
+          const SizedBox(height: 10.0),
+          !state.registeredConference? DefaultButton(
+            text: 'Đăng Nhập Hội Nghị',
+            onPressed: () => _navigateToLoginConference(),
+          ) : Container(),
+        ],
+      )
+    );
   }
 
   Future<void> _navigateToSurvey(String conferenceId) async {

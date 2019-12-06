@@ -53,7 +53,7 @@ class SearchRegisteredUsersItem extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyles.textStyle14SecondaryGrey
                       ),
-                      const SizedBox(height: 10.0),                   
+                      const SizedBox(height: 10.0),
                     ],
                   ),
                 ),
@@ -66,9 +66,9 @@ class SearchRegisteredUsersItem extends StatelessWidget {
                         child: const SvgIcon(AppAssets.registered_icons)
                       ) : Container(
                         transform: Matrix4.translationValues(17.0, -7.0, 0.0),
-                        child: SvgIcon(AppAssets.pending_icon)
+                        child: const SvgIcon(AppAssets.pending_icon)
                       ),
-                      const Text('')                
+                      const Text('')
                     ],
                   ),
                 ),

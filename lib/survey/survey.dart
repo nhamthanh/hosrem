@@ -45,7 +45,8 @@ class _SurveyState extends BaseState<Survey> {
   @override
   void initState() {
     super.initState();
-    _surveyBloc = SurveyBloc(surveyService: SurveyService(apiProvider), authService: AuthService(apiProvider));
+    final AuthService authService = AuthService(apiProvider);
+    _surveyBloc = SurveyBloc(surveyService: SurveyService(apiProvider, authService), authService: authService);
     _surveyBloc.dispatch(LoadSurveyEvent(widget.conferenceId, surveyResultId: widget.surveyResultId));
   }
 
@@ -60,7 +61,7 @@ class _SurveyState extends BaseState<Survey> {
         automaticallyImplyLeading: false,
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.clear),  
+            icon: Icon(Icons.clear),
             color: Colors.white,
             onPressed: () => Navigator.pop(context)
           )
@@ -155,7 +156,7 @@ class _SurveyState extends BaseState<Survey> {
             textAlign: TextAlign.center,
             maxLines: 2,
           ) ,
-        ) 
+        )
       );
     }
 
