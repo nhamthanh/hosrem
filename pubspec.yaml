@@ -86,6 +86,8 @@ flutter:
   - assets/images/megaphone.svg
   - assets/images/gift.svg
   - assets/images/card.svg
+  - assets/images/pay.svg
+  - assets/images/pending.svg
   - assets/images/momo.png
   - assets/images/zalo.png
   - assets/images/onepay.png

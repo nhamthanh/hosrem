@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:hosrem_app/api/conference/public_registration_pagination.dart';
 import 'package:hosrem_app/api/document/document_pagination.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -46,5 +47,9 @@ abstract class ConferenceApi {
   /// Get registration inform from registration code [regCode].
   @GET('conferences/{id}/registration-codes/{regCode}')
   Future<ConferenceRegistration> getRegistrationInfoFromRegCode(@Path() String id, @Path() String regCode);
+
+  /// Get registrated user of conference from id [id].
+  @GET('conferences/{id}/registrations/public')
+  Future<PublicRegistrationPagination> getParticipates(@Path() String id, @Queries() Map<String, dynamic> query);
 }
 

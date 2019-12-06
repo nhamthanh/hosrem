@@ -198,15 +198,17 @@ class _UpdateProfileState extends BaseState<UpdateProfile> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 8.0),
                               Container(
                                 child: InkWell(
                                   onTap: () {
                                     _onBackPress();
                                   },
-                                  child: Text(
-                                    AppLocalizations.of(context).tr('my_profile.back'),
-                                    style: TextStyles.textStyle11PrimaryBlueBold,
+                                  child: Container(
+                                    padding: const EdgeInsets.only(top: 13.0, right: 15.0, left: 15.0, bottom: 8.0),
+                                    child: Text(
+                                      AppLocalizations.of(context).tr('my_profile.back'),
+                                      style: TextStyles.textStyle11PrimaryBlueBold,
+                                    ),
                                   ),
                                 ),
                               ),

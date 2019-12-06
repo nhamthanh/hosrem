@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="112px" height="33px" viewBox="0 0 112 33" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 57.1 (83088) - https://sketch.com -->
+    <title>Banner - Registered</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Mobile-App" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Events-List---Registered" transform="translate(-242.000000, -228.000000)">
+            <g id="Group-3" transform="translate(28.000000, 188.000000)">
+                <g id="Banner---Registered" transform="translate(214.000000, 40.000000)">
+                    <path d="M0,0 L102,0 C107.522847,-1.01453063e-15 112,4.4771525 112,10 L112,28 L112,28 L105,32.1528284 L105,28 L10,28 C4.4771525,28 6.76353751e-16,23.5228475 0,18 L0,0 L0,0 Z" id="Rectangle" fill="#95DE64"></path>
+                    <text id="Đã-Đăng-Ký" font-family="LucidaGrande, Lucida Grande" font-size="12" font-weight="normal" letter-spacing="0.200000003" fill="#FFFFFF">
+                        <tspan x="21.571289" y="18">Đã thanh toán</tspan>
+                    </text>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

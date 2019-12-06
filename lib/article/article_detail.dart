@@ -157,14 +157,6 @@ class _ArticleDetailState extends BaseState<ArticleDetail> {
                               overflow: TextOverflow.ellipsis,
                             )
                           ),
-                          IconButton(
-                            icon: Icon(
-                              Icons.keyboard_arrow_right,
-                              color: AppColors.primaryBlackColor,
-                              size: 18.0
-                            ),
-                            onPressed: () {},
-                          ),
                         ]),
                         onTap: () => _navigateToArticleDetail(article)
                       ),
