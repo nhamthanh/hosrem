@@ -11,7 +11,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Hosrem App</string>
+	<string>Hosrem</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -25,12 +25,13 @@
 			<string></string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+			    <string>fb987350384936808</string>
 				<string>momos9hi20191019</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<string>18</string>
 	<key>FacebookAppID</key>
 	<string>987350384936808</string>
 	<key>FacebookDisplayName</key>

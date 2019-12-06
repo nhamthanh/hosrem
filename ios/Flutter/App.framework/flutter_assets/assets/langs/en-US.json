@@ -35,7 +35,7 @@
     "enter_old_pass_new_pass": "Vui lòng nhập mật khẩu cũ và mật khẩu mới",
     "enter_new_pass": "Vui lòng nhập mật khẩu mới",
     "reset_success": "Thay Đổi Mật Khẩu Thành Công",
-    "please_login": "Vui lòng đăng nhập nhập với mật khẩu mới"
+    "please_login": "Vui lòng đăng nhập với mật khẩu mới"
   },
   "registration": {
     "register": "Đăng Ký",
@@ -102,7 +102,7 @@
     "events": "Hội Nghị",
     "notifications": "Thông Báo",
     "profile": "Cá Nhân",
-    "register_for_event": "Đăng Ký Tham Dự",
+    "register_for_event": "Đăng Ký Hội Nghị",
     "about_event": "Thông Tin Hội Nghị",
     "join_code": "Mã tham dự hội nghị",
     "address": "Địa chỉ",
@@ -118,7 +118,9 @@
       "upgrade_to_view_documents": "Bạn cần phải đăng ký hội nghị để xem tài liệu",
       "reference_documents": "Tài liệu tham khảo"
     },
-    "no_conference_found": "Không tìm thấy thông tin về hội nghị"
+    "no_conference_found": "Không tìm thấy thông tin về hội nghị",
+    "hosrem_member": "Hội Viên HOSREM",
+    "other_member": "Đối Tượng Khác"
   },
   "profile": {
     "your_profile": "Thông tin tài khoản",
@@ -166,5 +168,18 @@
     "major_news": "Tin Chuyên Ngành",
     "international news": "Tin quốc tế",
     "nation news": "Tin trong nước"
+  },
+  "survey": {
+    "survey": "Khảo sát",
+    "view_survey": "Xem khảo sát",
+    "edit_survey": "Sửa khảo sát",
+    "no_info_survey": "Chưa có thông tin về khảo sát",
+    "please_rate": "Vui lòng đánh giá từ 1 (tệ nhất) đến 5 (tốt nhất)."
+  },
+  "button": {
+    "next": "Tiếp tục",
+    "back": "Quay về",
+    "close": "Đóng",
+    "edit": "Chỉnh sửa"
   }
 }

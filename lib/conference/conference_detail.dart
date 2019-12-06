@@ -71,6 +71,10 @@ class _ConferenceDetailState extends BaseState<ConferenceDetail> with SingleTick
           if (state is LoadedConferenceState) {
             _downloadAndCacheDocuments(state.documents);
           }
+
+          if (state is ChangeConferenceTabState) {
+            _tabController.animateTo(state.tabIndex);
+          }
         },
         child: BlocBuilder<ConferenceBloc, ConferenceState>(
           bloc: _conferenceBloc,

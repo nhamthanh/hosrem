@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hosrem_app/api/survey/question.dart';
 import 'package:hosrem_app/api/survey/section.dart';
-import 'package:hosrem_app/common/app_colors.dart';
 
 import 'survey_question.dart';
 import 'survey_section_header.dart';

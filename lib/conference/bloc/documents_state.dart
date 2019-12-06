@@ -24,14 +24,10 @@ class DocumentsFailure extends DocumentsState {
 
 /// DefaultDocumentsState state.
 class ConferenceUnlockState extends DocumentsState {
-  ConferenceUnlockState({ @required this.fields, this.loggedIn = false, this.unlocked = false,
-    this.loading = false, this.errorMsg = '' });
+  ConferenceUnlockState({ this.loggedIn = false, this.unlocked = false });
 
   final bool unlocked;
   final bool loggedIn;
-  final bool loading;
-  final String errorMsg;
-  final Map<String, bool> fields;
 
   @override
   String toString() => 'ConferenceUnlockState';
@@ -39,10 +35,11 @@ class ConferenceUnlockState extends DocumentsState {
 
 /// LoadedDocumentsState state.
 class LoadedDocumentsState extends DocumentsState {
-  LoadedDocumentsState({ this.documents = const <Document>[], this.supplementDocs = const <Document>[] });
+  LoadedDocumentsState({ this.hasToken = false, this.documents = const <Document>[], this.supplementDocs = const <Document>[] });
 
   final List<Document> documents;
   final List<Document> supplementDocs;
+  final bool hasToken;
 
   @override
   String toString() => 'LoadedDocumentsState';

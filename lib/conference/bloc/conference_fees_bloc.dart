@@ -4,12 +4,14 @@ import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hosrem_app/api/auth/user.dart';
+import 'package:hosrem_app/api/conference/conference_auth.dart';
 import 'package:hosrem_app/api/conference/conference_fee.dart';
 import 'package:hosrem_app/api/conference/conference_fees.dart';
 import 'package:hosrem_app/api/conference/user_conference.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
 import 'package:hosrem_app/common/error_handler.dart';
 import 'package:hosrem_app/profile/user_service.dart';
+import 'package:logging/logging.dart';
 
 import '../conference_service.dart';
 import 'conference_fees_event.dart';
@@ -25,6 +27,7 @@ class ConferenceFeesBloc extends Bloc<ConferenceFeesEvent, ConferenceFeesState> 
   final UserService userService;
   final ConferenceService conferenceService;
   final AuthService authService;
+  final Logger _logger = Logger('ConferenceFeesBloc');
 
   @override
   ConferenceFeesState get initialState => ConferenceFeesLoading();
@@ -39,21 +42,36 @@ class ConferenceFeesBloc extends Bloc<ConferenceFeesEvent, ConferenceFeesState> 
         final bool hasToken = await authService.hasToken();
         final User user = await authService.currentUser();
         final ConferenceFees conferenceFees = await conferenceService.getConferenceFees(event.conferenceId);
-        final bool registeredConference =
-            hasToken ? await conferenceService.checkIfUserRegisterConference(event.conferenceId, user.id) : false;
+        final ConferenceAuth conferenceAuth = await authService.getConferenceAuth(event.conferenceId);
+        bool registeredConference =
+            hasToken ? await conferenceService.checkIfUserRegisterConference(event.conferenceId, user.id)
+                     :  conferenceAuth != null;
+
         final List<ConferenceFee> selectedConferenceFees = _filterConferenceFeesByNowAndMembership(premiumMembership,
             conferenceFees);
-        final bool allowRegistration = event.conferenceStatus != 'Done' ? selectedConferenceFees.any((ConferenceFee conferenceFee) => conferenceFee.onlineRegistration) : false;
+        final bool allowRegistration = event.conferenceStatus != 'Done'
+          ? selectedConferenceFees.any((ConferenceFee conferenceFee) => conferenceFee.onlineRegistration)
+          : false;
+
         if (authService.currentUser() != null) {
           final UserConference userConference = await userService.getSpecificRegisteredConference(event.conferenceId);
           if (userConference != null) {
             registrationCode = userConference.registrationCode;
             surveyResultId = userConference.surveyResultId ?? '';
+            registeredConference = userConference.status == 'Pending' ? false : registeredConference;
           }
         }
-        yield LoadedConferenceFees(conferenceFees, selectedConferenceFees,
-            allowRegistration: allowRegistration, registeredConference: registeredConference, hasToken: hasToken, registrationCode: registrationCode, surveyResultId: surveyResultId);
+        yield LoadedConferenceFees(
+          conferenceFees,
+          selectedConferenceFees,
+          allowRegistration: allowRegistration,
+          registeredConference: registeredConference,
+          hasToken: hasToken,
+          registrationCode: registrationCode,
+          surveyResultId: surveyResultId
+        );
       } catch (error) {
+        _logger.fine(error);
         yield ConferenceFeesFailure(error: ErrorHandler.extractErrorMessage(error));
       }
     }

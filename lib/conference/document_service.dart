@@ -19,7 +19,8 @@ class DocumentService {
         conferenceId, <String, dynamic>{
       'page': page,
       'size': size,
-      'type': type
+      'type': type,
+      'sort': 'speakingTime:asc'
     });
     return documentPagination;
   }

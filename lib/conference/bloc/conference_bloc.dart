@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hosrem_app/api/conference/conference.dart';
+import 'package:hosrem_app/api/document/document.dart';
 import 'package:hosrem_app/api/document/document_pagination.dart';
 import 'package:hosrem_app/common/error_handler.dart';
 import 'package:hosrem_app/conference/document_service.dart';
@@ -24,28 +25,40 @@ class ConferenceBloc extends Bloc<ConferenceEvent, ConferenceState> {
   final DocumentService documentService;
   final Logger _logger = Logger('ConferenceBloc');
 
+  Conference _conference;
+  List<Document> _documents;
+
   @override
   ConferenceState get initialState => ConferenceInitial();
 
   @override
   Stream<ConferenceState> mapEventToState(ConferenceEvent event) async* {
     if (event is LoadConferenceEvent) {
-      
+
       yield ConferenceLoading();
       try {
-        final Conference conference = await conferenceService.getConferenceById(event.conferenceId);
+        _conference = await conferenceService.getConferenceById(event.conferenceId);
 
         final DocumentPagination documentPagination =
             await documentService.getDocumentsByConferenceId(event.conferenceId, DocumentService.OTHER_DOCUMENT_TYPE,
                 DEFAULT_PAGE, DEFAULT_PAGE_SIZE);
+        _documents = documentPagination.items;
         yield LoadedConferenceState(
-          conference: conference,
-          documents: documentPagination.items,
+          conference: _conference,
+          documents: _documents
         );
       } catch (error) {
         _logger.fine(error);
         yield ConferenceFailure(error: ErrorHandler.extractErrorMessage(error));
       }
+    }
+
+    if (event is ShowConferenceTabEvent) {
+      yield ChangeConferenceTabState(tabIndex: event.tabIndex);
+      yield LoadedConferenceState(
+        conference: _conference,
+        documents: _documents
+      );
     }
   }
 }

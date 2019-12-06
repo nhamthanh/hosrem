@@ -47,7 +47,16 @@ class FeaturedArticleItem extends StatelessWidget {
                     image: imageProvider, fit: BoxFit.cover),
                 ),
               ),
-              placeholder: (BuildContext context, String url) => Center(child: const CircularProgressIndicator()),
+              placeholder: (BuildContext context, String url) => Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.0),
+                  color: const Color.fromRGBO(52, 169, 255, 0.1),
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: Image.asset(AppAssets.articlePlaceholder).image
+                  )
+                ),
+              ),
               errorWidget: (BuildContext context, String url, Object error) => Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8.0),

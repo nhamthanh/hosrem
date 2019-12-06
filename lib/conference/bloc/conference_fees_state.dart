@@ -26,7 +26,8 @@ class ConferenceFeesFailure extends ConferenceFeesState {
 /// LoadedConferenceFees state.
 class LoadedConferenceFees extends ConferenceFeesState {
   LoadedConferenceFees(this.conferenceFees, this.selectedConferenceFee,
-      { this.allowRegistration = false, this.registeredConference = false, this.hasToken = false, this.registrationCode = '', this.surveyResultId = '' });
+      { this.allowRegistration = false, this.registeredConference = false, this.hasToken = false,
+        this.registrationCode = '', this.surveyResultId = '' });
 
   final ConferenceFees conferenceFees;
   final List<ConferenceFee> selectedConferenceFee;

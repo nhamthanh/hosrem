@@ -4,7 +4,7 @@ import 'package:meta/meta.dart';
 /// Conference event.
 @immutable
 abstract class ConferenceEvent extends Equatable {
-  const ConferenceEvent([List<String> props = const <String>[]]) : super(props);
+  const ConferenceEvent([List<dynamic> props = const <String>[]]) : super(props);
 }
 
 /// LoadConferenceEvent event.
@@ -15,4 +15,15 @@ class LoadConferenceEvent extends ConferenceEvent {
 
   @override
   String toString() => 'LoadConferenceEvent { }';
+}
+
+/// Show conference detail event.
+class ShowConferenceTabEvent extends ConferenceEvent {
+  ShowConferenceTabEvent(this.conferenceId, { this.tabIndex = 0 }) : super(<dynamic>[conferenceId, tabIndex]);
+
+  final String conferenceId;
+  final int tabIndex;
+
+  @override
+  String toString() => 'ShowConferenceTabEvent { }';
 }

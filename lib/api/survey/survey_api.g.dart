@@ -30,6 +30,23 @@ class _SurveyApi implements SurveyApi {
   }
 
   @override
+  getSurveyWli(query) async {
+    ArgumentError.checkNotNull(query, 'query');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(query ?? <String, dynamic>{});
+    final _data = <String, dynamic>{};
+    final Response<Map<String, dynamic>> _result = await _dio.request(
+        'surveys-wli',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET', headers: <String, dynamic>{}, extra: _extra),
+        data: _data);
+    final value = Survey.fromJson(_result.data);
+    return Future.value(value);
+  }
+
+  @override
   getQuestionsBySectionId(sectionId, query) async {
     ArgumentError.checkNotNull(sectionId, 'sectionId');
     ArgumentError.checkNotNull(query, 'query');
@@ -65,6 +82,23 @@ class _SurveyApi implements SurveyApi {
   }
 
   @override
+  submitSurveyResultWli(surveyResult) async {
+    ArgumentError.checkNotNull(surveyResult, 'surveyResult');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(surveyResult.toJson() ?? <String, dynamic>{});
+    final Response<Map<String, dynamic>> _result = await _dio.request(
+        'survey-results-wli',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST', headers: <String, dynamic>{}, extra: _extra),
+        data: _data);
+    final value = SurveyResult.fromJson(_result.data);
+    return Future.value(value);
+  }
+
+  @override
   updateSurveyResult(id, surveyResult) async {
     ArgumentError.checkNotNull(id, 'id');
     ArgumentError.checkNotNull(surveyResult, 'surveyResult');
@@ -83,6 +117,24 @@ class _SurveyApi implements SurveyApi {
   }
 
   @override
+  updateSurveyResultWli(id, surveyResult) async {
+    ArgumentError.checkNotNull(id, 'id');
+    ArgumentError.checkNotNull(surveyResult, 'surveyResult');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(surveyResult.toJson() ?? <String, dynamic>{});
+    final Response<Map<String, dynamic>> _result = await _dio.request(
+        'survey-results-wli/$id',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'PUT', headers: <String, dynamic>{}, extra: _extra),
+        data: _data);
+    final value = SurveyResult.fromJson(_result.data);
+    return Future.value(value);
+  }
+
+  @override
   getSurveyResult(id) async {
     ArgumentError.checkNotNull(id, 'id');
     const _extra = <String, dynamic>{};
@@ -90,6 +142,22 @@ class _SurveyApi implements SurveyApi {
     final _data = <String, dynamic>{};
     final Response<Map<String, dynamic>> _result = await _dio.request(
         'survey-results/$id',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET', headers: <String, dynamic>{}, extra: _extra),
+        data: _data);
+    final value = SurveyResult.fromJson(_result.data);
+    return Future.value(value);
+  }
+
+  @override
+  getSurveyResultWli(id) async {
+    ArgumentError.checkNotNull(id, 'id');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final Response<Map<String, dynamic>> _result = await _dio.request(
+        'survey-results-wli/$id',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET', headers: <String, dynamic>{}, extra: _extra),

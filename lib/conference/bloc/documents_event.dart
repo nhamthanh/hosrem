@@ -38,34 +38,11 @@ class FilterDocumentsEvent extends DocumentsEvent {
   String toString() => 'FilterDocumentsEvent { }';
 }
 
-/// ViewDocumentsPressedEvent event.
-class ViewDocumentsPressedEvent extends DocumentsEvent {
-  ViewDocumentsPressedEvent({
-    @required this.fullName,
-    @required this.registrationCode,
-    @required this.conference,
-    @required this.supplementDocs
-  });
-
-  final String fullName;
-  final String registrationCode;
+/// LogoutConferenceEvent event.
+class LogoutConferenceEvent extends DocumentsEvent {
+  LogoutConferenceEvent(this.conference);
   final Conference conference;
-  final List<String> supplementDocs;
 
   @override
-  String toString() => 'ViewDocumentsPressedEvent { }';
-}
-
-/// ValidateFormFieldEvent event.
-class ValidateFormFieldEvent extends DocumentsEvent {
-  ValidateFormFieldEvent({
-    @required this.name,
-    @required this.value
-  });
-
-  final String name;
-  final String value;
-
-  @override
-  String toString() => 'ValidateFormFieldEvent { name = $name, value = $value }';
+  String toString() => 'LogoutConferenceEvent { }';
 }
