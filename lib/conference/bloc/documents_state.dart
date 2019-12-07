@@ -24,10 +24,10 @@ class DocumentsFailure extends DocumentsState {
 
 /// DefaultDocumentsState state.
 class ConferenceUnlockState extends DocumentsState {
-  ConferenceUnlockState({ this.loggedIn = false, this.unlocked = false });
+  ConferenceUnlockState({ this.showLoginRegistration = false, this.unlocked = false });
 
   final bool unlocked;
-  final bool loggedIn;
+  final bool showLoginRegistration;
 
   @override
   String toString() => 'ConferenceUnlockState';

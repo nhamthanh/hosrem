@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:hosrem_app/api/auth/user.dart';
 import 'package:hosrem_app/api/conference/conference_auth.dart';
+import 'package:hosrem_app/api/conference/user_conference.dart';
 import 'package:hosrem_app/api/document/document.dart';
 import 'package:hosrem_app/api/document/document_pagination.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
 import 'package:hosrem_app/common/error_handler.dart';
 import 'package:hosrem_app/conference/document_service.dart';
+import 'package:hosrem_app/profile/user_service.dart';
 import 'package:logging/logging.dart';
 
 import '../conference_service.dart';
@@ -16,7 +18,7 @@ import 'documents_state.dart';
 
 /// Document bloc to load documents by conference Id.
 class DocumentsBloc extends Bloc<DocumentsEvent, DocumentsState> {
-  DocumentsBloc(this.documentService, this.authService, this.conferenceService);
+  DocumentsBloc(this.documentService, this.authService, this.conferenceService, this.userService);
 
   static const int DEFAULT_PAGE = 0;
   static const int DEFAULT_PAGE_SIZE = 1000;
@@ -24,12 +26,12 @@ class DocumentsBloc extends Bloc<DocumentsEvent, DocumentsState> {
   final Logger _logger = Logger('DocumentsBloc');
 
   final DocumentService documentService;
+  final UserService userService;
   final ConferenceService conferenceService;
   final AuthService authService;
 
   List<Document> _supplementDocs;
   List<Document> _documents;
-
 
   @override
   DocumentsState get initialState => DocumentsLoading();
@@ -43,7 +45,15 @@ class DocumentsBloc extends Bloc<DocumentsEvent, DocumentsState> {
         final ConferenceAuth conferenceAuth = await authService.getConferenceAuth(event.conference.id);
         final bool registeredConference = currentUser == null ? conferenceAuth != null :
             await conferenceService.checkIfUserRegisterConference(event.conference.id, currentUser.id);
-        yield ConferenceUnlockState(loggedIn: currentUser != null, unlocked: registeredConference);
+        bool showLoginConference = conferenceAuth == null;
+        if (currentUser != null) {
+          showLoginConference = false;
+          final UserConference userConference = await userService.getSpecificRegisteredConference(event.conference.id);
+          if (userConference != null) {
+            showLoginConference = userConference.status != 'Confirmed';
+          }
+        }
+        yield ConferenceUnlockState(showLoginRegistration: showLoginConference, unlocked: registeredConference);
       } catch (error) {
         _logger.fine(error);
         yield DocumentsFailure(error: ErrorHandler.extractErrorMessage(error));

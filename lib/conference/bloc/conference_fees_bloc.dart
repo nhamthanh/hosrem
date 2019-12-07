@@ -39,12 +39,11 @@ class ConferenceFeesBloc extends Bloc<ConferenceFeesEvent, ConferenceFeesState> 
       String surveyResultId = '';
       try {
         final bool premiumMembership = await authService.isPremiumMembership();
-        final bool hasToken = await authService.hasToken();
         final User user = await authService.currentUser();
         final ConferenceFees conferenceFees = await conferenceService.getConferenceFees(event.conferenceId);
         final ConferenceAuth conferenceAuth = await authService.getConferenceAuth(event.conferenceId);
-        bool registeredConference =
-            hasToken ? await conferenceService.checkIfUserRegisterConference(event.conferenceId, user.id)
+        final bool registeredConference =
+            user != null ? await conferenceService.checkIfUserRegisterConference(event.conferenceId, user.id)
                      :  conferenceAuth != null;
 
         final List<ConferenceFee> selectedConferenceFees = _filterConferenceFeesByNowAndMembership(premiumMembership,
@@ -53,12 +52,15 @@ class ConferenceFeesBloc extends Bloc<ConferenceFeesEvent, ConferenceFeesState> 
           ? selectedConferenceFees.any((ConferenceFee conferenceFee) => conferenceFee.onlineRegistration)
           : false;
 
-        if (authService.currentUser() != null) {
+
+        bool showLoginRegistration = conferenceAuth == null;
+        if (user != null) {
+          showLoginRegistration = false;
           final UserConference userConference = await userService.getSpecificRegisteredConference(event.conferenceId);
           if (userConference != null) {
             registrationCode = userConference.registrationCode;
             surveyResultId = userConference.surveyResultId ?? '';
-            registeredConference = userConference.status == 'Pending' ? false : registeredConference;
+            showLoginRegistration = userConference.status != 'Confirmed';
           }
         }
         yield LoadedConferenceFees(
@@ -66,7 +68,7 @@ class ConferenceFeesBloc extends Bloc<ConferenceFeesEvent, ConferenceFeesState> 
           selectedConferenceFees,
           allowRegistration: allowRegistration,
           registeredConference: registeredConference,
-          hasToken: hasToken,
+          showLoginRegistration: showLoginRegistration,
           registrationCode: registrationCode,
           surveyResultId: surveyResultId
         );

@@ -225,15 +225,15 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          state.registeredConference ? PrimaryButton(
+          state.registeredConference && !state.showLoginRegistration ? PrimaryButton(
             text: AppLocalizations.of(context).tr('conferences.join_code'),
             onPressed: () => _navigateToViewQrCode(state.registrationCode),
           ) : Container(),
           !state.registeredConference && state.allowRegistration ? PrimaryButton(
             text: AppLocalizations.of(context).tr('conferences.register_for_event'),
-            onPressed: () => _navigateToRegistration(state.selectedConferenceFee, state.hasToken),
+            onPressed: () => _navigateToRegistration(state.selectedConferenceFee, state.showLoginRegistration),
           ) : Container(),
-          state.registeredConference ? Column(
+          state.registeredConference && !state.showLoginRegistration ? Column(
             children: <Widget>[
               InkWell(
                 child: Container(
@@ -249,7 +249,7 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
             ],
           ) : Container(),
           const SizedBox(height: 10.0),
-          !state.registeredConference? DefaultButton(
+          state.showLoginRegistration ? DefaultButton(
             text: 'Đăng Nhập Hội Nghị',
             onPressed: () => _navigateToLoginConference(),
           ) : Container(),
@@ -275,8 +275,8 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
     await pushWidget(ConferenceQrCode(qrCode: qrCode));
   }
 
-  Future<void> _navigateToRegistration(List<ConferenceFee> selectedConferenceFees, bool hasToken) async {
-    if (!hasToken) {
+  Future<void> _navigateToRegistration(List<ConferenceFee> selectedConferenceFees, bool pending) async {
+    if (!pending) {
       await pushWidgetWithTransition(LoginRegistration(), PageTransitionType.downToUp);
       _conferenceFeesBloc.dispatch(LoadConferenceFeesByConferenceIdEvent(conferenceId: widget.conference.id));
       return;

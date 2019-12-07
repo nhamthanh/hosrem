@@ -9,6 +9,7 @@ import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/image/image_viewer.dart';
 import 'package:hosrem_app/loading/loading_indicator.dart';
 import 'package:hosrem_app/pdf/pdf_page.dart';
+import 'package:hosrem_app/profile/user_service.dart';
 import 'package:hosrem_app/widget/button/default_button.dart';
 import 'package:hosrem_app/widget/text/search_text_field.dart';
 import 'package:page_transition/page_transition.dart';
@@ -39,8 +40,9 @@ class _ConferenceResourcesState extends BaseState<ConferenceResources> {
   void initState() {
     super.initState();
 
-    _documentsBloc = DocumentsBloc(DocumentService(apiProvider), AuthService(apiProvider),
-          ConferenceService(apiProvider));
+    final AuthService authService = AuthService(apiProvider);
+    _documentsBloc = DocumentsBloc(DocumentService(apiProvider), authService,
+          ConferenceService(apiProvider), UserService(apiProvider, authService));
     _documentsBloc.dispatch(CheckIfUnlockConferenceEvent(widget.conference));
   }
 
@@ -60,7 +62,7 @@ class _ConferenceResourcesState extends BaseState<ConferenceResources> {
           }
 
           if (state is ConferenceUnlockState) {
-            if (state.unlocked) {
+            if (state.unlocked && !state.showLoginRegistration) {
               _documentsBloc.dispatch(LoadDocumentByConferenceIdEvent(widget.conference, widget.conference.files));
             }
           }
@@ -82,44 +84,51 @@ class _ConferenceResourcesState extends BaseState<ConferenceResources> {
     }
   }
 
-  Widget _buildPageContent(DocumentsState state) {
-    if (state is ConferenceUnlockState) {
-      if (!state.unlocked) {
-        if (state.loggedIn) {
-          return Center(
-            child: Container(
-              padding: const EdgeInsets.all(25.0),
-              child: Text(
-                AppLocalizations.of(context).tr('conferences.documents.upgrade_to_view_documents'),
+  Widget _buildLoginRegistrationWidget() {
+    return Container(
+      padding: const EdgeInsets.all(25.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Expanded(
+            child: Center(
+              child: const Text(
+                'Vui lòng đăng nhập hội nghị để xem tài liệu',
                 style: TextStyles.textStyle16PrimaryBlack,
                 textAlign: TextAlign.center
               )
             )
-          );
-        }
+          ),
+          const SizedBox(height: 10.0),
+          DefaultButton(
+            text: 'Đăng Nhập Hội Nghị',
+            onPressed: _navigateToLoginConference,
+          )
+        ],
+      )
+    );
+  }
 
-        return Container(
-          padding: const EdgeInsets.all(25.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Expanded(
-                child: Center(
-                  child: const Text(
-                    'Vui lòng cung cấp thông tin về hội nghị',
-                    style: TextStyles.textStyle16PrimaryBlack,
-                    textAlign: TextAlign.center
-                  )
-                )
-              ),
-              const SizedBox(height: 10.0),
-              DefaultButton(
-                text: 'Đăng Nhập',
-                onPressed: _navigateToLoginConference,
-              )
-            ],
+  Widget _buildPageContent(DocumentsState state) {
+    if (state is ConferenceUnlockState) {
+      print('xxxx');
+      print(state.unlocked);
+      print(state.showLoginRegistration);
+      if (!state.unlocked && !state.showLoginRegistration) {
+        return Center(
+          child: Container(
+            padding: const EdgeInsets.all(25.0),
+            child: Text(
+              AppLocalizations.of(context).tr('conferences.documents.upgrade_to_view_documents'),
+              style: TextStyles.textStyle16PrimaryBlack,
+              textAlign: TextAlign.center
+            )
           )
         );
+      }
+
+      if (state.showLoginRegistration) {
+        return _buildLoginRegistrationWidget();
       }
 
       return Container();
