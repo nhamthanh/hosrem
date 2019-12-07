@@ -17,7 +17,7 @@ class SearchRegisteredUsersBloc extends Bloc<SearchRegisteredUsersEvent, SearchR
       assert(searchRegisteredUsersService != null), assert(authService != null);
 
   static const int DEFAULT_PAGE = 0;
-  static const int DEFAULT_PAGE_SIZE = 10;
+  static const int MAX_PAGE_SIZE = 100;
 
   final SearchRegisteredUsersService searchRegisteredUsersService;
   final AuthService authService;
@@ -36,10 +36,14 @@ class SearchRegisteredUsersBloc extends Bloc<SearchRegisteredUsersEvent, SearchR
   @override
   Stream<SearchRegisteredUsersState> mapEventToState(SearchRegisteredUsersEvent event) async* {
     if (event is RefreshSearchRegisteredUsersEvent) {
+      if (event.searchCriteria.isEmpty || event.searchCriteria.values.first.toString().isEmpty) {
+        yield LoadedSearchRegisteredUsers(searchRegisteredUsers: const <PublicRegistration>[]);
+        return;
+      }
       try {
         final Map<String, dynamic> queryParams = <String, dynamic>{
           'page': DEFAULT_PAGE,
-          'size': DEFAULT_PAGE_SIZE
+          'size': MAX_PAGE_SIZE
         };
         queryParams.addAll(event.searchCriteria);
         _publicRegistration = await querySearchRegisteredUsers(event.conferenceId ,queryParams);
@@ -58,7 +62,7 @@ class SearchRegisteredUsersBloc extends Bloc<SearchRegisteredUsersEvent, SearchR
         if (_publicRegistration.page < _publicRegistration.totalPages) {
           final Map<String, dynamic> queryParams = <String, dynamic>{
             'page': _publicRegistration.page + 1,
-            'size': DEFAULT_PAGE_SIZE
+            'size': MAX_PAGE_SIZE
           };
           queryParams.addAll(event.searchCriteria);
 
