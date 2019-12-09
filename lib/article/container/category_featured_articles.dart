@@ -18,11 +18,12 @@ import '../article_service.dart';
 /// Category featured articles widget.
 class CategoryFeaturedArticles extends StatefulWidget {
   const CategoryFeaturedArticles(this.categoryName, this.onTapSeeAll,
-    { Key key, this.criteria = const <String, dynamic>{}}) : super(key: key);
+    { Key key, this.criteria = const <String, dynamic>{}, this.onBackHandler }) : super(key: key);
 
   final String categoryName;
   final Function() onTapSeeAll;
   final Map<String, dynamic> criteria;
+  final Function onBackHandler;
 
   @override
   State<CategoryFeaturedArticles> createState() => _CategoryFeaturedArticlesState();
@@ -36,6 +37,11 @@ class _CategoryFeaturedArticlesState extends BaseState<CategoryFeaturedArticles>
     super.initState();
     _articlesBloc = ArticlesBloc(articleService: ArticleService(apiProvider));
     _articlesBloc.dispatch(RefreshArticlesEvent(categoryName: widget.categoryName, searchCriteria: widget.criteria));
+  }
+
+  @protected
+  @override
+  void onResumeWidget() {
   }
 
   @override
@@ -83,6 +89,7 @@ class _CategoryFeaturedArticlesState extends BaseState<CategoryFeaturedArticles>
 
   Future<void> _navigateToArticleDetail(Article article) async {
     await pushWidget(ArticleDetail(article.id, title: widget.categoryName));
+    widget.onBackHandler();
   }
 
   @override

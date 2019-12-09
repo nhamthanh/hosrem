@@ -23,7 +23,7 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
   /// Resume the widget when user the active widget is pop.
   @protected
   void onResumeWidget() {
-    final FcmConfiguration fcmConfiguration = FcmConfiguration(apiProvider);
+    final FcmConfiguration fcmConfiguration = BlocProvider.of<AppBloc>(context).appContext.fcmConfiguration;
     fcmConfiguration.initFcm(context, requestToken: false);
   }
 

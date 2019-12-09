@@ -14,7 +14,7 @@ class ErrorHandler {
       try {
         // ignore: avoid_as
         final ApiError apiError = exception.response?.extra['apiError'] as ApiError;
-        return apiError.message;
+        return apiError.message ?? '';
       } catch (error) {
         _logger.fine(error.toString());
       }

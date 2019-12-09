@@ -20,16 +20,20 @@ class FcmConfiguration {
 
   final ApiProvider apiProvider;
   final Logger _logger = Logger('FcmConfiguration');
-  BuildContext _context;
 
-  void initFcm(BuildContext context, { bool requestToken = true }) {
+  BuildContext _context;
+  bool _handledOnLaunch = false;
+
+  void initFcm(BuildContext context, { bool requestToken = true, bool handleLaunchMsg = false }) {
     _logger.info('FcmConfiguration intialized...');
     _context = context;
     final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
-    firebaseMessaging.configure(
-      onMessage: _onMessage,
-      onLaunch: _onLaunch,
-      onResume: _onResume);
+    if (handleLaunchMsg && !_handledOnLaunch) {
+      _handledOnLaunch = true;
+      firebaseMessaging.configure(onMessage: _onMessage, onLaunch: _onLaunch, onResume: _onResume);
+    } else {
+      firebaseMessaging.configure(onMessage: _onMessage, onResume: _onResume);
+    }
 
     if (requestToken) {
       firebaseMessaging
@@ -96,12 +100,12 @@ class FcmConfiguration {
                 ),
                 FlatButton(
                   child: const Text('XEM CHI TIẾT'),
-                  onPressed: () {
+                  onPressed: () async {
                     Navigator.pop(_context);
                     if (notificationType == conferenceSurvey) {
-                      _navigateToConferenceSurvey(conferenceId);
+                      await _navigateToConferenceSurvey(conferenceId);
                     } else {
-                      _navigateToConferenceDetail(
+                      await _navigateToConferenceDetail(
                         conferenceId, selectedIndex: notificationType == conferencePublished ? 0 : 1);
                     }
                   }
@@ -116,54 +120,64 @@ class FcmConfiguration {
 
   Future<dynamic> _onLaunch(Map<String, dynamic> message) async {
     _logger.info('_onLaunch: $message');
-  }
-
-  Future<dynamic> _onResume(Map<String, dynamic> message) async {
-    _logger.info('_onResume: $message');
     try {
-      Map<String, dynamic> data;
-      if (message['data'] is String) {
-        data = json.decode(message['data']);
-      } else {
-        data = json.decode(message['data']['data']);
-      }
-
-      if (data == null) {
-        return;
-      }
-
-      final String notificationType = data['notification_type'];
-      if (notificationType == null) {
-        return;
-      }
-
-      if (notificationType == conferenceUpdated) {
-        final String conferenceId = data['conferenceId'];
-        if (conferenceId != null) {
-          _navigateToConferenceDetail(conferenceId, selectedIndex: 1);
-        }
-      }
-
-      if (notificationType == conferencePublished) {
-        final String conferenceId = data['conferenceId'];
-        if (conferenceId != null) {
-          _navigateToConferenceDetail(conferenceId);
-        }
-      }
-
-      if (notificationType == conferenceSurvey) {
-        final String conferenceId = data['conferenceId'];
-        if (conferenceId != null) {
-          _navigateToConferenceSurvey(conferenceId);
-        }
-      }
+      await _processResumeMsg(message);
     } catch (error) {
       print(error);
     }
   }
 
-  void _navigateToConferenceDetail(String conferenceId, { int selectedIndex = 0}) {
-    Navigator.push(
+  Future<dynamic> _onResume(Map<String, dynamic> message) async {
+    _logger.info('_onResume: $message');
+    try {
+      await _processResumeMsg(message);
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  Future<void> _processResumeMsg(Map<String, dynamic> message) async {
+    _logger.info('_processResumeMsg: $message');
+    Map<String, dynamic> data;
+    if (message['data'] is String) {
+      data = json.decode(message['data']);
+    } else {
+      data = json.decode(message['data']['data']);
+    }
+
+    if (data == null) {
+      return;
+    }
+
+    final String notificationType = data['notification_type'];
+    if (notificationType == null) {
+      return;
+    }
+
+    if (notificationType == conferenceUpdated) {
+      final String conferenceId = data['conferenceId'];
+      if (conferenceId != null) {
+        await _navigateToConferenceDetail(conferenceId, selectedIndex: 1);
+      }
+    }
+
+    if (notificationType == conferencePublished) {
+      final String conferenceId = data['conferenceId'];
+      if (conferenceId != null) {
+        await _navigateToConferenceDetail(conferenceId);
+      }
+    }
+
+    if (notificationType == conferenceSurvey) {
+      final String conferenceId = data['conferenceId'];
+      if (conferenceId != null) {
+        await _navigateToConferenceSurvey(conferenceId);
+      }
+    }
+  }
+
+  Future<void> _navigateToConferenceDetail(String conferenceId, { int selectedIndex = 0}) async {
+    await Navigator.push(
       _context,
       MaterialPageRoute<bool>(
         builder: (BuildContext context) => ConferenceDetail(conferenceId, selectedIndex: selectedIndex)
@@ -171,8 +185,8 @@ class FcmConfiguration {
     );
   }
 
-  void _navigateToConferenceSurvey(String conferenceId) {
-    Navigator.push(
+  Future<void> _navigateToConferenceSurvey(String conferenceId) async {
+    await Navigator.push(
       _context,
       MaterialPageRoute<bool>(
         builder: (BuildContext context) => SurveyIntroduction(conferenceId)
