@@ -43,15 +43,18 @@ class _AppState extends State<App> {
     AppRoutes.configureRoutes(router);
 
     final ApiProvider apiProvider = ApiProvider(widget.apiConfig.apiBaseUrl);
+    final FcmConfiguration fcmConfiguration = FcmConfiguration(apiProvider);
+    fcmConfiguration.initFcm(context, handleLaunchMsg: false);
+
     _appBloc = AppBloc(AppContext(
       router: router,
       appDatabase: AppDatabase(),
       apiConfig: widget.apiConfig,
-      apiProvider: apiProvider)
-    );
+      apiProvider: apiProvider,
+      fcmConfiguration: fcmConfiguration
+    ));
 
     timeago.setLocaleMessages('vi', timeago.ViMessages());
-    _configureFcm(apiProvider);
   }
 
   @override
@@ -125,10 +128,5 @@ class _AppState extends State<App> {
       primaryColor: AppColors.darkPrimaryColor,
       fontFamily: 'Muli'
     );
-  }
-
-  void _configureFcm(ApiProvider apiProvider) {
-    final FcmConfiguration fcmConfiguration = FcmConfiguration(apiProvider);
-    fcmConfiguration.initFcm(context);
   }
 }

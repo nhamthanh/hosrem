@@ -21,9 +21,10 @@ import '../category_articles.dart';
 
 /// Public articles page.
 class GroupArticles extends StatefulWidget {
-  const GroupArticles({Key key, this.categories = const <String>[]}) : super(key: key);
+  const GroupArticles({ Key key, this.categories = const <String>[], this.onBackHandler }) : super(key: key);
 
   final List<String> categories;
+  final Function onBackHandler;
 
   @override
   State<GroupArticles> createState() => _GroupArticlesState();
@@ -40,6 +41,11 @@ class _GroupArticlesState extends BaseState<GroupArticles> {
     _refreshController = RefreshController();
 
     _onRefresh();
+  }
+
+  @override
+  @protected
+  void onResumeWidget() {
   }
 
   @override
@@ -97,7 +103,8 @@ class _GroupArticlesState extends BaseState<GroupArticles> {
                   CategoryFeaturedArticles(categoryName, () => _navigateToCategoryArticles(categoryName),
                     criteria: const <String, dynamic>{
                       'size': 3
-                    }
+                    },
+                    onBackHandler: widget.onBackHandler
                   ),
                   const SizedBox(height: 15.0)
                 ],
@@ -150,6 +157,7 @@ class _GroupArticlesState extends BaseState<GroupArticles> {
 
   Future<void> _navigateToArticleDetail(Article article) async {
     await pushWidget(ArticleDetail(article.id, title: AppLocalizations.of(context).tr('articles.hot_news')));
+    widget.onBackHandler();
   }
 
   void _onLoading() {
@@ -165,6 +173,7 @@ class _GroupArticlesState extends BaseState<GroupArticles> {
 
   Future<void> _navigateToCategoryArticles(String title) async {
     await pushWidget(CategoryArticles(title));
+    widget.onBackHandler();
   }
 
   @override

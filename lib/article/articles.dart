@@ -1,9 +1,13 @@
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:easy_localization/easy_localization_delegate.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hosrem_app/app/bloc/app_bloc.dart';
 import 'package:hosrem_app/common/app_colors.dart';
+import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/connection/connection_provider.dart';
+import 'package:hosrem_app/notification/fcm_configuration.dart';
 
 import 'container/group_articles.dart';
 
@@ -18,7 +22,7 @@ class Articles extends StatefulWidget {
   _ArticlesState createState() => _ArticlesState();
 }
 
-class _ArticlesState extends State<Articles> with SingleTickerProviderStateMixin {
+class _ArticlesState extends BaseState<Articles> with SingleTickerProviderStateMixin {
 
   TabController _tabController;
 
@@ -26,6 +30,13 @@ class _ArticlesState extends State<Articles> with SingleTickerProviderStateMixin
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this, length: 2);
+  }
+
+  @override
+  @protected
+  void onResumeWidget() {
+    final FcmConfiguration fcmConfiguration = BlocProvider.of<AppBloc>(context).appContext.fcmConfiguration;
+    fcmConfiguration.initFcm(context, requestToken: false, handleLaunchMsg: true);
   }
 
   @override
@@ -66,19 +77,25 @@ class _ArticlesState extends State<Articles> with SingleTickerProviderStateMixin
           color: AppColors.backgroundConferenceColor,
           child: TabBarView(
             controller: _tabController,
-            children: const <Widget>[
-              GroupArticles(categories: <String>[
-                'Tin quốc tế',
-                'Tin trong nước',
-                'Tin cộng đồng']
+            children: <Widget>[
+              GroupArticles(
+                categories: const <String>[
+                  'Tin quốc tế',
+                  'Tin trong nước',
+                  'Tin cộng đồng'
+                ],
+                onBackHandler: onResumeWidget
               ),
-              GroupArticles(categories: <String>[
-                'Sản khoa & nhi sơ sinh',
-                'Phụ khoa',
-                'Mãn kinh',
-                'Nam khoa',
-                'Vô sinh & hỗ trợ sinh sản',
-                'Khác']
+              GroupArticles(
+                categories: const <String>[
+                  'Sản khoa & nhi sơ sinh',
+                  'Phụ khoa',
+                  'Mãn kinh',
+                  'Nam khoa',
+                  'Vô sinh & hỗ trợ sinh sản',
+                  'Khác'
+                ],
+                onBackHandler: onResumeWidget
               )
             ]
           )

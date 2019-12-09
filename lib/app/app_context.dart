@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hosrem_app/config/api_config.dart';
 import 'package:hosrem_app/db/app_database.dart';
 import 'package:hosrem_app/network/api_provider.dart';
+import 'package:hosrem_app/notification/fcm_configuration.dart';
 
 /// App context to store configurations and variables for router, database, API of the application.
 @immutable
@@ -12,6 +13,7 @@ class AppContext {
     @required this.appDatabase,
     @required this.apiConfig,
     @required this.apiProvider,
+    @required this.fcmConfiguration
   })  : assert(router != null),
         assert(appDatabase != null),
         assert(apiConfig != null),
@@ -21,4 +23,5 @@ class AppContext {
   final AppDatabase appDatabase;
   final ApiConfig apiConfig;
   final ApiProvider apiProvider;
+  final FcmConfiguration fcmConfiguration;
 }

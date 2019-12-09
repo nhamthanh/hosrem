@@ -40,6 +40,11 @@ class _HomeState extends BaseState<Home> {
   }
 
   @override
+  @protected
+  void onResumeWidget() {
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocProvider<HomeBloc>(
       builder: (BuildContext context) => _homeBloc,
