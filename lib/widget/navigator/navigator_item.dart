@@ -29,7 +29,7 @@ class NavigatorItem extends StatelessWidget {
               color: AppColors.primaryBlackColor,
               size: 24.0
             ),
-            onPressed: () {},
+            onPressed: onTap,
           ),
         ]),
       ),
