@@ -259,10 +259,13 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
   }
 
   Future<void> _navigateToSurvey(String conferenceId) async {
-    await pushWidgetWithTransition(
+    final bool result = await pushWidgetWithTransitionResult(
       SurveyIntroduction(conferenceId),
       PageTransitionType.downToUp
     );
+    if (result) {
+      _conferenceFeesBloc.dispatch(LoadConferenceFeesByConferenceIdEvent(conferenceId: widget.conference.id));
+    }
   }
 
   Future<void> _navigateToEditSurvey(String conferenceId, String surveyResultId) async {

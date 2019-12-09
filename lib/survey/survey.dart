@@ -63,7 +63,7 @@ class _SurveyState extends BaseState<Survey> {
           IconButton(
             icon: Icon(Icons.clear),
             color: Colors.white,
-            onPressed: () => Navigator.pop(context)
+            onPressed: () => Navigator.pop(context, false)
           )
         ]
       ),
@@ -210,7 +210,7 @@ class _SurveyState extends BaseState<Survey> {
       body: widget.surveyResultId.isEmpty ? 'Cảm ơn bạn đã tham gia khảo sát' : 'Cảm ơn bạn đã cập nhật khảo sát',
       actions: <AlertAction>[
         AlertAction(text: 'OK', onPressed: () {
-          Navigator.pop(context);
+          Navigator.pop(context, true);
         })
       ]
     );
