@@ -57,7 +57,7 @@ class CustomHtml extends StatelessWidget {
               )
             );
           }
-          if (node.localName == 'em') {
+          if (node.localName == 'em' || node.localName == 'i') {
             if (node.hasChildNodes() && node.firstChild.toString() == '<html strong>') {
               return Text(
                 node.text,
