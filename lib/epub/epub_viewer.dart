@@ -1,7 +1,8 @@
 import 'package:easy_localization/easy_localization_delegate.dart';
 import 'package:epub/epub.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart' as image;
+import 'package:image/image.dart' as image;
+import 'package:flutter/material.dart' as material;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
@@ -73,49 +74,44 @@ class _EpubViewerState extends RotationState<EpubViewer> {
   Widget buildEpubWidget(EpubState state) {
     if (state is LoadedEpub) {
       final EpubBook book = state.epubBook;
+      final int length = book.Chapters != null ? book.Chapters.length + 1 : 1;
       if (book != null) {
-        return SingleChildScrollView (
-          padding: const EdgeInsets.only(left: 12.0, right: 10.0),
-          child: Column (
-            children: <Widget> [
-              const Padding(
-                padding: EdgeInsets.only(top: 15.0),
-              ),
-              book.CoverImage != null ? image.Image.memory(book.CoverImage.getBytes()) : Container(),
-              Text(
-                book.Title ?? '',
-                style: TextStyles.textStyle22PrimaryBlackBold,
-              ),
-              const Padding(
-                padding: EdgeInsets.only(top: 15.0),
-              ),
-              Text(
-                'Tác giả',
-                style: TextStyles.textStyle16PrimaryBlack,
-              ),
-              Text(
-                book.Author ?? '',
-                style: TextStyles.textStyle16PrimaryBlack,
-              ),
-              const Padding(
-                padding: EdgeInsets.only(top: 15.0),
-              ),
-              book.Chapters != null ? Column(
-                children: book.Chapters.map((EpubChapter chapter) =>
-                Column(children: <Widget>[
-                  Text(chapter.Title),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 15.0),
-                  ),
-                  Html(
-                    data: chapter.HtmlContent,
-                  ),
-                  const SizedBox(height: 15.0),
-                ],)
-                ).toList()
-              ) : Container()
-            ]
-          )
+        return ListView.builder(
+          itemCount: length,
+          padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+          itemBuilder: (BuildContext ctxt, int index) {
+            if (index == 0) {
+              return Column (children: <Widget>[
+                const Padding(
+                  padding: EdgeInsets.only(top: 15.0),
+                ),
+                book.CoverImage != null ? material.Image.memory(image.encodePng(book.CoverImage)) : Container(),
+                const Padding(
+                  padding: EdgeInsets.only(top: 15.0),
+                ),
+                Text(
+                  book.Title ?? '',
+                  style: TextStyles.textStyle22PrimaryBlackBold,
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(top: 15.0),
+                ),
+                Text(
+                  'Tác giả',
+                  style: TextStyles.textStyle16PrimaryBlack,
+                ),
+                Text(
+                  book.Author ?? '',
+                  style: TextStyles.textStyle16PrimaryBlack,
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(top: 15.0),
+                ),
+              ],);
+            } else {
+              return Html(data: book.Chapters[index - 1].HtmlContent);
+            }
+          }
         );
       } else {
         return Container();
