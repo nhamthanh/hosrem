@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:hosrem_app/api/conference/conference_auth.dart';
 import 'package:hosrem_app/api/document/document_pagination.dart';
+import 'package:hosrem_app/auth/auth_service.dart';
 import 'package:hosrem_app/network/api_provider.dart';
 
 /// Document service.
@@ -16,12 +18,37 @@ class DocumentService {
   /// Get documents by [conferenceId].
   Future<DocumentPagination> getDocumentsByConferenceId(String conferenceId, String type, int page, int size) async {
     final DocumentPagination documentPagination = await apiProvider.conferenceApi.getConferenceDocuments(
-        conferenceId, <String, dynamic>{
+      conferenceId, <String, dynamic>{
       'page': page,
       'size': size,
       'type': type,
       'sort': 'speakingTime:asc'
     });
+    return documentPagination;
+  }
+
+  /// Get documents by [conferenceId].
+  Future<DocumentPagination> getDocuments(String conferenceId, String type, int page, int size) async {
+    final AuthService authService = AuthService(apiProvider);
+    final ConferenceAuth conferenceAuth = await authService.getConferenceAuth(conferenceId);
+    final Map<String, dynamic> queryParams = <String, dynamic>{
+      'conference': conferenceId,
+      'page': page,
+      'size': size,
+      'type': type,
+      'sort': 'speakingTime:asc'
+    };
+
+    if (conferenceAuth != null) {
+      queryParams['conferenceId'] = conferenceId;
+      queryParams['fullName'] = conferenceAuth.fullName;
+      queryParams['regCode'] = conferenceAuth.regCode;
+
+      final DocumentPagination documentPagination = await apiProvider.documentApi.getAllWli(queryParams);
+      return documentPagination;
+    }
+
+    final DocumentPagination documentPagination = await apiProvider.documentApi.getAll(queryParams);
     return documentPagination;
   }
 

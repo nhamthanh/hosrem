@@ -39,6 +39,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           email: event.email,
           password: event.password,
         );
+        await authService.clearUser();
         await authService.persistToken(token, email: event.email, password: event.password);
         final User user = await authService.loadCurrentUser();
         await authService.persistCurrentUser(user);
