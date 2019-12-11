@@ -60,6 +60,12 @@ class TextStyles {
     color: AppColors.primaryBlackColor
   );
 
+  static const TextStyle textStyle26PrimaryWhiteBold = TextStyle(
+    fontSize: 26.0,
+    fontWeight: FontWeight.w600,
+    color: Colors.white
+  );
+
   static const TextStyle textStyle20PrimaryBlack = TextStyle(
     fontSize: 20.0,
     height: 1.6,
