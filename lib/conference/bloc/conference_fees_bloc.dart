@@ -70,7 +70,8 @@ class ConferenceFeesBloc extends Bloc<ConferenceFeesEvent, ConferenceFeesState> 
           registeredConference: registeredConference,
           showLoginRegistration: showLoginRegistration,
           registrationCode: registrationCode,
-          surveyResultId: surveyResultId
+          surveyResultId: surveyResultId,
+          hasToken: user != null
         );
       } catch (error) {
         _logger.fine(error);

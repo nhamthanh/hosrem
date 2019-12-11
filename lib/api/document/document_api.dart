@@ -13,5 +13,9 @@ abstract class DocumentApi {
   /// Get all documents.
   @GET('documents')
   Future<DocumentPagination> getAll(@Queries() Map<String, dynamic> query);
+
+  /// Get all documents by full name and registration code.
+  @GET('documents-wli')
+  Future<DocumentPagination> getAllWli(@Queries() Map<String, dynamic> query);
 }
 

@@ -231,7 +231,7 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
           ) : Container(),
           !state.registeredConference && state.allowRegistration ? PrimaryButton(
             text: AppLocalizations.of(context).tr('conferences.register_for_event'),
-            onPressed: () => _navigateToRegistration(state.selectedConferenceFee, state.showLoginRegistration),
+            onPressed: () => _navigateToRegistration(state.selectedConferenceFee, state.hasToken),
           ) : Container(),
           state.registeredConference && !state.showLoginRegistration ? Column(
             children: <Widget>[
@@ -278,8 +278,8 @@ class _ConferenceOverviewState extends BaseState<ConferenceOverview> {
     await pushWidget(ConferenceQrCode(qrCode: qrCode));
   }
 
-  Future<void> _navigateToRegistration(List<ConferenceFee> selectedConferenceFees, bool pending) async {
-    if (!pending) {
+  Future<void> _navigateToRegistration(List<ConferenceFee> selectedConferenceFees, bool hasToken) async {
+    if (!hasToken) {
       await pushWidgetWithTransition(LoginRegistration(), PageTransitionType.downToUp);
       _conferenceFeesBloc.dispatch(LoadConferenceFeesByConferenceIdEvent(conferenceId: widget.conference.id));
       return;

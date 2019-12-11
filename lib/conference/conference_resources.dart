@@ -8,6 +8,7 @@ import 'package:hosrem_app/common/base_state.dart';
 import 'package:hosrem_app/common/text_styles.dart';
 import 'package:hosrem_app/epub/epub_viewer.dart';
 import 'package:hosrem_app/image/image_viewer.dart';
+import 'package:hosrem_app/loading/loading_indicator.dart';
 import 'package:hosrem_app/pdf/pdf_page.dart';
 import 'package:hosrem_app/profile/user_service.dart';
 import 'package:hosrem_app/widget/button/default_button.dart';
@@ -261,7 +262,7 @@ class _ConferenceResourcesState extends BaseState<ConferenceResources> {
       _navigateToEpubViewer(title, content);
     } else {
       _navigateToImageViewer(title, content);
-    } 
+    }
   }
 
   Future<void> _navigateToPdfViewer(String title, String content) async {

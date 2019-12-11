@@ -96,14 +96,6 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
             }
           }
 
-          if (state is MembershipAtmPaymentSuccess) {
-            if (state.payment.detail.containsKey('requestUrl')) {
-              _navigateToPaymentWebview(state.payment.detail['requestUrl']);
-            } else {
-              _showPaymentFailDialog('');
-            }
-          }
-
           if (state is MembershipPendingPaymentSuccess) {
             showAlert(
               context: context,

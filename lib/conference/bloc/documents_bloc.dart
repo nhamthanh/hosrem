@@ -63,9 +63,9 @@ class DocumentsBloc extends Bloc<DocumentsEvent, DocumentsState> {
     if (event is LoadDocumentByConferenceIdEvent) {
       try {
         yield DocumentsLoading();
-        final DocumentPagination documentPagination = await documentService.getDocumentsByConferenceId(
+        final DocumentPagination documentPagination = await documentService.getDocuments(
           event.conference.id, DocumentService.SPEAKER_DOCUMENT_TYPE, DEFAULT_PAGE, DEFAULT_PAGE_SIZE);
-        final DocumentPagination otherDocumentPagination = await documentService.getDocumentsByConferenceId(
+        final DocumentPagination otherDocumentPagination = await documentService.getDocuments(
           event.conference.id, DocumentService.OTHER_DOCUMENT_TYPE, DEFAULT_PAGE, DEFAULT_PAGE_SIZE);
         _documents = documentPagination.items;
         _supplementDocs = otherDocumentPagination.items;
