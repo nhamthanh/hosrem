@@ -174,7 +174,7 @@ class _LoginRegistrationState extends BaseState<LoginRegistration> with SingleTi
                                 _buildTabBar(),
                                 const SizedBox(height: 20.0),
                                 Container(
-                                  height: 500.0,
+                                  height: 600.0,
                                   color: Colors.white,
                                   child: TabBarView(
                                     controller: _tabController,
