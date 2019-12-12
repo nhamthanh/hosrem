@@ -103,34 +103,6 @@ class _ArticleDetailState extends BaseState<ArticleDetail> {
                 ],
               ),
               const SizedBox(height: 24.0),
-              Container(
-                height: 168.0,
-                child: CachedNetworkImage(
-                  imageUrl: state.article.avatar ?? 'https://',
-                  imageBuilder: (BuildContext context, ImageProvider imageProvider) => Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      color: const Color.fromRGBO(52, 169, 255, 0.1),
-                      image: DecorationImage(
-                        image: imageProvider,
-                        fit: BoxFit.contain
-                      ),
-                    )
-                  ),
-                  placeholder: (BuildContext context, String url) => Center(child: const CircularProgressIndicator()),
-                  errorWidget: (BuildContext context, String url, Object error) =>
-                    Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
-                      Container(
-                        height: 168.0,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          color: const Color.fromRGBO(52, 169, 255, 0.1)
-                        ),
-                        child: Image.asset(AppAssets.articlePlaceholder)
-                      )
-                    ])),
-              ),
-              const SizedBox(height: 24.0),
               CustomHtml(state.article.content),
               const SizedBox(height: 16.0),
               state.relativeArticles.isNotEmpty ? Row(

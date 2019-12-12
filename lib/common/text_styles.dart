@@ -21,6 +21,12 @@ class TextStyles {
     color: AppColors.secondaryGreyColor
   );
 
+  static const TextStyle textStyle26PrimaryBlackBold = TextStyle(
+    fontSize: 26.0,
+    fontWeight: FontWeight.bold,
+    color: AppColors.primaryBlackColor
+  );
+
   static const TextStyle textStyle24PrimaryBlack = TextStyle(
     fontSize: 24.0,
     height: 1.33,
