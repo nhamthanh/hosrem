@@ -185,6 +185,15 @@ class _SurveyState extends BaseState<Survey> {
   }
 
   void _submitRating(Map<Question, String> values) {
+    if (values.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: const Text('Vui lòng đánh giá trước khi gửi khảo sát'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
     _surveyBloc.dispatch(SubmitRatingEvent(values, widget.conferenceId, surveyResultId: widget.surveyResultId));
   }
 
