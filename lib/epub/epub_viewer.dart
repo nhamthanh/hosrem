@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:easy_localization/easy_localization_delegate.dart';
 import 'package:epub/epub.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +47,7 @@ class _EpubViewerState extends RotationState<EpubViewer> {
       bloc: _epubBloc,
       builder: (BuildContext context, EpubState state) {
         return Scaffold(
-          appBar: AppBar(
+          appBar: widget.title != null ? AppBar(
             title: Row(
               children: <Widget>[
                 Expanded(
@@ -64,7 +66,7 @@ class _EpubViewerState extends RotationState<EpubViewer> {
               ],
             ),
             automaticallyImplyLeading: false
-          ),
+          ) : null,
           body: buildEpubWidget(state)
         );
       }
@@ -91,18 +93,10 @@ class _EpubViewerState extends RotationState<EpubViewer> {
                 ),
                 Text(
                   book.Title ?? '',
-                  style: TextStyles.textStyle22PrimaryBlackBold,
+                  style: TextStyles.textStyle26PrimaryBlackBold,
                 ),
                 const Padding(
                   padding: EdgeInsets.only(top: 15.0),
-                ),
-                Text(
-                  'Tác giả',
-                  style: TextStyles.textStyle16PrimaryBlack,
-                ),
-                Text(
-                  book.Author ?? '',
-                  style: TextStyles.textStyle16PrimaryBlack,
                 ),
                 const Padding(
                   padding: EdgeInsets.only(top: 15.0),

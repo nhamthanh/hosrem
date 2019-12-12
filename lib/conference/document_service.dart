@@ -28,7 +28,7 @@ class DocumentService {
   }
 
   /// Get documents by [conferenceId].
-  Future<DocumentPagination> getDocuments(String conferenceId, String type, int page, int size) async {
+  Future<DocumentPagination> getDocuments(String conferenceId, String type, int page, int size, {String sort = ''}) async {
     final AuthService authService = AuthService(apiProvider);
     final ConferenceAuth conferenceAuth = await authService.getConferenceAuth(conferenceId);
     final Map<String, dynamic> queryParams = <String, dynamic>{
@@ -36,7 +36,7 @@ class DocumentService {
       'page': page,
       'size': size,
       'type': type,
-      'sort': 'speakingTime:asc'
+      'sort': sort.isEmpty ? 'speakingTime:asc' : sort
     };
 
     if (conferenceAuth != null) {

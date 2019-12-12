@@ -66,7 +66,7 @@ class DocumentsBloc extends Bloc<DocumentsEvent, DocumentsState> {
         final DocumentPagination documentPagination = await documentService.getDocuments(
           event.conference.id, DocumentService.SPEAKER_DOCUMENT_TYPE, DEFAULT_PAGE, DEFAULT_PAGE_SIZE);
         final DocumentPagination otherDocumentPagination = await documentService.getDocuments(
-          event.conference.id, DocumentService.OTHER_DOCUMENT_TYPE, DEFAULT_PAGE, DEFAULT_PAGE_SIZE);
+          event.conference.id, DocumentService.OTHER_DOCUMENT_TYPE, DEFAULT_PAGE, DEFAULT_PAGE_SIZE, sort: 'title:asc');
         _documents = documentPagination.items;
         _supplementDocs = otherDocumentPagination.items;
 

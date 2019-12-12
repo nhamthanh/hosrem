@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:hosrem_app/api/auth/user.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
 import 'package:hosrem_app/common/error_handler.dart';
+import 'package:hosrem_app/common/string_utils.dart';
 import 'package:hosrem_app/membership/membership_service.dart';
 import 'package:hosrem_app/notification/notification_service.dart';
 import 'package:meta/meta.dart';
@@ -70,11 +71,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     if (event is RegisterButtonPressed) {
       /// 1. Validate login form.
-      if (event.email.isEmpty || event.password.isEmpty || event.fullName.isEmpty || event.phone.isEmpty || !event.checked) {
+      if (event.email.isEmpty || event.password.isEmpty || event.fullName.isEmpty || event.phone.isEmpty || !event.checked || StringUtils.validateEmail(event.email)) {
         yield RegistrationValidationState(
           validFullName: event.fullName.isNotEmpty,
           validPhone: event.phone.isNotEmpty,
-          validEmail: event.email.isNotEmpty,
+          validEmail: event.email.isNotEmpty && StringUtils.validateEmail(event.email),
           validPassword: event.password.isNotEmpty,
           checked: event.checked
         );
