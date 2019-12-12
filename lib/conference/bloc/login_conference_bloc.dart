@@ -59,7 +59,8 @@ class LoginConferenceBloc extends Bloc<LoginConferenceEvent, LoginConferenceStat
           conferenceRegistration = await conferenceService.getRegistrationInfoFromRegCode(event.conference.id, event.registrationCode);
         }
 
-        if (conferenceRegistration?.user?.fullName != event.fullName) {
+        if (conferenceRegistration?.user?.fullName?.toLowerCase() != event.fullName.toLowerCase() ||
+            conferenceRegistration?.status == 'UnPaid') {
           yield LoginConferenceFailure(error: 'Tên hoặc mã hội nghị của bạn không đúng. Vui lòng thử lại.');
           return;
         }
