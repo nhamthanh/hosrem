@@ -71,7 +71,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     if (event is RegisterButtonPressed) {
       /// 1. Validate login form.
-      if (event.email.isEmpty || event.password.isEmpty || event.fullName.isEmpty || event.phone.isEmpty || !event.checked || StringUtils.validateEmail(event.email)) {
+      if (event.email.isEmpty || event.password.isEmpty || event.fullName.isEmpty || event.phone.isEmpty || !event.checked || !StringUtils.validateEmail(event.email)) {
         yield RegistrationValidationState(
           validFullName: event.fullName.isNotEmpty,
           validPhone: event.phone.isNotEmpty,

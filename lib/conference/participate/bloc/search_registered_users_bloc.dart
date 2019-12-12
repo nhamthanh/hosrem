@@ -59,7 +59,7 @@ class SearchRegisteredUsersBloc extends Bloc<SearchRegisteredUsersEvent, SearchR
 
     if (event is LoadMoreSearchRegisteredUsersEvent) {
       try {
-        if (_publicRegistration.page < _publicRegistration.totalPages) {
+        if (_publicRegistration != null && _publicRegistration.page < _publicRegistration.totalPages) {
           final Map<String, dynamic> queryParams = <String, dynamic>{
             'page': _publicRegistration.page + 1,
             'size': MAX_PAGE_SIZE
