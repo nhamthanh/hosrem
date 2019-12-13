@@ -112,9 +112,6 @@ class _ConferenceResourcesState extends BaseState<ConferenceResources> {
 
   Widget _buildPageContent(DocumentsState state) {
     if (state is ConferenceUnlockState) {
-      print('xxxx');
-      print(state.unlocked);
-      print(state.showLoginRegistration);
       if (!state.unlocked && !state.showLoginRegistration) {
         return Center(
           child: Container(
@@ -171,11 +168,20 @@ class _ConferenceResourcesState extends BaseState<ConferenceResources> {
 
   Widget _buildDocumentsWidget(LoadedDocumentsState state) {
     if (state.documents.isEmpty && state.supplementDocs.isEmpty) {
-      return Center(
-        child: Text(
-          AppLocalizations.of(context).tr('conferences.documents.no_document_found'),
-          style: TextStyles.textStyle16PrimaryBlack
-        )
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Expanded(
+            child: Center(
+              child: Text(
+                AppLocalizations.of(context).tr('conferences.documents.no_document_found'),
+                style: TextStyles.textStyle16PrimaryBlack,
+                textAlign: TextAlign.center
+              )
+            ),
+          ),
+          buildLogout(state),
+        ]
       );
     }
     return ListView(
@@ -233,19 +239,7 @@ class _ConferenceResourcesState extends BaseState<ConferenceResources> {
             )).toList()
           )
         ),
-        !state.hasToken ? Container(
-          padding: const EdgeInsets.only(left: 25.0, top: 21.5, bottom: 28.5, right: 25.0),
-          color: Colors.white,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              DefaultButton(
-                text: 'Đăng Xuất',
-                onPressed: () => _documentsBloc.dispatch(LogoutConferenceEvent(widget.conference))
-              )
-            ],
-          )
-        ) : Container()
+        buildLogout(state),
       ]
     );
   }
@@ -287,6 +281,22 @@ class _ConferenceResourcesState extends BaseState<ConferenceResources> {
       EpubViewer(url: epubUrl, title: title ?? AppLocalizations.of(context).tr('conferences.documents.reference_documents')),
       PageTransitionType.downToUp
     );
+  }
+
+  Widget buildLogout(LoadedDocumentsState state) {
+    return !state.hasToken ? Container(
+      padding: const EdgeInsets.only(left: 25.0, top: 21.5, bottom: 28.5, right: 25.0),
+      color: Colors.white,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          DefaultButton(
+            text: 'Đăng Xuất',
+            onPressed: () => _documentsBloc.dispatch(LogoutConferenceEvent(widget.conference))
+          )
+        ],
+      )
+    ) : Container();
   }
 
   @override
