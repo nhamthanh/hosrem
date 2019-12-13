@@ -35,6 +35,8 @@ class RefreshWidget extends StatelessWidget {
           idleText: ''),
       footer: const ClassicFooter(
         idleText: '',
+        loadingText: '',
+        canLoadingText: '',
         idleIcon: SizedBox(),
       ),
       enablePullUp: true,
