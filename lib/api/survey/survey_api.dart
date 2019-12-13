@@ -46,6 +46,6 @@ abstract class SurveyApi {
 
   /// Get survey result.
   @GET('survey-results-wli/{id}')
-  Future<SurveyResult> getSurveyResultWli(@Path() String id);
+  Future<SurveyResult> getSurveyResultWli(@Path() String id, @Queries() Map<String, dynamic> query);
 }
 

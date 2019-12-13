@@ -151,10 +151,12 @@ class _SurveyApi implements SurveyApi {
   }
 
   @override
-  getSurveyResultWli(id) async {
+  getSurveyResultWli(id, query) async {
     ArgumentError.checkNotNull(id, 'id');
+    ArgumentError.checkNotNull(query, 'query');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(query ?? <String, dynamic>{});
     final _data = <String, dynamic>{};
     final Response<Map<String, dynamic>> _result = await _dio.request(
         'survey-results-wli/$id',

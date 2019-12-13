@@ -95,19 +95,6 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
               _showPaymentFailDialog('');
             }
           }
-
-          if (state is MembershipPendingPaymentSuccess) {
-            showAlert(
-              context: context,
-              body: 'Cảm ơn bạn đã đăng ký. Vui lòng liên hệ Hosrem để hoàn thành thanh toán.',
-              actions: <AlertAction>[
-                AlertAction(text: 'OK', onPressed: () {
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                })
-              ]
-            );
-          }
         },
         child: BlocBuilder<MembershipPaymentBloc, MembershipPaymentState>(
           bloc: _membershipPaymentBloc,
@@ -222,46 +209,6 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
                                     ],
                                   )
                                 ]
-                              ),
-                              Column(
-                                children: <Widget>[
-                                  Row(
-                                    children: <Widget>[
-                                      Radio<String>(
-                                        value: PaymentMethods.directPayment,
-                                        groupValue: _selectedPayment,
-                                        onChanged: _handleOptionChanged,
-                                      ),
-                                      Expanded(
-                                        child: InkWell(
-                                          child: const Text('Thanh Toán Trực Tiếp', style: TextStyles.textStyle16PrimaryBlack),
-                                          onTap: () => _handleOptionChanged(PaymentMethods.directPayment)
-                                        )
-                                      ),
-                                      Image.asset(AppAssets.cashIcon, width: 80.0, height: 52.0)
-                                    ],
-                                  )
-                                ]
-                              ),
-                              Column(
-                                children: <Widget>[
-                                  Row(
-                                    children: <Widget>[
-                                      Radio<String>(
-                                        value: PaymentMethods.bankTransfer,
-                                        groupValue: _selectedPayment,
-                                        onChanged: _handleOptionChanged,
-                                      ),
-                                      Expanded(
-                                        child: InkWell(
-                                          child: const Text('Chuyển Khoản', style: TextStyles.textStyle16PrimaryBlack),
-                                          onTap: () => _handleOptionChanged(PaymentMethods.bankTransfer)
-                                        )
-                                      ),
-                                      Image.asset(AppAssets.bankTransferIcon, width: 80.0, height: 52.0)
-                                    ],
-                                  )
-                                ]
                               )
                             ],
                           )
@@ -324,43 +271,9 @@ class _MembershipPaymentState extends BaseState<MembershipPayment> {
       await _payViaMomo();
     } else if (_selectedPayment == PaymentMethods.onepayCreditCards) {
       _payViaCreditCardsUsingOnePay();
-    } else if (_selectedPayment == PaymentMethods.onepayAtm) {
-      _payViaAtmsUsingOnePay();
-    } else if (_selectedPayment == PaymentMethods.directPayment) {
-      _payViaDirectPayment();
     } else {
-      _payViaBankTransfer();
+      _payViaAtmsUsingOnePay();
     }
-  }
-
-  void _payViaDirectPayment() {
-    if (!_validateSelectedPaymentType('Thanh toán trực tiếp', PaymentMethods.directPayment)) {
-      return;
-    }
-
-    _membershipPaymentBloc.dispatch(ProcessPendingPaymentEvent(
-      membership: widget.membership,
-      detail: <String, dynamic>{
-        'amount': widget.membership.fee
-      },
-      paymentType: _paymentTypes.firstWhere((PaymentType paymentType) => paymentType.type == PaymentMethods.directPayment,
-        orElse: () => PaymentType.fromJson(<String, dynamic>{}))
-    ));
-  }
-
-  void _payViaBankTransfer() {
-    if (!_validateSelectedPaymentType('Chuyển khoản', PaymentMethods.bankTransfer)) {
-      return;
-    }
-
-    _membershipPaymentBloc.dispatch(ProcessPendingPaymentEvent(
-      membership: widget.membership,
-      detail: <String, dynamic>{
-        'amount': widget.membership.fee
-      },
-      paymentType: _paymentTypes.firstWhere((PaymentType paymentType) => paymentType.type == PaymentMethods.bankTransfer,
-        orElse: () => PaymentType.fromJson(<String, dynamic>{}))
-    ));
   }
 
   Future<void> _payViaMomo() async {

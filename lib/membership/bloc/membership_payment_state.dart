@@ -65,14 +65,3 @@ class MembershipAtmPaymentSuccess extends MembershipPaymentState {
   @override
   String toString() => 'MembershipAtmPaymentSuccess';
 }
-
-/// MembershipAtmPaymentSuccess state.
-@immutable
-class MembershipPendingPaymentSuccess extends MembershipPaymentState {
-  const MembershipPendingPaymentSuccess(this.payment);
-
-  final Payment payment;
-
-  @override
-  String toString() => 'MembershipPendingPaymentSuccess';
-}

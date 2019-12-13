@@ -38,7 +38,8 @@ class SurveyBloc extends Bloc<SurveyEvent, SurveyState> {
       try {
         _values = <Question, String>{};
         _survey = await surveyService.getSurveyById(event.conferenceId);
-        final List<QuestionResult> _results = event.surveyResultId.isNotEmpty ? await surveyService.getSurveyResult(event.surveyResultId) : null;
+        final List<QuestionResult> _results = event.surveyResultId.isNotEmpty ?
+            await surveyService.getSurveyResult(event.conferenceId, event.surveyResultId) : null;
         for (Section section in _survey.sections) {
           section.questions.sort((Question q1, Question q2) => q1.ordinalNumber.compareTo(q2.ordinalNumber));
           if (event.surveyResultId.isNotEmpty) {

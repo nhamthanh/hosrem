@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:hosrem_app/api/conference/conference_auth.dart';
 import 'package:hosrem_app/api/survey/question.dart';
 import 'package:hosrem_app/api/survey/question_result.dart';
@@ -55,7 +57,17 @@ class SurveyService {
   }
 
   /// Get survey result by survey result id [id].
-  Future<List<QuestionResult>> getSurveyResult(String id) async {
+  Future<List<QuestionResult>> getSurveyResult(String conferenceId, String id) async {
+    final ConferenceAuth conferenceAuth = await authService.getConferenceAuth(conferenceId);
+    if (conferenceAuth != null) {
+      final SurveyResult surveyResult = await apiProvider.surveyApi.getSurveyResultWli(id, <String, dynamic>{
+        'confId': conferenceId,
+        'fullName': conferenceAuth.fullName,
+        'regCode': conferenceAuth.regCode
+      });
+      return surveyResult.answers;
+    }
+
     final SurveyResult surveyResult = await apiProvider.surveyApi.getSurveyResult(id);
     return surveyResult.answers;
   }

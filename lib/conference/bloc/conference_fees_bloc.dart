@@ -7,6 +7,7 @@ import 'package:hosrem_app/api/auth/user.dart';
 import 'package:hosrem_app/api/conference/conference_auth.dart';
 import 'package:hosrem_app/api/conference/conference_fee.dart';
 import 'package:hosrem_app/api/conference/conference_fees.dart';
+import 'package:hosrem_app/api/conference/conference_registration.dart';
 import 'package:hosrem_app/api/conference/user_conference.dart';
 import 'package:hosrem_app/auth/auth_service.dart';
 import 'package:hosrem_app/common/error_handler.dart';
@@ -62,6 +63,10 @@ class ConferenceFeesBloc extends Bloc<ConferenceFeesEvent, ConferenceFeesState> 
             surveyResultId = userConference.surveyResultId ?? '';
             showLoginRegistration = userConference.status != 'Confirmed';
           }
+        } else if (conferenceAuth != null) {
+          final ConferenceRegistration conferenceRegistration =
+              await conferenceService.getRegistrationInfoFromRegCode(event.conferenceId, conferenceAuth.regCode);
+          surveyResultId = conferenceRegistration.surveyResultId;
         }
         yield LoadedConferenceFees(
           conferenceFees,
