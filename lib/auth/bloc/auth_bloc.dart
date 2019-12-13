@@ -47,6 +47,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         await _registerPushNotification();
         yield LoginSuccess(user);
       } catch (error) {
+        print(error);
         yield LoginFailure(error: ErrorHandler.extractErrorMessage(error));
       }
     }

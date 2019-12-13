@@ -133,7 +133,9 @@ class AuthService {
   /// Clear authentication.
   Future<void> clearUser() async {
     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+    final String fcmToken = _sharedPreferences.get('fcmToken');
     await _sharedPreferences.clear();
+    await _sharedPreferences.setString('fcmToken', fcmToken);
   }
 
   /// Get user password.

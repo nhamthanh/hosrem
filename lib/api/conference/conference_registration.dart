@@ -7,7 +7,7 @@ part 'conference_registration.g.dart';
 @JsonSerializable(nullable: false)
 class ConferenceRegistration {
   ConferenceRegistration(this.registrationId, this.conferenceId, this.fee, this.letterAddress, this.letterType, this.paymentStatus,
-    this.paymentTypeId, this.registerTime, this.registrationType, this.userId, this.user, this.status);
+    this.paymentTypeId, this.registerTime, this.registrationType, this.userId, this.user, this.status, this.surveyResultId);
 
   factory ConferenceRegistration.fromJson(Map<String, dynamic> json) => _$ConferenceRegistrationFromJson(json);
 
@@ -43,6 +43,9 @@ class ConferenceRegistration {
 
   @JsonKey(name: 'status')
   final String status;
+
+  @JsonKey(name: 'surveyResultId')
+  final String surveyResultId;
 
   @JsonKey(name: 'user', nullable: true)
   final User user;

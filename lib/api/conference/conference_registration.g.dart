@@ -25,6 +25,7 @@ ConferenceRegistration _$ConferenceRegistrationFromJson(
         ? null
         : User.fromJson(json['user'] as Map<String, dynamic>),
     json['status'] as String,
+    json['surveyResultId'] as String,
   );
 }
 
@@ -42,5 +43,6 @@ Map<String, dynamic> _$ConferenceRegistrationToJson(
       'registrationType': instance.registrationType,
       'userId': instance.userId,
       'status': instance.status,
+      'surveyResultId': instance.surveyResultId,
       'user': instance.user,
     };
