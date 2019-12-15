@@ -66,7 +66,7 @@ class ConferenceFeesBloc extends Bloc<ConferenceFeesEvent, ConferenceFeesState> 
         } else if (conferenceAuth != null) {
           final ConferenceRegistration conferenceRegistration =
               await conferenceService.getRegistrationInfoFromRegCode(event.conferenceId, conferenceAuth.regCode);
-          surveyResultId = conferenceRegistration.surveyResultId;
+          surveyResultId = conferenceRegistration.surveyResultId ?? '';
         }
         yield LoadedConferenceFees(
           conferenceFees,
